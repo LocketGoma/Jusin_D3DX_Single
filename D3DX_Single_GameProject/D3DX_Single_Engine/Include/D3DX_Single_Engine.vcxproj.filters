@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="00.System">
+      <UniqueIdentifier>{fbd89bc3-a306-4767-8465-4d234e1b0097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources">
+      <UniqueIdentifier>{e71c7385-8c5f-49b5-9343-29ed8981a4e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\00.GraphicDevice">
+      <UniqueIdentifier>{d7957169-7a80-4bfc-ba69-ce7a87a592bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\01.Renderer">
+      <UniqueIdentifier>{1bc37243-3edc-4196-9c02-4bac1853edf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\02.KeyManager">
+      <UniqueIdentifier>{57f35144-e4a7-4468-8d29-95b91d0826b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\03.TimeManager">
+      <UniqueIdentifier>{bc436ade-eebb-41e8-9e77-e257f6a1dac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\00.BaseClass">
+      <UniqueIdentifier>{131ac900-0a87-419e-acaf-94a68e51b07a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Headers">
+      <UniqueIdentifier>{16175640-5ce6-46b8-9036-82d266164100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component">
+      <UniqueIdentifier>{2556e2aa-d8fa-43a9-85bb-b10405883b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.VIBuffer">
+      <UniqueIdentifier>{eae03200-3777-4fc3-9875-72db9c4ef994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.VIBuffer\01.TriColor">
+      <UniqueIdentifier>{b1683168-b564-4c03-8ce0-50eb82235b1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.VIBuffer\02.RectColor">
+      <UniqueIdentifier>{61db0039-2674-4c39-8b23-2f881950977b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.VIBuffer\03.RectTexture">
+      <UniqueIdentifier>{27721454-2976-4862-b60c-ab00ef9b0094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.VIBuffer\04.CubeColor">
+      <UniqueIdentifier>{1a1429d7-3b5c-4e8d-a9ed-3b5569c5594d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.VIBuffer\05.CubeTexture">
+      <UniqueIdentifier>{8a23802f-c908-41a7-90f8-cd0d4f9f2c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\00.Transform">
+      <UniqueIdentifier>{7d8da849-4834-43f7-baaf-ce1f6193ac78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\02.GameObject">
+      <UniqueIdentifier>{3afe05c3-54d7-4338-afa9-be815c159213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\03.Layer">
+      <UniqueIdentifier>{8ee88352-f6df-4f4e-8728-84333da21e8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\04.Scene">
+      <UniqueIdentifier>{03eb5fb0-6605-4954-a89a-d618cbec7c6e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Codes\GraphicDevice.cpp">
+      <Filter>00.System\00.GraphicDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Management.cpp">
+      <Filter>00.System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Base.cpp">
+      <Filter>01.Resources\00.BaseClass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TimeManager.cpp">
+      <Filter>00.System\03.TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\KeyManager.cpp">
+      <Filter>00.System\02.KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Renderer.cpp">
+      <Filter>00.System\01.Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VIBuffer.cpp">
+      <Filter>01.Resources\01.Component\01.VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Transform.cpp">
+      <Filter>01.Resources\01.Component\00.Transform</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Headers\GraphicDevice.h">
+      <Filter>00.System\00.GraphicDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Management.h">
+      <Filter>00.System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Base.h">
+      <Filter>01.Resources\00.BaseClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Engine_Typedef.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Engine_Define.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Engine_Function.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Engine_Include.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Engine_Struct.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Engine_Enum.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TimeManager.h">
+      <Filter>00.System\03.TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\KeyManager.h">
+      <Filter>00.System\02.KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Renderer.h">
+      <Filter>00.System\01.Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VIBuffer.h">
+      <Filter>01.Resources\01.Component\01.VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Transform.h">
+      <Filter>01.Resources\01.Component\00.Transform</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+</Project>
