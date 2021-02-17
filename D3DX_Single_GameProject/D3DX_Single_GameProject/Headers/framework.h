@@ -13,3 +13,26 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+
+//멀티스레드 관련
+#include <process.h>		
+
+//게임 기본 헤더들
+#include "Management.h"
+#include "Client_Define.h"
+#include "Client_Enum.h"
+#include "Client_Struct.h"
+
+
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#ifndef DBG_NEW
+
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ ) 
+#define new DBG_NEW
+
+#endif
+
+#endif // _DEBUG

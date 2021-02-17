@@ -25,7 +25,19 @@
     <ClInclude Include="targetver.h">
       <Filter>99.Default</Filter>
     </ClInclude>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="..\Headers\MainGame.h">
+      <Filter>00.MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Client_Enum.h">
+      <Filter>98.BaseHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Client_Struct.h">
+      <Filter>98.BaseHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Client_Define.h">
+      <Filter>98.BaseHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\framework.h">
       <Filter>98.BaseHeader</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,6 +57,9 @@
   <ItemGroup>
     <ClCompile Include="D3DX_Single_GameProject.cpp">
       <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MainGame.cpp">
+      <Filter>00.MainGame</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

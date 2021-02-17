@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "D3DX_Single_GameProject.h"
+#include "MainGame.h"
 
 #define MAX_LOADSTRING 100
 
@@ -27,6 +28,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 여기에 코드를 입력합니다.
+        //_CrtSetBreakAlloc(1204);
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -42,16 +45,35 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_D3DXSINGLEGAMEPROJECT));
 
     MSG msg;
+    msg.message = WM_NULL;
+
+    CMainGame* pMainGame = CMainGame::Create();
+    if (pMainGame == nullptr)
+    {
+        PRINT_LOG(L"FATAL ERROR!!", L"Can not Start Game!");
+        return FALSE;
+    }
 
     // 기본 메시지 루프입니다:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (WM_QUIT != msg.message)
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+
+        pMainGame->Update_MainGame();
+        pMainGame->Render_MainGame();
+
+        //디버그
     }
+    if (Safe_Release(pMainGame)) 
+    {
+        PRINT_LOG(L"Warning", L"Failed To Release MainApp");
+    }
+
+    Engine::CManagement::Release_Engine();
 
     return (int) msg.wParam;
 }
@@ -77,7 +99,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_D3DXSINGLEGAMEPROJECT));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_D3DXSINGLEGAMEPROJECT);
+    wcex.lpszMenuName   = nullptr;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -98,13 +120,20 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   RECT rcWindow = { 0, 0, WINCX, WINCY }; /* 클라이언트 영역 사이즈 */
+   AdjustWindowRect(&rcWindow, WS_OVERLAPPEDWINDOW, FALSE);
+
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+       CW_USEDEFAULT, 0,
+       /*전체 윈도우 프레임 사이즈 X*/rcWindow.right - rcWindow.left,
+       /*전체 윈도우 프레임 사이즈 Y*/rcWindow.bottom - rcWindow.top, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
-      return FALSE;
+       return FALSE;
    }
+
+   g_hWnd = hWnd;
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -126,31 +155,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_COMMAND:
-        {
-            int wmId = LOWORD(wParam);
-            // 메뉴 선택을 구문 분석합니다:
-            switch (wmId)
-            {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
-        }
-        break;
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-            EndPaint(hWnd, &ps);
-        }
-        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

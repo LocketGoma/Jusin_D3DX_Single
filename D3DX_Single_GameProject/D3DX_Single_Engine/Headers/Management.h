@@ -42,8 +42,7 @@ public :
 	//KeyManager Setting
 	_bool Key_Pressing(_uint iKey);
 	_bool Key_Down(_uint iKey);
-	_bool Key_Up(_uint iKey);
-	 void Key_Update();
+	_bool Key_Up(_uint iKey);	 
 
 public: /*For.Renderer*/
 	HRESULT Add_RenderList(RENDERID eRenderID, class CGameObject* pGameObject);
