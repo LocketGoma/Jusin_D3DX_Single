@@ -131,9 +131,15 @@ HRESULT CRenderer::Cleaer_RenderList()
         {
             Safe_Release(pGameObject);
         }
-
         m_GameObjects[i].clear();
+
+        if (!m_GameObjects[i].empty())
+        {
+            return E_FAIL;
+        }
     }
+
+    return S_OK;
 }
 
 void CRenderer::Free()

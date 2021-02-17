@@ -150,26 +150,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\Base.h" />
+    <ClInclude Include="..\Headers\Component.h" />
     <ClInclude Include="..\Headers\Engine_Define.h" />
     <ClInclude Include="..\Headers\Engine_Enum.h" />
     <ClInclude Include="..\Headers\Engine_Function.h" />
     <ClInclude Include="..\Headers\Engine_Include.h" />
     <ClInclude Include="..\Headers\Engine_Struct.h" />
     <ClInclude Include="..\Headers\Engine_Typedef.h" />
+    <ClInclude Include="..\Headers\GameObject.h" />
     <ClInclude Include="..\Headers\GraphicDevice.h" />
     <ClInclude Include="..\Headers\KeyManager.h" />
+    <ClInclude Include="..\Headers\Layer.h" />
     <ClInclude Include="..\Headers\Management.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
+    <ClInclude Include="..\Headers\Scene.h" />
     <ClInclude Include="..\Headers\TimeManager.h" />
     <ClInclude Include="..\Headers\Transform.h" />
     <ClInclude Include="..\Headers\VIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\Base.cpp" />
+    <ClCompile Include="..\Codes\Component.cpp" />
+    <ClCompile Include="..\Codes\GameObject.cpp" />
     <ClCompile Include="..\Codes\GraphicDevice.cpp" />
     <ClCompile Include="..\Codes\KeyManager.cpp" />
+    <ClCompile Include="..\Codes\Layer.cpp" />
     <ClCompile Include="..\Codes\Management.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
+    <ClCompile Include="..\Codes\Scene.cpp" />
     <ClCompile Include="..\Codes\TimeManager.cpp" />
     <ClCompile Include="..\Codes\Transform.cpp" />
     <ClCompile Include="..\Codes\VIBuffer.cpp" />

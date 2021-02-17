@@ -50,5 +50,23 @@ _uint Safe_Release(T& ptr)
 	return iRefCount;
 }
 
+//Map 연관 컨테이너 삭제용 함수 객체
+class CDeleteMap
+{
+public:
+	explicit CDeleteMap(void) {}
+	~CDeleteMap(void) {}
+public: // operator	
+	template <typename T>
+	void operator () (T& Pair)
+	{
+		_ulong dwRefCnt = 0;
+
+		dwRefCnt = Pair.second->Release();
+
+		if (0 == dwRefCnt)
+			Pair.second = NULL;
+	}
+};
 
 #endif

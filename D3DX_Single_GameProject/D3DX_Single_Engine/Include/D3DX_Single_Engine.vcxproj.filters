@@ -88,6 +88,18 @@
     <ClCompile Include="..\Codes\Transform.cpp">
       <Filter>01.Resources\01.Component\00.Transform</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\Scene.cpp">
+      <Filter>01.Resources\04.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Component.cpp">
+      <Filter>01.Resources\01.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\GameObject.cpp">
+      <Filter>01.Resources\02.GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Layer.cpp">
+      <Filter>01.Resources\03.Layer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\GraphicDevice.h">
@@ -131,6 +143,18 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Transform.h">
       <Filter>01.Resources\01.Component\00.Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Scene.h">
+      <Filter>01.Resources\04.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Component.h">
+      <Filter>01.Resources\01.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\GameObject.h">
+      <Filter>01.Resources\02.GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Layer.h">
+      <Filter>01.Resources\03.Layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

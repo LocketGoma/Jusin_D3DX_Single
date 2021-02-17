@@ -20,7 +20,7 @@ public:
 	_Device GetDevice() { return m_pDevice; }
 
 public:
-	HRESULT Ready_GraphicDevice(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY, CGraphicDevice** ppDevice);
+	HRESULT Ready_GraphicDevice(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY/*, CGraphicDevice** ppDevice*/);
 	HRESULT Render_Begin(D3DXCOLOR Color);
 	HRESULT Render_End(HWND hWnd = nullptr);
 

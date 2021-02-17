@@ -12,7 +12,7 @@ CGraphicDevice::~CGraphicDevice()
     Free();
 }
 
-HRESULT CGraphicDevice::Ready_GraphicDevice(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY, CGraphicDevice** ppDevice)
+HRESULT CGraphicDevice::Ready_GraphicDevice(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY/*, CGraphicDevice** ppDevice*/)
 {
     m_pSDK = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -67,7 +67,7 @@ HRESULT CGraphicDevice::Ready_GraphicDevice(HWND hWnd, WINMODE eMode, const _uin
         return E_FAIL;
     }
 
-    *ppDevice = this;
+    //*ppDevice = this;
 
     return S_OK;
 }

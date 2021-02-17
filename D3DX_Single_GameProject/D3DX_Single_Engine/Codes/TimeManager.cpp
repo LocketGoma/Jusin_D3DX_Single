@@ -26,3 +26,8 @@ _float CTimeManager::Update_TimeManager()
 
     return dulation.count();
 }
+
+void CTimeManager::Free()
+{
+	;
+}

@@ -8,12 +8,6 @@ CKeyManager::CKeyManager()
 {
     ZeroMemory(m_bState, sizeof(m_bState));
 }
-
-CKeyManager::CKeyManager(const CKeyManager& other)
-{
-    ZeroMemory(m_bState, sizeof(m_bState));
-}
-
 bool CKeyManager::Key_Pressing(int _key)
 {
     return (GetAsyncKeyState(_key) & 0x8000) ? true : false;		//누르는지 인식	

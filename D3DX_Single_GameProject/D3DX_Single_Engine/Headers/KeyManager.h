@@ -16,8 +16,7 @@ class ENGINE_DLL CKeyManager final : public CBase
 	DECLARE_SINGLETON(CKeyManager)
 
 private:
-	explicit CKeyManager();
-	explicit CKeyManager(const CKeyManager& other);
+	explicit CKeyManager();	
 	~CKeyManager() = default;
 
 public:
