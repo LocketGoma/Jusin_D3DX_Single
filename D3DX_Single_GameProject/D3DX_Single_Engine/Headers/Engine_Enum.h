@@ -8,6 +8,9 @@ BEGIN_NAMESPACE(Engine)
 // DYNAMIC의 경우 매 프레임마다 갱신이 필요한 컴포넌트
 enum class COMPONENT_ID { ID_DYNAMIC, ID_STATIC, ID_END };
 
+//트랜스폼 벡터 정보
+enum class TRANSFORM_INFO { INFO_RIGHT, INFO_UP, INFO_LOOK, INFO_POS, INFO_END };
+
 //윈도우 모드 (전체화면 / 창화면)
 enum class WINMODE {MODE_FULL,MODE_WIN};
 

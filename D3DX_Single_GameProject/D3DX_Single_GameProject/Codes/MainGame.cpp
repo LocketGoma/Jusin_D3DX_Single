@@ -34,7 +34,7 @@ HRESULT CMainGame::Ready_MainGame()
 
 _int CMainGame::Update_MainGame()
 {
-
+    
     m_pManagement->Update_Engine();
 
     return _int();

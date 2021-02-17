@@ -5,6 +5,10 @@
 
 BEGIN_NAMESPACE(Engine)
 
+
+
+
+
 typedef struct tagVertexColor
 {
 	_vec3		vPosition;
@@ -85,6 +89,9 @@ typedef	struct D3DXMESHCONTAINER_DERIVED : public D3DXMESHCONTAINER
 	// pFrameOffsetMatrix * (*ppFrameCombinedMatrix)의 결과물
 
 }D3DXMESHCONTAINER_DERIVED;
+
+
+
 
 END_NAMESPACE
 

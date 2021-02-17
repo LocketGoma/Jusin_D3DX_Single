@@ -19,11 +19,12 @@ public:
 	virtual _int	LateUpdate_Component(const _float& fTimeDelta);
 
 public:
-	virtual CComponent* Clone(void) PURE;
+	virtual CComponent* Clone(void* pArg = nullptr) PURE;
 
 protected:
 	virtual void  Free(void) PURE;
 
+	_bool m_bIsPrototype;
 };
 
 END_NAMESPACE

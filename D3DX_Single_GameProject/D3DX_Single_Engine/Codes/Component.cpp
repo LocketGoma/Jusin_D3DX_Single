@@ -3,6 +3,7 @@
 USING(Engine)
 
 CComponent::CComponent(void)
+	: m_bIsPrototype (true)		//최초 생성시에는 true, 복사시 false
 {
 }
 
