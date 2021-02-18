@@ -32,24 +32,6 @@
     <Filter Include="01.Resources\01.Component">
       <UniqueIdentifier>{2556e2aa-d8fa-43a9-85bb-b10405883b71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Resources\01.Component\01.VIBuffer">
-      <UniqueIdentifier>{eae03200-3777-4fc3-9875-72db9c4ef994}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Resources\01.Component\01.VIBuffer\01.TriColor">
-      <UniqueIdentifier>{b1683168-b564-4c03-8ce0-50eb82235b1a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Resources\01.Component\01.VIBuffer\02.RectColor">
-      <UniqueIdentifier>{61db0039-2674-4c39-8b23-2f881950977b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Resources\01.Component\01.VIBuffer\03.RectTexture">
-      <UniqueIdentifier>{27721454-2976-4862-b60c-ab00ef9b0094}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Resources\01.Component\01.VIBuffer\04.CubeColor">
-      <UniqueIdentifier>{1a1429d7-3b5c-4e8d-a9ed-3b5569c5594d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Resources\01.Component\01.VIBuffer\05.CubeTexture">
-      <UniqueIdentifier>{8a23802f-c908-41a7-90f8-cd0d4f9f2c8d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Resources\01.Component\00.Transform">
       <UniqueIdentifier>{7d8da849-4834-43f7-baaf-ce1f6193ac78}</UniqueIdentifier>
     </Filter>
@@ -61,6 +43,39 @@
     </Filter>
     <Filter Include="01.Resources\04.Scene">
       <UniqueIdentifier>{03eb5fb0-6605-4954-a89a-d618cbec7c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource">
+      <UniqueIdentifier>{2cdbf621-5b14-4373-9a90-313c1541ce67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer">
+      <UniqueIdentifier>{eae03200-3777-4fc3-9875-72db9c4ef994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\01.TriColor">
+      <UniqueIdentifier>{b1683168-b564-4c03-8ce0-50eb82235b1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\02.RectColor">
+      <UniqueIdentifier>{61db0039-2674-4c39-8b23-2f881950977b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\03.RectTexture">
+      <UniqueIdentifier>{27721454-2976-4862-b60c-ab00ef9b0094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\04.CubeColor">
+      <UniqueIdentifier>{1a1429d7-3b5c-4e8d-a9ed-3b5569c5594d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\05.CubeTexture">
+      <UniqueIdentifier>{8a23802f-c908-41a7-90f8-cd0d4f9f2c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\01.Texture">
+      <UniqueIdentifier>{59de55c7-4548-45f9-8cf1-975547b6fbff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\07.PrototypeManager">
+      <UniqueIdentifier>{4d3fea93-ce89-4383-ad5e-8b819f319667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\04.GraphicResourceManager">
+      <UniqueIdentifier>{fd2bb97f-3060-435e-98c3-29df9497478b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\05.SceneManager">
+      <UniqueIdentifier>{31e0be80-873f-4801-a549-122131786328}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,9 +97,6 @@
     <ClCompile Include="..\Codes\Renderer.cpp">
       <Filter>00.System\01.Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\VIBuffer.cpp">
-      <Filter>01.Resources\01.Component\01.VIBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\Transform.cpp">
       <Filter>01.Resources\01.Component\00.Transform</Filter>
     </ClCompile>
@@ -99,6 +111,24 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Layer.cpp">
       <Filter>01.Resources\03.Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\GraphicResources.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VIBuffer.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VTXTriColor.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\01.TriColor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\PrototypeManager.cpp">
+      <Filter>00.System\07.PrototypeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\GraphicResourceManager.cpp">
+      <Filter>00.System\04.GraphicResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\SceneManager.cpp">
+      <Filter>00.System\05.SceneManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +168,6 @@
     <ClInclude Include="..\Headers\Renderer.h">
       <Filter>00.System\01.Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\VIBuffer.h">
-      <Filter>01.Resources\01.Component\01.VIBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Transform.h">
       <Filter>01.Resources\01.Component\00.Transform</Filter>
     </ClInclude>
@@ -155,6 +182,24 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Layer.h">
       <Filter>01.Resources\03.Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\GraphicResources.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VIBuffer.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VTXTriColor.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\01.TriColor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\PrototypeManager.h">
+      <Filter>00.System\07.PrototypeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\GraphicResourceManager.h">
+      <Filter>00.System\04.GraphicResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\SceneManager.h">
+      <Filter>00.System\05.SceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

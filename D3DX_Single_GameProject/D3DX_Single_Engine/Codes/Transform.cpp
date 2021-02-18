@@ -42,23 +42,68 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 
 	m_TransformDesc.matWorld = matScale * matRotateX * matRotateY * matRotateZ * matTrans;
 
-
+	//메모리 채워넣기
+	for (int i = 0; i < (int)TRANSFORM_INFO::INFO_END; i++)
+	{
+		memcpy(&m_TransformDesc.m_vInfo[i], &m_TransformDesc.matWorld.m[i][0], sizeof(_vec3));
+	}
 
 	return _int();
 }
 
-void CTransform::Go_Straight(_float fDeltaTime)
+void CTransform::Move_Pos(const _vec3* pDir, const _float& fSpeed, _float fDeltaTime)
 {
+	////Right Up Look
+	////왜 Up이지?
+	//_vec3 vUp;
+
+	//memcpy(&vUp, &m_TransformDesc.matWorld.m[1][0], sizeof(_vec3));
+	//D3DXVec3Normalize(&vUp, &vUp);
+
+	m_TransformDesc.m_vInfo[(_uint)(TRANSFORM_INFO::INFO_POS)] += *pDir * fSpeed * fDeltaTime;
 }
 
-void CTransform::Go_Side(_float fDeltaTime)
+void CTransform::Rotation(ROTATION eType, const _float& fAngle)
 {
+	//포인터 이용한 규격화 된 간격 연산.
+	*(((_float*)&m_TransformDesc.vRotate) + (_uint)(eType)) += fAngle;
 }
 
+//void CTransform::Go_Side(_float fDeltaTime)
+//{
+//	D3DXVECTOR3 vRight;
+//
+//	/* 상태행렬의 1행은 right벡터이다 */
+//	memcpy(&vRight, &m_TransformDesc.matWorld.m[0][0], sizeof(D3DXVECTOR3));
+//	D3DXVec3Normalize(&vRight, &vRight);
+//
+//	m_vInfo[(_uint)(TRANSFORM_INFO::INFO_POS)] += vRight * (float)fDeltaTime;
+//}
+
+void CTransform::Set_Scale(_vec3 vScale)
+{
+	m_TransformDesc.vScale = vScale;
+}
 CTransform::TRANSFORM_DESC CTransform::Get_TransformDescription()
 {
 	return m_TransformDesc;
 }
+
+void CTransform::Get_Info(TRANSFORM_INFO eType, _vec3* pvInfo)
+{
+	memcpy(pvInfo, &m_TransformDesc.matWorld.m[(_uint)(eType)][0], sizeof(_vec3));
+
+}
+
+_vec3 CTransform::Get_Info(TRANSFORM_INFO eType)
+{
+	_vec3 vP;
+
+	memcpy(&vP, &m_TransformDesc.matWorld.m[(_uint)(eType)][0], sizeof(_vec3));
+
+	return vP;
+}
+
 
 CTransform* CTransform::Create(_Device pDevice)
 {

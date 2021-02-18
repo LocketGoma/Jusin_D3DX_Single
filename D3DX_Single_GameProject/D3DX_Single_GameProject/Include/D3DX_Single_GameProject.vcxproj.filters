@@ -14,6 +14,27 @@
     <Filter Include="00.MainGame">
       <UniqueIdentifier>{3d8bb53d-84ec-46ce-be93-d122749492e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object">
+      <UniqueIdentifier>{f56c6ad9-3843-43ab-a768-c01aeb785205}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene">
+      <UniqueIdentifier>{a9c479ac-bcf6-48e7-81b8-53a73393695a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\00.Test">
+      <UniqueIdentifier>{0aa75211-b163-4a4a-a41f-648da3c455bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\01.Logo">
+      <UniqueIdentifier>{deb92e92-2bc5-43ae-9bf6-cf3863b1afff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\02.Loading">
+      <UniqueIdentifier>{1f354dce-0df7-489c-a060-5e6a0f919baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\05.MainStage">
+      <UniqueIdentifier>{c2c69ea8-e2c5-4038-9a55-498e5a7b7007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.AI&amp;Algorithm">
+      <UniqueIdentifier>{872f8bd2-81b2-44c5-b3b3-555d4c586d79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -40,6 +61,9 @@
     <ClInclude Include="..\Headers\framework.h">
       <Filter>98.BaseHeader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\TestStage.h">
+      <Filter>02.Scene\00.Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -60,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\MainGame.cpp">
       <Filter>00.MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TestStage.cpp">
+      <Filter>02.Scene\00.Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

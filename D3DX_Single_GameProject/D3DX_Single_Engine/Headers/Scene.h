@@ -8,7 +8,6 @@
 
 BEGIN_NAMESPACE(Engine)
 
-
 class ENGINE_DLL CScene : public CBase
 {
 protected:

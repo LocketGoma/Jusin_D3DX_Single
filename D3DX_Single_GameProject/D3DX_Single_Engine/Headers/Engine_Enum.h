@@ -11,8 +11,14 @@ enum class COMPONENT_ID { ID_DYNAMIC, ID_STATIC, ID_END };
 //트랜스폼 벡터 정보
 enum class TRANSFORM_INFO { INFO_RIGHT, INFO_UP, INFO_LOOK, INFO_POS, INFO_END };
 
+//트랜스폼 축 정보
+enum class ROTATION { ROT_X, ROT_Y, ROT_Z, ROT_END };
+
 //윈도우 모드 (전체화면 / 창화면)
 enum class WINMODE {MODE_FULL,MODE_WIN};
+
+//기본 버퍼 타입 (삼각형, 사각형, 터레인, 큐브)
+enum class BUFFERID { BUFFER_TRICOL, BUFFER_RCTEX, BUFFER_TERRAINTEX, BUFFER_CUBETEX, BUFFER_END };
 
 //텍스쳐 타입 (노멀 텍스쳐, 큐브 텍스쳐)
 enum class TEXTYPE {TEX_NORMAL,TEX_CUBE,TEX_END};

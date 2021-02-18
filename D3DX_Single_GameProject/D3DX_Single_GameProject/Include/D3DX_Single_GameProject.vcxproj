@@ -156,12 +156,14 @@
     <ClInclude Include="..\Headers\Client_Struct.h" />
     <ClInclude Include="..\Headers\framework.h" />
     <ClInclude Include="..\Headers\MainGame.h" />
+    <ClInclude Include="..\Headers\TestStage.h" />
     <ClInclude Include="D3DX_Single_GameProject.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\MainGame.cpp" />
+    <ClCompile Include="..\Codes\TestStage.cpp" />
     <ClCompile Include="D3DX_Single_GameProject.cpp" />
   </ItemGroup>
   <ItemGroup>

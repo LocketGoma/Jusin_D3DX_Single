@@ -69,4 +69,29 @@ public: // operator
 	}
 };
 
+//태그 검색용 함수 객체
+class CTag_Finder
+{
+public:
+	explicit CTag_Finder(const _tchar* pTag)
+		: m_pTargetTag(pTag)
+	{
+	}
+	~CTag_Finder() {		}
+public:
+	template<typename T>
+	bool operator()(const T& pair)
+	{
+		if (0 == lstrcmpW(m_pTargetTag, pair.first))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+private:
+	const _tchar* m_pTargetTag = nullptr;
+};
+
 #endif

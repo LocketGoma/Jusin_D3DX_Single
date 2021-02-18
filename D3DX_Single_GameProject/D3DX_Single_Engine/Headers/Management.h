@@ -5,12 +5,13 @@
 
 #include "Engine_Include.h"
 #include "Base.h"
+#include "Scene.h"
 
 #include "GraphicDevice.h"
 #include "TimeManager.h"
 #include "KeyManager.h"
 #include "Renderer.h"
-
+#include "SceneManager.h"
 
 BEGIN_NAMESPACE(Engine)
 //마스터 클래스
@@ -59,7 +60,8 @@ private:
 	CTimeManager*	m_pTimeManager		= nullptr;
 
 
-
+private :
+	CScene* m_pScene;
 
 };
 

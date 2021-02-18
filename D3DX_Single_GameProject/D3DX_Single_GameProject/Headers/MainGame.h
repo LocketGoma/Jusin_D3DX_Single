@@ -4,7 +4,7 @@
 #define __MAINAPP_H__
 
 #include "Base.h"
-#include "Engine_Define.h"
+#include "Engine_Include.h"
 
 BEGIN_NAMESPACE(Engine)
 
@@ -25,6 +25,7 @@ public:
 
 private:
 	HRESULT Setup_DefaultSetting();
+	HRESULT Ready_Scene();
 
 
 public:

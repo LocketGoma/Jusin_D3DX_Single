@@ -16,8 +16,7 @@ public:
 		_vec3	m_vInfo[(_uint)(TRANSFORM_INFO::INFO_END)];
 		_vec3	vScale, vRotate;
 		_mat	matWorld;
-		_float	fSpeed, fRotate;
-
+		//_float	fRotate, fSpeed;
 	}TRANSFORM_DESC;
 
 private:
@@ -30,15 +29,21 @@ public:
 	HRESULT Ready_Transform();
 	virtual _int Update_Component(const _float& fDeltaTime);
 
-//Control
+//Control + Setter
 public:
-	void Go_Straight(_float fDeltaTime);
-	void Go_Side(_float fDeltaTime);
+	void Move_Pos(const _vec3* pDir, const _float& fSpeed, _float fDeltaTime);
+	//void Go_Side(_float fDeltaTime);
+	void Rotation(ROTATION eType, const _float& fAngle);
+	void Set_Scale(_vec3 vScale);
+	//void Set_Speed(_float _fSpeed);
 
 
-//Get/Set
+//Getter
 public :
 	TRANSFORM_DESC Get_TransformDescription();
+	void Get_Info(TRANSFORM_INFO eType, _vec3* pvInfo);
+	_vec3 Get_Info(TRANSFORM_INFO eType);
+
 
 //make & clone
 public:

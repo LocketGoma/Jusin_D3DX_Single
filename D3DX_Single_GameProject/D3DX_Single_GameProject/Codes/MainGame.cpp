@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "MainGame.h"
 
+#include "TestStage.h"
 
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
@@ -27,7 +28,13 @@ HRESULT CMainGame::Ready_MainGame()
 
     m_pDevice = m_pManagement->Get_Device();
 
+    NULL_CHECK_RETURN_MSG(m_pDevice, E_FAIL, L"Device is Nullptr. FATAL ERROR");
+
     Safe_AddReference(m_pDevice);
+
+
+    Engine::CScene* pScene = nullptr;
+    pScene = CTestStage::Create(m_pDevice);
 
     return S_OK;
 }
@@ -61,6 +68,13 @@ HRESULT CMainGame::Setup_DefaultSetting()
 
 
     return S_OK;
+}
+
+HRESULT CMainGame::Ready_Scene()
+{
+    Engine::CScene* pScene = nullptr;
+
+    return E_NOTIMPL;
 }
 
 CMainGame* CMainGame::Create()
