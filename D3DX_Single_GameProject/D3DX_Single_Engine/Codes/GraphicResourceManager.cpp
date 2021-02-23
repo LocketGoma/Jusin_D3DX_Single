@@ -66,6 +66,7 @@ HRESULT CGraphicResourceManager::Ready_Buffer(_Device pDevice, const _uint& iInd
 
     m_pmapResources[iIndex].emplace(pBufferTag, pResource);
 
+    return S_OK;
 }
 
 void CGraphicResourceManager::Render_Buffer(const _uint& iIndex, const _tchar* pBufferTag)

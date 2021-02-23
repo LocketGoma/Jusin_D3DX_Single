@@ -5,6 +5,7 @@
 
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
+    , pScene(nullptr)
 {
     Safe_AddReference(m_pManagement);
 }
@@ -40,8 +41,10 @@ HRESULT CMainGame::Ready_MainGame()
 
 _int CMainGame::Update_MainGame()
 {
-    
-    m_pManagement->Update_Engine();
+    _float fDeltaTime = m_pManagement->Get_DeltaTime();
+
+    m_pManagement->Update_Engine(fDeltaTime);
+    m_pManagement->LateUpdate_Engine(fDeltaTime);
 
     return _int();
 }
@@ -53,7 +56,6 @@ void CMainGame::Render_MainGame()
         PRINT_LOG(L"FATAL ERROR", L"RENDER ENGINE FAIL");
         return;
     }
-
 
 }
 

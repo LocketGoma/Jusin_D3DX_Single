@@ -15,6 +15,7 @@
 
 BEGIN_NAMESPACE(Engine)
 //마스터 클래스
+//작정하고 ㄹㅇ 슈퍼 클래스로 만들 생각.
 class ENGINE_DLL CManagement final : public CBase
 {
 	DECLARE_SINGLETON(CManagement)
@@ -27,7 +28,8 @@ private:
 public: 
 	//base Setting
 	HRESULT Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDisplayMode, _uint iSceneCount);
-	_uint Update_Engine();
+	_uint Update_Engine(_float fDeltaTime);
+	_uint LateUpdate_Engine(_float fDeltaTime);
 	HRESULT Render_Engine(HWND hWnd = nullptr);
 
 public :
@@ -37,7 +39,13 @@ public :
 public :
 	//TimeManager Setting
 	//HRESULT Ready_Timer();
-	//_float Get_DeltaTime();
+	_float Get_DeltaTime();
+
+public:
+	//SceneManager Setting
+	HRESULT Setup_CurrentScene(_int iSceneIndex, class CScene* pCurrentScene);
+	//_uint	Update_Scene(_float fDeltaTime);
+	//_uint	LateUpdate_Scene(_float fDeltaTime);
 
 public :
 	//KeyManager Setting
@@ -58,10 +66,11 @@ private:
 	CRenderer*		m_pRenderer			= nullptr;
 	CKeyManager*	m_pKeyManager		= nullptr;
 	CTimeManager*	m_pTimeManager		= nullptr;
+	CSceneManager*	m_pSceneManager		= nullptr;
 
 
-private :
-	CScene* m_pScene;
+//private :
+//	CScene* m_pScene;
 
 };
 

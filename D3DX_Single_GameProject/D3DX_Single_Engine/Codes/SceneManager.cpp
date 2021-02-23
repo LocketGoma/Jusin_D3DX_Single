@@ -20,16 +20,18 @@ HRESULT CSceneManager::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScen
 	{
 		return E_FAIL;
 	}
-
 	if (nullptr == pCurrentScene)
 		return E_FAIL;
 
+	//바뀔 씬이 다르다면 현재 씬을 릴리즈 해주고 진행
 	if (m_iCurrentSceneIndex != iSceneIndex)
 	{
 		Safe_Release(m_pCurrentScene);
 		m_pCurrentScene = pCurrentScene;
 
 		m_iCurrentSceneIndex = iSceneIndex;
+
+		m_bChangeTrigger = true;
 	}
 	else
 	{
@@ -42,23 +44,25 @@ HRESULT CSceneManager::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScen
 _uint CSceneManager::Update_Scene(_float fDeltaTime)
 {
 	if (nullptr == m_pCurrentScene)
+	{
 		return 0;
+	}
+	m_bChangeTrigger = false;
 
 	return m_pCurrentScene->Update_Scene(fDeltaTime);
 }
 
 _uint CSceneManager::LateUpdate_Scene(_float fDeltaTime)
 {
-	if (nullptr == m_pCurrentScene)
+	if (nullptr == m_pCurrentScene || m_bChangeTrigger == true)
+	{
 		return 0;
+	}
 
 	return m_pCurrentScene->LateUpdate_Scene(fDeltaTime);
 }
 
-HRESULT CSceneManager::Render_Scene(HWND hWnd)
-{
-	return E_NOTIMPL;
-}
+
 
 void CSceneManager::Free()
 {

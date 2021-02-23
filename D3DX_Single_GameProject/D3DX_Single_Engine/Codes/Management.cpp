@@ -9,7 +9,7 @@ CManagement::CManagement()
 	, m_pRenderer(CRenderer::Get_Instance())
 	//, m_pComponent_Manager(CComponent_Manager::Get_Instance())
 	, m_pKeyManager(CKeyManager::Get_Instance())
-	//, m_pScene_Manager(CScene_Manager::Get_Instance())
+	, m_pSceneManager(CSceneManager::Get_Instance())
 	//, m_pGameObject_Manager(CGameObject_Manager::Get_Instance())
 	, m_pTimeManager(CTimeManager::Get_Instance())
 	//, m_pSound_Manager(CSoundManager::Get_Instance())
@@ -19,7 +19,7 @@ CManagement::CManagement()
 	Safe_AddReference(m_pRenderer);
 	//Safe_AddReference(m_pComponent_Manager);
 	Safe_AddReference(m_pKeyManager);
-	//Safe_AddReference(m_pScene_Manager);
+	Safe_AddReference(m_pSceneManager);
 	//Safe_AddReference(m_pGameObject_Manager);
 	Safe_AddReference(m_pTimeManager);
 	//Safe_AddReference(m_pSound_Manager);
@@ -60,16 +60,17 @@ HRESULT CManagement::Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDi
     return S_OK;
 }
 
-_uint CManagement::Update_Engine()
+_uint CManagement::Update_Engine(_float fDeltaTime)
 {
-	_float fDeltaTime = m_pTimeManager->Update_TimeManager();
-
-	m_pKeyManager->Key_Update();
-
-	
+	m_pKeyManager->Key_Update();	
 
 
-    return _uint();
+	return m_pSceneManager->Update_Scene(fDeltaTime);
+}
+
+_uint CManagement::LateUpdate_Engine(_float fDeltaTime)
+{
+	return m_pSceneManager->Update_Scene(fDeltaTime);
 }
 
 HRESULT CManagement::Render_Engine(HWND hWnd)
@@ -93,6 +94,36 @@ _Device CManagement::Get_Device()
 
 	return m_pDeviceManager->GetDevice();
 }
+
+_float CManagement::Get_DeltaTime()
+{
+	return m_pTimeManager->Update_TimeManager();
+}
+
+HRESULT CManagement::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScene)
+{
+	return m_pSceneManager->Setup_CurrentScene(iSceneIndex, pCurrentScene);
+}
+
+//_uint CManagement::Update_Scene(_float fDeltaTime)
+//{
+//	if (m_pSceneManager == nullptr)
+//	{
+//		return E_FAIL;
+//	}
+//
+//	return m_pSceneManager->Update_Scene(fDeltaTime);
+//}
+//
+//_uint CManagement::LateUpdate_Scene(_float fDeltaTime)
+//{
+//	if (m_pSceneManager == nullptr)
+//	{
+//		return E_FAIL;
+//	}
+//
+//	return m_pSceneManager->LateUpdate_Scene(fDeltaTime);
+//}
 
 _bool CManagement::Key_Pressing(_uint iKey)
 {
@@ -129,7 +160,7 @@ void CManagement::Free()
 	//Safe_Release(m_pSoundManager);
 	Safe_Release(m_pTimeManager);
 	//Safe_Release(m_pGameObjectManager);
-	//Safe_Release(m_pSceneManager);
+	Safe_Release(m_pSceneManager);
 	Safe_Release(m_pKeyManager);
 	//Safe_Release(m_pComponentManager);
 	Safe_Release(m_pRenderer);
@@ -151,8 +182,8 @@ void CManagement::Release_Engine()
 	//if (CGameObject_Manager::Destroy_Instance())
 	//	PRINT_LOG(L"Waring", L"Failed To Release CGameObject_Manager (Management.cpp)");
 
-	//if (CScene_Manager::Destroy_Instance())
-	//	PRINT_LOG(L"Waring", L"Failed To Release CScene_Manager (Management.cpp)");
+	if (CSceneManager::Destroy_Instance())
+		PRINT_LOG(L"Waring", L"Failed To Release CSceneManager (Management.cpp)");
 
 	if (CKeyManager::Destroy_Instance())
 		PRINT_LOG(L"Waring", L"Failed To Release CKey_Manager (Management.cpp)");

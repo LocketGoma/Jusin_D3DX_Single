@@ -63,7 +63,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
 
-        pMainGame->Update_MainGame();
+        pMainGame->Update_MainGame();        
         pMainGame->Render_MainGame();
 
         //디버그
