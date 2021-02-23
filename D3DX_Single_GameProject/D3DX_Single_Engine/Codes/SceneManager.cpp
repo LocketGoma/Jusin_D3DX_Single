@@ -5,11 +5,22 @@ USING(Engine)
 IMPLEMENT_SINGLETON(CSceneManager)
 
 CSceneManager::CSceneManager()
+	: m_iMaxSceneIndex(0)
 {
+}
+
+HRESULT CSceneManager::Setup_SceneManager(_int iMaxSceneIndex)
+{
+	return E_NOTIMPL;
 }
 
 HRESULT CSceneManager::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScene)
 {
+	if (m_iMaxSceneIndex == 0)
+	{
+		return E_FAIL;
+	}
+
 	if (nullptr == pCurrentScene)
 		return E_FAIL;
 
@@ -42,6 +53,11 @@ _uint CSceneManager::LateUpdate_Scene(_float fDeltaTime)
 		return 0;
 
 	return m_pCurrentScene->LateUpdate_Scene(fDeltaTime);
+}
+
+HRESULT CSceneManager::Render_Scene(HWND hWnd)
+{
+	return E_NOTIMPL;
 }
 
 void CSceneManager::Free()

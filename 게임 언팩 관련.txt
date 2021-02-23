@@ -6,3 +6,15 @@ https://p3dm.ru/xfsearch/for_game/Titanfall/
 
 타이탄 폴 언팩 리소스 (.obj 파일로 추출되어있음)
 
+타이탄폴 언팩 관련 :
+https://noskill.gitbook.io/titanfall2/how-to-start-modding/modding-introduction/modding-tools
+언팩 툴
+
+https://github.com/Wanty5883/Titanfall2/blob/master/tools/vtfedit133.zip
+vtf에디터 (사실상 그냥 열어보기용)
+
+https://thisisdatabaseshelter.tistory.com/101
+타이탄폴 VPK 모딩 관련
+
+https://github.com/lasa01/io_import_vmf
+vmf 추출 관련 (근데 좀... 이해가 안됨)
