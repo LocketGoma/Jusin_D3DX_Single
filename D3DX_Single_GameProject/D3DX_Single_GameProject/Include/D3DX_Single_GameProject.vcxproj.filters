@@ -35,6 +35,9 @@
     <Filter Include="07.AI&amp;Algorithm">
       <UniqueIdentifier>{872f8bd2-81b2-44c5-b3b3-555d4c586d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07.AI&amp;Algorithm\01.BaseShooter">
+      <UniqueIdentifier>{a35d5837-ebb0-4edb-80fd-ba3a4f4575c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -64,6 +67,15 @@
     <ClInclude Include="..\Headers\TestStage.h">
       <Filter>02.Scene\00.Test</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\BaseAI.h">
+      <Filter>07.AI&amp;Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\LoadingScene.h">
+      <Filter>02.Scene\02.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BaseLogoScene.h">
+      <Filter>02.Scene\01.Logo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -87,6 +99,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TestStage.cpp">
       <Filter>02.Scene\00.Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseAI.cpp">
+      <Filter>07.AI&amp;Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\LoadingScene.cpp">
+      <Filter>02.Scene\02.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseLogoScene.cpp">
+      <Filter>02.Scene\01.Logo</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

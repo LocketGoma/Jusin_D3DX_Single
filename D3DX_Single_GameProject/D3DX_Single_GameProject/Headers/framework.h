@@ -18,10 +18,10 @@
 #include <process.h>		
 
 //게임 기본 헤더들
-#include "Management.h"
 #include "Client_Define.h"
 #include "Client_Enum.h"
 #include "Client_Struct.h"
+#include "Management.h"
 
 
 #ifdef _DEBUG
