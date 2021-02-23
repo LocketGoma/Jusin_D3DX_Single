@@ -14,7 +14,7 @@ class CGraphicDevice : public CBase
 
 private :
 	explicit CGraphicDevice();
-	virtual ~CGraphicDevice();
+	virtual ~CGraphicDevice() = default;
 
 public:
 	_Device GetDevice() { return m_pDevice; }

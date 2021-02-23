@@ -8,7 +8,7 @@
 #include "Base.h"
 #include "GameObject.h"
 
-class CBaseAI : public Engine::CBase
+class CBaseAI : public CBase
 {
 private:
 	explicit CBaseAI();
@@ -25,8 +25,8 @@ public:
 	virtual void Free() PURE;
 
 private:
-	CGameObject* pControlUnit;
-	CGameObject* pTargetUnit;
+	Engine::CGameObject* pControlUnit;
+	Engine::CGameObject* pTargetUnit;
 
 
 };

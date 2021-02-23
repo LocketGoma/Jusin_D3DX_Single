@@ -5,7 +5,7 @@
 
 #include "Engine_Include.h"
 
-BEGIN_NAMESPACE(Engine)
+//BEGIN_NAMESPACE(Engine)
 
 class ENGINE_DLL CBase
 {
@@ -23,6 +23,6 @@ private:
 	_ulong	m_dwRefCount;	
 };
 
-END_NAMESPACE
+//END_NAMESPACE
 
 #endif // !__BASE_H__

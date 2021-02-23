@@ -7,10 +7,9 @@ CGraphicDevice::CGraphicDevice()
 {    
 }
 
-CGraphicDevice::~CGraphicDevice()
-{
-    Free();
-}
+//CGraphicDevice::~CGraphicDevice()
+//{
+//}
 
 HRESULT CGraphicDevice::Ready_GraphicDevice(HWND hWnd, WINMODE eMode, const _uint& iSizeX, const _uint& iSizeY/*, CGraphicDevice** ppDevice*/)
 {

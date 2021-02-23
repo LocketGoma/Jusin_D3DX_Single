@@ -37,6 +37,9 @@ private:
 
 	_Device			m_pDevice = nullptr;
 
+	//씬 매니저 구축 끝나면 지울것
+	class Engine::CScene* pScene;
+
 };
 
 

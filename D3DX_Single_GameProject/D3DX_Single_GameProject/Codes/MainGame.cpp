@@ -32,9 +32,8 @@ HRESULT CMainGame::Ready_MainGame()
 
     Safe_AddReference(m_pDevice);
 
-
-    Engine::CScene* pScene = nullptr;
-    pScene = CTestStage::Create(m_pDevice);
+    //Engine::CScene* pScene = nullptr;
+    pScene = CTestStage::Create(m_pDevice);    
 
     return S_OK;
 }
@@ -72,9 +71,9 @@ HRESULT CMainGame::Setup_DefaultSetting()
 
 HRESULT CMainGame::Ready_Scene()
 {
-    Engine::CScene* pScene = nullptr;
+    
 
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 CMainGame* CMainGame::Create()
@@ -91,6 +90,8 @@ CMainGame* CMainGame::Create()
 
 void CMainGame::Free()
 {
+    Safe_Release(pScene);
+
     Safe_Release(m_pDevice);
     Safe_Release(m_pManagement);
 }
