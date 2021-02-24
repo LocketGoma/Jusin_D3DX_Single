@@ -106,9 +106,18 @@ void CGraphicDevice::Free()
     _uint dwRefCnt = 0;
 
     if (dwRefCnt = Safe_Release(m_pDevice))
-        PRINT_LOG(L"Fatal Error", L"m_pGraphicDev Release Failed");
+    {
+        TCHAR msg[256] = L"";
+        TCHAR Omsg[] = L"m_pGraphicDev Release Failed : %d";
+
+        swprintf_s(msg, Omsg, dwRefCnt);
+        PRINT_LOG(L"Fatal Error", msg);
+    }
+
 
     if (dwRefCnt = Safe_Release(m_pSDK))
+    {
         PRINT_LOG(L"Fatal Error", L"m_pSDK Release Failed");
+    }
 
 }

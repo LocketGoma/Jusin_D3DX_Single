@@ -77,5 +77,6 @@ CComponent* CVTXTriColor::Clone(void* pArg)
 
 void CVTXTriColor::Free()
 {
+
 	CVIBuffer::Free();
 }

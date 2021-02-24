@@ -9,6 +9,8 @@ CTransform::CTransform(_Device pDevice)
 
 	m_TransformDesc.vScale = _float3(1.f, 1.f, 1.f);
 	m_TransformDesc.vRotate = _float3(0.f, 0.f, 0.f);
+
+	Safe_AddReference(m_pDevice);
 }
 
 CTransform::CTransform(const CTransform& other)
@@ -143,8 +145,6 @@ CComponent* CTransform::Clone(void* pArg)
 
 	return pClone;
 }
-
-
 void CTransform::Free()
 {
 	Safe_Release(m_pDevice);

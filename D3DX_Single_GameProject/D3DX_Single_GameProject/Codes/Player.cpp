@@ -15,7 +15,7 @@ HRESULT CPlayer::Ready_GameObject(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 
-	m_pTransformCom->Set_Scale(_float3(0.1f, 0.1f, 0.1f));
+	//m_pTransformCom->Set_Scale(_float3(0.1f, 0.1f, 0.1f));
 
 	return S_OK;
 }
@@ -43,12 +43,14 @@ _int CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
 		
-	return m_pTransformCom->LateUpdate_Component(fTimeDelta);
+	return 0;
 }
 
 HRESULT CPlayer::Render_GameObject(void)
 {
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	m_pTransformCom->LateUpdate_Component(0.f);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
@@ -127,7 +129,8 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CPlayer::Free(void)
 {
-
+	Safe_Release(m_pBufferCom);
+	Safe_Release(m_pTransformCom);
 
 	Engine::CGameObject::Free();
 }

@@ -47,6 +47,12 @@
     <Filter Include="01.Object\00.Player">
       <UniqueIdentifier>{d50e7383-afbf-49fa-b9ee-0787d7bf34b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\03.Camera">
+      <UniqueIdentifier>{9c2ddd88-51c6-484a-8ed0-86c664fce97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\03.Camera\00.TestCamera">
+      <UniqueIdentifier>{f7f3516d-b05f-4daf-af48-ecfdef50568b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -91,6 +97,9 @@
     <ClInclude Include="..\Headers\DynamicObject.h">
       <Filter>01.Object\02.DynamicObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\TestCamera.h">
+      <Filter>01.Object\03.Camera\00.TestCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -129,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\DynamicObject.cpp">
       <Filter>01.Object\02.DynamicObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TestCamera.cpp">
+      <Filter>01.Object\03.Camera\00.TestCamera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

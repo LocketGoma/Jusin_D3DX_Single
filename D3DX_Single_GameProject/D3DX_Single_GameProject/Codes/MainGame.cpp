@@ -5,6 +5,7 @@
 #include "TestStage.h"
 
 #include "Transform.h"
+#include "CameraComponent.h"
 
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
@@ -37,13 +38,6 @@ HRESULT CMainGame::Ready_MainGame()
     Safe_AddReference(m_pDevice);
 
     m_pManagement->Setup_SceneManager(1);
-
-    //Engine::CScene* pScene = nullptr;
-    //pScene = CTestStage::Create(m_pDevice);    
-
-
-
-
 
 
     
@@ -93,6 +87,7 @@ HRESULT CMainGame::Ready_Scene()
 {
     m_pManagement->Ready_Buffer(m_pDevice, 0, L"Buffer_TriColor", Engine::BUFFERID::BUFFER_TRICOL);
     m_pManagement->Ready_Prototype(L"Transform_Comp", Engine::CTransform::Create(m_pDevice));
+    m_pManagement->Ready_Prototype(L"Camera_Comp", Engine::CCameraComponent::Create(m_pDevice));
 
     return S_OK;
 }

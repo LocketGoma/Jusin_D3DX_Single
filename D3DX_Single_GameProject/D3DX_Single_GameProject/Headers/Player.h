@@ -18,7 +18,7 @@ END_NAMESPACE
 class CPlayer : public Engine::CGameObject
 {
 private:
-	explicit CPlayer(_Device pGraphicDev);
+	explicit CPlayer(_Device pDevice);
 	virtual ~CPlayer(void) = default;
 
 public:

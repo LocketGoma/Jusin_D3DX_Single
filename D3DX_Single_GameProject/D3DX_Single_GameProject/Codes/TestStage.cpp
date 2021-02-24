@@ -2,6 +2,7 @@
 #include "TestStage.h"
 
 #include "Player.h"
+#include "TestCamera.h"
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -15,17 +16,18 @@ HRESULT CTestStage::Ready_Scene(void)
     SetWindowText(g_hWnd, L"Test Stage");
 
     Add_Player_Layer(L"PlayerLayer");
+    Add_Camera_Layer(L"CameraLayer");
 
     return S_OK;
 }
 
 _int CTestStage::Update_Scene(const _float& fTimeDelta)
 {
-    D3DXMatrixLookAtLH(&m_matView, &_vec3(0.f, 0.f, -5.f), &_vec3(0.f, 0.f, 1.f), &_vec3(0.f, 1.f, 0.f));
-    D3DXMatrixPerspectiveFovLH(&m_matProj, D3DXToRadian(60.f), _float(WINCX) / WINCY, 0.1f, 1000.f);
+    //D3DXMatrixLookAtLH(&m_matView, &_vec3(0.f, 0.f, -5.f), &_vec3(0.f, 0.f, 1.f), &_vec3(0.f, 1.f, 0.f));
+    //D3DXMatrixPerspectiveFovLH(&m_matProj, D3DXToRadian(60.f), _float(WINCX) / WINCY, 0.1f, 1000.f);
 
-    m_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
-    m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
+    //m_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
+    //m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 
     CScene::Update_Scene(fTimeDelta);
 
@@ -57,6 +59,20 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
 
     pGameObject = CPlayer::Create(m_pDevice);
     pLayer->Add_GameObject(L"TestPlayer", pGameObject);
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
+{
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    pGameObject = CTestCamera::Create(m_pDevice);
+    pLayer->Add_GameObject(L"TestCamera", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 
