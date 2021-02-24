@@ -21,13 +21,17 @@ public:
 private :
 	HRESULT Ready_Resource(_Device& pDevice);
 
+private:
+	HRESULT Add_Player_Layer(const _tchar* pLayerTag);
+
 public :
 	static CTestStage* Create(_Device pDevice);
 
 private :
 	virtual void Free() override;
 
-
+	//테스트용
+	_matrix	m_matWorld, m_matView, m_matProj;
 
 };
 

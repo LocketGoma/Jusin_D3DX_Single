@@ -64,6 +64,9 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
     if (FAILED(Render_Priority()))
         return E_FAIL;
 
+    if (FAILED(Render_Priority_Alpha()))
+        return E_FAIL;
+
     if (FAILED(Render_NoAlpha()))
         return E_FAIL;
 
@@ -71,6 +74,9 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
         return E_FAIL;
 
     if (FAILED(Render_HalfAlpha()))
+        return E_FAIL; 
+    
+    if (FAILED(Render_Wireframe()))
         return E_FAIL;
 
     if (FAILED(Render_UI()))
@@ -90,18 +96,91 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
 
 HRESULT CRenderer::Render_Priority()
 {
-    return S_OK;
-}
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+        {
+            return E_FAIL;
+        }
 
-HRESULT CRenderer::Render_NoAlpha()
-{
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY].clear();
+
     return S_OK;
 }
 
 HRESULT CRenderer::Render_Priority_Alpha()
 {
+
+    if (m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY_ALPHA].empty() == true)
+    {
+        return S_OK;
+    }
+
+
+    ////알파블랜딩 먹임
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE)))
+	{
+		return E_FAIL;
+	}
+	//알파블랜딩 옵션 적용
+	if (FAILED(m_pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD)))
+	{
+		return E_FAIL;
+	}
+	//Source픽셀(=그려야 할 픽셀) 의 혼합 비율 설정
+	if (FAILED(m_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA)))
+	{
+		return E_FAIL;
+	}
+	//Dest픽셀의 혼합 비율 설정
+    //D3DRS_DESTBLEND: Dest픽셀(이미 그려져있는 픽셀)
+    //D3DBLEND_INVSRCALPHA: 혼합비율이며 1 - D3DBLEND_SRCALPHA. 0~1범위.
+    //ex) D3DBLEND_SRCALPHA(0.7f, 0.7f, 0.7f, 0.7f) -> D3DBLEND_INVSRCALPHA(0.3f, 0.3f, 0.3f, 0.3f)
+ 
+	if (FAILED(m_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA)))
+	{
+		return E_FAIL;
+	}
+
+	for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY_ALPHA])
+	{
+		if (FAILED(pGameObject->Render_GameObject()))
+			return E_FAIL;
+
+		Safe_Release(pGameObject);
+	}
+
+	m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY_ALPHA].clear();
+
+
+	if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE)))
+	{
+		return E_FAIL;
+	}
+
+
     return S_OK;
 }
+
+HRESULT CRenderer::Render_NoAlpha()
+{
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_NOALPHA])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+            return E_FAIL;
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_NOALPHA].clear();
+
+    return S_OK;
+}
+
 
 HRESULT CRenderer::Render_HalfAlpha()
 {

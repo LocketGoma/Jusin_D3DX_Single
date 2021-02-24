@@ -7,12 +7,9 @@ CGraphicResourceManager::CGraphicResourceManager()
     : m_pmapResources(nullptr)
     , m_dwContainerIdx(0)
 {
+    Reserve_Size(10);
 }
 
-CGraphicResourceManager::~CGraphicResourceManager()
-{
-    Free();
-}
 
 HRESULT CGraphicResourceManager::Reserve_Size(const _uint& wSize)
 {

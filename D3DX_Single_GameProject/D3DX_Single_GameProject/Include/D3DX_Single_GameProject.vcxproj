@@ -156,9 +156,11 @@
     <ClInclude Include="..\Headers\Client_Define.h" />
     <ClInclude Include="..\Headers\Client_Enum.h" />
     <ClInclude Include="..\Headers\Client_Struct.h" />
+    <ClInclude Include="..\Headers\DynamicObject.h" />
     <ClInclude Include="..\Headers\framework.h" />
     <ClInclude Include="..\Headers\LoadingScene.h" />
     <ClInclude Include="..\Headers\MainGame.h" />
+    <ClInclude Include="..\Headers\Player.h" />
     <ClInclude Include="..\Headers\TestStage.h" />
     <ClInclude Include="D3DX_Single_GameProject.h" />
     <ClInclude Include="Resource.h" />
@@ -167,8 +169,10 @@
   <ItemGroup>
     <ClCompile Include="..\Codes\BaseAI.cpp" />
     <ClCompile Include="..\Codes\BaseLogoScene.cpp" />
+    <ClCompile Include="..\Codes\DynamicObject.cpp" />
     <ClCompile Include="..\Codes\LoadingScene.cpp" />
     <ClCompile Include="..\Codes\MainGame.cpp" />
+    <ClCompile Include="..\Codes\Player.cpp" />
     <ClCompile Include="..\Codes\TestStage.cpp" />
     <ClCompile Include="D3DX_Single_GameProject.cpp" />
   </ItemGroup>

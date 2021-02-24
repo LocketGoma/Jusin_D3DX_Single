@@ -19,7 +19,7 @@ private :
 	virtual ~CPrototypeManager() = default;
 
 public:
-	HRESULT			Ready_Prototype(const _tchar* pProtoTag, CComponent* pInstance);
+	HRESULT		Ready_Prototype(const _tchar* pProtoTag, CComponent* pInstance);
 	CComponent* Clone_Prototype(const _tchar* pProtoTag);
 
 private:

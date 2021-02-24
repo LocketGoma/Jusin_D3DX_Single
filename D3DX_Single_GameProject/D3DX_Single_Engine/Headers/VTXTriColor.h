@@ -17,7 +17,7 @@ private:
 public:
 	// CVIBuffer을(를) 통해 상속됨
 	virtual HRESULT Ready_Buffer(void) override;
-	virtual void Render_Buffer(void) override;
+	virtual HRESULT Render_Buffer(void) override;
 
 	
 	static CVTXTriColor* Create(_Device pDevice);

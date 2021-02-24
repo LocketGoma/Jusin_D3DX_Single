@@ -38,8 +38,9 @@ _int CGameObject::LateUpdate_GameObject(const _float& fDeltaTime)
     return 0;
 }
 
-void CGameObject::Render_GameObject()
+HRESULT CGameObject::Render_GameObject()
 {
+    return S_OK;
 }
 
 void CGameObject::Free(void)

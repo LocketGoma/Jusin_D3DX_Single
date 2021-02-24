@@ -20,7 +20,7 @@ public:
 	virtual HRESULT Ready_GameObject();
 	virtual _int Update_GameObject(const _float& fDeltaTime);
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime);
-	virtual void Render_GameObject();
+	virtual HRESULT Render_GameObject();
 
 protected:
 	_Device m_pDevice;

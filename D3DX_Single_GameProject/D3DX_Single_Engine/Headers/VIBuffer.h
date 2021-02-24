@@ -20,7 +20,7 @@ public :
 
 public :
 	virtual HRESULT Ready_Buffer();
-	virtual void Render_Buffer();
+	virtual HRESULT Render_Buffer();
 
 protected:
 	LPDIRECT3DVERTEXBUFFER9			m_pVB;

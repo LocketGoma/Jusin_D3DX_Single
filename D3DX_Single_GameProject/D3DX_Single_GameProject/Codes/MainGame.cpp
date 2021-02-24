@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "MainGame.h"
 
+#include "Management.h"
 #include "TestStage.h"
 
 CMainGame::CMainGame()
@@ -33,8 +34,21 @@ HRESULT CMainGame::Ready_MainGame()
 
     Safe_AddReference(m_pDevice);
 
+    m_pManagement->Setup_SceneManager(1);
+
     //Engine::CScene* pScene = nullptr;
-    pScene = CTestStage::Create(m_pDevice);    
+    //pScene = CTestStage::Create(m_pDevice);    
+
+
+
+
+
+
+    m_pManagement->Ready_Buffer(m_pDevice, 0, L"Buffer_TriColor", Engine::BUFFERID::BUFFER_TRICOL);
+
+
+
+    m_pManagement->Setup_CurrentScene(1, CTestStage::Create(m_pDevice));
 
     return S_OK;
 }
@@ -66,6 +80,8 @@ HRESULT CMainGame::Setup_DefaultSetting()
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW)))
         return E_FAIL;
+
+
 
 
     return S_OK;

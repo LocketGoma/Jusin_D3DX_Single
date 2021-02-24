@@ -11,7 +11,14 @@ CSceneManager::CSceneManager()
 
 HRESULT CSceneManager::Setup_SceneManager(_int iMaxSceneIndex)
 {
-	return E_NOTIMPL;
+	if (iMaxSceneIndex < 1)
+	{
+		return E_FAIL;
+	}
+
+	m_iMaxSceneIndex = iMaxSceneIndex;
+
+	return S_OK;
 }
 
 HRESULT CSceneManager::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScene)

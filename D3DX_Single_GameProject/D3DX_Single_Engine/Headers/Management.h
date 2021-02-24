@@ -12,6 +12,8 @@
 #include "KeyManager.h"
 #include "Renderer.h"
 #include "SceneManager.h"
+#include "PrototypeManager.h"
+#include "GraphicResourceManager.h"
 
 BEGIN_NAMESPACE(Engine)
 //마스터 클래스
@@ -43,6 +45,7 @@ public :
 
 public:
 	//SceneManager Setting
+	HRESULT Setup_SceneManager(_int iMaxSceneIndex);
 	HRESULT Setup_CurrentScene(_int iSceneIndex, class CScene* pCurrentScene);
 	//_uint	Update_Scene(_float fDeltaTime);
 	//_uint	LateUpdate_Scene(_float fDeltaTime);
@@ -53,8 +56,25 @@ public :
 	_bool Key_Down(_uint iKey);
 	_bool Key_Up(_uint iKey);	 
 
-public: /*For.Renderer*/
+public: 
+	//Renderer Setting
 	HRESULT Add_RenderList(RENDERID eRenderID, class CGameObject* pGameObject);
+
+public:
+	//ProtoTypeManager & ResourceManager & GameObjectManager
+	//1. PrototypeManager (Non-GraphicResource Component)
+	HRESULT		Ready_Prototype(const _tchar * pProtoTag, CComponent * pInstance);
+	CComponent* Clone_Prototype(const _tchar * pProtoTag);
+
+	//2. GraphicResourceManager
+		//컨테이너 공간을 미리 얼마나 할당할것인지 지정.
+	HRESULT Reserve_Size(const _uint & wSize);
+	//디바이스 정보, 인덱스 정보, 버퍼 태그명, 버퍼 아이디, 사이즈 (X,Y), 버텍스별 간격
+	HRESULT Ready_Buffer(_Device pDevice, const _uint & iIndex, const _tchar * pBufferTag, BUFFERID eID, const _ulong & dwCountX = 129, const _ulong & dwCountZ = 129, const _ulong & dwVTXInterval = 1);
+	//void Render_Buffer(const _uint & iIndex, const _tchar * pBufferTag); // - 필요없음.
+	CComponent* Clone_Resource(const _uint & iIndex, const _tchar * pResourceTag);
+
+	//3. GameObjectManager - 생성시 추가할것.
 
 
 public:
@@ -62,12 +82,13 @@ public:
 	static void Release_Engine();
 
 private:
-	CGraphicDevice* m_pDeviceManager	= nullptr;
-	CRenderer*		m_pRenderer			= nullptr;
-	CKeyManager*	m_pKeyManager		= nullptr;
-	CTimeManager*	m_pTimeManager		= nullptr;
-	CSceneManager*	m_pSceneManager		= nullptr;
-
+	CGraphicDevice*				m_pDeviceManager	= nullptr;
+	CRenderer*					m_pRenderer			= nullptr;
+	CKeyManager*				m_pKeyManager		= nullptr;
+	CTimeManager*				m_pTimeManager		= nullptr;
+	CSceneManager*				m_pSceneManager		= nullptr;
+	CPrototypeManager*			m_pPrototypeManager = nullptr;	//구 ComponentManager 역할
+	CGraphicResourceManager*	m_pGraphicManager	= nullptr;	//구 ComponentManager에서 "그래픽 리소스"만 분리함.
 
 //private :
 //	CScene* m_pScene;

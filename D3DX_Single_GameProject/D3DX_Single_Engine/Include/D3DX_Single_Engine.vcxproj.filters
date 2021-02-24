@@ -77,6 +77,9 @@
     <Filter Include="00.System\05.SceneManager">
       <UniqueIdentifier>{31e0be80-873f-4801-a549-122131786328}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.System\06.GameObjectManager">
+      <UniqueIdentifier>{697330ef-aac6-4725-8c85-4102b57d552e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -129,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\SceneManager.cpp">
       <Filter>00.System\05.SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\GameObjectManager.cpp">
+      <Filter>00.System\06.GameObjectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\SceneManager.h">
       <Filter>00.System\05.SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\GameObjectManager.h">
+      <Filter>00.System\06.GameObjectManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

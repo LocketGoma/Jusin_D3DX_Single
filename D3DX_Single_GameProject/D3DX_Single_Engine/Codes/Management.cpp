@@ -7,7 +7,8 @@ IMPLEMENT_SINGLETON(CManagement)
 CManagement::CManagement()
 	: m_pDeviceManager(CGraphicDevice::Get_Instance())
 	, m_pRenderer(CRenderer::Get_Instance())
-	//, m_pComponent_Manager(CComponent_Manager::Get_Instance())
+	, m_pPrototypeManager(CPrototypeManager::Get_Instance())
+	, m_pGraphicManager(CGraphicResourceManager::Get_Instance())
 	, m_pKeyManager(CKeyManager::Get_Instance())
 	, m_pSceneManager(CSceneManager::Get_Instance())
 	//, m_pGameObject_Manager(CGameObject_Manager::Get_Instance())
@@ -17,7 +18,8 @@ CManagement::CManagement()
 {
 	Safe_AddReference(m_pDeviceManager);
 	Safe_AddReference(m_pRenderer);
-	//Safe_AddReference(m_pComponent_Manager);
+	Safe_AddReference(m_pPrototypeManager);
+	Safe_AddReference(m_pGraphicManager);
 	Safe_AddReference(m_pKeyManager);
 	Safe_AddReference(m_pSceneManager);
 	//Safe_AddReference(m_pGameObject_Manager);
@@ -70,7 +72,7 @@ _uint CManagement::Update_Engine(_float fDeltaTime)
 
 _uint CManagement::LateUpdate_Engine(_float fDeltaTime)
 {
-	return m_pSceneManager->Update_Scene(fDeltaTime);
+	return m_pSceneManager->LateUpdate_Scene(fDeltaTime);
 }
 
 HRESULT CManagement::Render_Engine(HWND hWnd)
@@ -98,6 +100,11 @@ _Device CManagement::Get_Device()
 _float CManagement::Get_DeltaTime()
 {
 	return m_pTimeManager->Update_TimeManager();
+}
+
+HRESULT CManagement::Setup_SceneManager(_int iMaxSceneIndex)
+{
+	return m_pSceneManager->Setup_SceneManager(iMaxSceneIndex);
 }
 
 HRESULT CManagement::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScene)
@@ -155,6 +162,42 @@ HRESULT CManagement::Add_RenderList(RENDERID eRenderID, CGameObject* pGameObject
 	return m_pRenderer->Add_RenderList(eRenderID, pGameObject);
 }
 
+HRESULT CManagement::Ready_Prototype(const _tchar* pProtoTag, CComponent* pInstance)
+{
+	if (m_pPrototypeManager == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	return m_pPrototypeManager->Ready_Prototype(pProtoTag,pInstance);
+}
+
+CComponent* CManagement::Clone_Prototype(const _tchar* pProtoTag)
+{
+	if (m_pPrototypeManager == nullptr)
+	{
+		return nullptr;
+	}
+
+	return m_pPrototypeManager->Clone_Prototype(pProtoTag);
+}
+
+HRESULT CManagement::Reserve_Size(const _uint& wSize)
+{
+	return m_pGraphicManager->Reserve_Size(wSize);
+}
+
+HRESULT CManagement::Ready_Buffer(_Device pDevice, const _uint& iIndex, const _tchar* pBufferTag, BUFFERID eID, const _ulong& dwCountX, const _ulong& dwCountZ, const _ulong& dwVTXInterval)
+{
+	return m_pGraphicManager->Ready_Buffer(pDevice,iIndex,pBufferTag,eID,dwCountX,dwCountZ,dwVTXInterval);
+}
+
+
+CComponent* CManagement::Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag)
+{
+	return m_pGraphicManager->Clone_Resource(iIndex,pResourceTag);
+}
+
 void CManagement::Free()
 {
 	//Safe_Release(m_pSoundManager);
@@ -162,7 +205,8 @@ void CManagement::Free()
 	//Safe_Release(m_pGameObjectManager);
 	Safe_Release(m_pSceneManager);
 	Safe_Release(m_pKeyManager);
-	//Safe_Release(m_pComponentManager);
+	Safe_Release(m_pGraphicManager);
+	Safe_Release(m_pPrototypeManager);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pDeviceManager);
 }
@@ -186,10 +230,13 @@ void CManagement::Release_Engine()
 		PRINT_LOG(L"Waring", L"Failed To Release CSceneManager (Management.cpp)");
 
 	if (CKeyManager::Destroy_Instance())
-		PRINT_LOG(L"Waring", L"Failed To Release CKey_Manager (Management.cpp)");
+		PRINT_LOG(L"Waring", L"Failed To Release CKeyManager (Management.cpp)");
 
-	//if (CComponent_Manager::Destroy_Instance())
-	//	PRINT_LOG(L"Waring", L"Failed To Release CComponent_Manager (Management.cpp)");
+	if (CGraphicResourceManager::Destroy_Instance())
+		PRINT_LOG(L"Waring", L"Failed To Release CGraphicResourceManager (Management.cpp)");
+
+	if (CPrototypeManager::Destroy_Instance())
+		PRINT_LOG(L"Waring", L"Failed To Release CProtoTypeManager (Management.cpp)");
 
 	if (CRenderer::Destroy_Instance())
 		PRINT_LOG(L"Warning", L"Failed To Release CRenderer");

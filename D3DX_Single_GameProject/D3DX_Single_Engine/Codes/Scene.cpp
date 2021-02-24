@@ -44,9 +44,6 @@ void CScene::Render_Scene(void)
     {
         iter.second->Render_Layer();
     }
-
-
-
 }
 
 void CScene::Free(void)

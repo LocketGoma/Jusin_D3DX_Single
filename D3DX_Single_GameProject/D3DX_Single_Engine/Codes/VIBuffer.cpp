@@ -54,14 +54,21 @@ HRESULT CVIBuffer::Ready_Buffer()
 	return S_OK;
 }
 
-void CVIBuffer::Render_Buffer()
+HRESULT CVIBuffer::Render_Buffer()
 {
+	if (m_pDevice == nullptr)
+	{
+		return E_FAIL;
+	}
+
 	m_pDevice->SetStreamSource(0, m_pVB, 0, m_dwVTXSize);
 
 	m_pDevice->SetFVF(m_dwFVF);
 	m_pDevice->SetIndices(m_pIB);
 
 	m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_dwVTXCount, 0, m_dwTriCount);
+
+	return S_OK;
 }
 
 void CVIBuffer::Free(void)

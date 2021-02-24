@@ -17,7 +17,7 @@ class ENGINE_DLL CGraphicResourceManager : public CBase
 
 private:
 	explicit CGraphicResourceManager();
-	virtual ~CGraphicResourceManager();
+	virtual ~CGraphicResourceManager()=default;
 
 public:
 	//컨테이너 공간을 미리 얼마나 할당할것인지 지정.

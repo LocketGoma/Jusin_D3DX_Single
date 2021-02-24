@@ -55,9 +55,9 @@ HRESULT CVTXTriColor::Ready_Buffer(void)
 	return S_OK;
 }
 
-void CVTXTriColor::Render_Buffer(void)
+HRESULT CVTXTriColor::Render_Buffer(void)
 {
-	CVIBuffer::Render_Buffer();
+	return CVIBuffer::Render_Buffer();
 }
 
 CVTXTriColor* CVTXTriColor::Create(_Device pDevice)
