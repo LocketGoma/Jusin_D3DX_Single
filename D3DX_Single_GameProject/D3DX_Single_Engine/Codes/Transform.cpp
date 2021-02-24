@@ -2,7 +2,8 @@
 
 USING(Engine)
 
-CTransform::CTransform()
+CTransform::CTransform(_Device pDevice)
+	:m_pDevice(pDevice)
 {
 	ZeroMemory(&m_TransformDesc, sizeof(CTransform::TRANSFORM_DESC));
 
@@ -12,7 +13,10 @@ CTransform::CTransform()
 
 CTransform::CTransform(const CTransform& other)
 	: m_TransformDesc(other.m_TransformDesc)	
+	, m_pDevice(other.m_pDevice)
 {
+	Safe_AddReference(m_pDevice);
+
 	m_bIsPrototype = false;
 }
 
@@ -49,6 +53,17 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	}
 
 	return _int();
+}
+
+_int CTransform::LateUpdate_Component(const _float& fTimeDelta)
+{
+	if (m_pDevice == nullptr)
+	{
+		PRINT_LOG(L"Error", L"Transform device Setting Failed");
+		return 0;
+	}
+
+	return m_pDevice->SetTransform(D3DTS_WORLD, &m_TransformDesc.matWorld);
 }
 
 void CTransform::Move_Pos(const _vec3* pDir, const _float& fSpeed, _float fDeltaTime)
@@ -91,8 +106,7 @@ CTransform::TRANSFORM_DESC CTransform::Get_TransformDescription()
 
 void CTransform::Get_Info(TRANSFORM_INFO eType, _vec3* pvInfo)
 {
-	memcpy(pvInfo, &m_TransformDesc.matWorld.m[(_uint)(eType)][0], sizeof(_vec3));
-
+	memcpy(pvInfo, &m_TransformDesc.matWorld.m[(_uint)(eType)][0], sizeof(_vec3));	
 }
 
 _vec3 CTransform::Get_Info(TRANSFORM_INFO eType)
@@ -107,14 +121,31 @@ _vec3 CTransform::Get_Info(TRANSFORM_INFO eType)
 
 CTransform* CTransform::Create(_Device pDevice)
 {
-	return nullptr;
+	CTransform* pIstance = new CTransform(pDevice);
+	if (pIstance == nullptr)
+	{
+		return nullptr;
+	}
+	pIstance->Ready_Transform();
+	
+
+	return pIstance;
 }
 
 CComponent* CTransform::Clone(void* pArg)
 {
-	return nullptr;
+	CTransform* pClone = new CTransform(*this);
+	if (FAILED(pClone->Ready_Transform()))
+	{
+		PRINT_LOG(L"Error", L"Failed To Clone CTransform");
+		Safe_Release(pClone);
+	}
+
+	return pClone;
 }
+
 
 void CTransform::Free()
 {
+	Safe_Release(m_pDevice);
 }

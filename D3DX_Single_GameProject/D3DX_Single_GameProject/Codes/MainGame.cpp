@@ -4,6 +4,8 @@
 #include "Management.h"
 #include "TestStage.h"
 
+#include "Transform.h"
+
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
     , pScene(nullptr)
@@ -44,8 +46,8 @@ HRESULT CMainGame::Ready_MainGame()
 
 
 
-    m_pManagement->Ready_Buffer(m_pDevice, 0, L"Buffer_TriColor", Engine::BUFFERID::BUFFER_TRICOL);
-
+    
+    Ready_Scene();
 
 
     m_pManagement->Setup_CurrentScene(1, CTestStage::Create(m_pDevice));
@@ -86,10 +88,11 @@ HRESULT CMainGame::Setup_DefaultSetting()
 
     return S_OK;
 }
-
+//나중에 로고/로딩씬 으로 옮길것
 HRESULT CMainGame::Ready_Scene()
 {
-    
+    m_pManagement->Ready_Buffer(m_pDevice, 0, L"Buffer_TriColor", Engine::BUFFERID::BUFFER_TRICOL);
+    m_pManagement->Ready_Prototype(L"Transform_Comp", Engine::CTransform::Create(m_pDevice));
 
     return S_OK;
 }

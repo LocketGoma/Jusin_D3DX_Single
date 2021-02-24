@@ -20,7 +20,7 @@ public:
 	}TRANSFORM_DESC;
 
 private:
-	explicit CTransform();
+	explicit CTransform(_Device pDevice);
 	explicit CTransform(const CTransform& other);
 	virtual ~CTransform() = default;
 
@@ -28,6 +28,7 @@ private:
 public:
 	HRESULT Ready_Transform();
 	virtual _int Update_Component(const _float& fDeltaTime);
+	virtual _int	LateUpdate_Component(const _float& fTimeDelta);
 
 //Control + Setter
 public:
@@ -58,6 +59,8 @@ private:
 	//_mat  m_matWorld;
 
 	TRANSFORM_DESC	m_TransformDesc;
+
+	_Device m_pDevice;
 };
 
 END_NAMESPACE

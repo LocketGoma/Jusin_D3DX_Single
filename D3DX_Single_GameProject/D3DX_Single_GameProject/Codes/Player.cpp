@@ -14,6 +14,9 @@ HRESULT CPlayer::Ready_GameObject(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+
+	m_pTransformCom->Set_Scale(_float3(0.1f, 0.1f, 0.1f));
+
 	return S_OK;
 }
 
@@ -30,7 +33,7 @@ _int CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	//update-transform
 
-	//m_pTransformCom->Update_Component(fTimeDelta);
+	m_pTransformCom->Update_Component(fTimeDelta);
 
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
@@ -39,8 +42,8 @@ _int CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 	}
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
-
-	return _int();
+		
+	return m_pTransformCom->LateUpdate_Component(fTimeDelta);
 }
 
 HRESULT CPlayer::Render_GameObject(void)
@@ -71,11 +74,43 @@ HRESULT CPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Buffer", pComponent);
 
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[0].emplace(L"Com_Transform", pComponent);
+
+
 	return S_OK;
 }
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return;
+	}
+
+	if (pManagement->Key_Pressing(VK_UP))
+	{
+
+		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, fTimeDelta);
+	}
+	if (pManagement->Key_Pressing(VK_DOWN))
+	{
+		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, -fTimeDelta);
+	}
+
+
+	if (pManagement->Key_Pressing(VK_LEFT))
+	{
+
+		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, -fTimeDelta);
+	}
+	if (pManagement->Key_Pressing(VK_RIGHT))
+	{		
+		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, fTimeDelta);
+	}
+
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

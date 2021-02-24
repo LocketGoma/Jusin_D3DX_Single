@@ -66,25 +66,6 @@ HRESULT CGraphicResourceManager::Ready_Buffer(_Device pDevice, const _uint& iInd
     return S_OK;
 }
 
-void CGraphicResourceManager::Render_Buffer(const _uint& iIndex, const _tchar* pBufferTag)
-{
-    auto	iter = find_if(m_pmapResources[iIndex].begin(), m_pmapResources[iIndex].end(), CTag_Finder(pBufferTag));
-
-    if (iter != m_pmapResources[iIndex].end())
-    {    
-        dynamic_cast<CVIBuffer*>(iter->second)->Render_Buffer();
-    }
-    else
-    {
-        TCHAR msg[256] = L"";
-        TCHAR Omsg[] = L"Can not Render Buffer < %s > ";
-
-        swprintf_s(msg, Omsg, pBufferTag);
-
-        PRINT_LOG(L"Warring", msg);
-    }
-}
-
 CComponent* CGraphicResourceManager::Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag)
 {
     if (nullptr == m_pmapResources)
