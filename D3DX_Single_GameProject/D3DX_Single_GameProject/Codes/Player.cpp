@@ -95,11 +95,11 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 
 		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, fTimeDelta);
 	}
+
 	if (pManagement->Key_Pressing(VK_DOWN))
 	{
 		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, -fTimeDelta);
 	}
-
 
 	if (pManagement->Key_Pressing(VK_LEFT))
 	{

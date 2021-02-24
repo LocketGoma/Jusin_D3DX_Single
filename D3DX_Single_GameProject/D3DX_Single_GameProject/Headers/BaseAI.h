@@ -7,13 +7,14 @@
 
 #include "Base.h"
 #include "GameObject.h"
+#include "DynamicObject.h"
 
 class CBaseAI : public CBase
 {
 private:
 	explicit CBaseAI();
 	explicit CBaseAI(const CBaseAI& other);
-	virtual ~CBaseAI();
+	virtual ~CBaseAI() = default;
 
 public:
 
@@ -25,8 +26,8 @@ public:
 	virtual void Free() PURE;
 
 private:
-	Engine::CGameObject* pControlUnit;
-	Engine::CGameObject* pTargetUnit;
+			CDynamicObject*	pControlUnit;
+	Engine::CGameObject*	pTargetUnit;
 
 
 };

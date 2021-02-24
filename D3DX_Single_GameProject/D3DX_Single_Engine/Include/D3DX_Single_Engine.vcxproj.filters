@@ -80,6 +80,9 @@
     <Filter Include="00.System\06.GameObjectManager">
       <UniqueIdentifier>{697330ef-aac6-4725-8c85-4102b57d552e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\02.Camera">
+      <UniqueIdentifier>{73ace4f5-724e-4140-9933-90eea94d264c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -135,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\GameObjectManager.cpp">
       <Filter>00.System\06.GameObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\CameraComponent.cpp">
+      <Filter>01.Resources\01.Component\02.Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\GameObjectManager.h">
       <Filter>00.System\06.GameObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\CameraComponent.h">
+      <Filter>01.Resources\01.Component\02.Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
