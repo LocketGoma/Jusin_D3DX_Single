@@ -27,6 +27,9 @@ private:
 public:
 	static unsigned int __stdcall Thread_Load(void* pArg);
 
+public:
+	static CBaseLogoScene* Create
+
 };
 
 
