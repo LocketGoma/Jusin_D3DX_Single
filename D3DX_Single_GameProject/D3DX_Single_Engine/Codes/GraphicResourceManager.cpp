@@ -69,7 +69,7 @@ HRESULT CGraphicResourceManager::Ready_Buffer(_Device pDevice, const _uint& iInd
     return S_OK;
 }
 
-HRESULT CGraphicResourceManager::Ready_Texture(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pTextureTag, TEXTYPE eType, const _tchar* pPath, const _uint& iCnt)
+HRESULT CGraphicResourceManager::Ready_Texture(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pTextureTag, TEXTYPE eType, const _tchar* pPath, const _uint& iCount)
 {
     NULL_CHECK_RETURN(m_pmapResources, E_FAIL);
 
@@ -80,7 +80,7 @@ HRESULT CGraphicResourceManager::Ready_Texture(_Device pDevice, const _ushort& w
         return S_OK;
     }
 
-    pResource = CTexture::Create(pDevice, pPath, eType, iCnt);
+    pResource = CTexture::Create(pDevice, pPath, eType, iCount);
     NULL_CHECK_RETURN(pResource, E_FAIL);
 
     m_pmapResources[wContainerIdx].emplace(pTextureTag, pResource);

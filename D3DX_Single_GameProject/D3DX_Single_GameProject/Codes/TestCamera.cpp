@@ -15,6 +15,11 @@ HRESULT CTestCamera::Ready_GameObject(void)
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+    POINT ptMouse;
+    ptMouse.x = WINCX / 2;
+    ptMouse.y = WINCY / 2;
+    ClientToScreen(g_hWnd, &ptMouse);
+    SetCursorPos(ptMouse.x, ptMouse.y);
 
     return S_OK;
 }

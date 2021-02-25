@@ -72,7 +72,7 @@ HRESULT CPlayer::Add_Component(void)
 	Engine::CComponent* pComponent = nullptr;
 
 	// Buffer
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CVTXTriColor*>(pManagement->Clone_Resource(0, L"Buffer_TriColor"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CVTXTriColor*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_BUFFER, L"Buffer_TriColor"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Buffer", pComponent);
 

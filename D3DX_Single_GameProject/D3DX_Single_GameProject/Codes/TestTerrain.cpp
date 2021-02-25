@@ -43,7 +43,8 @@ HRESULT CTestTerrain::Render_GameObject(void)
 {
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	m_pTextureCom->Set_Texture();
+	//텍스쳐 종류 선택 -> Set_Texture에다가 값 넣으면 됨.
+	m_pTextureCom->Set_Texture(1);
 	m_pBufferCom->Render_Buffer();
 
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
@@ -62,12 +63,12 @@ HRESULT CTestTerrain::Add_Component(void)
 	Engine::CComponent* pComponent = nullptr;
 
 	// Buffer
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CVTXTerrain*>(pManagement->Clone_Resource(0, L"Buffer_TerrainTex"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CVTXTerrain*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_BUFFER, L"Buffer_TerrainTex"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Buffer", pComponent);
 
 	// Texture
-	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource(1, L"Texture_Terrain"));
+	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Terrain"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Texture", pComponent);
 

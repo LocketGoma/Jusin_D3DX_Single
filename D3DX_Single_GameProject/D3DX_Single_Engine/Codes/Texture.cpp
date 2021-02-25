@@ -51,10 +51,12 @@ HRESULT CTexture::Ready_Texture(const _tchar* pPath, TEXTYPE eType, const _uint&
 
 	return S_OK;
 }
+//여기다가 인덱스 값 넣으면 인덱스에 맞는 텍스쳐 리턴해줘요
 void CTexture::Set_Texture(const _uint& iIndex /*= 0*/)
 {
 	if (m_vecTexture.size() < iIndex)
 	{
+		PRINT_LOG(L"Error", L"Texture size is 0");
 		return;
 	}
 
