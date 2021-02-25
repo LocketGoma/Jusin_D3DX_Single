@@ -151,6 +151,12 @@
     <ClCompile Include="..\Codes\Texture.cpp">
       <Filter>01.Resources\01.Component\01.GraphicResource\01.Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\VTXRectTexture.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\03.RectTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VTXCubeTexture.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\05.CubeTexture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\GraphicDevice.h">
@@ -233,6 +239,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Texture.h">
       <Filter>01.Resources\01.Component\01.GraphicResource\01.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VTXRectTexture.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\03.RectTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VTXCubeTexture.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\05.CubeTexture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
