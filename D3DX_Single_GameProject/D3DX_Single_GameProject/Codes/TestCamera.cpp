@@ -6,6 +6,7 @@
 
 CTestCamera::CTestCamera(_Device pDevice)
     : Engine::CGameObject(pDevice)
+    , m_fRotate(0.f)
 {
 }
 
@@ -24,16 +25,16 @@ _int CTestCamera::Update_GameObject(const _float& fTimeDelta)
 
     Key_Input(fTimeDelta);
 
-   // m_pCameraCom->Set_ViewVector(m_pCameraCom->Get_CameraDesc().vEye + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS), m_pCameraCom->Get_CameraDesc().vAt + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK), m_pCameraCom->Get_CameraDesc().vUp + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
-    m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS)+_vec3(0.f,0.f,-5.f), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
+    m_pTransformCom->Update_Component(fTimeDelta);
 
     return 0;
 }
 
 _int CTestCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-    m_pTransformCom->Update_Component(fTimeDelta);
     m_pTransformCom->LateUpdate_Component(0.f);
+
+    m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)*5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
 
     return m_pCameraCom->LateUpdate_Component(fTimeDelta);
 }
@@ -80,7 +81,6 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
     {
         m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, fTimeDelta);
     }
-
     if (pManagement->Key_Pressing('S'))
     {
         m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, -fTimeDelta);
@@ -93,7 +93,16 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
     {
         m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, fTimeDelta);
     }
-    
+    if (pManagement->Key_Pressing('Q'))
+    {
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, -fTimeDelta);
+    }
+    if (pManagement->Key_Pressing('E'))
+    {
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, fTimeDelta);
+    }
+
+
     POINT ptMouse;
     GetCursorPos(&ptMouse);
     ScreenToClient(g_hWnd, &ptMouse);
@@ -110,14 +119,32 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
     D3DXVec3TransformCoord(&vMouse, &vMouse, &matProj);
 
     //단순 이동
-    m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), vMouse.x-0.5f, fTimeDelta*3.f);
-    m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 0.5f - vMouse.y, fTimeDelta*3.f);
+    //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), -vMouse.x, fTimeDelta*25.f);
+    //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)),  -vMouse.y, fTimeDelta*30.f);
 
-    //ptMouse.x = WINCX / 2;
-    //ptMouse.y = WINCY / 2;
-    //ClientToScreen(g_hWnd, &ptMouse);
-    //SetCursorPos(ptMouse.x, ptMouse.y);
+    m_fRotate += vMouse.x * fTimeDelta;
 
+    m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
+
+
+    ////TCHAR msg[256] = L"";
+    ////TCHAR Omsg[] = L"Test Stage :: Mouse Pos -> %2.2f, %2.2f";
+
+    ////swprintf_s(msg, Omsg, ptMouse.x, ptMouse.y);
+    ////SetWindowText(g_hWnd, msg);
+
+
+
+    ptMouse.x = WINCX / 2;
+    ptMouse.y = WINCY / 2;
+    ClientToScreen(g_hWnd, &ptMouse);
+    SetCursorPos(ptMouse.x, ptMouse.y);
+
+
+}
+//마우스 피킹 구현용
+void CTestCamera::Picking_Mouse()
+{
 }
 
 CTestCamera* CTestCamera::Create(_Device pDevice)
