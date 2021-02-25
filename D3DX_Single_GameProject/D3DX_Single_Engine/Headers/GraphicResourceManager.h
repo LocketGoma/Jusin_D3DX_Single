@@ -8,6 +8,9 @@
 
 //여기에 그래픽 리소스 헤더 입력
 #include "VTXTriColor.h"
+#include "VTXTerrain.h"
+
+#include "Texture.h"
 
 BEGIN_NAMESPACE(Engine)
 
@@ -24,6 +27,8 @@ public:
 	HRESULT Reserve_Size(const _uint& wSize);
 	//디바이스 정보, 인덱스 정보, 버퍼 태그명, 버퍼 아이디, 사이즈 (X,Y), 버텍스별 간격
 	HRESULT Ready_Buffer(_Device pDevice, const _uint& iIndex, const _tchar* pBufferTag, BUFFERID eID, const _ulong& dwCountX = 129, const _ulong& dwCountZ = 129, const _ulong& dwVTXInterval = 1);
+	HRESULT	Ready_Texture(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pTextureTag, TEXTYPE eType, const _tchar* pPath, const _uint& iCnt = 1);
+
 	CComponent* Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag);
 
 private:

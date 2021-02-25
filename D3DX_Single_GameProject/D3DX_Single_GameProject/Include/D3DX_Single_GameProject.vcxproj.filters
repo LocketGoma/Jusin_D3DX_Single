@@ -53,6 +53,12 @@
     <Filter Include="01.Object\03.Camera\00.TestCamera">
       <UniqueIdentifier>{f7f3516d-b05f-4daf-af48-ecfdef50568b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\04.Terrain">
+      <UniqueIdentifier>{88216a3b-7335-4903-8c45-d75a37bf1cca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\04.Terrain\00.TestTerrain">
+      <UniqueIdentifier>{7f10cf5d-f658-4e87-a254-6490c98b843a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -100,6 +106,12 @@
     <ClInclude Include="..\Headers\TestCamera.h">
       <Filter>01.Object\03.Camera\00.TestCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\StaticObject.h">
+      <Filter>01.Object\01.StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TestTerrain.h">
+      <Filter>01.Object\04.Terrain\00.TestTerrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -141,6 +153,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TestCamera.cpp">
       <Filter>01.Object\03.Camera\00.TestCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\StaticObject.cpp">
+      <Filter>01.Object\01.StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TestTerrain.cpp">
+      <Filter>01.Object\04.Terrain\00.TestTerrain</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

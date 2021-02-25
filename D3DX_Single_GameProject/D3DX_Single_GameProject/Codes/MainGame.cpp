@@ -86,6 +86,8 @@ HRESULT CMainGame::Setup_DefaultSetting()
 HRESULT CMainGame::Ready_Scene()
 {
     m_pManagement->Ready_Buffer(m_pDevice, 0, L"Buffer_TriColor", Engine::BUFFERID::BUFFER_TRICOL);
+    m_pManagement->Ready_Buffer(m_pDevice, 0, L"Buffer_TerrainTex", Engine::BUFFERID::BUFFER_TERRAINTEX);
+    m_pManagement->Ready_Texture(m_pDevice, 1, L"Texture_Terrain", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/TestResource/Texture/Terrain/Grass_%d.tga", 2);
     m_pManagement->Ready_Prototype(L"Transform_Comp", Engine::CTransform::Create(m_pDevice));
     m_pManagement->Ready_Prototype(L"Camera_Comp", Engine::CCameraComponent::Create(m_pDevice));
 

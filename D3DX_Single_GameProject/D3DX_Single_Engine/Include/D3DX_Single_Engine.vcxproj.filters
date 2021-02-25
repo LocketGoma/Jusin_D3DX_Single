@@ -83,6 +83,9 @@
     <Filter Include="01.Resources\01.Component\02.Camera">
       <UniqueIdentifier>{73ace4f5-724e-4140-9933-90eea94d264c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain">
+      <UniqueIdentifier>{6addeb66-6d6e-46c7-b94d-2719983d6f02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -141,6 +144,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\CameraComponent.cpp">
       <Filter>01.Resources\01.Component\02.Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VTXTerrain.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Texture.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\01.Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +227,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\CameraComponent.h">
       <Filter>01.Resources\01.Component\02.Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VTXTerrain.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Texture.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\01.Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

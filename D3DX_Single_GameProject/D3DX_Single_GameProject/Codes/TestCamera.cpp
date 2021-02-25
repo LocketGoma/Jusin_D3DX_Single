@@ -122,9 +122,10 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
     //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), -vMouse.x, fTimeDelta*25.f);
     //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)),  -vMouse.y, fTimeDelta*30.f);
 
-    m_fRotate += vMouse.x * fTimeDelta;
+    //m_fRotate += vMouse.x * fTimeDelta;
 
-    m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
+    m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, vMouse.x * fTimeDelta*100.f);
+    m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, -vMouse.y * fTimeDelta*100.f);
 
 
     ////TCHAR msg[256] = L"";

@@ -1,4 +1,4 @@
-#include "..\Headers\GraphicResourceManager.h"
+#include "GraphicResourceManager.h"
 
 USING(Engine)
 IMPLEMENT_SINGLETON(CGraphicResourceManager)
@@ -57,11 +57,33 @@ HRESULT CGraphicResourceManager::Ready_Buffer(_Device pDevice, const _uint& iInd
     case BUFFERID::BUFFER_RCTEX:
        //
         break;
+    case BUFFERID::BUFFER_TERRAINTEX:
+        pResource = CVTXTerrain::Create(pDevice, dwCountX, dwCountZ, dwVTXInterval);
+        break;
     }
 
     NULL_CHECK_RETURN(pResource, E_FAIL);
 
     m_pmapResources[iIndex].emplace(pBufferTag, pResource);
+
+    return S_OK;
+}
+
+HRESULT CGraphicResourceManager::Ready_Texture(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pTextureTag, TEXTYPE eType, const _tchar* pPath, const _uint& iCnt)
+{
+    NULL_CHECK_RETURN(m_pmapResources, E_FAIL);
+
+    CGraphicResources* pResource = Find_Resources(wContainerIdx, pTextureTag);
+    if (pResource != nullptr)
+    {
+        PRINT_LOG(L"Warring", L"Texture already Exist!");
+        return S_OK;
+    }
+
+    pResource = CTexture::Create(pDevice, pPath, eType, iCnt);
+    NULL_CHECK_RETURN(pResource, E_FAIL);
+
+    m_pmapResources[wContainerIdx].emplace(pTextureTag, pResource);
 
     return S_OK;
 }

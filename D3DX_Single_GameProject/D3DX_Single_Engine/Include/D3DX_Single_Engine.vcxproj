@@ -170,9 +170,11 @@
     <ClInclude Include="..\Headers\Renderer.h" />
     <ClInclude Include="..\Headers\Scene.h" />
     <ClInclude Include="..\Headers\SceneManager.h" />
+    <ClInclude Include="..\Headers\Texture.h" />
     <ClInclude Include="..\Headers\TimeManager.h" />
     <ClInclude Include="..\Headers\Transform.h" />
     <ClInclude Include="..\Headers\VIBuffer.h" />
+    <ClInclude Include="..\Headers\VTXTerrain.h" />
     <ClInclude Include="..\Headers\VTXTriColor.h" />
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +193,11 @@
     <ClCompile Include="..\Codes\Renderer.cpp" />
     <ClCompile Include="..\Codes\Scene.cpp" />
     <ClCompile Include="..\Codes\SceneManager.cpp" />
+    <ClCompile Include="..\Codes\Texture.cpp" />
     <ClCompile Include="..\Codes\TimeManager.cpp" />
     <ClCompile Include="..\Codes\Transform.cpp" />
     <ClCompile Include="..\Codes\VIBuffer.cpp" />
+    <ClCompile Include="..\Codes\VTXTerrain.cpp" />
     <ClCompile Include="..\Codes\VTXTriColor.cpp" />
   </ItemGroup>
   <ItemGroup>

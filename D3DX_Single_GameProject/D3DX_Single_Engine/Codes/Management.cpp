@@ -192,6 +192,11 @@ HRESULT CManagement::Ready_Buffer(_Device pDevice, const _uint& iIndex, const _t
 	return m_pGraphicManager->Ready_Buffer(pDevice,iIndex,pBufferTag,eID,dwCountX,dwCountZ,dwVTXInterval);
 }
 
+HRESULT CManagement::Ready_Texture(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pTextureTag, TEXTYPE eType, const _tchar* pPath, const _uint& iCnt)
+{
+	return m_pGraphicManager->Ready_Texture(pDevice, wContainerIdx,  pTextureTag,eType, pPath, iCnt);
+}
+
 
 CComponent* CManagement::Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag)
 {

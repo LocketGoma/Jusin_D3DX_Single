@@ -3,6 +3,8 @@
 
 #include "Player.h"
 #include "TestCamera.h"
+#include "TestTerrain.h"
+
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -17,6 +19,7 @@ HRESULT CTestStage::Ready_Scene(void)
 
     Add_Player_Layer(L"PlayerLayer");
     Add_Camera_Layer(L"CameraLayer");
+    Add_Environment_Layer(L"MapLayer");
 
     return S_OK;
 }
@@ -73,6 +76,20 @@ HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
 
     pGameObject = CTestCamera::Create(m_pDevice);
     pLayer->Add_GameObject(L"TestCamera", pGameObject);
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
+{
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    pGameObject = CTestTerrain::Create(m_pDevice);
+    pLayer->Add_GameObject(L"TestTerrain", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 
