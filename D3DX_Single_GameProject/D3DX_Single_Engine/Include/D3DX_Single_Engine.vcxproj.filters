@@ -86,6 +86,12 @@
     <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain">
       <UniqueIdentifier>{6addeb66-6d6e-46c7-b94d-2719983d6f02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.System\09.LightingManager">
+      <UniqueIdentifier>{5916737f-6d02-4c35-8732-0f31fa8e709d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\09.Light">
+      <UniqueIdentifier>{978f19e6-8b22-4411-8f3a-fd2d7d6648c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -156,6 +162,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\VTXCubeTexture.cpp">
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\05.CubeTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\LightingManager.cpp">
+      <Filter>00.System\09.LightingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Light.cpp">
+      <Filter>01.Resources\09.Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +257,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\VTXCubeTexture.h">
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\05.CubeTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\LightingManager.h">
+      <Filter>00.System\09.LightingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Light.h">
+      <Filter>01.Resources\09.Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
