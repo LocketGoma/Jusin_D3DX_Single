@@ -86,6 +86,12 @@ void CTransform::Rotation(ROTATION eType, const _float& fAngle)
 	*(((_float*)&m_TransformDesc.vRotate) + (_uint)(eType)) += fAngle;
 }
 
+void CTransform::Set_Pos(_vec3 vPos)
+{
+	m_TransformDesc.m_vInfo[(_uint)TRANSFORM_INFO::INFO_POS] = vPos;
+
+}
+
 //void CTransform::Go_Side(_float fDeltaTime)
 //{
 //	D3DXVECTOR3 vRight;
@@ -100,6 +106,10 @@ void CTransform::Rotation(ROTATION eType, const _float& fAngle)
 void CTransform::Set_Scale(_vec3 vScale)
 {
 	m_TransformDesc.vScale = vScale;
+}
+void CTransform::Set_TransformDescription(TRANSFORM_DESC* pDesc)
+{
+	memcpy(&m_TransformDesc, pDesc, sizeof(TRANSFORM_DESC));
 }
 CTransform::TRANSFORM_DESC CTransform::Get_TransformDescription()
 {

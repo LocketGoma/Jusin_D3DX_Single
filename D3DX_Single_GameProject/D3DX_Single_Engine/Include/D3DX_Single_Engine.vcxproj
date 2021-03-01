@@ -152,6 +152,7 @@
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\CameraComponent.h" />
     <ClInclude Include="..\Headers\Component.h" />
+    <ClInclude Include="..\Headers\ControlSupport.h" />
     <ClInclude Include="..\Headers\Engine_Define.h" />
     <ClInclude Include="..\Headers\Engine_Enum.h" />
     <ClInclude Include="..\Headers\Engine_Function.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="..\Codes\Base.cpp" />
     <ClCompile Include="..\Codes\CameraComponent.cpp" />
     <ClCompile Include="..\Codes\Component.cpp" />
+    <ClCompile Include="..\Codes\ControlSupport.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
     <ClCompile Include="..\Codes\GameObjectManager.cpp" />
     <ClCompile Include="..\Codes\GraphicDevice.cpp" />

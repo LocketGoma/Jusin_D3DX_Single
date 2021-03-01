@@ -7,6 +7,9 @@
 CTestCamera::CTestCamera(_Device pDevice)
     : Engine::CGameObject(pDevice)
     , m_fRotate(0.f)
+    , m_fAxisXSpeed(100.f)
+    , m_fAxisYSpeed(100.f)
+    , m_bMouseLock(true)
 {
 }
 
@@ -21,6 +24,10 @@ HRESULT CTestCamera::Ready_GameObject(void)
     ClientToScreen(g_hWnd, &ptMouse);
     SetCursorPos(ptMouse.x, ptMouse.y);
 
+
+    m_fAxisXSpeed = 150.f;
+    m_fAxisYSpeed = 100.f;
+
     return S_OK;
 }
 
@@ -30,9 +37,14 @@ _int CTestCamera::Update_GameObject(const _float& fTimeDelta)
 
     Key_Input(fTimeDelta);
 
+    if (m_bMouseLock == true)
+    {
+        Mouse_Movement();
+    }
+
     m_pTransformCom->Update_Component(fTimeDelta);
 
-    return 0;
+    return NO_EVENT;
 }
 
 _int CTestCamera::LateUpdate_GameObject(const _float& fTimeDelta)
@@ -106,8 +118,14 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
     {
         m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, fTimeDelta);
     }
+    if (pManagement->Key_Pressing(VK_OEM_3))        // = '~'
+    {
+        m_bMouseLock = m_bMouseLock == false;
+    } 
 
-
+}
+void CTestCamera::Mouse_Movement()
+{
     POINT ptMouse;
     GetCursorPos(&ptMouse);
     ScreenToClient(g_hWnd, &ptMouse);
@@ -129,8 +147,8 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
 
     //m_fRotate += vMouse.x * fTimeDelta;
 
-    m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, vMouse.x * fTimeDelta*100.f);
-    m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, -vMouse.y * fTimeDelta*100.f);
+    m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, vMouse.x * (m_fAxisXSpeed/100.f));
+    m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, -vMouse.y * (m_fAxisYSpeed / 100.f));
 
 
     ////TCHAR msg[256] = L"";
@@ -140,17 +158,36 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
     ////SetWindowText(g_hWnd, msg);
 
 
-
-    ptMouse.x = WINCX / 2;
-    ptMouse.y = WINCY / 2;
+    ptMouse.x = WINCX >> 1;
+    ptMouse.y = WINCY >> 1;
     ClientToScreen(g_hWnd, &ptMouse);
     SetCursorPos(ptMouse.x, ptMouse.y);
-
+    
 
 }
 //마우스 피킹 구현용
 void CTestCamera::Picking_Mouse()
 {
+}
+
+void CTestCamera::Set_MouseSpeedX(_float fAxisX)
+{
+    m_fAxisXSpeed = fAxisX;
+}
+
+void CTestCamera::Set_MouseSpeedY(_float fAxisY)
+{
+    m_fAxisYSpeed = fAxisY;
+}
+
+_float CTestCamera::Get_MouseSpeedX()
+{
+    return m_fAxisXSpeed;
+}
+
+_float CTestCamera::Get_MouseSpeedY()
+{
+    return m_fAxisYSpeed;
 }
 
 CTestCamera* CTestCamera::Create(_Device pDevice)

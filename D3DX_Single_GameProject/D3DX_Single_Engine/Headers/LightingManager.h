@@ -30,5 +30,6 @@ private:
 
 };
 
+END_NAMESPACE
 
 #endif // !__LIGHTING_MANAGER_H__

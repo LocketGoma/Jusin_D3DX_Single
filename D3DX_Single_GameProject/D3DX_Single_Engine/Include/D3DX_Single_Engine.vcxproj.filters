@@ -92,6 +92,9 @@
     <Filter Include="01.Resources\09.Light">
       <UniqueIdentifier>{978f19e6-8b22-4411-8f3a-fd2d7d6648c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\03.ControlSupport">
+      <UniqueIdentifier>{78d123c6-7281-4900-961b-11458a890486}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -168,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\Light.cpp">
       <Filter>01.Resources\09.Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ControlSupport.cpp">
+      <Filter>01.Resources\01.Component\03.ControlSupport</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Light.h">
       <Filter>01.Resources\09.Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ControlSupport.h">
+      <Filter>01.Resources\01.Component\03.ControlSupport</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

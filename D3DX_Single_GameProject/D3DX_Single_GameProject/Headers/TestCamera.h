@@ -28,8 +28,15 @@ public:
 private:
 	HRESULT			Add_Component(void);
 	void			Key_Input(const _float& fTimeDelta);
+	void			Mouse_Movement();
 	void			Picking_Mouse();
 
+//마우스 감도 관련
+public:
+	void Set_MouseSpeedX(_float fAxisX);
+	void Set_MouseSpeedY(_float fAxisY);
+	_float Get_MouseSpeedX();
+	_float Get_MouseSpeedY();
 public:
 	static CTestCamera* Create(_Device pDevice);	
 
@@ -38,6 +45,10 @@ private :
 
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CCameraComponent* m_pCameraCom = nullptr;
+
+	_float m_fAxisXSpeed;		//X축 감도
+	_float m_fAxisYSpeed;		//Y축 감도
+	_bool m_bMouseLock;			//마우스 락 언락
 
 	_float m_fRotate;
 

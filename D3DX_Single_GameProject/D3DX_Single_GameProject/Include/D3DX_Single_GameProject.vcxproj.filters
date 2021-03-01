@@ -59,6 +59,9 @@
     <Filter Include="01.Object\04.Terrain\00.TestTerrain">
       <UniqueIdentifier>{7f10cf5d-f658-4e87-a254-6490c98b843a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\07.SkyBox">
+      <UniqueIdentifier>{39612869-5cbd-470c-85bc-98364b0de235}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -112,6 +115,9 @@
     <ClInclude Include="..\Headers\TestTerrain.h">
       <Filter>01.Object\04.Terrain\00.TestTerrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\SkyBox.h">
+      <Filter>01.Object\07.SkyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -159,6 +165,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TestTerrain.cpp">
       <Filter>01.Object\04.Terrain\00.TestTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\SkyBox.cpp">
+      <Filter>01.Object\07.SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

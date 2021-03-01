@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "TestCamera.h"
+#include "SkyBox.h"
 #include "TestTerrain.h"
 
 
@@ -77,6 +78,9 @@ HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
     pGameObject = CTestCamera::Create(m_pDevice);
     pLayer->Add_GameObject(L"TestCamera", pGameObject);
 
+    pGameObject = CSkyBox::Create(m_pDevice, 0);
+    pLayer->Add_GameObject(L"TestSkybox", pGameObject);
+        
     m_mapLayer.emplace(pLayerTag, pLayer);
 
     return S_OK;

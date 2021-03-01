@@ -184,6 +184,42 @@ HRESULT CRenderer::Render_NoAlpha()
 
 HRESULT CRenderer::Render_HalfAlpha()
 {
+    if (m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY_ALPHA].empty() == true)
+    {
+        return S_OK;
+    }
+
+    ////알파블랜딩 먹임
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+    //알파블랜딩 옵션 적용
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD)))
+    {
+        return E_FAIL;
+    }
+    //Source픽셀(=그려야 할 픽셀) 의 혼합 비율 설정
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA)))
+    {
+        return E_FAIL;
+    }
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+            return E_FAIL;
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+
     return S_OK;
 }
 

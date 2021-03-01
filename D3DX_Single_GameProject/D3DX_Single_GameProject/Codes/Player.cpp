@@ -26,7 +26,7 @@ _int CPlayer::Update_GameObject(const _float& fTimeDelta)
 
 	Key_Input(fTimeDelta);
 
-	return 0;
+	return NO_EVENT;
 }
 
 _int CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
@@ -38,12 +38,12 @@ _int CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
-		return 0;
+		return MANAGER_OUT;
 	}
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
 		
-	return 0;
+	return NO_EVENT;
 }
 
 HRESULT CPlayer::Render_GameObject(void)
@@ -95,12 +95,12 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	if (pManagement->Key_Pressing(VK_UP))
 	{
 
-		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, fTimeDelta);
+		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, fTimeDelta);
 	}
 
 	if (pManagement->Key_Pressing(VK_DOWN))
 	{
-		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, -fTimeDelta);
+		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, -fTimeDelta);
 	}
 
 	if (pManagement->Key_Pressing(VK_LEFT))

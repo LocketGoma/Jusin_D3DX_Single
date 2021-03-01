@@ -36,7 +36,7 @@ _int CTestTerrain::LateUpdate_GameObject(const _float& fTimeDelta)
 	}
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_PRIORITY, this);
 		
-	return m_pTransformCom->LateUpdate_Component(fTimeDelta);
+	return NO_EVENT;
 }
 
 HRESULT CTestTerrain::Render_GameObject(void)
@@ -44,8 +44,17 @@ HRESULT CTestTerrain::Render_GameObject(void)
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	//텍스쳐 종류 선택 -> Set_Texture에다가 값 넣으면 됨.
-	m_pTextureCom->Set_Texture(1);
-	m_pBufferCom->Render_Buffer();
+
+	m_pTransformCom->LateUpdate_Component();
+
+	if (FAILED(m_pTextureCom->Set_Texture(1)))
+	{
+		return E_FAIL;
+	}
+	if (FAILED(m_pBufferCom->Render_Buffer()))
+	{
+		return E_FAIL;
+	}
 
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 

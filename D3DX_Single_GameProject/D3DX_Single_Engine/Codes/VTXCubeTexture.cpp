@@ -123,19 +123,27 @@ HRESULT CVTXCubeTexture::Ready_Buffer(void)
 
 HRESULT CVTXCubeTexture::Render_Buffer(void)
 {
-    return E_NOTIMPL;
+	return CVIBuffer::Render_Buffer();
 }
 
 CVTXCubeTexture* CVTXCubeTexture::Create(_Device pDevice)
 {
-    return nullptr;
+	CVTXCubeTexture* pInstance = new CVTXCubeTexture(pDevice);
+
+	if (FAILED(pInstance->Ready_Buffer()))
+	{
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 CComponent* CVTXCubeTexture::Clone(void* pArg)
 {
-    return nullptr;
+	return new CVTXCubeTexture(*this);		//new?????
 }
 
 void CVTXCubeTexture::Free()
 {
+	CVIBuffer::Free();
 }

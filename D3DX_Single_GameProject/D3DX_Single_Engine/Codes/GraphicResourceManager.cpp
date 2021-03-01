@@ -57,6 +57,9 @@ HRESULT CGraphicResourceManager::Ready_Buffer(_Device pDevice, const _uint& iInd
     case BUFFERID::BUFFER_RCTEX:
        //
         break;
+    case BUFFERID::BUFFER_CUBETEX:
+        pResource = CVTXCubeTexture::Create(pDevice);
+        break;
     case BUFFERID::BUFFER_TERRAINTEX:
         pResource = CVTXTerrain::Create(pDevice, dwCountX, dwCountZ, dwVTXInterval);
         break;

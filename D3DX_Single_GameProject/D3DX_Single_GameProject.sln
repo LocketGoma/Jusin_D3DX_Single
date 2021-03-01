@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_Engine", "D3DX_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_GameProject", "D3DX_Single_GameProject\Include\D3DX_Single_GameProject.vcxproj", "{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.TestBed", "03.TestBed", "{491A857A-55A0-4FCC-963B-237DACE999BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
