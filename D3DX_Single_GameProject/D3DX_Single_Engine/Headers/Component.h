@@ -22,7 +22,7 @@ public:
 	virtual CComponent* Clone(void* pArg = nullptr) PURE;
 
 protected:
-	virtual void  Free(void) PURE;
+	virtual void Free(void) PURE;
 
 	_bool m_bIsPrototype;
 };

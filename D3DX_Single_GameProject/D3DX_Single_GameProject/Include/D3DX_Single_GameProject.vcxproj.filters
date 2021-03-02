@@ -38,27 +38,6 @@
     <Filter Include="07.AI&amp;Algorithm\01.BaseShooter">
       <UniqueIdentifier>{a35d5837-ebb0-4edb-80fd-ba3a4f4575c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Object\01.StaticObject">
-      <UniqueIdentifier>{b66ecb36-a461-4d77-b3c4-3f3f39786a79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Object\02.DynamicObject">
-      <UniqueIdentifier>{2be581b9-6487-4022-aa0a-e821f9d2e0a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Object\00.Player">
-      <UniqueIdentifier>{d50e7383-afbf-49fa-b9ee-0787d7bf34b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Object\03.Camera">
-      <UniqueIdentifier>{9c2ddd88-51c6-484a-8ed0-86c664fce97b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Object\03.Camera\00.TestCamera">
-      <UniqueIdentifier>{f7f3516d-b05f-4daf-af48-ecfdef50568b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Object\04.Terrain">
-      <UniqueIdentifier>{88216a3b-7335-4903-8c45-d75a37bf1cca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Object\04.Terrain\00.TestTerrain">
-      <UniqueIdentifier>{7f10cf5d-f658-4e87-a254-6490c98b843a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Object\07.SkyBox">
       <UniqueIdentifier>{39612869-5cbd-470c-85bc-98364b0de235}</UniqueIdentifier>
     </Filter>
@@ -70,6 +49,30 @@
     </Filter>
     <Filter Include="02.Scene\01.Logo\00.LogoImage">
       <UniqueIdentifier>{709a0607-cfee-4f76-b215-cdbb596d9e43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\00.TestObject">
+      <UniqueIdentifier>{820d7cdc-6b74-43e3-8dd6-6a8efb2738d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\01.Player">
+      <UniqueIdentifier>{d50e7383-afbf-49fa-b9ee-0787d7bf34b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\02.StaticObject">
+      <UniqueIdentifier>{b66ecb36-a461-4d77-b3c4-3f3f39786a79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\03.DynamicObject">
+      <UniqueIdentifier>{2be581b9-6487-4022-aa0a-e821f9d2e0a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\04.Camera">
+      <UniqueIdentifier>{9c2ddd88-51c6-484a-8ed0-86c664fce97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\04.Camera\00.TestCamera">
+      <UniqueIdentifier>{f7f3516d-b05f-4daf-af48-ecfdef50568b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\05.Terrain">
+      <UniqueIdentifier>{88216a3b-7335-4903-8c45-d75a37bf1cca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\05.Terrain\00.TestTerrain">
+      <UniqueIdentifier>{7f10cf5d-f658-4e87-a254-6490c98b843a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -110,19 +113,19 @@
       <Filter>02.Scene\01.Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Player.h">
-      <Filter>01.Object\00.Player</Filter>
+      <Filter>01.Object\01.Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\DynamicObject.h">
-      <Filter>01.Object\02.DynamicObject</Filter>
+      <Filter>01.Object\03.DynamicObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\TestCamera.h">
-      <Filter>01.Object\03.Camera\00.TestCamera</Filter>
+      <Filter>01.Object\04.Camera\00.TestCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\StaticObject.h">
-      <Filter>01.Object\01.StaticObject</Filter>
+      <Filter>01.Object\02.StaticObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\TestTerrain.h">
-      <Filter>01.Object\04.Terrain\00.TestTerrain</Filter>
+      <Filter>01.Object\05.Terrain\00.TestTerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\SkyBox.h">
       <Filter>01.Object\07.SkyBox</Filter>
@@ -132,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\LogoImage.h">
       <Filter>02.Scene\01.Logo\00.LogoImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TestObject.h">
+      <Filter>01.Object\00.TestObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,19 +173,19 @@
       <Filter>02.Scene\01.Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Player.cpp">
-      <Filter>01.Object\00.Player</Filter>
+      <Filter>01.Object\01.Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\DynamicObject.cpp">
-      <Filter>01.Object\02.DynamicObject</Filter>
+      <Filter>01.Object\03.DynamicObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\TestCamera.cpp">
-      <Filter>01.Object\03.Camera\00.TestCamera</Filter>
+      <Filter>01.Object\04.Camera\00.TestCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\StaticObject.cpp">
-      <Filter>01.Object\01.StaticObject</Filter>
+      <Filter>01.Object\02.StaticObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\TestTerrain.cpp">
-      <Filter>01.Object\04.Terrain\00.TestTerrain</Filter>
+      <Filter>01.Object\05.Terrain\00.TestTerrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\SkyBox.cpp">
       <Filter>01.Object\07.SkyBox</Filter>
@@ -189,6 +195,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\LogoImage.cpp">
       <Filter>02.Scene\01.Logo\00.LogoImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TestObject.cpp">
+      <Filter>01.Object\00.TestObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

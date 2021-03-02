@@ -166,6 +166,7 @@
     <ClInclude Include="..\Headers\StaticObject.h" />
     <ClInclude Include="..\Headers\TestCamera.h" />
     <ClInclude Include="..\Headers\TestLight.h" />
+    <ClInclude Include="..\Headers\TestObject.h" />
     <ClInclude Include="..\Headers\TestStage.h" />
     <ClInclude Include="..\Headers\TestTerrain.h" />
     <ClInclude Include="D3DX_Single_GameProject.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\Codes\StaticObject.cpp" />
     <ClCompile Include="..\Codes\TestCamera.cpp" />
     <ClCompile Include="..\Codes\TestLight.cpp" />
+    <ClCompile Include="..\Codes\TestObject.cpp" />
     <ClCompile Include="..\Codes\TestStage.cpp" />
     <ClCompile Include="..\Codes\TestTerrain.cpp" />
     <ClCompile Include="D3DX_Single_GameProject.cpp" />

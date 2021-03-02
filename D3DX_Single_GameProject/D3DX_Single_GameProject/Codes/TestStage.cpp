@@ -6,7 +6,7 @@
 #include "SkyBox.h"
 #include "TestTerrain.h"
 #include "TestLight.h"
-
+#include "TestObject.h"
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -20,6 +20,7 @@ HRESULT CTestStage::Ready_Scene(void)
     SetWindowText(g_hWnd, L"Test Stage");
 
     Add_Player_Layer(L"PlayerLayer");
+    Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
 
@@ -68,6 +69,20 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
 
     pGameObject = CPlayer::Create(m_pDevice);
     pLayer->Add_GameObject(L"TestPlayer", pGameObject);
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
+{
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    pGameObject = CTestObject::Create(m_pDevice);
+    pLayer->Add_GameObject(L"TestObject", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 

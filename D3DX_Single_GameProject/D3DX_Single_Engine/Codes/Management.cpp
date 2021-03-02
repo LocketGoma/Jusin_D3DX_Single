@@ -197,6 +197,11 @@ HRESULT CManagement::Ready_Texture(_Device pDevice, const _ushort& wContainerIdx
 	return m_pGraphicManager->Ready_Texture(pDevice, wContainerIdx,  pTextureTag,eType, pPath, iCnt);
 }
 
+HRESULT CManagement::Ready_Meshes(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pMeshTag, MESHTYPE eType, const _tchar* pFilePath, const _tchar* pFileName)
+{
+	return m_pGraphicManager->Ready_Meshes(pDevice,wContainerIdx,pMeshTag,eType,pFilePath,pFileName);
+}
+
 
 CComponent* CManagement::Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag)
 {

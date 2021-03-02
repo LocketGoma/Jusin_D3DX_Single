@@ -1,25 +1,21 @@
 #pragma once
 
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
+#ifndef __TEST_OBJECT_H__
 
 #include "GameObject.h"
 #include "Base.h"
 
-
-
 BEGIN_NAMESPACE(Engine)
-
-class CVTXTriColor;
+class CStaticMesh;
 class CTransform;
 
 END_NAMESPACE
 
-class CPlayer : public Engine::CGameObject
+class CTestObject : public Engine::CGameObject
 {
 private:
-	explicit CPlayer(_Device pDevice);
-	virtual ~CPlayer(void) = default;
+	explicit CTestObject(_Device pDevice);
+	virtual ~CTestObject() = default;
 
 public:
 	virtual HRESULT Ready_GameObject(void) override;
@@ -29,24 +25,17 @@ public:
 
 private:
 	HRESULT			Add_Component(void);
-	void			Key_Input(const _float& fTimeDelta);
 
 private:
-	Engine::CVTXTriColor* m_pBufferCom = nullptr;
-	//Engine::CTexture* m_pTextureCom = nullptr;
+	Engine::CStaticMesh* m_pMeshCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
 
-
-	_vec3					m_vDir;
-
 public:
-	static CPlayer* Create(_Device pDevice);
+	static CTestObject* Create(_Device pDevice);
 private:
 	virtual void Free(void) override;
-
-
 
 };
 
 
-#endif // !__PLAYER_H__
+#endif // !__TEST_OBJECT_H__

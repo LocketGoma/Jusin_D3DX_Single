@@ -95,6 +95,15 @@
     <Filter Include="01.Resources\01.Component\03.ControlSupport">
       <UniqueIdentifier>{78d123c6-7281-4900-961b-11458a890486}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh">
+      <UniqueIdentifier>{ce019c53-5ea5-48a2-a0c2-c7ce2db024f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\00.StaticMesh">
+      <UniqueIdentifier>{06c71ae7-cf81-4a05-8e33-233b6aabd414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh">
+      <UniqueIdentifier>{446296bb-7896-4f01-9cce-0898ae651531}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -174,6 +183,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\ControlSupport.cpp">
       <Filter>01.Resources\01.Component\03.ControlSupport</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\StaticMesh.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\00.StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Mesh.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +287,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\ControlSupport.h">
       <Filter>01.Resources\01.Component\03.ControlSupport</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\StaticMesh.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\00.StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Mesh.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

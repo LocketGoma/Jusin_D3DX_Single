@@ -70,7 +70,7 @@ HRESULT CTestTerrain::Add_Component(void)
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
-		return 0;
+		return MANAGER_OUT;
 	}
 
 	Engine::CComponent* pComponent = nullptr;

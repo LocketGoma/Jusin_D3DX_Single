@@ -91,6 +91,48 @@ HRESULT CGraphicResourceManager::Ready_Texture(_Device pDevice, const _ushort& w
     return S_OK;
 }
 
+HRESULT CGraphicResourceManager::Ready_Meshes(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pMeshTag, MESHTYPE eType, const _tchar* pFilePath, const _tchar* pFileName)
+{
+    if (m_pmapResources == nullptr)
+    {
+        PRINT_LOG(L"FATAL ERROR", L"Resource Container not Reserved!");
+        return E_FAIL;
+    }
+
+    //이미 준비된 리소스인가 검사
+    CGraphicResources* pResource = Find_Resources(wContainerIdx, pMeshTag);
+
+    if (pResource != nullptr)
+    {
+        TCHAR msg[256] = L"";
+        TCHAR Omsg[] = L"Mesh < %s > is already Exist";
+
+        swprintf_s(msg, Omsg, pMeshTag);
+
+        PRINT_LOG(L"Warring", msg);
+
+        return S_OK;
+    }
+
+    switch (eType)
+    {
+    case Engine::MESHTYPE::MESH_STATIC:
+        pResource = CStaticMesh::Create(pDevice,pFilePath,pFileName);
+        break;
+    case Engine::MESHTYPE::MESH_DYNAMIC:
+        break;
+    case Engine::MESHTYPE::MESH_NAVI:
+        break;
+    case Engine::MESHTYPE::MESH_END:
+        break;
+    default:
+        break;
+    }
+
+
+    return S_OK;
+}
+
 CComponent* CGraphicResourceManager::Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag)
 {
     if (nullptr == m_pmapResources)

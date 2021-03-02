@@ -14,6 +14,8 @@
 
 #include "Texture.h"
 
+#include "StaticMesh.h"
+
 BEGIN_NAMESPACE(Engine)
 
 class ENGINE_DLL CGraphicResourceManager : public CBase
@@ -30,6 +32,7 @@ public:
 	//디바이스 정보, 인덱스 정보, 버퍼 태그명, 버퍼 아이디, 사이즈 (X,Y), 버텍스별 간격
 	HRESULT Ready_Buffer(_Device pDevice, const _uint& iIndex, const _tchar* pBufferTag, BUFFERID eID, const _ulong& dwCountX = 129, const _ulong& dwCountZ = 129, const _ulong& dwVTXInterval = 1);
 	HRESULT	Ready_Texture(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pTextureTag, TEXTYPE eType, const _tchar* pPath, const _uint& iCnt = 1);
+	HRESULT Ready_Meshes(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pMeshTag, MESHTYPE eType, const _tchar* pFilePath, const _tchar* pFileName);
 
 	CComponent* Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag);
 
