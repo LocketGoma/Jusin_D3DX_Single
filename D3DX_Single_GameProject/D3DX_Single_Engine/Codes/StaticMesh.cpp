@@ -92,7 +92,9 @@ CStaticMesh* CStaticMesh::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pF
 	CStaticMesh* pInstance = new CStaticMesh(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Meshes(pFilePath, pFileName)))
+	{
 		Safe_Release(pInstance);
+	}
 
 	return pInstance;
 }

@@ -14,6 +14,8 @@ HRESULT CTestObject::Ready_GameObject(void)
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
+
     return S_OK;
 }
 
@@ -59,7 +61,7 @@ HRESULT CTestObject::Add_Component(void)
 
 
 	// StaticMesh
-	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement-> Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Stone"));
+	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement-> Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_HL2Dog"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Mesh", pComponent);
 

@@ -129,6 +129,7 @@ HRESULT CGraphicResourceManager::Ready_Meshes(_Device pDevice, const _ushort& wC
         break;
     }
 
+    m_pmapResources[wContainerIdx].emplace(pMeshTag, pResource);
 
     return S_OK;
 }
