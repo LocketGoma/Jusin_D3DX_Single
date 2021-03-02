@@ -68,6 +68,9 @@
     <Filter Include="01.Object\09.Light\00.TestLight">
       <UniqueIdentifier>{9883b46a-a405-46e6-b57b-603b993055b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\01.Logo\00.LogoImage">
+      <UniqueIdentifier>{709a0607-cfee-4f76-b215-cdbb596d9e43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -127,6 +130,9 @@
     <ClInclude Include="..\Headers\TestLight.h">
       <Filter>01.Object\09.Light\00.TestLight</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\LogoImage.h">
+      <Filter>02.Scene\01.Logo\00.LogoImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -180,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TestLight.cpp">
       <Filter>01.Object\09.Light\00.TestLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\LogoImage.cpp">
+      <Filter>02.Scene\01.Logo\00.LogoImage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

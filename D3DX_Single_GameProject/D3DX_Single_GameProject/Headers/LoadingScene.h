@@ -11,17 +11,28 @@
 class CLoadingScene : public Engine::CScene
 {
 private:
-	explicit CLoadingScene(_Device pDevice, ESceneType eSceneID);
+	explicit CLoadingScene(_Device pDevice, LOADINGID eSceneID);
 	virtual ~CLoadingScene() = default;
 
+//기본
 public:
 	virtual HRESULT		Ready_Scene(void);
 	virtual _int		Update_Scene(const _float& fTimeDelta);
 	virtual _int		LateUpdate_Scene(const _float& fTimeDelta);
 	virtual void		Render_Scene(void);
 
+//Getter
 public:
-	static unsigned _stdcall LoadingByThread(void* pParam);
+	LOADINGID	Get_LoadingID() const;
+	CRITICAL_SECTION* Get_CriticalSection();
+	const _tchar* Get_String() const;
+
+//로딩 관련
+public:
+	HRESULT	Ready_Loading(LOADINGID eLoadingID);
+	
+
+	static unsigned __stdcall LoadingByThread(void* pParam);
 	_bool IsFinished();
 
 private:
@@ -30,14 +41,16 @@ private:
 	virtual void Free() override;
 
 public:
-	static CLoadingScene* Create(_Device pDevice, ESceneType eSceneID);
+	static CLoadingScene* Create(_Device pDevice, LOADINGID eSceneID);
 
 private:
-	HANDLE m_hLoadingThread;
-	CRITICAL_SECTION m_pCritSection;
+	HANDLE				m_hLoadingThread;
+	CRITICAL_SECTION	m_pCritSection;
 
-	ESceneType m_eNextLoadScene;
-	_bool m_bLoadFinished = false;
+	LOADINGID			m_eNextLoadScene;
+	_bool				m_bLoadFinished = false;
+
+	_tchar				m_szString[256];
 
 };
 

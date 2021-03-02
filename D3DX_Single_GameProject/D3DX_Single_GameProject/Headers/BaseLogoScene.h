@@ -22,7 +22,7 @@ public:
 
 public:
 	HRESULT Ready_Resource(_Device pDevice);
-
+	HRESULT Ready_Layer(const _tchar* pLayerTag);
 
 private:
 	HANDLE		m_hThread;
@@ -35,10 +35,10 @@ private:
 	CLoadingScene* m_pLoading;
 
 public:
-	static unsigned int __stdcall Thread_Load(void* pArg);
+	static CBaseLogoScene* Create(_Device pDevice);
 
-public:
-	static CBaseLogoScene* Create(_Device pDevice, LOADINGID eLoadingID);
+private:
+	virtual void Free() override;
 
 };
 

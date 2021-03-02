@@ -3,7 +3,7 @@
 
 #include "VTXTriColor.h"
 #include "Transform.h"
-#include "..\Headers\Player.h"
+#include "Player.h"
 
 CPlayer::CPlayer(_Device pDevice)
 	: Engine::CGameObject(pDevice)
@@ -66,7 +66,7 @@ HRESULT CPlayer::Add_Component(void)
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
-		return 0;
+		return MANAGER_OUT;
 	}
 	
 	Engine::CComponent* pComponent = nullptr;

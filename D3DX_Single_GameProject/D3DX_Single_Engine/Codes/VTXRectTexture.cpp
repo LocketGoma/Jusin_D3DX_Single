@@ -25,22 +25,22 @@ HRESULT CVTXRectTexture::Ready_Buffer(void)
 
 	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
-	VTXTEX* pVtxCol = NULL;
+	VTXTEX* pVertex = NULL;
 
-	m_pVB->Lock(0, 0, (void**)&pVtxCol, 0);
+	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 	// 모든 정점의 접근 권한을 잠궈버림, pVtxCol에게 모든 정점 중 첫 번째 주소를 추출하여 삽입
 
-	pVtxCol[0].vPosition = _vec3(-0.5f, -0.5f, 0.f);
-	pVtxCol[0].vTexUV = _vec2(0.f, 0.f);
+	pVertex[0].vPosition = _vec3(-0.5f, 0.5f, 0.f);
+	pVertex[0].vTexUV = _vec2(0.f, 0.f);
 
-	pVtxCol[1].vPosition = _vec3(0.5f, 0.5f, 0.f);
-	pVtxCol[1].vTexUV = _vec2(1.f, 0.f);
+	pVertex[1].vPosition = _vec3(0.5f, 0.5f, 0.f);
+	pVertex[1].vTexUV = _vec2(1.f, 0.f);
 
-	pVtxCol[2].vPosition = _vec3(0.5f, -0.5f, 0.f);
-	pVtxCol[2].vTexUV = _vec2(1.f, 1.f);
+	pVertex[2].vPosition = _vec3(0.5f, -0.5f, 0.f);
+	pVertex[2].vTexUV = _vec2(1.f, 1.f);
 
-	pVtxCol[3].vPosition = _vec3(-0.5f, 0.5f, 0.f);
-	pVtxCol[3].vTexUV = _vec2(0.f, 1.f);
+	pVertex[3].vPosition = _vec3(-0.5f, -0.5f, 0.f);
+	pVertex[3].vTexUV = _vec2(0.f, 1.f);
 
 	m_pVB->Unlock();
 

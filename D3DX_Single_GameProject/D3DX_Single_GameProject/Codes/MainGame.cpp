@@ -3,6 +3,7 @@
 
 #include "Management.h"
 #include "TestStage.h"
+#include "BaseLogoScene.h"
 
 #include "Transform.h"
 #include "CameraComponent.h"
@@ -41,10 +42,11 @@ HRESULT CMainGame::Ready_MainGame()
 
 
     
-    Ready_Scene();
+    //Ready_Scene();
 
 
-    m_pManagement->Setup_CurrentScene(1, CTestStage::Create(m_pDevice));
+    m_pManagement->Setup_CurrentScene((_uint)ESceneType::STAGE_LOGO, CBaseLogoScene::Create(m_pDevice));
+    //m_pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_TEST, CTestStage::Create(m_pDevice));
 
     return S_OK;
 }

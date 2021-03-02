@@ -8,6 +8,7 @@
 
 //여기에 그래픽 리소스 헤더 입력
 #include "VTXTriColor.h"
+#include "VTXRectTexture.h"
 #include "VTXTerrain.h"
 #include "VTXCubeTexture.h"
 
