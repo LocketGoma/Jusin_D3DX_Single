@@ -18,7 +18,7 @@ private:
 	virtual ~CLightingManager() = default;
 
 public:
-	HRESULT Ready_Light();
+	HRESULT Ready_Light(_Device pDevice, const D3DLIGHT9* pLightInfo, const _uint& iIndex);
 	HRESULT Set_Light(const _uint& iIndex, _bool bSetType);
 
 private:
@@ -27,6 +27,7 @@ private:
 private:
 	virtual void Free(void);
 
+	_Device m_pDevice;		//?
 
 };
 

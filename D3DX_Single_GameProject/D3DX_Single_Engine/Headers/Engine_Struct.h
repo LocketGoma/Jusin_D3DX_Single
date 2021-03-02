@@ -5,10 +5,6 @@
 
 BEGIN_NAMESPACE(Engine)
 
-
-
-
-
 typedef struct tagVertexColor
 {
 	_vec3		vPosition;

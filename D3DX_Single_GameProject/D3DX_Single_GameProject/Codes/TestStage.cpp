@@ -5,6 +5,7 @@
 #include "TestCamera.h"
 #include "SkyBox.h"
 #include "TestTerrain.h"
+#include "TestLight.h"
 
 
 CTestStage::CTestStage(_Device pDevice)
@@ -47,6 +48,10 @@ _int CTestStage::LateUpdate_Scene(const _float& fTimeDelta)
 
 void CTestStage::Render_Scene(void)
 {
+ //라이트 세팅
+
+ //
+
     CScene::Render_Scene();
 }
 
@@ -93,7 +98,13 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     Engine::CGameObject* pGameObject = nullptr;
 
     pGameObject = CTestTerrain::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"TestTerrain", pGameObject);
+
+    pGameObject = CTestLight::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
+
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 

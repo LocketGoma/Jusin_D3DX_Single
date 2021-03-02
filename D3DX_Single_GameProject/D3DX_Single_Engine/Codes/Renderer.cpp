@@ -225,16 +225,123 @@ HRESULT CRenderer::Render_HalfAlpha()
 
 HRESULT CRenderer::Render_Alpha()
 {
+    //얘는 알파테스팅
+
+    if (m_GameObjects[(_uint)RENDERID::RENDER_ALPHA].empty())
+    {
+        return S_OK;
+    }
+
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAREF, 128)))         //알파값 조절시 얘 바꾸면 됨
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER)))
+    {
+        return E_FAIL;
+    }
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+            return E_FAIL;
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+
     return S_OK;
 }
 
 HRESULT CRenderer::Render_Wireframe()
 {
+    //연산 많이 처먹으니까 오브젝트 하나도 없으면 생략
+    if (m_GameObjects[(_uint)RENDERID::RENDER_WIREFRAME].empty())
+    {
+        return S_OK;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME)))
+    {
+        return E_FAIL;
+    }
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_WIREFRAME])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+            return E_FAIL;
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_WIREFRAME].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID)))
+    {
+        return E_FAIL;
+    }
+
     return S_OK;
 }
 
 HRESULT CRenderer::Render_UI()
 {
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAREF, 128)))         //알파값 조절시 얘 바꾸면 됨
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER)))
+    {
+        return E_FAIL;
+    }
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_UI])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+            return E_FAIL;
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_UI].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+
+
+
+
     return S_OK;
 }
 

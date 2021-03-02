@@ -62,6 +62,12 @@
     <Filter Include="01.Object\07.SkyBox">
       <UniqueIdentifier>{39612869-5cbd-470c-85bc-98364b0de235}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\09.Light">
+      <UniqueIdentifier>{91b74688-ea82-4a17-bf05-233845cd4539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\09.Light\00.TestLight">
+      <UniqueIdentifier>{9883b46a-a405-46e6-b57b-603b993055b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -118,6 +124,9 @@
     <ClInclude Include="..\Headers\SkyBox.h">
       <Filter>01.Object\07.SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\TestLight.h">
+      <Filter>01.Object\09.Light\00.TestLight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -168,6 +177,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\SkyBox.cpp">
       <Filter>01.Object\07.SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TestLight.cpp">
+      <Filter>01.Object\09.Light\00.TestLight</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

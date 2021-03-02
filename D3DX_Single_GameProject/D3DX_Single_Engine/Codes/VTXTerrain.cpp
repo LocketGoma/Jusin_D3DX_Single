@@ -38,8 +38,6 @@ void CVTXTerrain::Copy_Index(INDEX32* pIndex, const _ulong& dwTriCount)
 {
 }
 
-
-
 HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ, const _ulong& dwVTXInterval)
 {
     m_dwTriCount = (dwCountX - 1) * (dwCountZ - 1) * 2; //삼각형개수
@@ -89,6 +87,8 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
 
             pVertex[dwIndex].vTexUV = _vec2(_float(j) / (dwCountX - 1) * 20.f,
                 _float(i) / (dwCountZ - 1) * 20.f);
+
+            pVertex[dwIndex].vNormal = _vec3(0.f, 0.f, 0.f);
         }
     }
     m_pVB->Unlock();
@@ -127,6 +127,32 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
     m_pIB->Unlock();
 
     //인덱스 지정 끝
+
+    //노멀 벡터 지정 (느려지면 함수 위치 바꿀것)
+    m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+
+    for (_ulong i = 0; i < dwTriIndex; i++)
+    {
+        _vec3 p1, p2, pNormal;
+        p1 = pVertex[pIndex[i]._1].vPosition - pVertex[pIndex[i]._0].vPosition;
+        p2 = pVertex[pIndex[i]._2].vPosition - pVertex[pIndex[i]._0].vPosition;
+
+        D3DXVec3Cross(&pNormal, &p1, &p2);
+        D3DXVec3Normalize(&pNormal, &pNormal);
+
+        pVertex[pIndex[i]._0].vNormal += pNormal;
+        pVertex[pIndex[i]._1].vNormal += pNormal;
+        pVertex[pIndex[i]._2].vNormal += pNormal;
+        
+        //노멀라이즈를 몇번하는거야;
+        D3DXVec3Normalize(&pVertex[pIndex[i]._0].vNormal, &pVertex[pIndex[i]._0].vNormal);
+        D3DXVec3Normalize(&pVertex[pIndex[i]._1].vNormal, &pVertex[pIndex[i]._1].vNormal);
+        D3DXVec3Normalize(&pVertex[pIndex[i]._2].vNormal, &pVertex[pIndex[i]._2].vNormal);
+    }
+
+    m_pVB->Unlock();
+
+    //노멀 벡터 지정 끝
 
 
     return S_OK;

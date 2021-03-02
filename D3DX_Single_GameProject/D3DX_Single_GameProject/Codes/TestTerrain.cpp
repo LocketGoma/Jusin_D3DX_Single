@@ -41,7 +41,8 @@ _int CTestTerrain::LateUpdate_GameObject(const _float& fTimeDelta)
 
 HRESULT CTestTerrain::Render_GameObject(void)
 {
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 	//텍스쳐 종류 선택 -> Set_Texture에다가 값 넣으면 됨.
 
@@ -50,13 +51,16 @@ HRESULT CTestTerrain::Render_GameObject(void)
 	if (FAILED(m_pTextureCom->Set_Texture(1)))
 	{
 		return E_FAIL;
-	}
+	}	
+
+	FAILED_CHECK_RETURN(SetUp_Material(), );
+
 	if (FAILED(m_pBufferCom->Render_Buffer()))
 	{
 		return E_FAIL;
 	}
 
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
 }
@@ -86,6 +90,23 @@ HRESULT CTestTerrain::Add_Component(void)
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Transform", pComponent);
+
+	return S_OK;
+}
+
+HRESULT CTestTerrain::SetUp_Material()
+{
+	D3DMATERIAL9			tMtrlInfo;
+	ZeroMemory(&tMtrlInfo, sizeof(tMtrlInfo));
+
+
+	tMtrlInfo.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrlInfo.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
+	tMtrlInfo.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrlInfo.Emissive = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+	tMtrlInfo.Power = 0.f;
+
+	m_pDevice->SetMaterial(&tMtrlInfo);
 
 	return S_OK;
 }
