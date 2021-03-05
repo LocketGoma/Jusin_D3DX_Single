@@ -7,7 +7,7 @@
 
 BEGIN_NAMESPACE(Engine)
 
-class CVTXCubeTexture : public CVIBuffer
+class ENGINE_DLL CVTXCubeTexture : public CVIBuffer
 {
 private:
 	explicit CVTXCubeTexture(_Device pDevice);
@@ -18,13 +18,14 @@ public:
 	// CVIBuffer을(를) 통해 상속됨
 	virtual HRESULT Ready_Buffer(void) override;
 	virtual HRESULT Render_Buffer(void) override;
-
+	virtual HRESULT Change_Color(D3DXCOLOR _Color) override;			//텍스쳐 쓰는데서는 안씀
 
 	static CVTXCubeTexture* Create(_Device pDevice);
 	virtual CComponent* Clone(void* pArg = nullptr) override;
 
 private:
 	virtual void Free() override;
+
 
 };
 

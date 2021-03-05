@@ -23,8 +23,8 @@ private:
 
 public:
 	virtual HRESULT Ready_GameObject(_uint iTexNumber = 0);
-	virtual _int Update_GameObject(const _float& fTimeDelta) override;
-	virtual _int LateUpdate_GameObject(const _float& fTimeDelta) override;
+	virtual _int Update_GameObject(const _float& fDeltaTime) override;
+	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
 private:

@@ -190,6 +190,9 @@
     <ClCompile Include="..\Codes\Mesh.cpp">
       <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\VTXCubeColor.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\04.CubeColor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\GraphicDevice.h">
@@ -293,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\Mesh.h">
       <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VTXCubeColor.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\04.CubeColor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

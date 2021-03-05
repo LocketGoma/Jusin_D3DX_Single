@@ -12,9 +12,10 @@ extern HWND g_hWnd;
 #define TERRAIN_VTX_INTERVAL 1.f
 
 //옵션 넣을거 있으면 넣으세요
-#define NO_EVENT		0x0000
-#define OBJ_DEAD		0x0001
-#define MANAGER_OUT		0x0002
+#define NO_EVENT		0x00
+#define OBJ_DEAD		0x01
+#define MANAGER_OUT		0x02
+#define FATAL_ERROR		0xFF
 
 #define CHANGE_SCENE	0x10
 

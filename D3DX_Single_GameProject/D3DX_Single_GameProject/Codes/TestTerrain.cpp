@@ -17,17 +17,17 @@ HRESULT CTestTerrain::Ready_GameObject(void)
 	return S_OK;
 }
 
-_int CTestTerrain::Update_GameObject(const _float& fTimeDelta)
+_int CTestTerrain::Update_GameObject(const _float& fDeltaTime)
 {
-	Engine::CGameObject::Update_GameObject(fTimeDelta);
+	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
 
 	return 0;
 }
 
-_int CTestTerrain::LateUpdate_GameObject(const _float& fTimeDelta)
+_int CTestTerrain::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	Engine::CGameObject::LateUpdate_GameObject(fTimeDelta);
+	Engine::CGameObject::LateUpdate_GameObject(fDeltaTime);
 
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)

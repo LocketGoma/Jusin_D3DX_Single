@@ -21,13 +21,13 @@ private:
 
 public:
 	virtual HRESULT Ready_GameObject(void) override;
-	virtual _int	Update_GameObject(const _float& fTimeDelta) override;
-	virtual _int	LateUpdate_GameObject(const _float& fTimeDelta) override;
+	virtual _int	Update_GameObject(const _float& fDeltaTime) override;
+	virtual _int	LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
 private:
 	HRESULT			Add_Component(void);
-	void			Key_Input(const _float& fTimeDelta);
+	void			Key_Input(const _float& fDeltaTime);
 	void			Mouse_Movement();
 	void			Picking_Mouse();
 

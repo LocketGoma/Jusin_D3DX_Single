@@ -74,12 +74,12 @@ HRESULT CCameraComponent::Ready_Camera()
     return S_OK;
 }
 
-_int CCameraComponent::Update_Component(const _float& fTimeDelta)
+_int CCameraComponent::Update_Component(const _float& fDeltaTime)
 {
     return _int();
 }
 
-_int CCameraComponent::LateUpdate_Component(const _float& fTimeDelta)
+_int CCameraComponent::LateUpdate_Component(const _float& fDeltaTime)
 {
     //ºä Çà·Ä ¼¼ÆÃ
     D3DXMatrixLookAtLH(&m_CameraDesc.matView, &m_CameraDesc.vEye, &m_CameraDesc.vAt, &m_CameraDesc.vUp);

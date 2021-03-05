@@ -1,59 +1,52 @@
-#include "VTXCubeTexture.h"
+#include "VTXCubeColor.h"
 
 USING(Engine)
 
-CVTXCubeTexture::CVTXCubeTexture(_Device pDevice)
-    : CVIBuffer(pDevice)
+CVTXCubeColor::CVTXCubeColor(_Device pDevice)
+	: CVIBuffer(pDevice)
 {
 }
 
-CVTXCubeTexture::CVTXCubeTexture(const CVTXCubeTexture& other)
-    : CVIBuffer(other)
+CVTXCubeColor::CVTXCubeColor(const CVTXCubeColor& other)
+	: CVIBuffer(other)
 {
-    m_bIsPrototype = false;
+	m_bIsPrototype = false;
 }
 //È÷È÷ ±ÍÂú¾Æ º¹ºÙÇÏ±â
-HRESULT CVTXCubeTexture::Ready_Buffer(void)
+HRESULT CVTXCubeColor::Ready_Buffer(void)
 {
 	m_dwVTXCount = 8;
 	m_dwTriCount = 12;
-	m_dwVTXSize = sizeof(VTXCUBE);
-	m_dwFVF = FVF_CUBE;
+	m_dwVTXSize = sizeof(VTX_CUBE_COLOR_N);
+	m_dwFVF = FVF_CUBECOLORN;
 
 	m_dwIndexSize = sizeof(INDEX16);
 	m_IndexFormat = D3DFMT_INDEX16;
 
 	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
-	VTXCUBE* pVertex = nullptr;
+	VTX_CUBE_COLOR_N* pVertex = nullptr;
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 
 	// ¾Õ¸é
 	pVertex[0].vPosition = _vec3(-0.5f, 0.5f, -0.5f);
-	pVertex[0].vTexUV = pVertex[0].vPosition;
-
 	pVertex[1].vPosition = _vec3(0.5f, 0.5f, -0.5f);
-	pVertex[1].vTexUV = pVertex[1].vPosition;
-
 	pVertex[2].vPosition = _vec3(0.5f, -0.5f, -0.5f);
-	pVertex[2].vTexUV = pVertex[2].vPosition;
-
 	pVertex[3].vPosition = _vec3(-0.5f, -0.5f, -0.5f);
-	pVertex[3].vTexUV = pVertex[3].vPosition;
 
 	// µÞ¸é
 	pVertex[4].vPosition = _vec3(-0.5f, 0.5f, 0.5f);
-	pVertex[4].vTexUV = pVertex[4].vPosition;
-
 	pVertex[5].vPosition = _vec3(0.5f, 0.5f, 0.5f);
-	pVertex[5].vTexUV = pVertex[5].vPosition;
-
 	pVertex[6].vPosition = _vec3(0.5f, -0.5f, 0.5f);
-	pVertex[6].vTexUV = pVertex[6].vPosition;
-
 	pVertex[7].vPosition = _vec3(-0.5f, -0.5f, 0.5f);
-	pVertex[7].vTexUV = pVertex[7].vPosition;
+
+	for (int i = 0; i < 8; i++) {
+		pVertex[i].wColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	}
+
+	//m_pVertexArr = new VTX_CUBE_COLOR_N[m_dwVTXCount];
+	//memcpy(m_pVertexArr, pVertex, m_dwVTXCount * m_dwVTXSize);
 
 	m_pVB->Unlock();
 
@@ -121,14 +114,35 @@ HRESULT CVTXCubeTexture::Ready_Buffer(void)
 	return S_OK;
 }
 
-HRESULT CVTXCubeTexture::Render_Buffer(void)
+HRESULT CVTXCubeColor::Render_Buffer(void)
 {
 	return CVIBuffer::Render_Buffer();
 }
 
-CVTXCubeTexture* CVTXCubeTexture::Create(_Device pDevice)
+HRESULT CVTXCubeColor::Change_Color(D3DXCOLOR _Color)
 {
-	CVTXCubeTexture* pInstance = new CVTXCubeTexture(pDevice);
+	if (m_pVB == nullptr)
+	{
+		return E_FAIL;
+	}
+	VTX_CUBE_COLOR_N* pVertex = nullptr;
+	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+
+	for (int i = 0; i < 8; i++)
+	{
+		//pVertex[i].vPosition = ((VTX_CUBE_COLOR_N*)m_pVertexArr[i]).vPosition;
+		pVertex[i].wColor = _Color;
+	}
+
+	m_pVB->Unlock();
+
+
+	return S_OK;
+}
+
+CVTXCubeColor* CVTXCubeColor::Create(_Device pDevice)
+{
+	CVTXCubeColor* pInstance = new CVTXCubeColor(pDevice);
 
 	if (FAILED(pInstance->Ready_Buffer()))
 	{
@@ -138,17 +152,12 @@ CVTXCubeTexture* CVTXCubeTexture::Create(_Device pDevice)
 	return pInstance;
 }
 
-CComponent* CVTXCubeTexture::Clone(void* pArg)
+CComponent* CVTXCubeColor::Clone(void* pArg)
 {
-	return new CVTXCubeTexture(*this);		//new?????
+	return new CVTXCubeColor(*this);
 }
 
-void CVTXCubeTexture::Free()
+void CVTXCubeColor::Free()
 {
 	CVIBuffer::Free();
-}
-
-HRESULT CVTXCubeTexture::Change_Color(D3DXCOLOR _Color)
-{
-	return E_FAIL;
 }

@@ -10,6 +10,7 @@
 #include "VTXTriColor.h"
 #include "VTXRectTexture.h"
 #include "VTXTerrain.h"
+#include "VTXCubeColor.h"
 #include "VTXCubeTexture.h"
 
 #include "Texture.h"

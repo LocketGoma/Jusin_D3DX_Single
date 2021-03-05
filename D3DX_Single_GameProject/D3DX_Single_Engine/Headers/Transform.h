@@ -28,7 +28,7 @@ private:
 public:
 	HRESULT Ready_Transform();
 	virtual _int Update_Component(const _float& fDeltaTime = 0.f);
-	virtual _int LateUpdate_Component(const _float& fTimeDelta = 0.f);
+	virtual _int LateUpdate_Component(const _float& fDeltaTime = 0.f);
 
 //Control + Setter
 public:

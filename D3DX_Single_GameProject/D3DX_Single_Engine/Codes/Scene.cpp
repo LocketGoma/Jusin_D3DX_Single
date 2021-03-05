@@ -17,22 +17,22 @@ HRESULT CScene::Ready_Scene(void)
     return S_OK;
 }
 
-_int CScene::Update_Scene(const _float& fTimeDelta)
+_int CScene::Update_Scene(const _float& fDeltaTime)
 {
     for (auto& iter : m_mapLayer)
     {
-        iter.second->Update_Layer(fTimeDelta);
+        iter.second->Update_Layer(fDeltaTime);
     }
 
 
     return 0;
 }
 
-_int CScene::LateUpdate_Scene(const _float& fTimeDelta)
+_int CScene::LateUpdate_Scene(const _float& fDeltaTime)
 {
     for (auto& iter : m_mapLayer)
     {
-        iter.second->LateUpdate_Layer(fTimeDelta);
+        iter.second->LateUpdate_Layer(fDeltaTime);
     }
 
     return 0;

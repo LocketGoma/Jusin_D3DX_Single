@@ -24,6 +24,7 @@ public:
 	// CVIBuffer을(를) 통해 상속됨
 	virtual HRESULT Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ, const _ulong& dwVTXInterval);
 	virtual HRESULT Render_Buffer(void) override;
+	virtual HRESULT Change_Color(D3DXCOLOR _Color) override;
 
 
 	static CVTXTerrain* Create(_Device pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);
@@ -38,8 +39,7 @@ private:
 	BITMAPFILEHEADER		m_fH;
 	BITMAPINFOHEADER		m_iH;
 	_vec3* m_pPos;
-
-
+	
 };
 
 END_NAMESPACE

@@ -53,12 +53,14 @@ HRESULT CGraphicResourceManager::Ready_Buffer(_Device pDevice, const _uint& iInd
     case BUFFERID::BUFFER_TRICOL:
         pResource = CVTXTriColor::Create(pDevice);
         break;
-
     case BUFFERID::BUFFER_RCTEX:
         pResource = CVTXRectTexture::Create(pDevice);       
         break;
     case BUFFERID::BUFFER_CUBETEX:
         pResource = CVTXCubeTexture::Create(pDevice);
+        break;
+    case BUFFERID::BUFFER_CUBECOLOR_N:
+        pResource = CVTXCubeColor::Create(pDevice);
         break;
     case BUFFERID::BUFFER_TERRAINTEX:
         pResource = CVTXTerrain::Create(pDevice, dwCountX, dwCountZ, dwVTXInterval);

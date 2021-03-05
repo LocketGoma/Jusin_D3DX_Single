@@ -88,3 +88,8 @@ void CVTXRectTexture::Free()
 {
 	CVIBuffer::Free();
 }
+
+HRESULT CVTXRectTexture::Change_Color(D3DXCOLOR _Color)
+{
+	return E_FAIL;
+}

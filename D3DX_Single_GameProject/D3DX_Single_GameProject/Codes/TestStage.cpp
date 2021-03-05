@@ -27,7 +27,7 @@ HRESULT CTestStage::Ready_Scene(void)
     return S_OK;
 }
 
-_int CTestStage::Update_Scene(const _float& fTimeDelta)
+_int CTestStage::Update_Scene(const _float& fDeltaTime)
 {
     //D3DXMatrixLookAtLH(&m_matView, &_vec3(0.f, 0.f, -5.f), &_vec3(0.f, 0.f, 1.f), &_vec3(0.f, 1.f, 0.f));
     //D3DXMatrixPerspectiveFovLH(&m_matProj, D3DXToRadian(60.f), _float(WINCX) / WINCY, 0.1f, 1000.f);
@@ -35,14 +35,14 @@ _int CTestStage::Update_Scene(const _float& fTimeDelta)
     //m_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
     //m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 
-    CScene::Update_Scene(fTimeDelta);
+    CScene::Update_Scene(fDeltaTime);
 
     return _int();
 }
 
-_int CTestStage::LateUpdate_Scene(const _float& fTimeDelta)
+_int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 {
-    CScene::LateUpdate_Scene(fTimeDelta);
+    CScene::LateUpdate_Scene(fDeltaTime);
 
     return _int();
 }

@@ -33,12 +33,12 @@ HRESULT CLoadingScene::Ready_Scene(void)
     return S_OK;
 }
 
-_int CLoadingScene::Update_Scene(const _float& fTimeDelta)
+_int CLoadingScene::Update_Scene(const _float& fDeltaTime)
 {
     return _int();
 }
 
-_int CLoadingScene::LateUpdate_Scene(const _float& fTimeDelta)
+_int CLoadingScene::LateUpdate_Scene(const _float& fDeltaTime)
 {
     return _int();
 }

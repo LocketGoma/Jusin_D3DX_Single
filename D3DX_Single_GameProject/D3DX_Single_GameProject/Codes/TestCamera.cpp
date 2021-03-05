@@ -31,29 +31,29 @@ HRESULT CTestCamera::Ready_GameObject(void)
     return S_OK;
 }
 
-_int CTestCamera::Update_GameObject(const _float& fTimeDelta)
+_int CTestCamera::Update_GameObject(const _float& fDeltaTime)
 {
-    Engine::CGameObject::Update_GameObject(fTimeDelta);
+    Engine::CGameObject::Update_GameObject(fDeltaTime);
 
-    Key_Input(fTimeDelta);
+    Key_Input(fDeltaTime);
 
     if (m_bMouseLock == true)
     {
         Mouse_Movement();
     }
 
-    m_pTransformCom->Update_Component(fTimeDelta);
+    m_pTransformCom->Update_Component(fDeltaTime);
 
     return NO_EVENT;
 }
 
-_int CTestCamera::LateUpdate_GameObject(const _float& fTimeDelta)
+_int CTestCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 {
     m_pTransformCom->LateUpdate_Component(0.f);
 
     m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)*5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
 
-    return m_pCameraCom->LateUpdate_Component(fTimeDelta);
+    return m_pCameraCom->LateUpdate_Component(fDeltaTime);
 }
 
 //뭐 스카이박스할때나...
@@ -85,7 +85,7 @@ HRESULT CTestCamera::Add_Component(void)
     return S_OK;
 }
 
-void CTestCamera::Key_Input(const _float& fTimeDelta)
+void CTestCamera::Key_Input(const _float& fDeltaTime)
 {
     auto pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
@@ -96,27 +96,27 @@ void CTestCamera::Key_Input(const _float& fTimeDelta)
 
     if (pManagement->Key_Pressing('W'))
     {
-        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, fTimeDelta);
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, fDeltaTime);
     }
     if (pManagement->Key_Pressing('S'))
     {
-        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, -fTimeDelta);
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)), 10.f, -fDeltaTime);
     }
     if (pManagement->Key_Pressing('A'))
     {
-        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, -fTimeDelta);
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, -fDeltaTime);
     }
     if (pManagement->Key_Pressing('D'))
     {
-        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, fTimeDelta);
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, fDeltaTime);
     }
     if (pManagement->Key_Pressing('Q'))
     {
-        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, -fTimeDelta);
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, -fDeltaTime);
     }
     if (pManagement->Key_Pressing('E'))
     {
-        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, fTimeDelta);
+        m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, fDeltaTime);
     }
     if (pManagement->Key_Pressing(VK_OEM_3))        // = '~'
     {
@@ -142,10 +142,10 @@ void CTestCamera::Mouse_Movement()
     D3DXVec3TransformCoord(&vMouse, &vMouse, &matProj);
 
     //단순 이동
-    //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), -vMouse.x, fTimeDelta*25.f);
-    //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)),  -vMouse.y, fTimeDelta*30.f);
+    //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), -vMouse.x, fDeltaTime*25.f);
+    //m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP)),  -vMouse.y, fDeltaTime*30.f);
 
-    //m_fRotate += vMouse.x * fTimeDelta;
+    //m_fRotate += vMouse.x * fDeltaTime;
 
     m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, vMouse.x * (m_fAxisXSpeed/100.f));
     m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, -vMouse.y * (m_fAxisYSpeed / 100.f));

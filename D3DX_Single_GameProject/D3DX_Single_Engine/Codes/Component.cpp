@@ -11,12 +11,12 @@ CComponent::~CComponent(void)
 {
 }
 
-_int CComponent::Update_Component(const _float& fTimeDelta)
+_int CComponent::Update_Component(const _float& fDeltaTime)
 {
 	return 0;
 }
 
-_int CComponent::LateUpdate_Component(const _float& fTimeDelta)
+_int CComponent::LateUpdate_Component(const _float& fDeltaTime)
 {
 	return 0;
 }

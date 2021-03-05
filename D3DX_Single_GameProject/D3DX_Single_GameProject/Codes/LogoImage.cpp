@@ -19,14 +19,14 @@ HRESULT CLogoImage::Ready_GameObject(void)
     return S_OK;
 }
 
-_int CLogoImage::Update_GameObject(const _float& fTimeDelta)
+_int CLogoImage::Update_GameObject(const _float& fDeltaTime)
 {
-    Engine::CGameObject::Update_GameObject(fTimeDelta);
+    Engine::CGameObject::Update_GameObject(fDeltaTime);
 
     return NO_EVENT;
 }
 
-_int CLogoImage::LateUpdate_GameObject(const _float& fTimeDelta)
+_int CLogoImage::LateUpdate_GameObject(const _float& fDeltaTime)
 {
     auto pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)

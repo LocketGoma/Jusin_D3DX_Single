@@ -185,3 +185,8 @@ void CVTXTerrain::Free()
 
     CVIBuffer::Free();
 }
+
+HRESULT CVTXTerrain::Change_Color(D3DXCOLOR _Color)
+{
+    return E_FAIL;
+}

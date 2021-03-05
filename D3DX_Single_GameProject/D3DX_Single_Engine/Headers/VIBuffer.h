@@ -22,6 +22,8 @@ public :
 	virtual HRESULT Ready_Buffer();
 	virtual HRESULT Render_Buffer();
 
+	virtual	HRESULT Change_Color(D3DXCOLOR _Color) PURE;
+
 protected:
 	LPDIRECT3DVERTEXBUFFER9			m_pVB;
 	LPDIRECT3DINDEXBUFFER9			m_pIB;

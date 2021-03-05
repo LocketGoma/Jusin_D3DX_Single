@@ -34,7 +34,7 @@ HRESULT CBaseLogoScene::Ready_Scene(void)
 	return S_OK;
 }
 
-_int CBaseLogoScene::Update_Scene(const _float& fTimeDelta)
+_int CBaseLogoScene::Update_Scene(const _float& fDeltaTime)
 {
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
@@ -42,7 +42,7 @@ _int CBaseLogoScene::Update_Scene(const _float& fTimeDelta)
 		return E_FAIL;
 	}
 
-	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
+	_int iExit = Engine::CScene::Update_Scene(fDeltaTime);
 
 	if (m_pLoading->IsFinished() == true)
 	{
@@ -62,9 +62,9 @@ _int CBaseLogoScene::Update_Scene(const _float& fTimeDelta)
 	return _int();
 }
 
-_int CBaseLogoScene::LateUpdate_Scene(const _float& fTimeDelta)
+_int CBaseLogoScene::LateUpdate_Scene(const _float& fDeltaTime)
 {
-	CScene::LateUpdate_Scene(fTimeDelta);
+	CScene::LateUpdate_Scene(fDeltaTime);
 	return _int();
 }
 

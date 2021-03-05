@@ -13,7 +13,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_GameProject", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.MFCTools", "03.MFCTools", "{491A857A-55A0-4FCC-963B-237DACE999BD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_Tools", "..\..\Jusin_D3DX_Single_Tools\D3DX_Single_Tools\D3DX_Single_Tools.vcxproj", "{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_Tools", "..\..\Jusin_D3DX_Single_Tools\D3DX_Single_Tools\MFC\D3DX_Single_Tools.vcxproj", "{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -80,3 +80,8 @@ void CVTXTriColor::Free()
 
 	CVIBuffer::Free();
 }
+
+HRESULT CVTXTriColor::Change_Color(D3DXCOLOR _Color)
+{
+	return S_OK;
+}

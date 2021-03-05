@@ -14,7 +14,6 @@ typedef struct tagVertexColor
 
 const _ulong	FVF_COL = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX0;
 
-
 typedef struct tagVertexTex
 {
 	_vec3		vPosition;		// 12
@@ -31,8 +30,18 @@ typedef struct tagVertexCube
 	_vec3		vTexUV;
 
 }VTXCUBE;
-
+//여기 Normal 값 추가해야하지 않음?
 const _ulong	FVF_CUBE = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);	// 텍스쳐 UV를 FLOAT형 3개의 값으로 표현하겠다는 옵션
+
+typedef struct tagVertexCubeColorNormal
+{
+	_vec3	vPosition;
+	_vec3	vNormal;
+	_ulong	wColor;
+}VTX_CUBE_COLOR_N;
+
+const _ulong	FVF_CUBECOLORN = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX0;
+
 
 typedef struct tagVertex_Screen
 {

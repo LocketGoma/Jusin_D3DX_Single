@@ -57,7 +57,7 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	return _int();
 }
 
-_int CTransform::LateUpdate_Component(const _float& fTimeDelta)
+_int CTransform::LateUpdate_Component(const _float& fDeltaTime)
 {
 	if (m_pDevice == nullptr)
 	{

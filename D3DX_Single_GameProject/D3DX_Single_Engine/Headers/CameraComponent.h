@@ -40,8 +40,8 @@ public:
 
 public:	
 	virtual HRESULT Ready_Camera();
-	virtual _int	Update_Component(const _float& fTimeDelta);
-	virtual _int	LateUpdate_Component(const _float& fTimeDelta);
+	virtual _int	Update_Component(const _float& fDeltaTime);
+	virtual _int	LateUpdate_Component(const _float& fDeltaTime);
 
 public:
 	// CComponent을(를) 통해 상속됨

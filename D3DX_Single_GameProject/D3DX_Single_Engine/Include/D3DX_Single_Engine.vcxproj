@@ -179,6 +179,7 @@
     <ClInclude Include="..\Headers\TimeManager.h" />
     <ClInclude Include="..\Headers\Transform.h" />
     <ClInclude Include="..\Headers\VIBuffer.h" />
+    <ClInclude Include="..\Headers\VTXCubeColor.h" />
     <ClInclude Include="..\Headers\VTXCubeTexture.h" />
     <ClInclude Include="..\Headers\VTXRectTexture.h" />
     <ClInclude Include="..\Headers\VTXTerrain.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\Codes\TimeManager.cpp" />
     <ClCompile Include="..\Codes\Transform.cpp" />
     <ClCompile Include="..\Codes\VIBuffer.cpp" />
+    <ClCompile Include="..\Codes\VTXCubeColor.cpp" />
     <ClCompile Include="..\Codes\VTXCubeTexture.cpp" />
     <ClCompile Include="..\Codes\VTXRectTexture.cpp" />
     <ClCompile Include="..\Codes\VTXTerrain.cpp" />
