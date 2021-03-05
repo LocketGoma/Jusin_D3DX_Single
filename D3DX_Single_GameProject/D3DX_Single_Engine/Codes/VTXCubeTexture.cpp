@@ -33,6 +33,7 @@ HRESULT CVTXCubeTexture::Ready_Buffer(void)
 	pVertex[0].vPosition = _vec3(-0.5f, 0.5f, -0.5f);
 	pVertex[0].vTexUV = pVertex[0].vPosition;
 
+
 	pVertex[1].vPosition = _vec3(0.5f, 0.5f, -0.5f);
 	pVertex[1].vTexUV = pVertex[1].vPosition;
 

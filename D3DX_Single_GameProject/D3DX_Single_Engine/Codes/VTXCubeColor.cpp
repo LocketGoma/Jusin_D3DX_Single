@@ -34,12 +34,22 @@ HRESULT CVTXCubeColor::Ready_Buffer(void)
 	pVertex[1].vPosition = _vec3(0.5f, 0.5f, -0.5f);
 	pVertex[2].vPosition = _vec3(0.5f, -0.5f, -0.5f);
 	pVertex[3].vPosition = _vec3(-0.5f, -0.5f, -0.5f);
+	
+	pVertex[0].vNormal = _vec3(-0.5f, 0.5f, -0.5f);
+	pVertex[1].vNormal = _vec3(0.5f, 0.5f, -0.5f);
+	pVertex[2].vNormal = _vec3(0.5f, -0.5f, -0.5f);
+	pVertex[3].vNormal = _vec3(-0.5f, -0.5f, -0.5f);
 
 	// µÞ¸é
 	pVertex[4].vPosition = _vec3(-0.5f, 0.5f, 0.5f);
 	pVertex[5].vPosition = _vec3(0.5f, 0.5f, 0.5f);
 	pVertex[6].vPosition = _vec3(0.5f, -0.5f, 0.5f);
 	pVertex[7].vPosition = _vec3(-0.5f, -0.5f, 0.5f);
+
+	pVertex[4].vNormal = _vec3(-0.5f, 0.5f, 0.5f);
+	pVertex[5].vNormal = _vec3(0.5f, 0.5f, 0.5f);
+	pVertex[6].vNormal = _vec3(0.5f, -0.5f, 0.5f);
+	pVertex[7].vNormal = _vec3(-0.5f, -0.5f, 0.5f);
 
 	for (int i = 0; i < 8; i++) {
 		pVertex[i].wColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
