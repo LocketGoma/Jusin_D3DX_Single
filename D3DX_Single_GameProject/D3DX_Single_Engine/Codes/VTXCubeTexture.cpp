@@ -141,6 +141,9 @@ CVTXCubeTexture* CVTXCubeTexture::Create(_Device pDevice)
 
 CComponent* CVTXCubeTexture::Clone(void* pArg)
 {
+
+
+
 	return new CVTXCubeTexture(*this);		//new?????
 }
 
