@@ -23,11 +23,14 @@ public:
 	virtual HRESULT Render_GameObject();
 
 protected:
+	_bool m_bIsPrototype;
 	_Device m_pDevice;
 	std::map<const _tchar*, CComponent*> m_mapComponent[(_uint)(COMPONENT_ID::ID_END)];
 
 public:
+	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 	virtual void	Free(void);
+
 };
 
 END_NAMESPACE

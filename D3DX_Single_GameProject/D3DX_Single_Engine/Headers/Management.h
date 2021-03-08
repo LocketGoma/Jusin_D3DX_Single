@@ -12,6 +12,7 @@
 #include "KeyManager.h"
 #include "Renderer.h"
 #include "SceneManager.h"
+#include "GameObjectManager.h"
 #include "PrototypeManager.h"
 #include "GraphicResourceManager.h"
 
@@ -78,6 +79,9 @@ public:
 	CComponent* Clone_Resource(const _uint & iIndex, const _tchar * pResourceTag);
 
 	//3. GameObjectManager - 생성시 추가할것.
+	HRESULT Add_GameObject_Prototype(const std::wstring & PrototypeTag, class CGameObject* pPrototype);
+	CGameObject* Clone_GameObject(const std::wstring & PrototypeTag, void* pArg = nullptr);
+
 
 
 public:
@@ -85,13 +89,14 @@ public:
 	static void Release_Engine();
 
 private:
-	CGraphicDevice*				m_pDeviceManager	= nullptr;
-	CRenderer*					m_pRenderer			= nullptr;
-	CKeyManager*				m_pKeyManager		= nullptr;
-	CTimeManager*				m_pTimeManager		= nullptr;
-	CSceneManager*				m_pSceneManager		= nullptr;
-	CPrototypeManager*			m_pPrototypeManager = nullptr;	//구 ComponentManager 역할
-	CGraphicResourceManager*	m_pGraphicManager	= nullptr;	//구 ComponentManager에서 "그래픽 리소스"만 분리함.
+	CGraphicDevice*			 m_pDeviceManager	  = nullptr;
+	CRenderer*				 m_pRenderer		  = nullptr;
+	CKeyManager*			 m_pKeyManager		  = nullptr;
+	CTimeManager*			 m_pTimeManager		  = nullptr;
+	CSceneManager*			 m_pSceneManager	  = nullptr;
+	CGameObjectManager*		 m_pGameObjectManager = nullptr;
+	CPrototypeManager*		 m_pPrototypeManager  = nullptr;	//구 ComponentManager 역할
+	CGraphicResourceManager* m_pGraphicManager	  = nullptr;	//구 ComponentManager에서 "그래픽 리소스"만 분리함.
 
 //private :
 //	CScene* m_pScene;

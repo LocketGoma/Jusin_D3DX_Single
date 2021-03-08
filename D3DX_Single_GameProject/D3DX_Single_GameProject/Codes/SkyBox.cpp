@@ -6,6 +6,7 @@
 
 CSkyBox::CSkyBox(_Device pDevice)
     : CGameObject(pDevice)
+    , m_iTexNumber(0)
 {
 }
 
@@ -113,6 +114,17 @@ CSkyBox* CSkyBox::Create(_Device pDevice, _uint iTexNumber)
     }
     
     return pInstance;
+}
+
+Engine::CGameObject* CSkyBox::Clone(void* pArg)
+{
+    CSkyBox* pClone = new CSkyBox(*this);
+    if (pClone == nullptr)
+    {
+        PRINT_LOG(L"Error", L"Failed To Clone CSkyBox");
+    }
+
+    return pClone;
 }
 
 void CSkyBox::Free()

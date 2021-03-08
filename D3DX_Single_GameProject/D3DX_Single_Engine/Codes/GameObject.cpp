@@ -5,12 +5,15 @@ USING(Engine)
 CGameObject::CGameObject(_Device pDevice)
     : m_pDevice(pDevice)
 {
+    m_bIsPrototype = true;
     m_pDevice->AddRef();
 }
 
 CGameObject::CGameObject(const CGameObject& other)
     : m_pDevice(other.m_pDevice)
 {
+    Safe_AddReference(m_pDevice);
+    m_bIsPrototype = false;
 }
 
 HRESULT CGameObject::Ready_GameObject()

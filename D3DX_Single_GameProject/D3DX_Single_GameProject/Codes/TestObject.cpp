@@ -10,6 +10,15 @@ CTestObject::CTestObject(_Device pDevice)
 {
 }
 
+CTestObject::CTestObject(const CTestObject& other)
+	: CGameObject(other)	
+	, m_pTransformCom(other.m_pTransformCom)
+	, m_pMeshCom(other.m_pMeshCom)
+{
+	Safe_AddReference(m_pMeshCom);
+	Safe_AddReference(m_pTransformCom);
+}
+
 HRESULT CTestObject::Ready_GameObject(void)
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -17,6 +26,23 @@ HRESULT CTestObject::Ready_GameObject(void)
 	m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
 
     return S_OK;
+}
+
+HRESULT CTestObject::Ready_GameObject_Clone(void* vArg)
+{
+
+	if (vArg != nullptr) {
+		_vec3 pVec = *((_vec3*)vArg);
+		m_pTransformCom->Set_Scale(pVec);
+	}
+	else
+	{
+		m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
+	}
+
+	m_pTransformCom->Update_Component();
+
+	return S_OK;
 }
 
 _int CTestObject::Update_GameObject(const _float& fDeltaTime)
@@ -56,9 +82,7 @@ HRESULT CTestObject::Add_Component(void)
 	{
 		return MANAGER_OUT;
 	}
-
 	Engine::CComponent* pComponent = nullptr;
-
 
 	// StaticMesh
 	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement-> Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_HL2Dog"));
@@ -86,7 +110,22 @@ CTestObject* CTestObject::Create(_Device pDevice)
 
 }
 
+Engine::CGameObject* CTestObject::Clone(void* pArg)
+{
+	CTestObject* pClone = new CTestObject(*this);
+
+	if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
+	{
+		PRINT_LOG(L"Error", L"Failed To Clone CTestObject");
+	}
+	return pClone;
+}
+
 void CTestObject::Free(void)
 {
+	
+	Safe_Release(m_pMeshCom);
+	Safe_Release(m_pTransformCom);
+
 	Engine::CGameObject::Free();
 }

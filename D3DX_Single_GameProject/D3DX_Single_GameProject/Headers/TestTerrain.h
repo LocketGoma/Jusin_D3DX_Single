@@ -33,6 +33,7 @@ private:
 
 public:
 	static CTestTerrain* Create(_Device pDevice);
+	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
 	Engine::CVTXTerrain* m_pBufferCom = nullptr;

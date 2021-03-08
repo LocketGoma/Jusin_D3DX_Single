@@ -202,6 +202,18 @@ CTestCamera* CTestCamera::Create(_Device pDevice)
     return pInstance;
 }
 
+Engine::CGameObject* CTestCamera::Clone(void* pArg)
+{
+    CTestCamera* pClone = new CTestCamera(*this);
+
+    if (pClone == nullptr)
+    {
+        PRINT_LOG(L"Error", L"Failed To Clone CTestCamera");
+    }
+
+    return pClone;
+}
+
 void CTestCamera::Free(void)
 {
     //Safe_Release(m_pTransformCom);

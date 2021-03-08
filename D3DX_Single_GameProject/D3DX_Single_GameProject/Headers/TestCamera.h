@@ -39,6 +39,7 @@ public:
 	_float Get_MouseSpeedY();
 public:
 	static CTestCamera* Create(_Device pDevice);	
+	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private :
 	virtual void Free(void) override;

@@ -38,6 +38,7 @@ public:
 private:
 	HRESULT Load_Base_Resource();
 	HRESULT Load_Stage1_Resource();
+	HRESULT Load_GameObject_Resource();
 	virtual void Free() override;
 
 public:

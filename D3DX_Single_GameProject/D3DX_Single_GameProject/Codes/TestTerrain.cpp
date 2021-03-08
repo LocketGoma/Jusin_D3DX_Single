@@ -127,3 +127,15 @@ CTestTerrain* CTestTerrain::Create(_Device pDevice)
 
 	return pInstance;
 }
+
+Engine::CGameObject* CTestTerrain::Clone(void* pArg)
+{
+	CTestTerrain* pClone = new CTestTerrain(*this);
+
+	if (pClone == nullptr)
+	{
+		PRINT_LOG(L"Error", L"Failed To Clone CTestTerrain");
+	}
+
+	return pClone;
+}

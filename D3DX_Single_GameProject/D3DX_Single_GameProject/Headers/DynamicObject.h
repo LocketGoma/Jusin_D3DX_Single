@@ -25,6 +25,8 @@ public:
 	//virtual void Do_Tracking() PURE;			//Àû ÃßÀû
 
 public:
+	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
+
 	virtual void	Free(void);
 
 };

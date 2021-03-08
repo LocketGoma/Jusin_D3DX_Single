@@ -33,6 +33,7 @@ private:
 
 public:
 	static CSkyBox* Create(_Device pDevice, _uint iTexnumber = 0);
+	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
 	virtual void Free() override;

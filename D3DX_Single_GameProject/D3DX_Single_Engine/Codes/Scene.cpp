@@ -48,6 +48,11 @@ void CScene::Render_Scene(void)
 
 void CScene::Free(void)
 {
+    for (auto& layer_iter : m_mapLayer)
+    {
+        layer_iter.second->Release();
+    }
+
     for_each(m_mapLayer.begin(), m_mapLayer.end(), CDeleteMap());
     m_mapLayer.clear();
 

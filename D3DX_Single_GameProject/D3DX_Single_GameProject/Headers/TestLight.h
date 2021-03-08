@@ -29,6 +29,7 @@ private:
 
 public:
 	static CTestLight* Create(_Device pDevice);
+	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
 	virtual void Free() override;

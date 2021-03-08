@@ -65,6 +65,18 @@ CTestLight* CTestLight::Create(_Device pDevice)
     return pInstance;
 }
 
+Engine::CGameObject* CTestLight::Clone(void* pArg)
+{
+    CTestLight* pClone = new CTestLight(*this);
+    if (FAILED(pClone->Ready_GameObject()))
+    {
+        PRINT_LOG(L"Error", L"Failed To Clone CTestLight");
+        Safe_Release(pClone);
+    }
+
+    return pClone;
+}
+
 void CTestLight::Free()
 {
     Engine::CGameObject::Free();
