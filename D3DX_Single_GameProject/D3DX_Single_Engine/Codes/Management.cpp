@@ -113,6 +113,11 @@ HRESULT CManagement::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScene)
 	return m_pSceneManager->Setup_CurrentScene(iSceneIndex, pCurrentScene);
 }
 
+CScene* CManagement::Get_NowScene()
+{
+	return m_pSceneManager->Get_NowScene();
+}
+
 //_uint CManagement::Update_Scene(_float fDeltaTime)
 //{
 //	if (m_pSceneManager == nullptr)

@@ -22,6 +22,12 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime);
 	virtual HRESULT Render_GameObject();
 
+public:
+	virtual void Set_Position(_vec3 vPos) PURE;
+	virtual void Set_Size(_vec3 vSize) PURE;
+	virtual _vec3 Get_Position() PURE;
+	virtual _vec3 Get_Size() PURE;
+
 protected:
 	_bool m_bIsPrototype;
 	_Device m_pDevice;

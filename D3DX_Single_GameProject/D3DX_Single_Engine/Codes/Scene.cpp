@@ -46,6 +46,18 @@ void CScene::Render_Scene(void)
     }
 }
 
+CGameObject* CScene::Find_GameObject(const _tchar* pLayerName, const _tchar* pObjectTag)
+{
+    auto& iter = m_mapLayer.find(pLayerName);
+
+    if (iter == m_mapLayer.end())
+    {
+        return nullptr;
+    }
+
+    return iter->second->Find_GameObject(pObjectTag);
+}
+
 void CScene::Free(void)
 {
     for (auto& layer_iter : m_mapLayer)

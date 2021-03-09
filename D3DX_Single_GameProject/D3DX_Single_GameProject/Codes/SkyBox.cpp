@@ -75,6 +75,27 @@ HRESULT CSkyBox::Render_GameObject(void)
     return S_OK;
 }
 
+
+void CSkyBox::Set_Position(_vec3 vPos)
+{
+    m_pTransformCom->Set_Pos(vPos);
+}
+
+void CSkyBox::Set_Size(_vec3 vSize)
+{
+    m_pTransformCom->Set_Pos(vSize);
+}
+
+_vec3 CSkyBox::Get_Position()
+{
+    return m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+}
+
+_vec3 CSkyBox::Get_Size()
+{
+    return m_pTransformCom->Get_TransformDescription().vScale;
+}
+
 HRESULT CSkyBox::Add_Component()
 {
     auto pManagement = Engine::CManagement::Get_Instance();

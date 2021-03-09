@@ -20,6 +20,7 @@
 #include <memory>
 #include <assert.h>
 
+#pragma comment(lib,"user32.lib")
 
 //D3DX9
 #include "d3d9.h"

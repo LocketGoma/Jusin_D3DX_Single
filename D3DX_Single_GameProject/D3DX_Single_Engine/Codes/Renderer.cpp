@@ -96,7 +96,7 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
 
 HRESULT CRenderer::Render_Priority()
 {
-    m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+    //m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
     for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY])
     {
@@ -305,6 +305,11 @@ HRESULT CRenderer::Render_Wireframe()
     }
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE)))
     {
         return E_FAIL;
     }

@@ -141,6 +141,5 @@ CTestStage* CTestStage::Create(_Device pDevice)
 
 void CTestStage::Free()
 {
-
     Engine::CScene::Free();
 }

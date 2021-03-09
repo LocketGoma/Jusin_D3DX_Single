@@ -120,3 +120,21 @@ Engine::CGameObject* CLogoImage::Clone(void* pArg)
 
     return pClone;
 }
+
+void CLogoImage::Set_Position(_vec3 vPos)
+{
+}
+
+void CLogoImage::Set_Size(_vec3 vSize)
+{
+}
+
+_vec3 CLogoImage::Get_Position()
+{
+    return _vec3();
+}
+
+_vec3 CLogoImage::Get_Size()
+{
+    return _vec3();
+}

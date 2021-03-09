@@ -18,6 +18,7 @@ private:
 public:
 	HRESULT Setup_SceneManager(_int iMaxSceneIndex);
 	HRESULT Setup_CurrentScene(_int iSceneIndex, class CScene* pCurrentScene);
+	CScene* Get_NowScene();
 	_uint Update_Scene(_float fDeltaTime);
 	_uint LateUpdate_Scene(_float fDeltaTime);
 

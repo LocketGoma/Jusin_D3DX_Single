@@ -43,6 +43,16 @@ private:
 	// CGameObject을(를) 통해 상속됨
 	virtual Engine::CGameObject* Clone(void* pArg = (void*)nullptr);
 
+
+	// CGameObject을(를) 통해 상속됨
+	virtual void Set_Position(_vec3 vPos) override;
+
+	virtual void Set_Size(_vec3 vSize) override;
+
+	virtual _vec3 Get_Position() override;
+
+	virtual _vec3 Get_Size() override;
+
 };
 
 

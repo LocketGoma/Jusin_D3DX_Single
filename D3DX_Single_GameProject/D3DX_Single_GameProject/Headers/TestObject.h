@@ -25,6 +25,12 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
+public:
+	virtual void Set_Position(_vec3 vPos) override;
+	virtual void Set_Size(_vec3 vSize) override;
+	virtual _vec3 Get_Position() override;
+	virtual _vec3 Get_Size() override;
+
 private:
 	HRESULT			Add_Component(void);
 

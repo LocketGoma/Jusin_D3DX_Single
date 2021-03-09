@@ -30,6 +30,24 @@ HRESULT CTestLight::Render_GameObject()
     return S_OK;
 }
 
+void CTestLight::Set_Position(_vec3 vPos)
+{
+}
+
+void CTestLight::Set_Size(_vec3 vSize)
+{
+}
+
+_vec3 CTestLight::Get_Position()
+{
+    return _vec3();
+}
+
+_vec3 CTestLight::Get_Size()
+{
+    return _vec3();
+}
+
 HRESULT CTestLight::Add_Component(void)
 {
     return S_OK;

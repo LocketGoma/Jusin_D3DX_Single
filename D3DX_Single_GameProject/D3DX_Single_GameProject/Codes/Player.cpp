@@ -61,6 +61,28 @@ HRESULT CPlayer::Render_GameObject(void)
 	return S_OK;
 }
 
+void CPlayer::Set_Position(_vec3 vPos)
+{
+	m_pTransformCom->Set_Pos(vPos);
+}
+
+void CPlayer::Set_Size(_vec3 vSize)
+{
+	m_pTransformCom->Set_Pos(vSize);
+}
+
+_vec3 CPlayer::Get_Position()
+{
+	return m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+}
+
+_vec3 CPlayer::Get_Size()
+{
+	return m_pTransformCom->Get_TransformDescription().vScale;
+}
+
+
+
 HRESULT CPlayer::Add_Component(void)
 {
 	auto pManagement = Engine::CManagement::Get_Instance();

@@ -63,6 +63,26 @@ HRESULT CTestCamera::Render_GameObject(void)
     return S_OK;
 }
 
+void CTestCamera::Set_Position(_vec3 vPos)
+{
+    m_pTransformCom->Set_Pos(vPos);
+}
+
+void CTestCamera::Set_Size(_vec3 vSize) //¾È¾¸
+{
+    ;
+}
+
+_vec3 CTestCamera::Get_Position()
+{
+    return m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+}
+
+_vec3 CTestCamera::Get_Size()       //¾È¾¸
+{
+    return _vec3();
+}
+
 HRESULT CTestCamera::Add_Component(void)
 {
     auto pManagement = Engine::CManagement::Get_Instance();
