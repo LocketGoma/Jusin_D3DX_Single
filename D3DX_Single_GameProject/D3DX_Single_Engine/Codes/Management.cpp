@@ -11,7 +11,7 @@ CManagement::CManagement()
 	, m_pGraphicManager(CGraphicResourceManager::Get_Instance())
 	, m_pKeyManager(CKeyManager::Get_Instance())
 	, m_pSceneManager(CSceneManager::Get_Instance())
-	//, m_pGameObject_Manager(CGameObject_Manager::Get_Instance())
+	, m_pGameObjectManager(CGameObjectManager::Get_Instance())
 	, m_pTimeManager(CTimeManager::Get_Instance())
 	//, m_pSound_Manager(CSoundManager::Get_Instance())
 
@@ -22,7 +22,7 @@ CManagement::CManagement()
 	Safe_AddReference(m_pGraphicManager);
 	Safe_AddReference(m_pKeyManager);
 	Safe_AddReference(m_pSceneManager);
-	//Safe_AddReference(m_pGameObject_Manager);
+	Safe_AddReference(m_pGameObjectManager);
 	Safe_AddReference(m_pTimeManager);
 	//Safe_AddReference(m_pSound_Manager);
 }
@@ -34,7 +34,8 @@ HRESULT CManagement::Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDi
 		nullptr == m_pDeviceManager ||
 		nullptr == m_pRenderer ||
 		nullptr == m_pKeyManager ||
-		nullptr == m_pTimeManager)
+		nullptr == m_pTimeManager ||
+		nullptr == m_pGameObjectManager)
 	{
 		PRINT_LOG(L"FATAL Error", L"Failed To Ready EngineSystem");
 		return E_FAIL;
@@ -208,13 +209,28 @@ CComponent* CManagement::Clone_Resource(const _uint& iIndex, const _tchar* pReso
 	return m_pGraphicManager->Clone_Resource(iIndex,pResourceTag);
 }
 
+HRESULT CManagement::Add_GameObject_Prototype(const std::wstring& PrototypeTag, CGameObject* pPrototype)
+{
+	if (pPrototype == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	return m_pGameObjectManager->Add_GameObject_Prototype(PrototypeTag,pPrototype);
+}
+
+CGameObject* CManagement::Clone_GameObject(const std::wstring& PrototypeTag, void* pArg)
+{
+	return m_pGameObjectManager->Clone_GameObject(PrototypeTag, pArg);
+}
+
 void CManagement::Free()
 {
 	//Safe_Release(m_pSoundManager);
 	Safe_Release(m_pTimeManager);
-	//Safe_Release(m_pGameObjectManager);
-	Safe_Release(m_pSceneManager);
 	Safe_Release(m_pKeyManager);
+	Safe_Release(m_pSceneManager);
+	Safe_Release(m_pGameObjectManager);
 	Safe_Release(m_pGraphicManager);
 	Safe_Release(m_pPrototypeManager);
 	Safe_Release(m_pRenderer);
@@ -231,27 +247,27 @@ void CManagement::Release_Engine()
 	//	PRINT_LOG(L"Waring", L"Failed To Release CSoundManager (Management.cpp)");
 
 	if (CTimeManager::Destroy_Instance())
-		PRINT_LOG(L"Waring", L"Failed To Release CTime_Manager (Management.cpp)");
-
-	//if (CGameObject_Manager::Destroy_Instance())
-	//	PRINT_LOG(L"Waring", L"Failed To Release CGameObject_Manager (Management.cpp)");
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CTime_Manager (Management.cpp)");
 
 	if (CSceneManager::Destroy_Instance())
-		PRINT_LOG(L"Waring", L"Failed To Release CSceneManager (Management.cpp)");
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CSceneManager (Management.cpp)");
+
+	if (CGameObjectManager::Destroy_Instance())
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGameObjectManager (Management.cpp)");
 
 	if (CKeyManager::Destroy_Instance())
-		PRINT_LOG(L"Waring", L"Failed To Release CKeyManager (Management.cpp)");
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CKeyManager (Management.cpp)");
 
 	if (CGraphicResourceManager::Destroy_Instance())
-		PRINT_LOG(L"Waring", L"Failed To Release CGraphicResourceManager (Management.cpp)");
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGraphicResourceManager (Management.cpp)");
 
 	if (CPrototypeManager::Destroy_Instance())
-		PRINT_LOG(L"Waring", L"Failed To Release CProtoTypeManager (Management.cpp)");
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CProtoTypeManager (Management.cpp)");
 
 	if (CRenderer::Destroy_Instance())
-		PRINT_LOG(L"Warning", L"Failed To Release CRenderer");
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderer");
 
 	if (CGraphicDevice::Destroy_Instance())
-		PRINT_LOG(L"Warning", L"Failed To Release CGraphicDevice");
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGraphicDevice");
 
 }

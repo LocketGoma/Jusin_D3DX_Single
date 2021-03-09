@@ -16,6 +16,18 @@ HRESULT CLayer::Add_GameObject(const _tchar* pObjectTag, CGameObject* pGameObjec
 	return S_OK;
 }
 
+CGameObject* CLayer::Find_GameObject(const _tchar* pObjectTag)
+{
+	auto iter = m_mapObject.find(pObjectTag);
+
+	if (iter == m_mapObject.end())
+	{
+		return nullptr;
+	}
+
+	return iter->second;
+}
+
 HRESULT CLayer::Ready_Layer(void)
 {
 	return S_OK;

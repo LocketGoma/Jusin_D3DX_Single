@@ -17,6 +17,7 @@ private:
 
 public :
 	HRESULT Add_GameObject(const _tchar* pObjectTag, CGameObject* pGameObject);
+	CGameObject* Find_GameObject(const _tchar* pObjectTag);
 
 public :
 public:

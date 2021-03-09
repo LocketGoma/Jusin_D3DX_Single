@@ -81,9 +81,12 @@ HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    pGameObject = CTestObject::Create(m_pDevice);
-    pLayer->Add_GameObject(L"TestObject", pGameObject);
+    auto* pManagement = Engine::CManagement::Get_Instance();
 
+    pGameObject = pManagement->Clone_GameObject(L"TestObject");
+    
+    pLayer->Add_GameObject(L"TestObject", pGameObject);
+    
     m_mapLayer.emplace(pLayerTag, pLayer);
 
     return S_OK;
@@ -138,5 +141,6 @@ CTestStage* CTestStage::Create(_Device pDevice)
 
 void CTestStage::Free()
 {
+
     Engine::CScene::Free();
 }

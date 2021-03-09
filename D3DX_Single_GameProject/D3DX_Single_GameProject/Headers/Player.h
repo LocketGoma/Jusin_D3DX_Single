@@ -41,6 +41,8 @@ private:
 
 public:
 	static CPlayer* Create(_Device pDevice);
+	virtual CGameObject* Clone(void* pArg = nullptr) override;
+
 private:
 	virtual void Free(void) override;
 

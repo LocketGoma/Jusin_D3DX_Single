@@ -115,7 +115,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 
 }
 
-CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CPlayer* CPlayer::Create(_Device pGraphicDev)
 {
 	CPlayer* pInstance = new CPlayer(pGraphicDev);
 
@@ -125,6 +125,17 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 
 	return pInstance;
+}
+
+Engine::CGameObject* CPlayer::Clone(void* pArg)
+{
+	CPlayer* pClone = new CPlayer(*this);
+	if (pClone == nullptr)
+	{
+		PRINT_LOG(L"Error", L"Failed To Clone CPlayer");		
+	}
+
+	return pClone;
 }
 
 void CPlayer::Free(void)

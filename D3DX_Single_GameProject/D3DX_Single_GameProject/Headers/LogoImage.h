@@ -39,6 +39,10 @@ private:
 	Engine::CTransform* m_pTransformCom = nullptr;
 
 
+
+	// CGameObject을(를) 통해 상속됨
+	virtual Engine::CGameObject* Clone(void* pArg = (void*)nullptr);
+
 };
 
 

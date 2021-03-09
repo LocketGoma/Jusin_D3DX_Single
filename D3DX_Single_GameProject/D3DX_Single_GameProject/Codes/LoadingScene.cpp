@@ -6,6 +6,9 @@
 #include "CameraComponent.h"
 
 
+#include "TestObject.h"
+
+
 //로드 데이터 끝
 
 
@@ -107,6 +110,8 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
         break;
     }
 
+    iFlag = pLoading->Load_GameObject_Resource();
+
     LeaveCriticalSection(pLoading->Get_CriticalSection());
     _endthreadex(0);
 
@@ -155,6 +160,19 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
 HRESULT CLoadingScene::Load_Stage1_Resource()
 {
+    return S_OK;
+}
+
+HRESULT CLoadingScene::Load_GameObject_Resource()
+{
+    auto* pManagement = Engine::CManagement::Get_Instance();
+
+    Engine::CGameObject* pGameObject = nullptr;
+    pGameObject = CTestObject::Create(m_pDevice);
+    pManagement->Add_GameObject_Prototype(L"TestObject", pGameObject);
+
+
+
     return S_OK;
 }
 

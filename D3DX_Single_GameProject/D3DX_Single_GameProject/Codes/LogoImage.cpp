@@ -108,3 +108,15 @@ CLogoImage* CLogoImage::Create(_Device pDevice)
 
     return pInstance;
 }
+
+Engine::CGameObject* CLogoImage::Clone(void* pArg)
+{
+    CLogoImage* pClone = new CLogoImage(*this);
+
+    if (pClone == nullptr)
+    {
+        return nullptr;
+    }
+
+    return pClone;
+}
