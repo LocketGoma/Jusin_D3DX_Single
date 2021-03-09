@@ -96,6 +96,8 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
 
 HRESULT CRenderer::Render_Priority()
 {
+    m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
     for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY])
     {
         if (FAILED(pGameObject->Render_GameObject()))
@@ -231,8 +233,6 @@ HRESULT CRenderer::Render_Alpha()
     {
         return S_OK;
     }
-
-
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
     {
         return E_FAIL;
@@ -269,12 +269,22 @@ HRESULT CRenderer::Render_Alpha()
 HRESULT CRenderer::Render_Wireframe()
 {
     //연산 많이 처먹으니까 오브젝트 하나도 없으면 생략
+
     if (m_GameObjects[(_uint)RENDERID::RENDER_WIREFRAME].empty())
     {
         return S_OK;
     }
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE)))
+    {
+        return E_FAIL;
+    }
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE)))
     {
         return E_FAIL;
     }
@@ -288,6 +298,11 @@ HRESULT CRenderer::Render_Wireframe()
     }
 
     m_GameObjects[(_uint)RENDERID::RENDER_WIREFRAME].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW)))
+    {
+        return E_FAIL;
+    }
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID)))
     {
