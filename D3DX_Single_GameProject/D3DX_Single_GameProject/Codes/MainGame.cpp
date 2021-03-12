@@ -73,14 +73,11 @@ void CMainGame::Render_MainGame()
 
 HRESULT CMainGame::Setup_DefaultSetting()
 {
-    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE)))
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE)))
         return E_FAIL;
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW)))
         return E_FAIL;
-
-
-
 
     return S_OK;
 }

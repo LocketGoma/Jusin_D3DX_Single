@@ -48,7 +48,7 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CPlayer::Render_GameObject(void)
 {
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	m_pTransformCom->LateUpdate_Component(0.f);
 

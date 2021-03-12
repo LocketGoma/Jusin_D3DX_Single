@@ -2,7 +2,10 @@
 
 #ifndef __ENGINE_INCLUDE_H__
 #define __ENGINE_INCLUDE_H__
-#pragma warning(disable : 4251)	//dllexport를 사용하지 않은 클래스 발생시 생기는 경고문구 제어(제거)용. 주로 STL 사용시 발생함.	
+
+//D3DX9
+#include "d3d9.h"
+#include "d3dx9.h"
 
 //Base Headers
 #include <map>
@@ -20,11 +23,10 @@
 #include <memory>
 #include <assert.h>
 
+#pragma warning(disable : 4251)	//dllexport를 사용하지 않은 클래스 발생시 생기는 경고문구 제어(제거)용. 주로 STL 사용시 발생함.	
+
 #pragma comment(lib,"user32.lib")
 
-//D3DX9
-#include "d3d9.h"
-#include "d3dx9.h"
 
 //User Headers
 #include "Engine_Define.h"

@@ -16,6 +16,7 @@
 #include "Texture.h"
 
 #include "StaticMesh.h"
+#include "DynamicMesh.h"
 
 BEGIN_NAMESPACE(Engine)
 

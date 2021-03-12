@@ -104,6 +104,12 @@
     <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh">
       <UniqueIdentifier>{446296bb-7896-4f01-9cce-0898ae651531}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\01.AnimationController">
+      <UniqueIdentifier>{2a450ffb-6c8f-44a2-9864-d711160705d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\00.HierarchyLoader">
+      <UniqueIdentifier>{5c86d490-2d68-46c3-8737-a1d2bdc774bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -192,6 +198,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\VTXCubeColor.cpp">
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\04.CubeColor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\DynamicMesh.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\AnimationController.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\01.AnimationController</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\HierarchyLoader.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\00.HierarchyLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +314,15 @@
     </ClInclude>
     <ClInclude Include="..\Headers\VTXCubeColor.h">
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\04.CubeColor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\DynamicMesh.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\AnimationController.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\01.AnimationController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\HierarchyLoader.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\00.HierarchyLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

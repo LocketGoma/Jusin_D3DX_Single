@@ -2,6 +2,7 @@
 
 #include "Transform.h"
 #include "StaticMesh.h"
+#include "DynamicMesh.h"
 
 #include "TestObject.h"
 
@@ -39,7 +40,7 @@ HRESULT CTestObject::Ready_GameObject_Clone(void* vArg)
 	{
 		m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
 	}
-
+	m_pMeshCom->Set_AnimationSet(0);
 	m_pTransformCom->Update_Component();
 
 	return S_OK;
@@ -61,6 +62,8 @@ _int CTestObject::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return 0;
 	}
+	m_pMeshCom->Play_AnimationSet(fDeltaTime);
+
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
 	return NO_EVENT;
@@ -68,6 +71,8 @@ _int CTestObject::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CTestObject::Render_GameObject(void)
 {
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 	m_pTransformCom->LateUpdate_Component();
 
 	m_pMeshCom->Render_Meshes();
@@ -104,10 +109,15 @@ HRESULT CTestObject::Add_Component(void)
 	}
 	Engine::CComponent* pComponent = nullptr;
 
-	// StaticMesh
-	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement-> Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_HL2Dog"));
+	//// StaticMesh
+	//pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement-> Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_HL2Dog"));
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[0].emplace(L"Com_Mesh", pComponent);
+
+	pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Ant"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Mesh", pComponent);
+
 
 	// Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));

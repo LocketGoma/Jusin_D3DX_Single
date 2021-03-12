@@ -182,10 +182,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Headers\AnimationController.h" />
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\CameraComponent.h" />
     <ClInclude Include="..\Headers\Component.h" />
     <ClInclude Include="..\Headers\ControlSupport.h" />
+    <ClInclude Include="..\Headers\DynamicMesh.h" />
     <ClInclude Include="..\Headers\Engine_Define.h" />
     <ClInclude Include="..\Headers\Engine_Enum.h" />
     <ClInclude Include="..\Headers\Engine_Function.h" />
@@ -197,6 +199,7 @@
     <ClInclude Include="..\Headers\GraphicDevice.h" />
     <ClInclude Include="..\Headers\GraphicResourceManager.h" />
     <ClInclude Include="..\Headers\GraphicResources.h" />
+    <ClInclude Include="..\Headers\HierarchyLoader.h" />
     <ClInclude Include="..\Headers\KeyManager.h" />
     <ClInclude Include="..\Headers\Layer.h" />
     <ClInclude Include="..\Headers\Light.h" />
@@ -219,15 +222,18 @@
     <ClInclude Include="..\Headers\VTXTriColor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Codes\AnimationController.cpp" />
     <ClCompile Include="..\Codes\Base.cpp" />
     <ClCompile Include="..\Codes\CameraComponent.cpp" />
     <ClCompile Include="..\Codes\Component.cpp" />
     <ClCompile Include="..\Codes\ControlSupport.cpp" />
+    <ClCompile Include="..\Codes\DynamicMesh.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
     <ClCompile Include="..\Codes\GameObjectManager.cpp" />
     <ClCompile Include="..\Codes\GraphicDevice.cpp" />
     <ClCompile Include="..\Codes\GraphicResourceManager.cpp" />
     <ClCompile Include="..\Codes\GraphicResources.cpp" />
+    <ClCompile Include="..\Codes\HierarchyLoader.cpp" />
     <ClCompile Include="..\Codes\KeyManager.cpp" />
     <ClCompile Include="..\Codes\Layer.cpp" />
     <ClCompile Include="..\Codes\Light.cpp" />
