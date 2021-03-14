@@ -55,6 +55,19 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 
 	m_ppTextures = new LPDIRECT3DTEXTURE9[m_dwSubsetCnt];
 
+	//메쉬로부터 FVF 정보 가져옴.
+	_ulong	dwFVF = m_pMesh->GetFVF();
+
+	// 메쉬의 노말 정보가 없는 경우 코드로 삽입
+	if (!(dwFVF & D3DFVF_NORMAL))
+	{
+		PRINT_LOG(L"Warrning", L"Normal map not exist");
+
+		m_pMesh->CloneMeshFVF(m_pMesh->GetOptions(), dwFVF | D3DFVF_NORMAL, m_pDevice, &m_pMesh);
+		D3DXComputeNormals(m_pMesh, 0);
+	}
+
+
 	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
 	{
 		_tchar	szFileName[256] = L"";
