@@ -68,6 +68,7 @@ void CAnimationController::Set_AnimationSet(const _uint& iIndex)
 	LPD3DXANIMATIONSET		pAS = nullptr;
 
 	m_pAniControl->GetAnimationSet(iIndex, &pAS);
+	
 	m_dPeriod = pAS->GetPeriod();	//현재 애니메이션 셋의 전체 재생 시간 반환
 
 	//0번 트랙에 재생하고자 하는 애니메이션 셋 설정

@@ -117,6 +117,18 @@ void CDynamicMesh::Play_AnimationSet(const _float& fDeltatime)
 	Update_FrameMatrices((D3DXFRAME_DERIVED*)m_pRootFrame, D3DXMatrixIdentity(&matTemp));
 }
 
+CAnimationController* CDynamicMesh::Get_AniController()
+{
+	return m_pAniControl;
+}
+
+int CDynamicMesh::Get_VertexCount()
+{
+	
+
+	return 0;
+}
+
 void CDynamicMesh::Update_FrameMatrices(D3DXFRAME_DERIVED* pFrame, const _matrix* pParentMatrix)
 {
 	//프레임 별 매트릭스 업데이트 

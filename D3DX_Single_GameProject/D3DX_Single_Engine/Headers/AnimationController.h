@@ -8,6 +8,8 @@
 
 BEGIN_NAMESPACE(Engine)
 
+//이름 중복임. AniController로 바꿀것
+
 class ENGINE_DLL CAnimationController : public CBase
 {
 private:

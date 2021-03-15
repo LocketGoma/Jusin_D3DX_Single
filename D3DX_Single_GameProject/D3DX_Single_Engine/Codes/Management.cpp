@@ -207,7 +207,11 @@ HRESULT CManagement::Ready_Meshes(_Device pDevice, const _ushort& wContainerIdx,
 {
 	return m_pGraphicManager->Ready_Meshes(pDevice,wContainerIdx,pMeshTag,eType,pFilePath,pFileName);
 }
-
+//Åø¿ë
+HRESULT CManagement::Ready_Meshes_Force(_Device pDevice, const _ushort& wContainerIdx, const _tchar* pMeshTag, MESHTYPE eType, const _tchar* pFilePath, const _tchar* pFileName)
+{
+	return m_pGraphicManager->Ready_Meshes_Force(pDevice, wContainerIdx, pMeshTag, eType, pFilePath, pFileName);
+}
 
 CComponent* CManagement::Clone_Resource(const _uint& iIndex, const _tchar* pResourceTag)
 {

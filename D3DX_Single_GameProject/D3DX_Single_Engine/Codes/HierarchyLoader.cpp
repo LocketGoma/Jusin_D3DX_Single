@@ -131,19 +131,21 @@ STDMETHODIMP_(HRESULT __stdcall) CHierarchyLoader::CreateMeshContainer(LPCSTR Na
 //생성된게 하도 많아서 다 날려줘야됨.
 STDMETHODIMP_(HRESULT __stdcall) CHierarchyLoader::DestroyFrame(LPD3DXFRAME pFrameToFree)
 {
-	Safe_Delete_Array(pFrameToFree->Name);
+	if (pFrameToFree != nullptr)
+	{
+		Safe_Delete_Array(pFrameToFree->Name);
 
-	if (nullptr != pFrameToFree->pMeshContainer)
-		DestroyMeshContainer(pFrameToFree->pMeshContainer);
+		if (nullptr != pFrameToFree->pMeshContainer)
+			DestroyMeshContainer(pFrameToFree->pMeshContainer);
 
-	if (nullptr != pFrameToFree->pFrameSibling)
-		DestroyFrame(pFrameToFree->pFrameSibling);
+		if (nullptr != pFrameToFree->pFrameSibling)
+			DestroyFrame(pFrameToFree->pFrameSibling);
 
-	if (nullptr != pFrameToFree->pFrameFirstChild)
-		DestroyFrame(pFrameToFree->pFrameFirstChild);
+		if (nullptr != pFrameToFree->pFrameFirstChild)
+			DestroyFrame(pFrameToFree->pFrameFirstChild);
 
-	Safe_Delete(pFrameToFree);
-
+		Safe_Delete(pFrameToFree);
+	}
 	return S_OK;
 }
 

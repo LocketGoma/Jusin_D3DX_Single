@@ -62,6 +62,7 @@ public: // operator
 	{
 		_ulong dwRefCnt = 0;
 
+		if (Pair.second != nullptr)
 		dwRefCnt = Pair.second->Release();
 
 		if (0 == dwRefCnt)

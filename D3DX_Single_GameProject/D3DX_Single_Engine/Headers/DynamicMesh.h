@@ -27,6 +27,10 @@ public:
 	void		Set_AnimationSet(const _uint& iIndex);
 	void		Play_AnimationSet(const _float& fDeltatime);
 
+public:
+	CAnimationController* Get_AniController();
+	int Get_VertexCount();
+
 private:
 	//  모든 뼈를 순회하면서 뼈들이 소유한 CombinedTransformationMatrix를 갱신하는 함수
 	void		Update_FrameMatrices(D3DXFRAME_DERIVED* pFrame, const _matrix* pParentMatrix);
