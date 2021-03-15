@@ -19,10 +19,12 @@ class CSkyBox : public Engine::CGameObject
 {
 private:
 	explicit CSkyBox(_Device pDevice);
+	explicit CSkyBox(const CSkyBox& other);
 	virtual ~CSkyBox() = default;
 
 public:
 	virtual HRESULT Ready_GameObject(_uint iTexNumber = 0);
+	virtual HRESULT Ready_GameObject_Clone(void* pArg = nullptr)override;
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;

@@ -10,14 +10,27 @@ CSkyBox::CSkyBox(_Device pDevice)
 {
 }
 
+CSkyBox::CSkyBox(const CSkyBox& other)
+    : CGameObject(other)
+    , m_iTexNumber(other.m_iTexNumber)
+{
+}
+
 HRESULT CSkyBox::Ready_GameObject(_uint iTexNumber)
+{
+
+
+    m_iTexNumber = iTexNumber;
+
+    return S_OK;
+}
+
+HRESULT CSkyBox::Ready_GameObject_Clone(void* pArg)
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 
-    m_pTransformCom->Set_Scale(_vec3(45.f,45.f,45.f));
-
-    m_iTexNumber = iTexNumber;
+    m_pTransformCom->Set_Scale(_vec3(45.f, 45.f, 45.f));
 
     return S_OK;
 }
@@ -140,9 +153,14 @@ CSkyBox* CSkyBox::Create(_Device pDevice, _uint iTexNumber)
 Engine::CGameObject* CSkyBox::Clone(void* pArg)
 {
     CSkyBox* pClone = new CSkyBox(*this);
+
     if (pClone == nullptr)
     {
         PRINT_LOG(L"Error", L"Failed To Clone CSkyBox");
+    }
+    if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
+    {
+        Safe_Release(pClone);
     }
 
     return pClone;

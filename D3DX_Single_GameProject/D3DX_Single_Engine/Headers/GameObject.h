@@ -18,6 +18,7 @@ protected :
 
 public:
 	virtual HRESULT Ready_GameObject();
+	virtual HRESULT Ready_GameObject_Clone(void* pArg = nullptr);
 	virtual _int Update_GameObject(const _float& fDeltaTime);
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime);
 	virtual HRESULT Render_GameObject();

@@ -10,12 +10,21 @@ CPlayer::CPlayer(_Device pDevice)
 {
 }
 
+CPlayer::CPlayer(const CPlayer& other)
+	: Engine::CGameObject(other)
+{
+}
+
 HRESULT CPlayer::Ready_GameObject(void)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-
 	//m_pTransformCom->Set_Scale(_float3(0.1f, 0.1f, 0.1f));
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Ready_GameObject_Clone(void* pArg)
+{
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
@@ -156,6 +165,13 @@ Engine::CGameObject* CPlayer::Clone(void* pArg)
 	{
 		PRINT_LOG(L"Error", L"Failed To Clone CPlayer");		
 	}
+
+	if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
+	{
+		Safe_Release(pClone);
+	}
+
+
 
 	return pClone;
 }

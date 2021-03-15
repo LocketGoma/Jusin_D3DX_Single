@@ -67,7 +67,14 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    pGameObject = CPlayer::Create(m_pDevice);
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    pGameObject = pManagement->Clone_GameObject(L"TestPlayer");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"TestPlayer", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
@@ -81,10 +88,15 @@ HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto* pManagement = Engine::CManagement::Get_Instance();
 
-    pGameObject = pManagement->Clone_GameObject(L"TestObject");
-    
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    pGameObject = pManagement->Clone_GameObject(L"TestObject");    
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"TestObject", pGameObject);
     
     m_mapLayer.emplace(pLayerTag, pLayer);
@@ -98,11 +110,19 @@ HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    pGameObject = CTestCamera::Create(m_pDevice);
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    pGameObject = pManagement->Clone_GameObject(L"TestCamera");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"TestCamera", pGameObject);
 
-    pGameObject = CSkyBox::Create(m_pDevice, 0);
-    pLayer->Add_GameObject(L"TestSkybox", pGameObject);
+    pGameObject = pManagement->Clone_GameObject(L"SkyBoxA");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"SkyBoxA", pGameObject);
         
     m_mapLayer.emplace(pLayerTag, pLayer);
 
@@ -115,11 +135,17 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    pGameObject = CTestTerrain::Create(m_pDevice);
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    pGameObject = pManagement->Clone_GameObject(L"TestTerrain");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"TestTerrain", pGameObject);
 
-    pGameObject = CTestLight::Create(m_pDevice);
+    pGameObject = pManagement->Clone_GameObject(L"TestLight");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 

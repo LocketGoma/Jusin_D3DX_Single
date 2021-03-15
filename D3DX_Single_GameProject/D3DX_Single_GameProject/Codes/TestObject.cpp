@@ -22,18 +22,16 @@ CTestObject::CTestObject(const CTestObject& other)
 
 HRESULT CTestObject::Ready_GameObject(void)
 {
-    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
-
     return S_OK;
 }
 
-HRESULT CTestObject::Ready_GameObject_Clone(void* vArg)
+HRESULT CTestObject::Ready_GameObject_Clone(void* pArg)
 {
 
-	if (vArg != nullptr) {
-		_vec3 pVec = *((_vec3*)vArg);
+    FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	
+	if (pArg != nullptr) {
+		_vec3 pVec = *((_vec3*)pArg);
 		m_pTransformCom->Set_Scale(pVec);
 	}
 	else

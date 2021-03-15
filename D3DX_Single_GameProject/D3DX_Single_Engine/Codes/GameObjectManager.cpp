@@ -58,7 +58,7 @@ CGameObject* CGameObjectManager::Clone_GameObject(const std::wstring& PrototypeT
 	if (iter_find == m_pGameObject.end())
 	{
 		TCHAR msg[256] = L"";
-		TCHAR Omsg[] = L"Can not Find Prototype: %s";
+		TCHAR Omsg[] = L"Can not Find Prototype : %s";
 
 		swprintf_s(msg, Omsg, PrototypeTag);
 

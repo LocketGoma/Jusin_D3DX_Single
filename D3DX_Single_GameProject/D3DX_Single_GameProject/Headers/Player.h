@@ -19,10 +19,12 @@ class CPlayer : public Engine::CGameObject
 {
 private:
 	explicit CPlayer(_Device pDevice);
+	explicit CPlayer(const CPlayer& other);
 	virtual ~CPlayer(void) = default;
 
 public:
 	virtual HRESULT Ready_GameObject(void) override;
+	virtual HRESULT Ready_GameObject_Clone(void* pArg = nullptr) override;
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;

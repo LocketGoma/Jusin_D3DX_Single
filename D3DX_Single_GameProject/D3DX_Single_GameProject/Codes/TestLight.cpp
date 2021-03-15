@@ -6,7 +6,17 @@ CTestLight::CTestLight(_Device pDevice)
 {
 }
 
+CTestLight::CTestLight(const CTestLight& other)
+    : Engine::CGameObject(other)
+{
+}
+
 HRESULT CTestLight::Ready_GameObject()
+{
+    return S_OK;
+}
+
+HRESULT CTestLight::Ready_GameObject_Clone(void* pArg)
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -86,7 +96,7 @@ CTestLight* CTestLight::Create(_Device pDevice)
 Engine::CGameObject* CTestLight::Clone(void* pArg)
 {
     CTestLight* pClone = new CTestLight(*this);
-    if (FAILED(pClone->Ready_GameObject()))
+    if (FAILED(pClone->Ready_GameObject_Clone()))
     {
         PRINT_LOG(L"Error", L"Failed To Clone CTestLight");
         Safe_Release(pClone);

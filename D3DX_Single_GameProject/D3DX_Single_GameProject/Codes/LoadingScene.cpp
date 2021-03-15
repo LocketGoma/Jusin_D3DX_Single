@@ -1,12 +1,20 @@
 #include "framework.h"
 #include "LoadingScene.h"
 
-//로드할 데이터들
+//로드할 데이터 (컴포넌트) 들
 #include "Transform.h"
 #include "CameraComponent.h"
 
 
+//로드할 클래스 (게임오브젝트) 들
 #include "TestObject.h"
+#include "Player.h"
+#include "StaticObject.h"
+#include "DynamicObject.h"
+#include "TestCamera.h"
+#include "TestTerrain.h"
+#include "SkyBox.h"
+#include "TestLight.h"
 
 
 //로드 데이터 끝
@@ -171,11 +179,38 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     auto* pManagement = Engine::CManagement::Get_Instance();
 
     Engine::CGameObject* pGameObject = nullptr;
+    
+    //테스트 오브젝트
     pGameObject = CTestObject::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"TestObject", pGameObject);
 
+    //테스트 플레이어
+    pGameObject = CPlayer::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"TestPlayer", pGameObject);
 
+    //테스트 카메라
+    pGameObject = CTestCamera::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"TestCamera", pGameObject);
 
+    //테스트 지형
+    pGameObject = CTestTerrain::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"TestTerrain", pGameObject);
+
+    //스카이박스
+    pGameObject = CSkyBox::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"SkyBoxA", pGameObject);
+
+    //테스트 라이트
+    pGameObject = CTestLight::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"TestLight", pGameObject);
+
+    
     return S_OK;
 }
 

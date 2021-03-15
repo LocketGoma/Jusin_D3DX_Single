@@ -10,7 +10,17 @@ CTestTerrain::CTestTerrain(_Device pDevice)
 {
 }
 
+CTestTerrain::CTestTerrain(const CTestTerrain& other)
+	: CGameObject(other)
+{
+}
+
 HRESULT CTestTerrain::Ready_GameObject(void)
+{
+	return S_OK;
+}
+
+HRESULT CTestTerrain::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -155,6 +165,11 @@ Engine::CGameObject* CTestTerrain::Clone(void* pArg)
 	if (pClone == nullptr)
 	{
 		PRINT_LOG(L"Error", L"Failed To Clone CTestTerrain");
+	}
+
+	if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
+	{
+		Safe_Release(pClone);
 	}
 
 	return pClone;

@@ -13,8 +13,22 @@ CTestCamera::CTestCamera(_Device pDevice)
 {
 }
 
+CTestCamera::CTestCamera(const CTestCamera& other)
+    : Engine::CGameObject(other)
+    , m_fRotate(other.m_fRotate)
+    , m_fAxisXSpeed(other.m_fAxisXSpeed)
+    , m_fAxisYSpeed(other.m_fAxisYSpeed)
+    , m_bMouseLock(true)
+{
+}
+
 
 HRESULT CTestCamera::Ready_GameObject(void)
+{
+    return S_OK;
+}
+
+HRESULT CTestCamera::Ready_GameObject_Clone(void* pArg)
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -230,6 +244,11 @@ Engine::CGameObject* CTestCamera::Clone(void* pArg)
     {
         PRINT_LOG(L"Error", L"Failed To Clone CTestCamera");
     }
+    if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
+    {
+        Safe_Release(pClone);
+    }
+
 
     return pClone;
 }

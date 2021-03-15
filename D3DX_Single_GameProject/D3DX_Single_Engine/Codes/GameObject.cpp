@@ -21,6 +21,11 @@ HRESULT CGameObject::Ready_GameObject()
     return S_OK;
 }
 
+HRESULT CGameObject::Ready_GameObject_Clone(void* pArg)
+{
+    return S_OK;
+}
+
 _int CGameObject::Update_GameObject(const _float& fDeltaTime)
 {
     for (auto& iter : m_mapComponent[(_uint)(COMPONENT_ID::ID_DYNAMIC)])
