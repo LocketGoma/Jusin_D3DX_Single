@@ -10,6 +10,7 @@
 BEGIN_NAMESPACE(Engine)
 
 //프로토타입 매니저...
+//사실상 "컴포넌트 매니저" 역할
 class ENGINE_DLL CPrototypeManager : public CBase
 {
 	DECLARE_SINGLETON(CPrototypeManager)

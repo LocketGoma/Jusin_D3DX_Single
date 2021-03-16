@@ -40,6 +40,7 @@ private:
 	D3DXFRAME*				m_pRootFrame;		//최상단 프레임
 	CHierarchyLoader*		m_pLoader;			//계층화 로더
 	CAnimationController*	m_pAniControl;		//애니메이션 컨트롤러
+	int m_iVertexNumber;
 
 	std::list<D3DXMESHCONTAINER_DERIVED*>			m_MeshContainerList;
 

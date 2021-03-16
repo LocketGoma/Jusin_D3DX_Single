@@ -54,17 +54,24 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
     //≥Ù¿Ã∏  ¡ˆ¡§
 
     _ulong		dwByte = 0;
+    _ulong* pPixel;
 
     m_hFile = CreateFile(L"../../Resource/TestResource/Texture/Terrain/Height.bmp",
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
-    ReadFile(m_hFile, &m_fH, sizeof(BITMAPFILEHEADER), &dwByte, NULL);
-    ReadFile(m_hFile, &m_iH, sizeof(BITMAPINFOHEADER), &dwByte, NULL);
+    if (m_hFile != INVALID_HANDLE_VALUE)
+    {
+        ReadFile(m_hFile, &m_fH, sizeof(BITMAPFILEHEADER), &dwByte, NULL);
+        ReadFile(m_hFile, &m_iH, sizeof(BITMAPINFOHEADER), &dwByte, NULL);
 
-    _ulong* pPixel = new _ulong[m_iH.biWidth * m_iH.biHeight];
+        pPixel = new _ulong[m_iH.biWidth * m_iH.biHeight];
 
-    ReadFile(m_hFile, pPixel, sizeof(_ulong) * m_iH.biWidth * m_iH.biHeight, &dwByte, NULL);
-
+        ReadFile(m_hFile, pPixel, sizeof(_ulong) * m_iH.biWidth * m_iH.biHeight, &dwByte, NULL);
+    }
+    else
+    {
+        pPixel = new _ulong[(dwCountX) * (dwCountZ)]{};
+    }
     CloseHandle(m_hFile);
 
     VTXTEX* pVertex = NULL;

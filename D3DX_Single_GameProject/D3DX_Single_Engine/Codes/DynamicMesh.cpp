@@ -7,6 +7,7 @@ CDynamicMesh::CDynamicMesh(_Device pDevice)
     , m_pRootFrame(nullptr)
     , m_pLoader(nullptr)
     , m_pAniControl(nullptr)
+	, m_iVertexNumber(0)
 {
 }
 
@@ -16,6 +17,7 @@ CDynamicMesh::CDynamicMesh(const CDynamicMesh& other)
     , m_pLoader(other.m_pLoader)
     , m_MeshContainerList(other.m_MeshContainerList)
     , m_pAniControl(nullptr)
+	, m_iVertexNumber(other.m_iVertexNumber)
 {
     //애니메이션 컨트롤러는 깊은복사로 가져가야됨.
     m_pAniControl = CAnimationController::Create(*other.m_pAniControl);
@@ -124,9 +126,7 @@ CAnimationController* CDynamicMesh::Get_AniController()
 
 int CDynamicMesh::Get_VertexCount()
 {
-	
-
-	return 0;
+	return m_iVertexNumber;
 }
 
 void CDynamicMesh::Update_FrameMatrices(D3DXFRAME_DERIVED* pFrame, const _matrix* pParentMatrix)
@@ -150,6 +150,8 @@ void CDynamicMesh::SetUp_FrameMatrixPointer(D3DXFRAME_DERIVED* pFrame)
 	{
 		D3DXMESHCONTAINER_DERIVED* pDerivedMeshContainer = (D3DXMESHCONTAINER_DERIVED*)pFrame->pMeshContainer;
 
+		m_iVertexNumber += pDerivedMeshContainer->MeshData.pMesh->GetNumVertices();		
+
 		for (_ulong i = 0; i < pDerivedMeshContainer->dwNumBones; ++i)
 		{
 			// 뼈의 이름을 얻어옴
@@ -157,7 +159,7 @@ void CDynamicMesh::SetUp_FrameMatrixPointer(D3DXFRAME_DERIVED* pFrame)
 			// 이름과 일치하는 뼈를 찾음
 			D3DXFRAME_DERIVED* pFindFrame = (D3DXFRAME_DERIVED*)D3DXFrameFind(m_pRootFrame, pBoneName);
 
-			pDerivedMeshContainer->ppFrameCombinedMatrix[i] = &pFindFrame->CombinedTranformationMatrix;
+			pDerivedMeshContainer->ppFrameCombinedMatrix[i] = &pFindFrame->CombinedTranformationMatrix;			
 		}
 
 		m_MeshContainerList.push_back(pDerivedMeshContainer);

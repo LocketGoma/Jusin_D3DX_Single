@@ -194,6 +194,7 @@
     <ClInclude Include="..\Headers\Engine_Include.h" />
     <ClInclude Include="..\Headers\Engine_Struct.h" />
     <ClInclude Include="..\Headers\Engine_Typedef.h" />
+    <ClInclude Include="..\Headers\FrustumCull.h" />
     <ClInclude Include="..\Headers\GameObject.h" />
     <ClInclude Include="..\Headers\GameObjectManager.h" />
     <ClInclude Include="..\Headers\GraphicDevice.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="..\Headers\LightingManager.h" />
     <ClInclude Include="..\Headers\Management.h" />
     <ClInclude Include="..\Headers\Mesh.h" />
+    <ClInclude Include="..\Headers\Optimization.h" />
     <ClInclude Include="..\Headers\PrototypeManager.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
     <ClInclude Include="..\Headers\Scene.h" />
@@ -228,6 +230,7 @@
     <ClCompile Include="..\Codes\Component.cpp" />
     <ClCompile Include="..\Codes\ControlSupport.cpp" />
     <ClCompile Include="..\Codes\DynamicMesh.cpp" />
+    <ClCompile Include="..\Codes\FrustumCull.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
     <ClCompile Include="..\Codes\GameObjectManager.cpp" />
     <ClCompile Include="..\Codes\GraphicDevice.cpp" />
@@ -240,6 +243,7 @@
     <ClCompile Include="..\Codes\LightingManager.cpp" />
     <ClCompile Include="..\Codes\Management.cpp" />
     <ClCompile Include="..\Codes\Mesh.cpp" />
+    <ClCompile Include="..\Codes\Optimization.cpp" />
     <ClCompile Include="..\Codes\PrototypeManager.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
     <ClCompile Include="..\Codes\Scene.cpp" />

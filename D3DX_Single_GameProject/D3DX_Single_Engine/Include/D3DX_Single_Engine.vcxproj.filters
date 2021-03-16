@@ -110,6 +110,12 @@
     <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\00.HierarchyLoader">
       <UniqueIdentifier>{5c86d490-2d68-46c3-8737-a1d2bdc774bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\04.Optimization">
+      <UniqueIdentifier>{ab916dbf-b9e4-4364-899c-077af47410e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\04.Optimization\01.Frustum">
+      <UniqueIdentifier>{7a0dbeea-b832-4631-9c6c-a0a63da93aac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -207,6 +213,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\HierarchyLoader.cpp">
       <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\00.HierarchyLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Optimization.cpp">
+      <Filter>01.Resources\01.Component\04.Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\FrustumCull.cpp">
+      <Filter>01.Resources\01.Component\04.Optimization\01.Frustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +335,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\HierarchyLoader.h">
       <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\01.DynamicMesh\00.HierarchyLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Optimization.h">
+      <Filter>01.Resources\01.Component\04.Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\FrustumCull.h">
+      <Filter>01.Resources\01.Component\04.Optimization\01.Frustum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
