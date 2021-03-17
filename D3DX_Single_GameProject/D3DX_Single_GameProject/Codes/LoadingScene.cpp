@@ -81,6 +81,8 @@ HRESULT CLoadingScene::Ready_Loading(LOADINGID eLoadingID)
 
     m_eNextLoadScene = eLoadingID;
     
+    lstrcpy(m_szString, L"Loading...............");
+
     return S_OK;
 }
 
@@ -93,6 +95,8 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
         return E_FAIL;
     }
     //크리티컬 섹션 진입
+
+
 
     _uint iFlag = 0;
 
@@ -128,6 +132,7 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
 
 _bool CLoadingScene::IsFinished()
 {
+    lstrcpy(m_szString, L"Loading End");
     return m_bLoadFinished;
 }
 

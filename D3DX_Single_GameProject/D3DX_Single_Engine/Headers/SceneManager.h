@@ -21,6 +21,7 @@ public:
 	CScene* Get_NowScene();
 	_uint Update_Scene(_float fDeltaTime);
 	_uint LateUpdate_Scene(_float fDeltaTime);
+	void Render_Scene();
 
 
 	//업데이트 : 이동, 행동

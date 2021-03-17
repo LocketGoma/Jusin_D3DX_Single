@@ -194,6 +194,8 @@
     <ClInclude Include="..\Headers\Engine_Include.h" />
     <ClInclude Include="..\Headers\Engine_Struct.h" />
     <ClInclude Include="..\Headers\Engine_Typedef.h" />
+    <ClInclude Include="..\Headers\Font.h" />
+    <ClInclude Include="..\Headers\FontManager.h" />
     <ClInclude Include="..\Headers\FrustumCull.h" />
     <ClInclude Include="..\Headers\GameObject.h" />
     <ClInclude Include="..\Headers\GameObjectManager.h" />
@@ -230,6 +232,8 @@
     <ClCompile Include="..\Codes\Component.cpp" />
     <ClCompile Include="..\Codes\ControlSupport.cpp" />
     <ClCompile Include="..\Codes\DynamicMesh.cpp" />
+    <ClCompile Include="..\Codes\Font.cpp" />
+    <ClCompile Include="..\Codes\FontManager.cpp" />
     <ClCompile Include="..\Codes\FrustumCull.cpp" />
     <ClCompile Include="..\Codes\GameObject.cpp" />
     <ClCompile Include="..\Codes\GameObjectManager.cpp" />

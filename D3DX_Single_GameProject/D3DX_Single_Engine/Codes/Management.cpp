@@ -13,6 +13,7 @@ CManagement::CManagement()
 	, m_pSceneManager(CSceneManager::Get_Instance())
 	, m_pGameObjectManager(CGameObjectManager::Get_Instance())
 	, m_pTimeManager(CTimeManager::Get_Instance())
+	, m_pFontManager(CFontManager::Get_Instance())
 	//, m_pSound_Manager(CSoundManager::Get_Instance())
 
 {
@@ -24,6 +25,7 @@ CManagement::CManagement()
 	Safe_AddReference(m_pSceneManager);
 	Safe_AddReference(m_pGameObjectManager);
 	Safe_AddReference(m_pTimeManager);
+	Safe_AddReference(m_pFontManager);
 	//Safe_AddReference(m_pSound_Manager);
 }
 
@@ -33,6 +35,7 @@ HRESULT CManagement::Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDi
 	if (nullptr == hWnd ||
 		nullptr == m_pDeviceManager ||
 		nullptr == m_pRenderer ||
+		nullptr == m_pFontManager ||
 		nullptr == m_pKeyManager ||
 		nullptr == m_pTimeManager ||
 		nullptr == m_pGameObjectManager)
@@ -86,6 +89,8 @@ HRESULT CManagement::Render_Engine(HWND hWnd)
 		PRINT_LOG(L"Error", L"Failed To Render_RenderList");
 		return E_FAIL;
 	}
+	
+	m_pSceneManager->Render_Scene();
 
 	return S_OK;
 }
@@ -101,6 +106,17 @@ _Device CManagement::Get_Device()
 _float CManagement::Get_DeltaTime()
 {
 	return m_pTimeManager->Update_TimeManager();
+}
+
+//이거 좀 바꿔도 될듯...?
+HRESULT CManagement::Ready_Font(_Device pDevice, const _tchar* pFontTag, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight)
+{
+	return m_pFontManager->Ready_Font(pDevice,pFontTag,pFontType,iWidth,iHeight,iWeight);
+}
+
+void CManagement::Render_Font(const _tchar* pFontTag, const _tchar* pString, const _vec2* pPos, D3DXCOLOR Color)
+{
+	m_pFontManager->Render_Font(pFontTag, pString, pPos, Color);
 }
 
 HRESULT CManagement::Setup_SceneManager(_int iMaxSceneIndex)
@@ -238,6 +254,7 @@ void CManagement::Free()
 	//Safe_Release(m_pSoundManager);
 	Safe_Release(m_pTimeManager);
 	Safe_Release(m_pKeyManager);
+	Safe_Release(m_pFontManager);
 	Safe_Release(m_pSceneManager);
 	Safe_Release(m_pGameObjectManager);
 	Safe_Release(m_pGraphicManager);
@@ -257,6 +274,9 @@ void CManagement::Release_Engine()
 
 	if (CTimeManager::Destroy_Instance())
 		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CTime_Manager (Management.cpp)");
+
+	if (CFontManager::Destroy_Instance())
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CFontManager (Management.cpp)");
 
 	if (CSceneManager::Destroy_Instance())
 		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CSceneManager (Management.cpp)");

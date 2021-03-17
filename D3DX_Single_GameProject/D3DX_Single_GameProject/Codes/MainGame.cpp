@@ -38,6 +38,8 @@ HRESULT CMainGame::Ready_MainGame()
 
     Safe_AddReference(m_pDevice);
 
+    Setup_DefaultSetting();
+
     m_pManagement->Setup_SceneManager(1);
 
 
@@ -78,6 +80,9 @@ HRESULT CMainGame::Setup_DefaultSetting()
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW)))
         return E_FAIL;
+
+    // Font
+    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_BASE", L"πŸ≈¡", 15, 15, FW_HEAVY), E_FAIL);
 
     return S_OK;
 }

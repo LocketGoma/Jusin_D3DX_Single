@@ -29,7 +29,7 @@ HRESULT CBaseLogoScene::Ready_Scene(void)
 	m_pLoading = CLoadingScene::Create(m_pDevice, LOADINGID::LOADING_TEST);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
-	Ready_Layer(L"LogoImage");
+	//Ready_Layer(L"LogoImage");
 
 	return S_OK;
 }
@@ -65,11 +65,21 @@ _int CBaseLogoScene::Update_Scene(const _float& fDeltaTime)
 _int CBaseLogoScene::LateUpdate_Scene(const _float& fDeltaTime)
 {
 	CScene::LateUpdate_Scene(fDeltaTime);
+
+
 	return _int();
 }
 
 void CBaseLogoScene::Render_Scene(void)
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return;
+	}
+	pManagement->Render_Font(L"Font_BASE", m_pLoading->Get_String(), &_vec2(20, 20), D3DXCOLOR(1.0f, 1.0f, 0.f, 1.0f));
+
+
 	CScene::Render_Scene();
 }
 //Resource Loader

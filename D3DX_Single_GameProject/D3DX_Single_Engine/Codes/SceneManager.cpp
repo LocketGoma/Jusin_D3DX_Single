@@ -74,6 +74,15 @@ _uint CSceneManager::LateUpdate_Scene(_float fDeltaTime)
 	return m_pCurrentScene->LateUpdate_Scene(fDeltaTime);
 }
 
+void CSceneManager::Render_Scene()
+{
+	if (nullptr == m_pCurrentScene || m_bChangeTrigger == true)
+	{
+		return;
+	}
+	m_pCurrentScene->Render_Scene();
+}
+
 
 
 void CSceneManager::Free()

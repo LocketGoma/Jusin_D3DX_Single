@@ -116,6 +116,12 @@
     <Filter Include="01.Resources\01.Component\04.Optimization\01.Frustum">
       <UniqueIdentifier>{7a0dbeea-b832-4631-9c6c-a0a63da93aac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\11.Font">
+      <UniqueIdentifier>{4fdc7dae-ae24-4057-a507-c8612f4bb799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\11.FontManager">
+      <UniqueIdentifier>{bfe2dbbf-1146-4afe-aafc-4ed6b9f765b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -219,6 +225,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\FrustumCull.cpp">
       <Filter>01.Resources\01.Component\04.Optimization\01.Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Font.cpp">
+      <Filter>01.Resources\11.Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\FontManager.cpp">
+      <Filter>00.System\11.FontManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +353,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\FrustumCull.h">
       <Filter>01.Resources\01.Component\04.Optimization\01.Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Font.h">
+      <Filter>01.Resources\11.Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\FontManager.h">
+      <Filter>00.System\11.FontManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

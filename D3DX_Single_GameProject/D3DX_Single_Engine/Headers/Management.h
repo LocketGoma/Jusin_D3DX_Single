@@ -15,6 +15,7 @@
 #include "GameObjectManager.h"
 #include "PrototypeManager.h"
 #include "GraphicResourceManager.h"
+#include "FontManager.h"
 
 BEGIN_NAMESPACE(Engine)
 //마스터 클래스
@@ -43,6 +44,12 @@ public :
 	//TimeManager Setting
 	//HRESULT Ready_Timer();
 	_float Get_DeltaTime();
+
+public :
+	//FontManager Setting
+	HRESULT	Ready_Font(_Device pDevice, const _tchar * pFontTag, const _tchar * pFontType, const _uint & iWidth, const _uint & iHeight, const _uint & iWeight);
+
+	void	Render_Font(const _tchar * pFontTag, const _tchar * pString, const _vec2 * pPos, D3DXCOLOR Color);
 
 public:
 	//SceneManager Setting
@@ -94,6 +101,7 @@ private:
 	CGraphicDevice*			 m_pDeviceManager	  = nullptr;
 	CRenderer*				 m_pRenderer		  = nullptr;
 	CKeyManager*			 m_pKeyManager		  = nullptr;
+	CFontManager*			 m_pFontManager		  = nullptr;
 	CTimeManager*			 m_pTimeManager		  = nullptr;
 	CSceneManager*			 m_pSceneManager	  = nullptr;
 	CGameObjectManager*		 m_pGameObjectManager = nullptr;
