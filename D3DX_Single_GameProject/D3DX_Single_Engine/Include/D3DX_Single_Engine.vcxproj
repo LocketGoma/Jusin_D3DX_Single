@@ -222,6 +222,7 @@
     <ClInclude Include="..\Headers\VTXCubeColor.h" />
     <ClInclude Include="..\Headers\VTXCubeTexture.h" />
     <ClInclude Include="..\Headers\VTXRectTexture.h" />
+    <ClInclude Include="..\Headers\VTXSphereColor.h" />
     <ClInclude Include="..\Headers\VTXTerrain.h" />
     <ClInclude Include="..\Headers\VTXTriColor.h" />
   </ItemGroup>
@@ -260,6 +261,7 @@
     <ClCompile Include="..\Codes\VTXCubeColor.cpp" />
     <ClCompile Include="..\Codes\VTXCubeTexture.cpp" />
     <ClCompile Include="..\Codes\VTXRectTexture.cpp" />
+    <ClCompile Include="..\Codes\VTXSphereColor.cpp" />
     <ClCompile Include="..\Codes\VTXTerrain.cpp" />
     <ClCompile Include="..\Codes\VTXTriColor.cpp" />
   </ItemGroup>

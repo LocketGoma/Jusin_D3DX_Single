@@ -5,6 +5,7 @@ USING(Engine)
 CVTXCubeColor::CVTXCubeColor(_Device pDevice)
 	: CVIBuffer(pDevice)
 {
+	m_bIsPrototype = true;
 }
 
 CVTXCubeColor::CVTXCubeColor(const CVTXCubeColor& other)

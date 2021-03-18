@@ -122,6 +122,9 @@
     <Filter Include="00.System\11.FontManager">
       <UniqueIdentifier>{bfe2dbbf-1146-4afe-aafc-4ed6b9f765b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\06.SphereColor">
+      <UniqueIdentifier>{d3854395-e3dc-473e-984c-5f0d1b91bca4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -231,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\FontManager.cpp">
       <Filter>00.System\11.FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VTXSphereColor.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\06.SphereColor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +365,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\FontManager.h">
       <Filter>00.System\11.FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VTXSphereColor.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\06.SphereColor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
