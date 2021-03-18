@@ -77,11 +77,12 @@ HRESULT CLoadingScene::Ready_Loading(LOADINGID eLoadingID)
 {
     InitializeCriticalSection(&m_pCritSection);
 
+
+
     m_hLoadingThread = (HANDLE)_beginthreadex(NULL, 0, LoadingByThread, this, 0, NULL);
 
-    m_eNextLoadScene = eLoadingID;
-    
-    lstrcpy(m_szString, L"Loading...............");
+    m_eNextLoadScene = eLoadingID;   
+
 
     return S_OK;
 }
@@ -95,8 +96,6 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
         return E_FAIL;
     }
     //크리티컬 섹션 진입
-
-
 
     _uint iFlag = 0;
 
@@ -132,7 +131,6 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
 
 _bool CLoadingScene::IsFinished()
 {
-    lstrcpy(m_szString, L"Loading End");
     return m_bLoadFinished;
 }
 
@@ -150,7 +148,10 @@ CLoadingScene* CLoadingScene::Create(_Device pDevice, LOADINGID eSceneID)
 
 HRESULT CLoadingScene::Load_Base_Resource()
 {
+    lstrcpy(m_szString, L"Loading...............");
+
     auto* pManagement = Engine::CManagement::Get_Instance();
+
 
     pManagement->Ready_Buffer(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_BUFFER, L"Buffer_TriColor", Engine::BUFFERID::BUFFER_TRICOL);
     pManagement->Ready_Buffer(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_BUFFER, L"Buffer_TerrainTex", Engine::BUFFERID::BUFFER_TERRAINTEX);
@@ -171,6 +172,8 @@ HRESULT CLoadingScene::Load_Base_Resource()
     pManagement->Ready_Prototype(L"Camera_Comp", Engine::CCameraComponent::Create(m_pDevice));
 
     m_bLoadFinished = true;
+
+    lstrcpy(m_szString, L"Loading End");
 
     return S_OK;
 }

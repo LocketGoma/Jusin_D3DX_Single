@@ -36,6 +36,7 @@ private:
 	HRESULT Render_Alpha();
 	HRESULT Render_Wireframe();
 	HRESULT Render_UI();
+	HRESULT Render_Scene();
 
 public:
 	virtual void Free() override;

@@ -111,17 +111,17 @@ void CTransform::Set_TransformDescription(TRANSFORM_DESC* pDesc)
 {
 	memcpy(&m_TransformDesc, pDesc, sizeof(TRANSFORM_DESC));
 }
-CTransform::TRANSFORM_DESC CTransform::Get_TransformDescription()
+CTransform::TRANSFORM_DESC CTransform::Get_TransformDescription() const
 {
 	return m_TransformDesc;
 }
 
-void CTransform::Get_Info(TRANSFORM_INFO eType, _vec3* pvInfo)
+void CTransform::Get_Info(TRANSFORM_INFO eType, _vec3* pvInfo) const
 {
 	memcpy(pvInfo, &m_TransformDesc.matWorld.m[(_uint)(eType)][0], sizeof(_vec3));	
 }
 
-_vec3 CTransform::Get_Info(TRANSFORM_INFO eType)
+_vec3 CTransform::Get_Info(TRANSFORM_INFO eType) const
 {
 	_vec3 vP;
 

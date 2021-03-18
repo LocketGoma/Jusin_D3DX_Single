@@ -2,6 +2,8 @@
 #include "Renderer.h"
 #include "GraphicDevice.h"
 
+#include "Management.h"
+
 USING(Engine)
 IMPLEMENT_SINGLETON(CRenderer)
 
@@ -80,6 +82,9 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
         return E_FAIL;
 
     if (FAILED(Render_UI()))
+        return E_FAIL;
+
+    if (FAILED(Render_Scene()))
         return E_FAIL;
 
     //랜더 리스트 끝
@@ -359,8 +364,15 @@ HRESULT CRenderer::Render_UI()
         return E_FAIL;
     }
 
+    return S_OK;
+}
+//씬에서 남은 자잘구레한것들 출력
+HRESULT CRenderer::Render_Scene()
+{
+    CManagement* pManagement = CManagement::Get_Instance();
+    NULL_CHECK_RETURN(pManagement,E_FAIL);
 
-
+    pManagement->Render_Scene();
 
     return S_OK;
 }

@@ -89,8 +89,6 @@ HRESULT CManagement::Render_Engine(HWND hWnd)
 		PRINT_LOG(L"Error", L"Failed To Render_RenderList");
 		return E_FAIL;
 	}
-	
-	m_pSceneManager->Render_Scene();
 
 	return S_OK;
 }
@@ -132,6 +130,11 @@ HRESULT CManagement::Setup_CurrentScene(_int iSceneIndex, CScene* pCurrentScene)
 CScene* CManagement::Get_NowScene()
 {
 	return m_pSceneManager->Get_NowScene();
+}
+
+void CManagement::Render_Scene()
+{
+	m_pSceneManager->Render_Scene();
 }
 
 //_uint CManagement::Update_Scene(_float fDeltaTime)

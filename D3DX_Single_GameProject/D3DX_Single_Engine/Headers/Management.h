@@ -56,6 +56,7 @@ public:
 	HRESULT Setup_SceneManager(_int iMaxSceneIndex);
 	HRESULT Setup_CurrentScene(_int iSceneIndex, class CScene* pCurrentScene);
 	class CScene* Get_NowScene();
+	void Render_Scene();
 	//_uint	Update_Scene(_float fDeltaTime);
 	//_uint	LateUpdate_Scene(_float fDeltaTime);
 
@@ -74,6 +75,7 @@ public:
 	//1. PrototypeManager (Non-GraphicResource Component)
 	HRESULT		Ready_Prototype(const _tchar * pProtoTag, CComponent * pInstance);
 	CComponent* Clone_Prototype(const _tchar * pProtoTag);
+	CComponent* Get_Component(const _tchar * pCompTag);
 
 	//2. GraphicResourceManager
 		//컨테이너 공간을 미리 얼마나 할당할것인지 지정.
@@ -82,14 +84,14 @@ public:
 	HRESULT Ready_Buffer(_Device pDevice, const _uint & iIndex, const _tchar * pBufferTag, BUFFERID eID, const _ulong & dwCountX = 129, const _ulong & dwCountZ = 129, const _ulong & dwVTXInterval = 1);
 	HRESULT	Ready_Texture(_Device pDevice, const _ushort & wContainerIdx, const _tchar * pTextureTag, TEXTYPE eType, const _tchar * pPath, const _uint & iCnt = 1);
 	HRESULT Ready_Meshes(_Device pDevice, const _ushort & wContainerIdx, const _tchar * pMeshTag, MESHTYPE eType, const _tchar * pFilePath, const _tchar * pFileName);
-	HRESULT Ready_Meshes_Force(_Device pDevice, const _ushort & wContainerIdx, const _tchar * pMeshTag, MESHTYPE eType, const _tchar * pFilePath, const _tchar * pFileName);
-	
+	HRESULT Ready_Meshes_Force(_Device pDevice, const _ushort & wContainerIdx, const _tchar * pMeshTag, MESHTYPE eType, const _tchar * pFilePath, const _tchar * pFileName);	
 
 	CComponent* Clone_Resource(const _uint & iIndex, const _tchar * pResourceTag);
 
 	//3. GameObjectManager - 생성시 추가할것.
 	HRESULT Add_GameObject_Prototype(const std::wstring & PrototypeTag, class CGameObject* pPrototype);
 	CGameObject* Clone_GameObject(const std::wstring & PrototypeTag, void* pArg = nullptr);
+	CGameObject* Get_GameObject(const std::wstring & pObjectTag);
 
 
 

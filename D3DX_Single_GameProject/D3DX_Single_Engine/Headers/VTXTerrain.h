@@ -38,6 +38,8 @@ private:
 	HANDLE		m_hFile;
 	BITMAPFILEHEADER		m_fH;
 	BITMAPINFOHEADER		m_iH;
+	_ulong m_dwCountX;
+	_ulong m_dwCountZ;
 	_vec3* m_pPos;
 	
 };

@@ -15,6 +15,8 @@ CVTXTerrain::CVTXTerrain(const CVTXTerrain& other)
     , m_pPos(other.m_pPos)
     , m_fH(other.m_fH)
     , m_iH(other.m_iH)
+    , m_dwCountX(other.m_dwCountX)
+    , m_dwCountZ(other.m_dwCountZ)
 {
     m_bIsPrototype = false;
 }
@@ -26,12 +28,12 @@ const _vec3* CVTXTerrain::Get_VTXPos(void) const
 
 _ulong CVTXTerrain::Get_VTXCountX() const
 {
-    return m_iH.biWidth;
+    return m_dwCountX;
 }
 
 _ulong CVTXTerrain::Get_VTXCountZ() const
 {
-    return m_iH.biHeight;
+    return m_dwCountZ;
 }
 //³ªÁß¿¡!
 void CVTXTerrain::Copy_Index(INDEX32* pIndex, const _ulong& dwTriCount)
@@ -48,6 +50,9 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
     m_dwFVF = FVF_TEX;
 
     m_pPos = new _vec3[m_dwVTXCount];
+    m_dwCountX = dwCountX;
+    m_dwCountZ = dwCountZ;
+
 
     FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
 
