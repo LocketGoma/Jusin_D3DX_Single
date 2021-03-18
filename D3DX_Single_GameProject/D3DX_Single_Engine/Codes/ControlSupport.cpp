@@ -68,7 +68,45 @@ _float CControlSupportUnit::Calculate_HeightOnTerrain(const _vec3* pPos, const _
 //이거 중력건 만들려면 반드시 만들어놔야됨.
 _vec3 CControlSupportUnit::Picking_Object(HWND hWnd, const CVIBuffer* pBuffer,const CTransform* pTransform)
 {
+    POINT ptMouse{};
 
+    GetCursorPos(&ptMouse);
+    ScreenToClient(hWnd, &ptMouse);
+
+    _vec3 vMousePos;
+
+    //뷰포트 획득
+    D3DVIEWPORT9 pViewPort;
+    ZeroMemory(&pViewPort, sizeof(_D3DVIEWPORT9));
+    m_pDevice->GetViewport(&pViewPort);
+
+    //윈도우 좌표 -> 투영 좌표
+    vMousePos.x = ptMouse.x / (pViewPort.Width * 0.5f) - 1.f;
+    vMousePos.y = ptMouse.y / -(pViewPort.Height * 0.5f) + 1.f;
+    vMousePos.z = 0.f;
+
+    //투영 좌표 -> 뷰 좌표
+    _mat matProj;
+    m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+    D3DXMatrixInverse(&matProj, NULL, &matProj);
+    D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+    //이 시점에 마우스 좌표는 뷰에 있음.
+
+    //뷰 좌표 -> 월드 좌표
+    _mat matView;
+    m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixInverse(&matView, NULL, &matView);
+
+
+    //RayPos : 레이 스타트 / RayDir : 레이 방향
+    _vec3 vRayPos, vRayDir;
+
+    vRayPos = _vec3(0.f, 0.f, 0.f); //레이 시작 : 화면 중점
+    vRayDir = vMousePos - vRayPos; //레이 방향 : 마우스 클릭위치
+
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
 
 
@@ -151,15 +189,8 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
 
             if (D3DXIntersectTri(&pTerrainVTX[dwVTXIndex[1]], &pTerrainVTX[dwVTXIndex[2]], &pTerrainVTX[dwVTXIndex[0]], &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
-                // 우상단을 1,1로 두고
-                //x :우상단 좌표 - (좌상단-우상단 길이) * 피킹 비율
-                //y : 3개 좌표 y값 / 3
-                //z : 우상단 좌표 - (우상단-우하단 길이) * 피킹 비율
 
-                //왜 반대지?
-                return _vec3(pTerrainVTX[dwVTXIndex[1]].x + (pTerrainVTX[dwVTXIndex[0]].x - pTerrainVTX[dwVTXIndex[1]].x) * (fV),
-                    (pTerrainVTX[dwVTXIndex[0]].y + pTerrainVTX[dwVTXIndex[1]].y + pTerrainVTX[dwVTXIndex[2]].y) / 3,
-                    pTerrainVTX[dwVTXIndex[1]].z + (pTerrainVTX[dwVTXIndex[2]].z - pTerrainVTX[dwVTXIndex[1]].z) * (fU));
+                return (pTerrainVTX[dwVTXIndex[1]] + (pTerrainVTX[dwVTXIndex[2]] - pTerrainVTX[dwVTXIndex[1]])*fU + (pTerrainVTX[dwVTXIndex[0]]- pTerrainVTX[dwVTXIndex[1]])*fV);
 
             }
 
@@ -170,13 +201,9 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
 
             if (D3DXIntersectTri(&pTerrainVTX[dwVTXIndex[2]], &pTerrainVTX[dwVTXIndex[0]], &pTerrainVTX[dwVTXIndex[1]], &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
-                // 좌하단을 0,0으로 두고
-                //x : 좌하단 좌표 + (우하단-좌하단 길이)*피킹 비율
-                //y : 3개 좌표 y값 / 3
-                //z : 좌하단 좌표 + (좌상단-좌하단 길이) * 피킹 비율
-                return _vec3(pTerrainVTX[dwVTXIndex[2]].x + (pTerrainVTX[dwVTXIndex[1]].x - pTerrainVTX[dwVTXIndex[2]].x) * (fV), 
-                    (pTerrainVTX[dwVTXIndex[0]].y + pTerrainVTX[dwVTXIndex[1]].y + pTerrainVTX[dwVTXIndex[2]].y) / 3, 
-                    pTerrainVTX[dwVTXIndex[2]].z + (pTerrainVTX[dwVTXIndex[0]].z - pTerrainVTX[dwVTXIndex[2]].z) * (fU));
+                // = v0 + (u*(v1-v0))+(v*(v2-v0));
+
+                return (pTerrainVTX[dwVTXIndex[2]] + (pTerrainVTX[dwVTXIndex[0]] - pTerrainVTX[dwVTXIndex[2]]) * fU + (pTerrainVTX[dwVTXIndex[1]] - pTerrainVTX[dwVTXIndex[2]]) * fV);
 
             }
 
