@@ -4,6 +4,7 @@
 #include "VTXTriColor.h"
 #include "Transform.h"
 #include "Player.h"
+#include "NaviMesh.h"
 
 CPlayer::CPlayer(_Device pDevice)
 	: Engine::CGameObject(pDevice)
@@ -59,6 +60,8 @@ HRESULT CPlayer::Render_GameObject(void)
 {
 	//m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
+	m_pNaviMeshCom->Render_NaviMesh();
+
 	m_pTransformCom->LateUpdate_Component(0.f);
 
 	if (FAILED(CGameObject::Render_GameObject()))
@@ -112,6 +115,11 @@ HRESULT CPlayer::Add_Component(void)
 	m_mapComponent[0].emplace(L"Com_Transform", pComponent);
 
 
+	// NaviMesh
+	pComponent = m_pNaviMeshCom = dynamic_cast<Engine::CNaviMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Navi"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[0].emplace(L"Com_NAVI", pComponent);
+
 	return S_OK;
 }
 
@@ -122,6 +130,8 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	{
 		return;
 	}
+
+	_vec3 vPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
 
 	if (pManagement->Key_Pressing(VK_UP))
 	{
@@ -143,6 +153,12 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	{		
 		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, fDeltaTime);
 	}
+	m_pTransformCom->Update_Component(fDeltaTime);
+
+	_vec3 movePos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
+
+
+	m_pTransformCom->Set_Pos(m_pNaviMeshCom->Compare_OnNaviMesh(&vPos, &movePos));
 
 }
 

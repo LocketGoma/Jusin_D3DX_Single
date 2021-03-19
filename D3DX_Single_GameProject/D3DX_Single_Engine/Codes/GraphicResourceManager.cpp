@@ -125,6 +125,7 @@ HRESULT CGraphicResourceManager::Ready_Meshes(_Device pDevice, const _ushort& wC
         pResource = CDynamicMesh::Create(pDevice, pFilePath, pFileName);
         break;
     case Engine::MESHTYPE::MESH_NAVI:
+        pResource = CNaviMesh::Create(pDevice);
         break;
     case Engine::MESHTYPE::MESH_END:
         break;

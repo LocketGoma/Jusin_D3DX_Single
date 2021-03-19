@@ -185,6 +185,7 @@
     <ClInclude Include="..\Headers\AnimationController.h" />
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\CameraComponent.h" />
+    <ClInclude Include="..\Headers\Cell.h" />
     <ClInclude Include="..\Headers\Component.h" />
     <ClInclude Include="..\Headers\ControlSupport.h" />
     <ClInclude Include="..\Headers\DynamicMesh.h" />
@@ -209,6 +210,8 @@
     <ClInclude Include="..\Headers\LightingManager.h" />
     <ClInclude Include="..\Headers\Management.h" />
     <ClInclude Include="..\Headers\Mesh.h" />
+    <ClInclude Include="..\Headers\NaviLine.h" />
+    <ClInclude Include="..\Headers\NaviMesh.h" />
     <ClInclude Include="..\Headers\Optimization.h" />
     <ClInclude Include="..\Headers\PrototypeManager.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
@@ -230,6 +233,7 @@
     <ClCompile Include="..\Codes\AnimationController.cpp" />
     <ClCompile Include="..\Codes\Base.cpp" />
     <ClCompile Include="..\Codes\CameraComponent.cpp" />
+    <ClCompile Include="..\Codes\Cell.cpp" />
     <ClCompile Include="..\Codes\Component.cpp" />
     <ClCompile Include="..\Codes\ControlSupport.cpp" />
     <ClCompile Include="..\Codes\DynamicMesh.cpp" />
@@ -248,6 +252,8 @@
     <ClCompile Include="..\Codes\LightingManager.cpp" />
     <ClCompile Include="..\Codes\Management.cpp" />
     <ClCompile Include="..\Codes\Mesh.cpp" />
+    <ClCompile Include="..\Codes\NaviLine.cpp" />
+    <ClCompile Include="..\Codes\NaviMesh.cpp" />
     <ClCompile Include="..\Codes\Optimization.cpp" />
     <ClCompile Include="..\Codes\PrototypeManager.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />

@@ -8,10 +8,11 @@
 
 
 
-BEGIN_NAMESPACE(Engine)
 
+BEGIN_NAMESPACE(Engine)
 class CVTXTriColor;
 class CTransform;
+class CNaviMesh;
 
 END_NAMESPACE
 
@@ -43,6 +44,8 @@ private:
 	Engine::CVTXTriColor* m_pBufferCom = nullptr;
 	//Engine::CTexture* m_pTextureCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
+
+	Engine::CNaviMesh* m_pNaviMeshCom = nullptr;
 
 
 	_vec3					m_vDir;

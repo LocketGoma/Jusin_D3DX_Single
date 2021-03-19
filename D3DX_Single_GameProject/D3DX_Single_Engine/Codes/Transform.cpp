@@ -130,6 +130,11 @@ _vec3 CTransform::Get_Info(TRANSFORM_INFO eType) const
 	return vP;
 }
 
+_vec3 CTransform::Get_Info_RawData(TRANSFORM_INFO eType) const
+{
+	return m_TransformDesc.m_vInfo[(_uint)eType];
+}
+
 
 CTransform* CTransform::Create(_Device pDevice)
 {

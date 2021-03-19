@@ -28,6 +28,11 @@ CGameObject* CLayer::Find_GameObject(const _tchar* pObjectTag)
 	return iter->second;
 }
 
+std::map<const _tchar*, CGameObject*>* CLayer::Get_ObjectLayer()
+{
+	return &m_mapObject;
+}
+
 HRESULT CLayer::Ready_Layer(void)
 {
 	return S_OK;

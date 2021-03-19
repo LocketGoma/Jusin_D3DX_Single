@@ -46,6 +46,11 @@ void CScene::Render_Scene(void)
     }
 }
 
+std::map<const _tchar*, CLayer*>* CScene::Get_MapLayer()
+{
+    return &m_mapLayer;
+}
+
 CGameObject* CScene::Find_GameObject(const _tchar* pLayerName, const _tchar* pObjectTag)
 {
     auto& iter = m_mapLayer.find(pLayerName);

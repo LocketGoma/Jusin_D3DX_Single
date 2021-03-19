@@ -161,6 +161,7 @@
     <ClInclude Include="..\Headers\LoadingScene.h" />
     <ClInclude Include="..\Headers\LogoImage.h" />
     <ClInclude Include="..\Headers\MainGame.h" />
+    <ClInclude Include="..\Headers\NaviMeshController.h" />
     <ClInclude Include="..\Headers\Player.h" />
     <ClInclude Include="..\Headers\SkyBox.h" />
     <ClInclude Include="..\Headers\StaticObject.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="..\Codes\LoadingScene.cpp" />
     <ClCompile Include="..\Codes\LogoImage.cpp" />
     <ClCompile Include="..\Codes\MainGame.cpp" />
+    <ClCompile Include="..\Codes\NaviMeshController.cpp" />
     <ClCompile Include="..\Codes\Player.cpp" />
     <ClCompile Include="..\Codes\SkyBox.cpp" />
     <ClCompile Include="..\Codes\StaticObject.cpp" />

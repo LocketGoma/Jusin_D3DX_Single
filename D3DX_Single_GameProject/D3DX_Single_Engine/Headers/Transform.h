@@ -44,6 +44,7 @@ public :
 	TRANSFORM_DESC Get_TransformDescription() const;
 	void Get_Info(TRANSFORM_INFO eType, _vec3* pvInfo) const;
 	_vec3 Get_Info(TRANSFORM_INFO eType) const;
+	_vec3 Get_Info_RawData(TRANSFORM_INFO eType) const;
 
 
 //make & clone
