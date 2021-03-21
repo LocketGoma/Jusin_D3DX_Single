@@ -16,6 +16,37 @@ CGameObject::CGameObject(const CGameObject& other)
     m_bIsPrototype = false;
 }
 
+_float CGameObject::Get_ViewZ()
+{
+    return m_fViewZ;
+}
+
+
+CComponent* CGameObject::Get_Component(const _tchar* pComponentTag, Engine::COMPONENT_ID eID)
+{
+    CComponent* pComponent = Find_Component(pComponentTag, eID);
+
+    if (nullptr == pComponent)
+    {
+        return nullptr;
+    }
+
+    return pComponent;
+}
+
+CComponent* CGameObject::Find_Component(const _tchar* pComponentTag, Engine::COMPONENT_ID eID)
+{
+    auto	iter = std::find_if(m_mapComponent[(_uint)eID].begin(), m_mapComponent[(_uint)eID].end(), CTag_Finder(pComponentTag));
+
+    if (iter == m_mapComponent[(_uint)eID].end())
+    {
+        return nullptr;
+    }
+
+    return iter->second;
+}
+
+
 HRESULT CGameObject::Ready_GameObject()
 {
     return S_OK;

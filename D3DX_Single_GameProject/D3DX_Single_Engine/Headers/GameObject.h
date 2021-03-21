@@ -17,6 +17,11 @@ protected :
 	virtual ~CGameObject() = default;
 
 public:
+	_float Get_ViewZ();
+	CComponent* Get_Component(const _tchar* pComponentTag, COMPONENT_ID eID);
+	CComponent* Find_Component(const _tchar* pComponentTag, COMPONENT_ID eID);
+
+public:
 	virtual HRESULT Ready_GameObject();
 	virtual HRESULT Ready_GameObject_Clone(void* pArg = nullptr);
 	virtual _int Update_GameObject(const _float& fDeltaTime);
@@ -31,6 +36,7 @@ public:
 
 protected:
 	_bool m_bIsPrototype;
+	_float m_fViewZ = 0.f;						//Z소팅 연산용
 	_Device m_pDevice;
 	std::map<const _tchar*, CComponent*> m_mapComponent[(_uint)(COMPONENT_ID::ID_END)];
 

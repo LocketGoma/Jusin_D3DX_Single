@@ -18,6 +18,8 @@ private:
 public :
 	HRESULT Add_GameObject(const _tchar* pObjectTag, CGameObject* pGameObject);
 	CGameObject* Find_GameObject(const _tchar* pObjectTag);
+	CGameObject* Get_GameObject(const _tchar* pObjectTag);
+	CComponent* Get_Component(const _tchar* pObjectTag, const _tchar* pComponentTag, COMPONENT_ID eID);
 	std::map<const _tchar*, CGameObject*>* Get_ObjectLayer();
 
 public :

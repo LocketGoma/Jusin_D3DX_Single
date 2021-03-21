@@ -50,6 +50,25 @@ _uint Safe_Release(T& ptr)
 	return iRefCount;
 }
 
+template <typename T>
+bool isEqual(T& p1, T& p2, unsigned int iLevel = 1)
+{
+	T p3 = p1 - p2;
+	double Epsilons = 0.1;
+	for (int i = 1; i < iLevel; i++)
+	{
+		Epsilons *= 0.1;
+	}
+
+	if (p3 > -(T)Epsilons && p3 < (T)Epsilons)
+		return true;
+	else
+		return false;
+
+
+}
+
+
 //Map 연관 컨테이너 삭제용 함수 객체
 class CDeleteMap
 {

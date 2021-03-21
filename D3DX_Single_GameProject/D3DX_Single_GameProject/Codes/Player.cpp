@@ -120,6 +120,10 @@ HRESULT CPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_NAVI", pComponent);
 
+	m_pNaviMeshCom->Add_NaviCell(_vec3(2.0f,0.f,2.f), _vec3(4.0f,0.f,2.0f), _vec3(4.f, 0.f, 0.f) );
+
+	m_pNaviMeshCom->Add_NaviCell(_vec3(4.0f,0.f,2.0f), _vec3(2.0f, 0.f, 2.f), _vec3(4.f, 0.f, 4.f) );
+
 	return S_OK;
 }
 
@@ -162,9 +166,9 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 
 }
 
-CPlayer* CPlayer::Create(_Device pGraphicDev)
+CPlayer* CPlayer::Create(_Device pDevice)
 {
-	CPlayer* pInstance = new CPlayer(pGraphicDev);
+	CPlayer* pInstance = new CPlayer(pDevice);
 
 	if (FAILED(pInstance->Ready_GameObject()))
 	{
@@ -194,6 +198,7 @@ Engine::CGameObject* CPlayer::Clone(void* pArg)
 
 void CPlayer::Free(void)
 {
+	Safe_Release(m_pNaviMeshCom);
 	Safe_Release(m_pBufferCom);
 	Safe_Release(m_pTransformCom);
 

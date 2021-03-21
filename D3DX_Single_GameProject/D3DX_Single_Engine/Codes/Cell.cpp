@@ -2,14 +2,19 @@
 
 #include "NaviLine.h"
 
+
 USING(Engine)
 
 CCell::CCell(_Device pDevice)
 	: m_pDevice(pDevice)
 	, m_pD3DXLine(nullptr)
+	, m_fRadius(0.25f)
+	, m_fSlice(12)
+	, m_pTexture(nullptr)
 {
 	ZeroMemory(m_pNeighbor, sizeof(CCell*) * (_uint)NEIGHBOR::NEIGHBOR_END);
 	ZeroMemory(m_pLine, sizeof(CNaviLine*) * (_uint)LINE::LINE_END);
+	ZeroMemory(m_pSphere, sizeof(LPD3DXMESH) * (_uint)LINE::LINE_END);
 
 	m_pDevice->AddRef();
 }
@@ -18,6 +23,9 @@ CCell::CCell(const CCell& other)
 	: m_pDevice(other.m_pDevice)
 	, m_pD3DXLine(other.m_pD3DXLine)
 	, m_dwCellIndex(other.m_dwCellIndex)
+	, m_fRadius(other.m_fRadius)
+	, m_fSlice(other.m_fSlice)
+	, m_pTexture(other.m_pTexture)
 {
 	memcpy(&m_pNeighbor,other.m_pNeighbor,sizeof(CCell*)* (_uint)NEIGHBOR::NEIGHBOR_END);
 	memcpy(&m_pLine,other.m_pLine,sizeof(CNaviLine*)* (_uint)LINE::LINE_END);
@@ -62,6 +70,29 @@ HRESULT CCell::Ready_Cell(const _ulong& dwCellIndex, const _vec3* pPointA, const
 #ifdef _DEBUG
 	if (FAILED(D3DXCreateLine(m_pDevice, &m_pD3DXLine)))
 		return E_FAIL;
+
+	if (FAILED(D3DXCreateSphere(m_pDevice, m_fRadius, m_fSlice, m_fSlice, &m_pSphere[(_uint)NAVIPOINT::POINT_A], NULL)))
+	{
+		return E_FAIL;
+	}
+	if (FAILED(D3DXCreateSphere(m_pDevice, m_fRadius, m_fSlice, m_fSlice, &m_pSphere[(_uint)NAVIPOINT::POINT_B], NULL)))
+	{
+		return E_FAIL;
+	}
+	if (FAILED(D3DXCreateSphere(m_pDevice, m_fRadius, m_fSlice, m_fSlice, &m_pSphere[(_uint)NAVIPOINT::POINT_C], NULL)))
+	{
+		return E_FAIL;
+	}
+
+	D3DXCreateTexture(m_pDevice, 1, 1, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &m_pTexture);
+	D3DLOCKED_RECT LockRect;
+	m_pTexture->LockRect(0, &LockRect, NULL, 0);
+
+	*((_ulong*)LockRect.pBits) = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+
+	m_pTexture->UnlockRect(0);
+
+
 #endif
 
 	return S_OK;
@@ -126,7 +157,6 @@ void CCell::Render_Cell(void)
 	vPoint[2] = m_vPoint[(_uint)NAVIPOINT::POINT_C];
 	vPoint[3] = m_vPoint[(_uint)NAVIPOINT::POINT_A];
 
-
 	_matrix	matView, matProj;
 	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
 	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
@@ -153,6 +183,22 @@ void CCell::Render_Cell(void)
 	m_pD3DXLine->DrawTransform(vPoint, 4, D3DXMatrixIdentity(&matTemp), D3DXCOLOR(1.f, 0.f, 0.f, 1.f));
 
 	m_pD3DXLine->End();
+
+
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pDevice->SetTexture(0, m_pTexture);
+
+	for (_uint i = 0; i < (_uint)NAVIPOINT::POINT_END; i++)
+	{
+		_mat matWorld;
+		D3DXMatrixTranslation(&matWorld, m_vPoint[i].x, m_vPoint[i].y, m_vPoint[i].z);
+
+		m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		m_pSphere[i]->DrawSubset(0);
+	}
+
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 }
 
 COMPAREMOVE CCell::Compare(const _vec3* pEndPos, _ulong* pCellIndex)
@@ -190,7 +236,12 @@ CCell* CCell::Create(_Device pDevice, const _ulong& dwCellIndex, const _vec3* pP
 void CCell::Free(void)
 {
 	for (_uint i = 0; i < (_uint)LINE::LINE_END; ++i)
+	{
 		Safe_Release(m_pLine[i]);
+		Safe_Release(m_pSphere[i]);
+	}
+
+	Safe_Release(m_pTexture);
 
 	Safe_Release(m_pD3DXLine);
 	Safe_Release(m_pDevice);

@@ -37,6 +37,7 @@ public:
 
 	COMPAREMOVE	Compare(const _vec3* pEndPos, _ulong* pCellIndex);
 
+	
 
 private:
 	_vec3		m_vPoint[(_uint)NAVIPOINT::POINT_END];
@@ -45,6 +46,12 @@ private:
 	_Device		m_pDevice;
 	LPD3DXLINE	m_pD3DXLine;
 	_ulong		m_dwCellIndex;
+
+	LPD3DXMESH	m_pSphere[(_uint)NAVIPOINT::POINT_END];
+	_float		m_fRadius;
+	_uint		m_fSlice;
+
+	LPDIRECT3DTEXTURE9 m_pTexture;						//On / Off하면 2개로 늘리기
 
 public:
 	static CCell* Create(_Device pDevice, const _ulong& dwCellIndex, const _vec3* pPointA, const _vec3* pPointB, const _vec3* pPointC);

@@ -46,9 +46,21 @@ void CScene::Render_Scene(void)
     }
 }
 
-std::map<const _tchar*, CLayer*>* CScene::Get_MapLayer()
+std::map<const _tchar*, CLayer*>* CScene::Get_LayerList()
 {
-    return &m_mapLayer;
+    return &m_mapLayer;;
+}
+
+CLayer* CScene::Get_Layer(const _tchar* pLayerName)
+{
+    auto& iter = m_mapLayer.find(pLayerName);
+
+    if (iter == m_mapLayer.end())
+    {
+        return nullptr;
+    }
+
+    return iter->second;
 }
 
 CGameObject* CScene::Find_GameObject(const _tchar* pLayerName, const _tchar* pObjectTag)
@@ -59,7 +71,6 @@ CGameObject* CScene::Find_GameObject(const _tchar* pLayerName, const _tchar* pOb
     {
         return nullptr;
     }
-
     return iter->second->Find_GameObject(pObjectTag);
 }
 

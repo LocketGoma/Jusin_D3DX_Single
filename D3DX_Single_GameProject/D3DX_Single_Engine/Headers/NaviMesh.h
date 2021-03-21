@@ -7,6 +7,8 @@
 #include "Cell.h"
 BEGIN_NAMESPACE(Engine)
 
+using namespace std;		//¾Æ¾Ç ±ò²ûÇÑ ÄÚµå
+
 class ENGINE_DLL CNaviMesh : public CMesh
 {
 private:
@@ -19,15 +21,23 @@ public:
 	void Set_CellIndex(const _ulong& dwIndex);
 
 	HRESULT				Ready_NaviMesh(void);
+	HRESULT				Load_NaviMesh(const _tchar* pFileName);
 	void				Render_NaviMesh(void);
 	_vec3				Move_OnNaviMesh(const _vec3* pTargetPos, const _vec3* pTargetDir);
 	_vec3				Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos);
+
+	//Get/Set
+public:
+	HRESULT				Add_NaviCell(_vec3& p1, _vec3& p2, _vec3& p3);
+
+	vector<CCell*>*		Get_NaviMesh();									//¼¼ÀÌºê¿ë
+	HRESULT				Set_NaviMesh(std::vector<CCell*>* vCellList);	//·Îµå¿ë
 
 private:
 	HRESULT				Link_Cell(void);
 
 private:
-	std::vector<CCell*>		m_vecCell;
+	vector<CCell*>		m_vecCell;
 	_ulong				m_dwCellIndex;
 
 public:

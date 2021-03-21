@@ -20,7 +20,8 @@ public:
 	virtual _int		LateUpdate_Scene(const _float& fDeltaTime);
 	virtual void		Render_Scene(void);
 
-	std::map<const _tchar*, CLayer*>* Get_MapLayer();
+	std::map<const _tchar*, CLayer*>* Get_LayerList();
+	CLayer* Get_Layer(const _tchar* pLayerName);
 
 	CGameObject* Find_GameObject(const _tchar* pLayerName, const _tchar* pObjectTag);
 

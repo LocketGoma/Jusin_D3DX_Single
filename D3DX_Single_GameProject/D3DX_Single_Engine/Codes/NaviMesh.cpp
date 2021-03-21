@@ -31,7 +31,7 @@ void CNaviMesh::Set_CellIndex(const _ulong& dwIndex)
 //해줘야 할것 : 여기를 이용해서 네비매시 추가하기.
 HRESULT CNaviMesh::Ready_NaviMesh(void)
 {
-	m_vecCell.reserve(4);
+	m_vecCell.reserve(5);
 
 	CCell* pCell = nullptr;
 
@@ -61,6 +61,17 @@ HRESULT CNaviMesh::Ready_NaviMesh(void)
 	return S_OK;
 }
 
+HRESULT CNaviMesh::Load_NaviMesh(const _tchar* pFileName)
+{
+
+
+
+	if (FAILED(Link_Cell()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CNaviMesh::Render_NaviMesh(void)
 {
 	for (auto& iter : m_vecCell)
@@ -79,6 +90,8 @@ _vec3 CNaviMesh::Move_OnNaviMesh(const _vec3* pTargetPos, const _vec3* pTargetDi
 	{
 		return *pTargetPos;
 	}
+
+	return vEndPos;
 }
 
 _vec3 CNaviMesh::Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos)
@@ -91,6 +104,49 @@ _vec3 CNaviMesh::Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos)
 	{
 		return *pOldPos;
 	}
+
+	return *pOldPos;
+}
+
+HRESULT CNaviMesh::Add_NaviCell(_vec3& p1, _vec3& p2, _vec3& p3)
+{
+	CCell* pCell = nullptr;
+	pCell = CCell::Create(m_pDevice, m_vecCell.size(), &p1, &p2, &p3);
+
+	NULL_CHECK_RETURN(pCell, E_FAIL);
+	m_vecCell.push_back(pCell);
+
+	if (FAILED(Link_Cell()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+//세이브용
+vector<CCell*>* CNaviMesh::Get_NaviMesh()
+{
+	return &m_vecCell;
+}
+
+HRESULT CNaviMesh::Set_NaviMesh(std::vector<CCell*>* vCellList)
+{
+	for (auto& object : m_vecCell)
+	{
+		Safe_Release(object);
+	}
+
+	m_vecCell.clear();
+	m_vecCell.shrink_to_fit();
+
+	m_vecCell.reserve(vCellList->size());
+
+	for (CCell* cell : *vCellList)
+	{
+		m_vecCell.push_back(cell);
+	}
+
+
+	return S_OK;
 }
 
 //만들어진 셀들 링크하는곳.
