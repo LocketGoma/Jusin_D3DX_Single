@@ -176,6 +176,8 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
     _float fU, fV, fDist;
     _ulong dwVTXIndex[3];
 
+    _vec3 vReturnPos = _vec3(0.f, 0.f, 0.f);
+
     for (_ulong i = 0; i < dwVTXCountZ - 1; i++)
     {
         for (_ulong j = 0; j < dwVTXCountX - 1; j++)
@@ -189,9 +191,9 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
 
             if (D3DXIntersectTri(&pTerrainVTX[dwVTXIndex[1]], &pTerrainVTX[dwVTXIndex[2]], &pTerrainVTX[dwVTXIndex[0]], &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
+                vReturnPos = _vec3(pTerrainVTX[dwVTXIndex[1]] + (pTerrainVTX[dwVTXIndex[2]] - pTerrainVTX[dwVTXIndex[1]])*fU + (pTerrainVTX[dwVTXIndex[0]]- pTerrainVTX[dwVTXIndex[1]])*fV);
 
-                return (pTerrainVTX[dwVTXIndex[1]] + (pTerrainVTX[dwVTXIndex[2]] - pTerrainVTX[dwVTXIndex[1]])*fU + (pTerrainVTX[dwVTXIndex[0]]- pTerrainVTX[dwVTXIndex[1]])*fV);
-
+                break;
             }
 
             //왼쪽 아래
@@ -203,16 +205,22 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
             {
                 // = v0 + (u*(v1-v0))+(v*(v2-v0));
 
-                return (pTerrainVTX[dwVTXIndex[2]] + (pTerrainVTX[dwVTXIndex[0]] - pTerrainVTX[dwVTXIndex[2]]) * fU + (pTerrainVTX[dwVTXIndex[1]] - pTerrainVTX[dwVTXIndex[2]]) * fV);
+                vReturnPos = _vec3(pTerrainVTX[dwVTXIndex[2]] + (pTerrainVTX[dwVTXIndex[0]] - pTerrainVTX[dwVTXIndex[2]]) * fU + (pTerrainVTX[dwVTXIndex[1]] - pTerrainVTX[dwVTXIndex[2]]) * fV);
 
+                break;
             }
-
-
         }
     }
+    if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
+    {
+        vReturnPos.x = (int)(vReturnPos.x + 0.5f);
+        vReturnPos.y = (int)(vReturnPos.y + 0.5f);
+        vReturnPos.z = (int)(vReturnPos.z + 0.5f);
+    }
+
        
     //없으면 초기값
-    return _vec3(0.f, 0.f, 0.f);
+    return vReturnPos;
 }
 
 CControlSupportUnit* CControlSupportUnit::Create(_Device pDevice)
