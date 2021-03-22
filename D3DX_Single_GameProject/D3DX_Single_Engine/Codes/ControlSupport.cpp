@@ -213,9 +213,9 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
     }
     if (GetAsyncKeyState(VK_LSHIFT) & 0x8000)
     {
-        vReturnPos.x = (int)(vReturnPos.x + 0.5f);
-        vReturnPos.y = (int)(vReturnPos.y + 0.5f);
-        vReturnPos.z = (int)(vReturnPos.z + 0.5f);
+        vReturnPos.x = (float)((int)(vReturnPos.x + 0.5f));
+        vReturnPos.y = (float)((int)(vReturnPos.y + 0.5f));
+        vReturnPos.z = (float)((int)(vReturnPos.z + 0.5f));
     }
 
        

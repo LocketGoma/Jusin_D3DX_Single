@@ -157,6 +157,11 @@ void CManagement::Render_Scene()
 //	return m_pSceneManager->LateUpdate_Scene(fDeltaTime);
 //}
 
+void CManagement::Key_Update()
+{
+	m_pKeyManager->Key_Update();
+}
+
 _bool CManagement::Key_Pressing(_uint iKey)
 {
 	return m_pKeyManager->Key_Pressing(iKey);

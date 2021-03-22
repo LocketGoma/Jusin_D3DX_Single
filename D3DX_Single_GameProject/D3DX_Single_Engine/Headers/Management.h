@@ -62,6 +62,7 @@ public:
 
 public :
 	//KeyManager Setting
+	 void Key_Update();
 	_bool Key_Pressing(_uint iKey);
 	_bool Key_Down(_uint iKey);
 	_bool Key_Up(_uint iKey);	 
