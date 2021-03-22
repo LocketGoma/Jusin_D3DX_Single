@@ -142,7 +142,9 @@
     <ClInclude Include="..\Headers\TestObject.h">
       <Filter>01.Object\00.TestObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\NaviMeshController.h" />
+    <ClInclude Include="..\Headers\NaviMeshController.h">
+      <Filter>01.Object\08.NaviMeshController</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -203,6 +205,8 @@
     <ClCompile Include="..\Codes\TestObject.cpp">
       <Filter>01.Object\00.TestObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\NaviMeshController.cpp" />
+    <ClCompile Include="..\Codes\NaviMeshController.cpp">
+      <Filter>01.Object\08.NaviMeshController</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

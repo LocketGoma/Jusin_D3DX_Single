@@ -135,6 +135,20 @@ void CNaviMeshController::Set_Visuable(_bool bState)
 
 HRESULT CNaviMeshController::Add_Component(void)
 {
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return MANAGER_OUT;
+	}
+
+	Engine::CComponent* pComponent = nullptr;
+
+	// NaviMesh
+	pComponent = m_pNaviMeshCom = dynamic_cast<Engine::CNaviMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Navi"));	
+
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[0].emplace(L"Com_NAVI", pComponent);
+
 	return S_OK;
 }
 

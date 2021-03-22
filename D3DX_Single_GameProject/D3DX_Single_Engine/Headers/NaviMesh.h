@@ -33,6 +33,8 @@ public:
 	vector<CCell*>*		Get_NaviMesh();									//세이브용
 	HRESULT				Set_NaviMesh(std::vector<CCell*>* vCellList);	//로드용
 
+	HRESULT				Clear_NaviMesh();								//네비매시 초기화
+
 private:
 	HRESULT				Link_Cell(void);
 

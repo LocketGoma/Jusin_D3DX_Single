@@ -130,13 +130,6 @@ vector<CCell*>* CNaviMesh::Get_NaviMesh()
 
 HRESULT CNaviMesh::Set_NaviMesh(std::vector<CCell*>* vCellList)
 {
-	for (auto& object : m_vecCell)
-	{
-		Safe_Release(object);
-	}
-
-	m_vecCell.clear();
-	m_vecCell.shrink_to_fit();
 
 	m_vecCell.reserve(vCellList->size());
 
@@ -147,6 +140,23 @@ HRESULT CNaviMesh::Set_NaviMesh(std::vector<CCell*>* vCellList)
 
 
 	return S_OK;
+}
+
+HRESULT CNaviMesh::Clear_NaviMesh()
+{
+	for (auto& object : m_vecCell)
+	{
+		Safe_Release(object);
+	}
+
+	m_vecCell.clear();
+	m_vecCell.shrink_to_fit();
+
+	if (!m_vecCell.empty())
+		return E_FAIL;
+
+	return S_OK;
+	
 }
 
 //만들어진 셀들 링크하는곳.
@@ -213,11 +223,7 @@ void CNaviMesh::Free(void)
 	CMesh::Free();
 
 	//for_each(m_vecCell.begin(), m_vecCell.end(), CDeleteMap());
-	for (auto& object : m_vecCell)
-	{
-		Safe_Release(object);
-	}
+	Clear_NaviMesh();
 
-	m_vecCell.clear();
-	m_vecCell.shrink_to_fit();
+
 }
