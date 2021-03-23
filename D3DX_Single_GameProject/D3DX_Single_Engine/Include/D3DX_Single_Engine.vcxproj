@@ -204,6 +204,8 @@
     <ClInclude Include="..\Headers\GraphicResourceManager.h" />
     <ClInclude Include="..\Headers\GraphicResources.h" />
     <ClInclude Include="..\Headers\HierarchyLoader.h" />
+    <ClInclude Include="..\Headers\json-forwards.h" />
+    <ClInclude Include="..\Headers\json.h" />
     <ClInclude Include="..\Headers\KeyManager.h" />
     <ClInclude Include="..\Headers\Layer.h" />
     <ClInclude Include="..\Headers\Light.h" />
@@ -246,6 +248,7 @@
     <ClCompile Include="..\Codes\GraphicResourceManager.cpp" />
     <ClCompile Include="..\Codes\GraphicResources.cpp" />
     <ClCompile Include="..\Codes\HierarchyLoader.cpp" />
+    <ClCompile Include="..\Codes\jsoncpp.cpp" />
     <ClCompile Include="..\Codes\KeyManager.cpp" />
     <ClCompile Include="..\Codes\Layer.cpp" />
     <ClCompile Include="..\Codes\Light.cpp" />

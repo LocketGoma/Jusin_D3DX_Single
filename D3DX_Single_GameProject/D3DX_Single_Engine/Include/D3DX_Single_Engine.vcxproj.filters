@@ -134,6 +134,9 @@
     <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\01.Line">
       <UniqueIdentifier>{3e2085a9-adeb-49f0-b380-a9c9d2caa867}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.System\21.Json">
+      <UniqueIdentifier>{83651d88-eb05-425d-aa01-a22fdd4294fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -255,6 +258,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\NaviLine.cpp">
       <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\01.Line</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\jsoncpp.cpp">
+      <Filter>00.System\21.Json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -395,6 +401,12 @@
     </ClInclude>
     <ClInclude Include="..\Headers\NaviLine.h">
       <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\01.Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\json-forwards.h">
+      <Filter>00.System\21.Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\json.h">
+      <Filter>00.System\21.Json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
