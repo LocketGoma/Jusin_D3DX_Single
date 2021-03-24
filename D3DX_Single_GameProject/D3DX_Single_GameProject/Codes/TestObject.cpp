@@ -38,7 +38,7 @@ HRESULT CTestObject::Ready_GameObject_Clone(void* pArg)
 	{
 		m_pTransformCom->Set_Scale(_vec3(0.0005f, 0.0005f, 0.0005f));
 	}
-	m_pMeshCom->Set_AnimationSet(1);
+	//m_pMeshCom->Set_AnimationSet(1);
 	m_pTransformCom->Update_Component();
 
 	return S_OK;
@@ -60,7 +60,7 @@ _int CTestObject::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return 0;
 	}
-	m_pMeshCom->Play_AnimationSet(fDeltaTime);
+	//m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
@@ -117,7 +117,8 @@ HRESULT CTestObject::Add_Component(void)
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
 	//m_mapComponent[0].emplace(L"Com_Mesh", pComponent);
 
-	pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_HL2Dog"));
+	//pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_HL2Dog"));
+	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"TestMapX"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_Mesh", pComponent);
 

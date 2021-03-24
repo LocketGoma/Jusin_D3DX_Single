@@ -25,8 +25,15 @@ CStaticMesh::CStaticMesh(const CStaticMesh& other)
 
 	for (_ulong i = 0; i < other.m_dwSubsetCnt; ++i)
 	{
-		m_ppTextures[i] = other.m_ppTextures[i];
-		m_ppTextures[i]->AddRef();
+		if (other.m_ppTextures[i] != nullptr)
+		{
+			m_ppTextures[i] = other.m_ppTextures[i];
+			m_ppTextures[i]->AddRef();
+		}
+		else
+		{
+			m_ppTextures[i] = nullptr;
+		}
 	}
 
 	m_pAdjacency->AddRef();
@@ -70,6 +77,12 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 
 	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
 	{
+		if (m_pMtrl[i].pTextureFilename == nullptr)
+		{
+			m_ppTextures[i] = nullptr;
+			continue;
+		}
+		
 		_tchar	szFileName[256] = L"";
 
 		lstrcpy(szFullPath, pFilePath);
@@ -95,8 +108,11 @@ void CStaticMesh::Render_Meshes()
 	//전체 순회
 	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
 	{
-		m_pDevice->SetTexture(0, m_ppTextures[i]);
-		m_pMesh->DrawSubset(i);
+		if (m_ppTextures[i] != nullptr)
+		{
+			m_pDevice->SetTexture(0, m_ppTextures[i]);
+			m_pMesh->DrawSubset(i);
+		}
 	}
 }
 
