@@ -20,6 +20,11 @@ CStaticMesh::CStaticMesh(const CStaticMesh& other)
 	, m_pSubset(other.m_pSubset)
 	, m_dwSubsetCnt(other.m_dwSubsetCnt)
 	, m_pMtrl(other.m_pMtrl)
+	, m_pOriMesh(other.m_pOriMesh)
+	, m_dwVtxCnt(other.m_dwVtxCnt)
+	, m_dwStride(other.m_dwStride)
+	, m_pVtxPos(other.m_pVtxPos)
+	, m_pSampleTexture(other.m_pSampleTexture)
 {
 	m_ppTextures = new LPDIRECT3DTEXTURE9[other.m_dwSubsetCnt];
 
