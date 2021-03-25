@@ -40,7 +40,7 @@ CStaticMesh::CStaticMesh(const CStaticMesh& other)
 			m_ppTextures[i] = nullptr;
 		}
 	}
-
+	m_pSampleTexture->AddRef();
 	m_pAdjacency->AddRef();
 	m_pSubset->AddRef();
 	m_pMesh->AddRef();
@@ -67,7 +67,7 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 		&m_pSubset,
 		NULL,
 		&m_dwSubsetCnt,
-		&m_pMesh)))
+		&m_pOriMesh)))
 		return E_FAIL;
 
 	// LPD3DXBUFFER가 담고 있는 버퍼 정보 중 가장 앞 주소를 리턴하는 함수
@@ -76,16 +76,20 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 	m_ppTextures = new LPDIRECT3DTEXTURE9[m_dwSubsetCnt];
 
 	////메쉬로부터 FVF 정보 가져옴.
-	_ulong	dwFVF = m_pMesh->GetFVF();
+	_ulong	dwFVF = m_pOriMesh->GetFVF();
 
 	//// 메쉬의 노말 정보가 없는 경우 코드로 삽입
 	if (!(dwFVF & D3DFVF_NORMAL))
 	{
 		PRINT_LOG(L"Warrning", L"Normal map not exist");
 
-		m_pMesh->CloneMeshFVF(m_pMesh->GetOptions(), dwFVF | D3DFVF_NORMAL, m_pDevice, &m_pMesh);
+		m_pOriMesh->CloneMeshFVF(m_pOriMesh->GetOptions(), dwFVF | D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL, m_pDevice, &m_pMesh);
 		D3DXComputeNormals(m_pMesh, (_ulong*)m_pAdjacency->GetBufferPointer());
 		m_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	}
+	else
+	{
+		m_pOriMesh->CloneMeshFVF(m_pOriMesh->GetOptions(), dwFVF, m_pDevice, &m_pMesh);
 	}
 
 
@@ -94,7 +98,6 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 		if (m_pMtrl[i].pTextureFilename == nullptr)
 		{
 			m_ppTextures[i] = m_pSampleTexture;
-			m_ppTextures[i]->AddRef();
 			continue;
 		}
 		
@@ -155,14 +158,16 @@ void CStaticMesh::Free(void)
 	Safe_Release(m_pAdjacency);
 	Safe_Release(m_pMesh);
 	Safe_Release(m_pSubset);
+	Safe_Release(m_pOriMesh);
 
 	for (_uint i = 0; i < m_dwSubsetCnt; ++i)
 	{
-		if (m_ppTextures[i]!=nullptr)
-			Safe_Release(m_ppTextures[i]);
+		Safe_Release(m_ppTextures[i]);
 	}
 	Safe_Delete_Array(m_ppTextures);
 
+	if (true == m_bIsPrototype)
+		Safe_Delete_Array(m_pVtxPos);
 
 	CMesh::Free();
 }

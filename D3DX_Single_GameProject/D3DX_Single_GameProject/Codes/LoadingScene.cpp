@@ -7,14 +7,17 @@
 
 
 //로드할 클래스 (게임오브젝트) 들
+//테스트용 클래스들
 #include "TestObject.h"
-#include "Player.h"
-#include "StaticObject.h"
-#include "DynamicObject.h"
+#include "TestLight.h"
 #include "TestCamera.h"
 #include "TestTerrain.h"
 #include "SkyBox.h"
-#include "TestLight.h"
+#include "TestMapObject.h"
+
+#include "Player.h"
+#include "StaticObject.h"
+#include "DynamicObject.h"
 
 
 //로드 데이터 끝
@@ -170,7 +173,7 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_HL2Dog", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/TestResource/Unpack/Dog/", L"Dog.x");
 
-    //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"TestMapX", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/TestResource/Unpack/Map/text01Normal/", L"testmap.x");
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"TestMapX", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/TestResource/Unpack/Map/text01Normal/", L"testmap.x");
     
     //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"TestMapX", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/TestResource/Unpack/Map/testB/", L"map.x");
 
@@ -181,7 +184,7 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     m_bLoadFinished = true;
 
-    lstrcpy(m_szString, L"Loading End");
+    lstrcpy(m_szString, L"Mesh Loading End...");
 
     return S_OK;
 }
@@ -227,7 +230,12 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"TestLight", pGameObject);
 
+    //테스트 맵
+    pGameObject = CTestMapObject::Create(m_pDevice,L"TestMapX");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"TestMap", pGameObject);
     
+    lstrcpy(m_szString, L"Loading End...");
     return S_OK;
 }
 

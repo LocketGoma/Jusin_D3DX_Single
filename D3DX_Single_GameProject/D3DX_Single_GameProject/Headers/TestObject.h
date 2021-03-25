@@ -36,8 +36,8 @@ private:
 	HRESULT			Add_Component(void);
 
 private:
-	//Engine::CStaticMesh* m_pMeshCom = nullptr;
-	Engine::CDynamicMesh* m_pMeshCom = nullptr;
+	Engine::CStaticMesh* m_pMeshCom = nullptr;
+	//Engine::CDynamicMesh* m_pMeshCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
 
 public:

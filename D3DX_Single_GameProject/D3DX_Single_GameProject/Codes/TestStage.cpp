@@ -7,6 +7,7 @@
 #include "TestTerrain.h"
 #include "TestLight.h"
 #include "TestObject.h"
+#include "TestMapObject.h"
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -20,9 +21,9 @@ HRESULT CTestStage::Ready_Scene(void)
     SetWindowText(g_hWnd, L"Test Stage");
 
     Add_Player_Layer(L"PlayerLayer");
-    Add_Object_Layer(L"ObjectLayer");
+    //Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
-   // Add_Environment_Layer(L"MapLayer");
+    Add_Environment_Layer(L"MapLayer");
 
     return S_OK;
 }
@@ -149,6 +150,9 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 
+    pGameObject = pManagement->Clone_GameObject(L"TestMap");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 

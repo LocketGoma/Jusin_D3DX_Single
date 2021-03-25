@@ -77,6 +77,21 @@
     <Filter Include="01.Object\08.NaviMeshController">
       <UniqueIdentifier>{220619b5-b484-4109-8e04-2a6caae1fc49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\06.Map">
+      <UniqueIdentifier>{e8c1ac74-853e-4847-afc9-00e13cf8f084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\06.Map\00.Test">
+      <UniqueIdentifier>{5574c94a-53f7-4333-af31-e7f5af6e9fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\06.Map\01.MainA">
+      <UniqueIdentifier>{f30e58eb-da17-4d04-9112-396627150bae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\06.Map\02.MainB">
+      <UniqueIdentifier>{82ae621c-9029-4958-9c8a-bbca437c0e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\06.Map\03.MainC">
+      <UniqueIdentifier>{d531a3ab-df26-466f-a0ec-b2ee091881b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -145,6 +160,12 @@
     <ClInclude Include="..\Headers\NaviMeshController.h">
       <Filter>01.Object\08.NaviMeshController</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\MapObject.h">
+      <Filter>01.Object\06.Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TestMapObject.h">
+      <Filter>01.Object\06.Map\00.Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -207,6 +228,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\NaviMeshController.cpp">
       <Filter>01.Object\08.NaviMeshController</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MapObject.cpp">
+      <Filter>01.Object\06.Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TestMapObject.cpp">
+      <Filter>01.Object\06.Map\00.Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
