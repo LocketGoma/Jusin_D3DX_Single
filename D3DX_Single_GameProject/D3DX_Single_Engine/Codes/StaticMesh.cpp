@@ -43,6 +43,14 @@ CStaticMesh::CStaticMesh(const CStaticMesh& other)
 
 HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileName)
 {
+	D3DLOCKED_RECT LockRect;
+	D3DXCreateTexture(m_pDevice, 1, 1, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &m_pSampleTexture);
+	m_pSampleTexture->LockRect(0, &LockRect, NULL, 0);
+	*((_ulong*)LockRect.pBits) = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_pSampleTexture->UnlockRect(0);
+
+
+
 	_tchar	szFullPath[256] = L"";
 	lstrcpy(szFullPath, pFilePath);
 	lstrcat(szFullPath, pFileName);
@@ -62,24 +70,24 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 
 	m_ppTextures = new LPDIRECT3DTEXTURE9[m_dwSubsetCnt];
 
-	//메쉬로부터 FVF 정보 가져옴.
-	_ulong	dwFVF = m_pMesh->GetFVF();
+	////메쉬로부터 FVF 정보 가져옴.
+	//_ulong	dwFVF = m_pMesh->GetFVF();
 
-	// 메쉬의 노말 정보가 없는 경우 코드로 삽입
-	if (!(dwFVF & D3DFVF_NORMAL))
-	{
-		PRINT_LOG(L"Warrning", L"Normal map not exist");
+	//// 메쉬의 노말 정보가 없는 경우 코드로 삽입
+	//if (!(dwFVF & D3DFVF_NORMAL))
+	//{
+	//	PRINT_LOG(L"Warrning", L"Normal map not exist");
 
-		m_pMesh->CloneMeshFVF(m_pMesh->GetOptions(), dwFVF | D3DFVF_NORMAL, m_pDevice, &m_pMesh);
-		D3DXComputeNormals(m_pMesh, 0);
-	}
+	//	m_pMesh->CloneMeshFVF(m_pMesh->GetOptions(), dwFVF | D3DFVF_NORMAL, m_pDevice, &m_pMesh);
+	//	D3DXComputeNormals(m_pMesh, 0);
+	//}
 
 
 	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
 	{
 		if (m_pMtrl[i].pTextureFilename == nullptr)
 		{
-			m_ppTextures[i] = nullptr;
+			m_ppTextures[i] = m_pSampleTexture;
 			continue;
 		}
 		
@@ -100,6 +108,10 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 			return E_FAIL;
 	}
 
+
+
+
+
 	return S_OK;
 }
 
@@ -111,8 +123,12 @@ void CStaticMesh::Render_Meshes()
 		if (m_ppTextures[i] != nullptr)
 		{
 			m_pDevice->SetTexture(0, m_ppTextures[i]);
-			m_pMesh->DrawSubset(i);
 		}
+		else
+		{
+
+		}
+		m_pMesh->DrawSubset(i);
 	}
 }
 
@@ -136,6 +152,7 @@ CComponent* CStaticMesh::Clone(void* pArg)
 void CStaticMesh::Free(void)
 {
 	//로드한거 다 죽여야됨
+	Safe_Release(m_pSampleTexture);
 	Safe_Release(m_pAdjacency);
 	Safe_Release(m_pMesh);
 	Safe_Release(m_pSubset);

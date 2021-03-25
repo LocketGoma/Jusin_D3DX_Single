@@ -36,7 +36,10 @@ HRESULT CTestObject::Ready_GameObject_Clone(void* pArg)
 	}
 	else
 	{
-		m_pTransformCom->Set_Scale(_vec3(0.0005f, 0.0005f, 0.0005f));
+		;
+		//
+		//m_pTransformCom->Set_Scale(_vec3(0.0005f, 0.0005f, 0.0005f));
+		//m_pTransformCom->Set_Scale(_vec3(5.f, 5.f, 5.f));
 	}
 	//m_pMeshCom->Set_AnimationSet(1);
 	m_pTransformCom->Update_Component();
@@ -72,7 +75,8 @@ HRESULT CTestObject::Render_GameObject(void)
 
 	m_pTransformCom->LateUpdate_Component();
 
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pMeshCom->Render_Meshes();
 

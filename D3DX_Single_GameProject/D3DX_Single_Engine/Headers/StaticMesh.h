@@ -34,7 +34,7 @@ private:
 	D3DXMATERIAL* m_pMtrl;			// 재질정보와 텍스쳐의 이름을 보관하기 위한 구조체 포인터
 												// 서브셋의 개수 == 텍스처의 개수 == 재질의 개수
 	LPDIRECT3DTEXTURE9* m_ppTextures;		// 여러장의 텍스처를 보관하기 위한 배열 포인터
-
+	LPDIRECT3DTEXTURE9 m_pSampleTexture;						//샘플 텍스쳐
 
 	_ulong					m_dwStride;			// 정점의 크기(사이즈) 보관
 	_vec3* m_pVtxPos;			// 정점 정보 중 포지션 값만 얻어오기 위한 포인터

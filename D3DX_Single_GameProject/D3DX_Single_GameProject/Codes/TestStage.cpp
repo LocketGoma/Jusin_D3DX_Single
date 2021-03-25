@@ -22,7 +22,7 @@ HRESULT CTestStage::Ready_Scene(void)
     Add_Player_Layer(L"PlayerLayer");
     Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
-    Add_Environment_Layer(L"MapLayer");
+   // Add_Environment_Layer(L"MapLayer");
 
     return S_OK;
 }
