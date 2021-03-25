@@ -9,6 +9,8 @@
 #include "TestObject.h"
 #include "TestMapObject.h"
 
+#include "NaviMeshController.h"
+
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
 {
@@ -24,6 +26,8 @@ HRESULT CTestStage::Ready_Scene(void)
     //Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
+
+    
 
     return S_OK;
 }
@@ -153,6 +157,13 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"TestMap");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
+
+    pGameObject = m_pNaviController = CNaviMeshController::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestNavi", pGameObject), E_FAIL);
+
+    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/Test.json");
+
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 

@@ -5,6 +5,8 @@
 #include "Scene.h"
 #include "Base.h"
 
+class CNaviMeshController;
+
 class CTestStage : public Engine::CScene
 {
 private:
@@ -32,6 +34,7 @@ public :
 private :
 	virtual void Free() override;
 
+	CNaviMeshController* m_pNaviController;
 	//테스트용
 	_matrix	m_matWorld, m_matView, m_matProj;
 

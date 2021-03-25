@@ -29,11 +29,21 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
+//Get/Set
 public:
-	_uint Set_NaviMesh(const _tchar* meshName);
-
+	_uint Set_NaviMesh(const _tchar* meshName);				
+	HRESULT Set_NaviMesh_From_File(const _tchar* pFilePath);
 	void Set_NowScene(Engine::CScene* pScene);
+
+
+//연산 + IO
+public:
+	//네비매시 연산기. 씬 정보 넣어주면 이게 돌도록
 	HRESULT Compare_NaviMove(std::map<const _tchar*, Engine::CLayer*>* pTargetScene);
+	void Clear_NaviMesh();
+
+public:
+
 
 public:
 	virtual void Set_Position(_vec3 vPos) override;

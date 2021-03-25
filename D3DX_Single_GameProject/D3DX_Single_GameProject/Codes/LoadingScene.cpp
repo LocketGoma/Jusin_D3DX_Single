@@ -184,8 +184,6 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     m_bLoadFinished = true;
 
-    lstrcpy(m_szString, L"Mesh Loading End...");
-
     return S_OK;
 }
 

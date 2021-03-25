@@ -3,6 +3,9 @@
 
 #include "Transform.h"
 
+#include <iostream>
+#include "json.h"
+
 CNaviMeshController::CNaviMeshController(_Device pDevice)
 	: CGameObject(pDevice)
 {
@@ -17,6 +20,8 @@ CNaviMeshController::CNaviMeshController(const CNaviMeshController& other)
 
 HRESULT CNaviMeshController::Ready_GameObject(void)
 {
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
 	return S_OK;
 }
 
@@ -74,6 +79,78 @@ _uint CNaviMeshController::Set_NaviMesh(const _tchar* meshName)
 	return NO_EVENT;
 }
 
+HRESULT CNaviMeshController::Set_NaviMesh_From_File(const _tchar* pFilePath)
+{
+	Clear_NaviMesh();
+
+	std::unique_ptr<std::ifstream> inputFile;
+	inputFile = std::make_unique<std::ifstream>(pFilePath);
+
+	if (inputFile->is_open())
+	{
+		std::string sBuffer;
+		sBuffer.assign(std::istreambuf_iterator<char>(*inputFile), std::istreambuf_iterator<char>());
+
+		Json::CharReaderBuilder jBuilder;
+		std::unique_ptr<Json::CharReader> jReader(jBuilder.newCharReader());
+		Json::Value jRoot;
+		JSONCPP_STRING err;
+
+		if (jReader->parse(sBuffer.c_str(), sBuffer.c_str() + sBuffer.length(), &jRoot, &err) == false)
+		{
+			inputFile->close();
+			return E_FAIL;
+		}
+		_uint iCount = 0;
+		_uint iTotal = 0;
+		Json::Value size = jRoot["CellCount"];
+		std::string sSize = size.asString();
+		iTotal = atoi(sSize.c_str());
+
+		Json::Value CellParse = jRoot["Cell"];
+
+		for (auto cell = CellParse.begin(); cell != CellParse.end(); cell++)
+		{
+			_vec3 NodeA, NodeB, NodeC;
+
+
+			Json::Value jNodeA, jNodeB, jNodeC;
+			jNodeA = (*cell)["Node"][0];
+			jNodeB = (*cell)["Node"][1];
+			jNodeC = (*cell)["Node"][2];
+
+			NodeA.x = (float)(atof((jNodeA)["X"].asString().c_str()));
+			NodeA.y = (float)(atof((jNodeA)["Y"].asString().c_str()));
+			NodeA.z = (float)(atof((jNodeA)["Z"].asString().c_str()));
+
+			NodeB.x = (float)(atof((jNodeB)["X"].asString().c_str()));
+			NodeB.y = (float)(atof((jNodeB)["Y"].asString().c_str()));
+			NodeB.z = (float)(atof((jNodeB)["Z"].asString().c_str()));
+
+			NodeC.x = (float)(atof((jNodeC)["X"].asString().c_str()));
+			NodeC.y = (float)(atof((jNodeC)["Y"].asString().c_str()));
+			NodeC.z = (float)(atof((jNodeC)["Z"].asString().c_str()));
+
+			m_pNaviMeshCom->Add_NaviCell(NodeA, NodeB, NodeC);
+		}
+	}
+	else
+	{
+		inputFile->close();
+
+		PRINT_LOG(L"Error", L"NaviMesh is not Exist");
+		return E_FAIL;
+	}
+	inputFile->close();
+
+	return S_OK;
+}
+
+void CNaviMeshController::Set_NowScene(Engine::CScene* pScene)
+{
+	m_pScene = pScene;
+}
+
 HRESULT CNaviMeshController::Compare_NaviMove(std::map<const _tchar*, Engine::CLayer*>* pTargetScene)
 {
 	if (m_pNaviMeshCom == nullptr)
@@ -111,6 +188,11 @@ HRESULT CNaviMeshController::Compare_NaviMove(std::map<const _tchar*, Engine::CL
 	return S_OK;
 }
 
+void CNaviMeshController::Clear_NaviMesh()
+{
+	m_pNaviMeshCom->Clear_NaviMesh();
+}
+
 void CNaviMeshController::Set_Position(_vec3 vPos)
 {
 	//¾È¾¸
@@ -145,7 +227,6 @@ HRESULT CNaviMeshController::Add_Component(void)
 
 	// NaviMesh
 	pComponent = m_pNaviMeshCom = dynamic_cast<Engine::CNaviMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Navi"));	
-
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[0].emplace(L"Com_NAVI", pComponent);
 
