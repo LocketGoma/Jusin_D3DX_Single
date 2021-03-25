@@ -76,16 +76,17 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 	m_ppTextures = new LPDIRECT3DTEXTURE9[m_dwSubsetCnt];
 
 	////메쉬로부터 FVF 정보 가져옴.
-	//_ulong	dwFVF = m_pMesh->GetFVF();
+	_ulong	dwFVF = m_pMesh->GetFVF();
 
 	//// 메쉬의 노말 정보가 없는 경우 코드로 삽입
-	//if (!(dwFVF & D3DFVF_NORMAL))
-	//{
-	//	PRINT_LOG(L"Warrning", L"Normal map not exist");
+	if (!(dwFVF & D3DFVF_NORMAL))
+	{
+		PRINT_LOG(L"Warrning", L"Normal map not exist");
 
-	//	m_pMesh->CloneMeshFVF(m_pMesh->GetOptions(), dwFVF | D3DFVF_NORMAL, m_pDevice, &m_pMesh);
-	//	D3DXComputeNormals(m_pMesh, 0);
-	//}
+		m_pMesh->CloneMeshFVF(m_pMesh->GetOptions(), dwFVF | D3DFVF_NORMAL, m_pDevice, &m_pMesh);
+		D3DXComputeNormals(m_pMesh, (_ulong*)m_pAdjacency->GetBufferPointer());
+		m_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	}
 
 
 	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
@@ -93,6 +94,7 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 		if (m_pMtrl[i].pTextureFilename == nullptr)
 		{
 			m_ppTextures[i] = m_pSampleTexture;
+			m_ppTextures[i]->AddRef();
 			continue;
 		}
 		
@@ -110,12 +112,8 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 		lstrcat(szFullPath, szFileName);
 
 		if (FAILED(D3DXCreateTextureFromFile(m_pDevice, szFullPath, &m_ppTextures[i])))
-			return E_FAIL;
+			return E_FAIL;		
 	}
-
-
-
-
 
 	return S_OK;
 }
@@ -128,10 +126,6 @@ void CStaticMesh::Render_Meshes()
 		if (m_ppTextures[i] != nullptr)
 		{
 			m_pDevice->SetTexture(0, m_ppTextures[i]);
-		}
-		else
-		{
-
 		}
 		m_pMesh->DrawSubset(i);
 	}
@@ -163,8 +157,10 @@ void CStaticMesh::Free(void)
 	Safe_Release(m_pSubset);
 
 	for (_uint i = 0; i < m_dwSubsetCnt; ++i)
-		Safe_Release(m_ppTextures[i]);
-
+	{
+		if (m_ppTextures[i]!=nullptr)
+			Safe_Release(m_ppTextures[i]);
+	}
 	Safe_Delete_Array(m_ppTextures);
 
 

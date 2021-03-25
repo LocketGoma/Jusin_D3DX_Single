@@ -147,7 +147,7 @@ Material materials_models_dog_dog_sheet {
  0.000000;0.000000;0.000000;;
 
  TextureFilename {
-  "dog_sheet.png";
+  "dog_sheet.tga";
  }
 }
 
