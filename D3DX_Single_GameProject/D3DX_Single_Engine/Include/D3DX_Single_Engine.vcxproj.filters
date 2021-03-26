@@ -137,6 +137,9 @@
     <Filter Include="00.System\21.Json">
       <UniqueIdentifier>{83651d88-eb05-425d-aa01-a22fdd4294fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain\00.BatchTerrain">
+      <UniqueIdentifier>{7c7bd91d-9ca9-43a9-b75a-f3ca62d4861d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -261,6 +264,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\jsoncpp.cpp">
       <Filter>00.System\21.Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\VTXBatchTerrain.cpp">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain\00.BatchTerrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -407,6 +413,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\json.h">
       <Filter>00.System\21.Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\VTXBatchTerrain.h">
+      <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain\00.BatchTerrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -95,7 +95,7 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
                 (pPixel[dwIndex] & 0x000000ff) / 20.f,
                 _float(i) * dwVTXInterval);
 
-            m_pPos[dwIndex] = pVertex[dwIndex].vPosition;
+            m_pPos[dwIndex] = (pVertex[dwIndex].vPosition);
 
             pVertex[dwIndex].vTexUV = _vec2(_float(j) / (dwCountX - 1) * 20.f,
                 _float(i) / (dwCountZ - 1) * 20.f);

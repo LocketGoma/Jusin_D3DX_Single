@@ -154,7 +154,7 @@ CComponent* CStaticMesh::Clone(void* pArg)
 void CStaticMesh::Free(void)
 {
 	//·ÎµåÇÑ°Å ´Ù Á×¿©¾ßµÊ
-	Safe_Release(m_pSampleTexture);
+	//Safe_Release(m_pSampleTexture);
 	Safe_Release(m_pAdjacency);
 	Safe_Release(m_pMesh);
 	Safe_Release(m_pSubset);
@@ -165,6 +165,7 @@ void CStaticMesh::Free(void)
 		Safe_Release(m_ppTextures[i]);
 	}
 	Safe_Delete_Array(m_ppTextures);
+	Safe_Release(m_pSampleTexture);
 
 	if (true == m_bIsPrototype)
 		Safe_Delete_Array(m_pVtxPos);

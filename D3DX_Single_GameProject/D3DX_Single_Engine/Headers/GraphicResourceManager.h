@@ -12,6 +12,7 @@
 #include "VTXTerrain.h"
 #include "VTXCubeColor.h"
 #include "VTXCubeTexture.h"
+#include "VTXBatchTerrain.h"
 
 #include "Texture.h"
 

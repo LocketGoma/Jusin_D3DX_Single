@@ -134,6 +134,11 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
 
 _bool CLoadingScene::IsFinished()
 {
+    if (m_bLoadFinished == true)
+    {
+        lstrcpy(m_szString, L"Loading End...");
+    }
+
     return m_bLoadFinished;
 }
 
@@ -233,7 +238,7 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"TestMap", pGameObject);
     
-    lstrcpy(m_szString, L"Loading End...");
+
     return S_OK;
 }
 

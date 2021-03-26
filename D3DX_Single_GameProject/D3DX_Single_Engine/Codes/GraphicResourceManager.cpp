@@ -65,6 +65,9 @@ HRESULT CGraphicResourceManager::Ready_Buffer(_Device pDevice, const _uint& iInd
     case BUFFERID::BUFFER_TERRAINTEX:
         pResource = CVTXTerrain::Create(pDevice, dwCountX, dwCountZ, dwVTXInterval);
         break;
+    case BUFFERID::BUFFER_BATCHTERRAIN:
+        pResource = CVTXBatchTerrain::Create(pDevice, dwCountX, dwCountZ, dwVTXInterval);
+        break;
     }
 
     NULL_CHECK_RETURN(pResource, E_FAIL);

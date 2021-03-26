@@ -1,18 +1,18 @@
 #pragma once
 
-#ifndef __VIBUFFER_TERRAIN_H__
-#define __VIBUFFER_TERRAIN_H__
+#ifndef __VIBUFFER_BATCH_TERRAIN_H__
+#define __VIBUFFER_BATCH_TERRAIN_H__
 
 #include "VIBuffer.h"
+#include "VTXTerrain.h"
 
 BEGIN_NAMESPACE(Engine)
 
-class ENGINE_DLL CVTXTerrain : public CVIBuffer
+class ENGINE_DLL CVTXBatchTerrain : public CVTXTerrain
 {
-public:
-	explicit CVTXTerrain(_Device pDevice);
-	explicit CVTXTerrain(const CVTXTerrain& other);
-	virtual ~CVTXTerrain() = default;
+	explicit CVTXBatchTerrain(_Device pDevice);
+	explicit CVTXBatchTerrain(const CVTXBatchTerrain& other);
+	virtual ~CVTXBatchTerrain() = default;
 
 public:
 	const _vec3* Get_VTXPos(void) const;
@@ -28,23 +28,18 @@ public:
 	virtual HRESULT Change_Color(D3DXCOLOR _Color) override;
 
 
-	static CVTXTerrain* Create(_Device pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);
+	static CVTXBatchTerrain* Create(_Device pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);
 	virtual CComponent* Clone(void* pArg = nullptr) override;
 
 private:
 	virtual void Free() override;
 
-protected:
-	//높이맵 불러오기 용
-	HANDLE		m_hFile;
-	BITMAPFILEHEADER		m_fH;
-	BITMAPINFOHEADER		m_iH;
-	_ulong m_dwCountX;
-	_ulong m_dwCountZ;
-	_vec3* m_pPos;
-	
+	//_ulong m_dwCountX;
+	//_ulong m_dwCountZ;
+	//_vec3* m_pPos;
+
 };
 
 END_NAMESPACE
 
-#endif // !__VIBUFFER_TERRAIN_H__
+#endif // !__VIBUFFER_BATCH_TERRAIN_H__
