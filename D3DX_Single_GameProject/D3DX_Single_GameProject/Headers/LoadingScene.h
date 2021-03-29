@@ -36,6 +36,8 @@ public:
 	_bool IsFinished();
 
 private:
+	HRESULT Load_Test_Resource();
+	HRESULT Load_Test_GameObject_Resource();
 	HRESULT Load_Base_Resource();
 	HRESULT Load_Stage1_Resource();
 	HRESULT Load_GameObject_Resource();

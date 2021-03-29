@@ -20,14 +20,14 @@ public:
 	virtual _int		LateUpdate_Scene(const _float& fDeltaTime);
 	virtual void		Render_Scene(void);
 
-	std::map<const _tchar*, CLayer*>* Get_LayerList();
-	CLayer* Get_Layer(const _tchar* pLayerName);
+	std::map<const std::wstring, CLayer*>* Get_LayerList();
+	CLayer* Get_Layer(const std::wstring& pLayerName);
 
-	CGameObject* Find_GameObject(const _tchar* pLayerName, const _tchar* pObjectTag);
+	CGameObject* Find_GameObject(const std::wstring& pLayerName, const std::wstring& pObjectTag);
 
 protected:
-	_Device								m_pDevice;
-	std::map<const _tchar*, CLayer*>	m_mapLayer;
+	_Device									m_pDevice;
+	std::map<const std::wstring, CLayer*>	m_mapLayer;
 
 public:
 	virtual void	Free(void);

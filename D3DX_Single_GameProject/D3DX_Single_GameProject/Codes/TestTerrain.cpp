@@ -63,7 +63,7 @@ HRESULT CTestTerrain::Render_GameObject(void)
 		return E_FAIL;
 	}	
 
-	FAILED_CHECK_RETURN(SetUp_Material(), );
+	FAILED_CHECK_RETURN(SetUp_Material(), E_FAIL);
 
 	if (FAILED(m_pBufferCom->Render_Buffer()))
 	{

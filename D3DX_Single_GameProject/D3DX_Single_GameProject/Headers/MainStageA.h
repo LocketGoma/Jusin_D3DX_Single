@@ -1,17 +1,18 @@
 #pragma once
-#ifndef __TEST_STAGE_H__
-#define __TEST_STAGE_H__
+
+#ifndef __MAIN_STAGE_A_H__
+#define __MAIN_STAGE_A_H__
 
 #include "Scene.h"
 #include "Base.h"
 
 class CNaviMeshController;
-
-class CTestStage : public Engine::CScene
+class CMainStageA : public Engine::CScene
 {
 private:
-	explicit CTestStage(_Device pDevice);
-	virtual ~CTestStage(void) = default;
+	explicit CMainStageA(_Device pDevice);
+	virtual ~CMainStageA() = default;
+
 
 public:
 	virtual HRESULT		Ready_Scene(void);
@@ -19,27 +20,26 @@ public:
 	virtual _int		LateUpdate_Scene(const _float& fDeltaTime);
 	virtual void		Render_Scene(void);
 
-private :
+private:
 	HRESULT Ready_Resource(_Device& pDevice);
 
 private:
-	HRESULT Add_Player_Layer(const _tchar* pLayerTag);
-	HRESULT Add_Test_Layer(const _tchar* pLayerTag);
+	HRESULT Add_Player_Layer(const _tchar* pLayerTag);		//카메라 레이어 포함
+	HRESULT Add_Enemy_Layer(const _tchar* pLayerTag);
+	HRESULT Add_Boss_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Object_Layer(const _tchar* pLayerTag);
-	HRESULT Add_Camera_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Environment_Layer(const _tchar* pLayerTag);
 
-public :
-	static CTestStage* Create(_Device pDevice);
 
-private :
+public:
+	static CMainStageA* Create(_Device pDevice);
+
+private:
 	virtual void Free() override;
 
 	CNaviMeshController* m_pNaviController;
-	//테스트용
-	_matrix	m_matWorld, m_matView, m_matProj;
 
 };
 
 
-#endif // !__TEST_STAGE_H__
+#endif // !__MAIN_STAGE_A_H__

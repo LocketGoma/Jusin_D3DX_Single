@@ -6,7 +6,7 @@ CTransform::CTransform(_Device pDevice)
 	:m_pDevice(pDevice)
 {
 	ZeroMemory(&m_TransformDesc, sizeof(CTransform::TRANSFORM_DESC));
-
+		
 	m_TransformDesc.vScale = _float3(1.f, 1.f, 1.f);
 	m_TransformDesc.vRotate = _float3(0.f, 0.f, 0.f);
 
@@ -106,6 +106,16 @@ void CTransform::Set_Pos(_vec3 vPos)
 void CTransform::Set_Scale(_vec3 vScale)
 {
 	m_TransformDesc.vScale = vScale;
+}
+void CTransform::Set_Info(TRANSFORM_INFO eType, _vec3* pvInfo)
+{
+	m_TransformDesc.m_vInfo[(_uint)eType] = *pvInfo;
+	//memcpy(&m_TransformDesc.matWorld.m[(_uint)(eType)][0], pvInfo, sizeof(_vec3));
+}
+void CTransform::Set_WorldMatrix(_mat pWorld)
+{
+	memcpy(m_TransformDesc.matWorld, pWorld, sizeof(_mat));
+
 }
 void CTransform::Set_TransformDescription(TRANSFORM_DESC* pDesc)
 {

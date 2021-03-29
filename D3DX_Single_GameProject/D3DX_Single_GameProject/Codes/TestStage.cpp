@@ -1,13 +1,14 @@
 #include "framework.h"
 #include "TestStage.h"
 
-#include "Player.h"
+#include "TestPlayer.h"
 #include "TestCamera.h"
 #include "SkyBox.h"
 #include "TestTerrain.h"
 #include "TestLight.h"
 #include "TestObject.h"
 #include "TestMapObject.h"
+#include "WeaponCrowBar.h"
 
 #include "NaviMeshController.h"
 
@@ -22,7 +23,8 @@ HRESULT CTestStage::Ready_Scene(void)
 
     SetWindowText(g_hWnd, L"Test Stage");
 
-    Add_Player_Layer(L"PlayerLayer");
+    Add_Test_Layer(L"PlayerLayer");
+    //Add_Player_Layer(L"PlayerLayer");
     //Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
@@ -66,7 +68,7 @@ HRESULT CTestStage::Ready_Resource(_Device& m_pDevice)
     return S_OK;
 }
 
-HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
+HRESULT CTestStage::Add_Test_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
 
@@ -81,6 +83,34 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"TestPlayer");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"TestPlayer", pGameObject);
+
+    pGameObject = pManagement->Clone_GameObject(L"WeaponCrowbar");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"WeaponCrowbar", pGameObject);
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
+{
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    auto pManagement = Engine::CManagement::Get_Instance();
+    NULL_CHECK_RETURN(pManagement, E_FAIL);
+
+    pGameObject = pManagement->Clone_GameObject(L"Player");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Player", pGameObject);
+
+    pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"PlayerCamera", pGameObject);
+
+
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 
@@ -154,9 +184,9 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 
-    pGameObject = pManagement->Clone_GameObject(L"TestMap");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"MapA");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
     pGameObject = m_pNaviController = CNaviMeshController::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);

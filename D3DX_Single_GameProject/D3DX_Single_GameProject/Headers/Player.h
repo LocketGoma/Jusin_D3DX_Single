@@ -1,31 +1,34 @@
 #pragma once
 
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
+#ifndef __MAIN_PLAYER_H__
 
 #include "GameObject.h"
 #include "Base.h"
 
-
-
-
 BEGIN_NAMESPACE(Engine)
-class CVTXTriColor;
+class CDynamicMesh;
 class CTransform;
-class CNaviMesh;
+class CControlSupportUnit;
 
 END_NAMESPACE
+
+class CPlayerWeapon;
+
+enum class eWeaponType
+{
+	WEAPON_CROWBAR, WEAPON_PISTOL, WEAPON_SHOTGUN, WEAPON_SMG, WEAPON_RIFLE, WEAPON_PHYCANNON, WEAPON_RPG, WEAPON_END
+};
 
 class CPlayer : public Engine::CGameObject
 {
 private:
 	explicit CPlayer(_Device pDevice);
 	explicit CPlayer(const CPlayer& other);
-	virtual ~CPlayer(void) = default;
+	virtual ~CPlayer() = default;
 
 public:
-	virtual HRESULT Ready_GameObject(void) override;
-	virtual HRESULT Ready_GameObject_Clone(void* pArg = nullptr) override;
+	virtual HRESULT Ready_GameObject(_uint iTexNumber = 0);
+	virtual HRESULT Ready_GameObject_Clone(void* pArg) override;
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
@@ -36,30 +39,31 @@ public:
 	virtual _vec3 Get_Position() override;
 	virtual _vec3 Get_Size() override;
 
+public:
+	void Set_Animation(int iNumber);
+	Engine::CAnimationController* Get_AniController();
+	int Get_VertexNumber();
+
 private:
 	HRESULT			Add_Component(void);
 	void			Key_Input(const _float& fDeltaTime);
 
+
 private:
-	Engine::CVTXTriColor* m_pBufferCom = nullptr;
-	//Engine::CTexture* m_pTextureCom = nullptr;
+	CPlayerWeapon* m_pWeapon[(_uint)eWeaponType::WEAPON_END];
 	Engine::CTransform* m_pTransformCom = nullptr;
-
-	Engine::CNaviMesh* m_pNaviMeshCom = nullptr;
-
-
-	_vec3					m_vDir;
+	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
+	eWeaponType m_pWeaponType;
 
 public:
 	static CPlayer* Create(_Device pDevice);
-	virtual CGameObject* Clone(void* pArg = nullptr) override;
+	virtual CGameObject* Clone(void* pArg = nullptr);
 
 private:
-	virtual void Free(void) override;
-
+	virtual void Free() override;
 
 
 };
 
 
-#endif // !__PLAYER_H__
+#endif // !__MAIN_PLAYER_H__

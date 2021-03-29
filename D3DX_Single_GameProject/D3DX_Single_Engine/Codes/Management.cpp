@@ -137,6 +137,21 @@ void CManagement::Render_Scene()
 	m_pSceneManager->Render_Scene();
 }
 
+CGameObject* CManagement::Get_GameObject_From_Layer(const std::wstring& pLayerTag, const std::wstring& pObjectTag)
+{
+	return m_pSceneManager->Get_GameObject_From_Layer(pLayerTag,pObjectTag);
+}
+
+CComponent* CManagement::Get_Component_From_Layer(const std::wstring& pLayerTag, const std::wstring& pObjectTag, const wstring& pCompTag, COMPONENT_ID eID)
+{
+	CGameObject* pGameObject = Get_GameObject_From_Layer(pLayerTag, pObjectTag);
+
+	if (pGameObject == nullptr)
+		return nullptr;
+
+	return pGameObject->Get_Component(pCompTag.c_str(), eID);
+}
+
 //_uint CManagement::Update_Scene(_float fDeltaTime)
 //{
 //	if (m_pSceneManager == nullptr)

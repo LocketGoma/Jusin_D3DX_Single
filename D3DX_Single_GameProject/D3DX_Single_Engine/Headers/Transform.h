@@ -36,6 +36,8 @@ public:
 	void Rotation(ROTATION eType, const _float& fAngle);
 	void Set_Pos(_vec3 vPos);
 	void Set_Scale(_vec3 vScale);
+	void Set_Info(TRANSFORM_INFO eType, _vec3* pvInfo);
+	void Set_WorldMatrix(_mat pWorld);
 	void Set_TransformDescription(TRANSFORM_DESC* pDesc);
 
 

@@ -6,6 +6,7 @@
 #include "Base.h"
 
 BEGIN_NAMESPACE(Engine)
+class CGameObject;
 
 class CSceneManager final : public CBase
 {
@@ -22,6 +23,8 @@ public:
 	_uint Update_Scene(_float fDeltaTime);
 	_uint LateUpdate_Scene(_float fDeltaTime);
 	void Render_Scene();
+
+	CGameObject* Get_GameObject_From_Layer(const std::wstring& pLayerTag, const std::wstring& pObjectTag);
 
 
 	//업데이트 : 이동, 행동

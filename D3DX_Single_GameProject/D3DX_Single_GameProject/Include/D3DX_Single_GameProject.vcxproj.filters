@@ -29,9 +29,6 @@
     <Filter Include="02.Scene\02.Loading">
       <UniqueIdentifier>{1f354dce-0df7-489c-a060-5e6a0f919baa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Scene\05.MainStage">
-      <UniqueIdentifier>{c2c69ea8-e2c5-4038-9a55-498e5a7b7007}</UniqueIdentifier>
-    </Filter>
     <Filter Include="07.AI&amp;Algorithm">
       <UniqueIdentifier>{872f8bd2-81b2-44c5-b3b3-555d4c586d79}</UniqueIdentifier>
     </Filter>
@@ -92,6 +89,30 @@
     <Filter Include="01.Object\06.Map\03.MainC">
       <UniqueIdentifier>{d531a3ab-df26-466f-a0ec-b2ee091881b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\05.MainStageA">
+      <UniqueIdentifier>{c2c69ea8-e2c5-4038-9a55-498e5a7b7007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\06.MainStageB">
+      <UniqueIdentifier>{34edae9a-760d-428e-8c1e-b9f0014d9716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\07.MainStageC">
+      <UniqueIdentifier>{d8bbe616-5a6e-48a5-afff-dd38017ddefb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\01.Player\00.TestPlayer">
+      <UniqueIdentifier>{cee92ae2-1878-47d9-96a0-4bb960dbb680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\04.Camera\01.MainCamera">
+      <UniqueIdentifier>{c4b3ad17-c309-4270-8693-818c67170668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\01.Player\01.Player">
+      <UniqueIdentifier>{e6ecae46-e2e7-4830-a2aa-0c08264d5685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon">
+      <UniqueIdentifier>{e0edf15c-1f0d-4a1d-a06c-7c356f320c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon\00.Crowbar">
+      <UniqueIdentifier>{ca747cf7-3742-48b4-9e32-c8c90917ba12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -130,9 +151,6 @@
     <ClInclude Include="..\Headers\BaseLogoScene.h">
       <Filter>02.Scene\01.Logo</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Player.h">
-      <Filter>01.Object\01.Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\DynamicObject.h">
       <Filter>01.Object\03.DynamicObject</Filter>
     </ClInclude>
@@ -165,6 +183,27 @@
     </ClInclude>
     <ClInclude Include="..\Headers\TestMapObject.h">
       <Filter>01.Object\06.Map\00.Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MainMapA.h">
+      <Filter>01.Object\06.Map\01.MainA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MainStageA.h">
+      <Filter>02.Scene\05.MainStageA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\TestPlayer.h">
+      <Filter>01.Object\01.Player\00.TestPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MainCamera.h">
+      <Filter>01.Object\04.Camera\01.MainCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Player.h">
+      <Filter>01.Object\01.Player\01.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\PlayerWeapon.h">
+      <Filter>01.Object\11.PlayerWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\WeaponCrowBar.h">
+      <Filter>01.Object\11.PlayerWeapon\00.Crowbar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +238,6 @@
     <ClCompile Include="..\Codes\BaseLogoScene.cpp">
       <Filter>02.Scene\01.Logo</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\Player.cpp">
-      <Filter>01.Object\01.Player</Filter>
-    </ClCompile>
     <ClCompile Include="..\Codes\DynamicObject.cpp">
       <Filter>01.Object\03.DynamicObject</Filter>
     </ClCompile>
@@ -234,6 +270,27 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TestMapObject.cpp">
       <Filter>01.Object\06.Map\00.Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MainMapA.cpp">
+      <Filter>01.Object\06.Map\01.MainA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MainStageA.cpp">
+      <Filter>02.Scene\05.MainStageA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TestPlayer.cpp">
+      <Filter>01.Object\01.Player\00.TestPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MainCamera.cpp">
+      <Filter>01.Object\04.Camera\01.MainCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Player.cpp">
+      <Filter>01.Object\01.Player\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\PlayerWeapon.cpp">
+      <Filter>01.Object\11.PlayerWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\WeaponCrowBar.cpp">
+      <Filter>01.Object\11.PlayerWeapon\00.Crowbar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

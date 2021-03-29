@@ -1,25 +1,33 @@
 #include "framework.h"
-
-
-#include "VTXTriColor.h"
-#include "Transform.h"
 #include "Player.h"
-#include "NaviMesh.h"
+
+#include "DynamicMesh.h"
+#include "Transform.h"
+#include "ControlSupport.h"
+
+#include "CameraComponent.h"
+
+//무기
+
+#include "PlayerWeapon.h"
+#include "WeaponCrowBar.h"
 
 CPlayer::CPlayer(_Device pDevice)
 	: Engine::CGameObject(pDevice)
+	, m_pWeaponType(eWeaponType::WEAPON_CROWBAR)
 {
+	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 }
 
 CPlayer::CPlayer(const CPlayer& other)
 	: Engine::CGameObject(other)
+	, m_pWeaponType(other.m_pWeaponType)
 {
+	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 }
 
-HRESULT CPlayer::Ready_GameObject(void)
+HRESULT CPlayer::Ready_GameObject(_uint iTexNumber)
 {
-	//m_pTransformCom->Set_Scale(_float3(0.1f, 0.1f, 0.1f));
-
 	return S_OK;
 }
 
@@ -31,44 +39,57 @@ HRESULT CPlayer::Ready_GameObject_Clone(void* pArg)
 }
 
 _int CPlayer::Update_GameObject(const _float& fDeltaTime)
-{
+{	
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
-
-	Key_Input(fDeltaTime);
-
-	return NO_EVENT;
-}
-
-_int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
-{
-	//update-transform
-
-	m_pTransformCom->Update_Component(fDeltaTime);
 
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
 	}
+
+	Key_Input(fDeltaTime);
+
+
+
+	//카메라 이동으로 인한 y값 보정 - 나중에 수정할것
+	_float fY = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS).y;
+	m_pTransformCom->Update_Component(fDeltaTime);
+	_vec3 vPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+	//vPos.y = fY;
+	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_POS, &vPos);
+
+
+	m_pWeapon[(_uint)m_pWeaponType]->Update_GameObject(fDeltaTime);
+
+	return NO_EVENT;
+}
+
+_int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
+{
+
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return MANAGER_OUT;
+	}
+
+	m_pTransformCom->LateUpdate_Component(0.f);
+
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
-		
+	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime);
+
 	return NO_EVENT;
 }
 
 HRESULT CPlayer::Render_GameObject(void)
 {
-	//m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	m_pNaviMeshCom->Render_NaviMesh();
-
-	m_pTransformCom->LateUpdate_Component(0.f);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
-	if (FAILED(m_pBufferCom->Render_Buffer()))
-		return E_FAIL;
+	m_pWeapon[(_uint)m_pWeaponType]->Render_GameObject();
 
 	return S_OK;
 }
@@ -80,7 +101,7 @@ void CPlayer::Set_Position(_vec3 vPos)
 
 void CPlayer::Set_Size(_vec3 vSize)
 {
-	m_pTransformCom->Set_Pos(vSize);
+	m_pTransformCom->Set_Scale(vSize);
 }
 
 _vec3 CPlayer::Get_Position()
@@ -93,7 +114,20 @@ _vec3 CPlayer::Get_Size()
 	return m_pTransformCom->Get_TransformDescription().vScale;
 }
 
+void CPlayer::Set_Animation(int iNumber)
+{
 
+}
+
+Engine::CAnimationController* CPlayer::Get_AniController()
+{
+	return nullptr;
+}
+
+int CPlayer::Get_VertexNumber()
+{
+	return 0;
+}
 
 HRESULT CPlayer::Add_Component(void)
 {
@@ -102,67 +136,54 @@ HRESULT CPlayer::Add_Component(void)
 	{
 		return MANAGER_OUT;
 	}
-	
 	Engine::CComponent* pComponent = nullptr;
 
-	// Buffer
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CVTXTriColor*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_BUFFER, L"Buffer_TriColor"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[0].emplace(L"Com_Buffer", pComponent);
-
+	// Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[0].emplace(L"Com_Transform", pComponent);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
+
+	//아래는 위치 옮겨둘것
+
+	m_pWeapon[(_uint)eWeaponType::WEAPON_CROWBAR] = dynamic_cast<CPlayerWeapon*>(pManagement->Clone_GameObject(L"WeaponCrowbar"));
+
+	
 
 
-	// NaviMesh
-	pComponent = m_pNaviMeshCom = dynamic_cast<Engine::CNaviMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Navi"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[0].emplace(L"Com_NAVI", pComponent);
-
-	m_pNaviMeshCom->Add_NaviCell(_vec3(2.0f,0.f,2.f), _vec3(4.0f,0.f,2.0f), _vec3(4.f, 0.f, 0.f) );
-
-	m_pNaviMeshCom->Add_NaviCell(_vec3(4.0f,0.f,2.0f), _vec3(2.0f, 0.f, 2.f), _vec3(4.f, 0.f, 4.f) );
 
 	return S_OK;
 }
 
 void CPlayer::Key_Input(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
-	if (nullptr == pManagement)
+	auto* pManagement = Engine::CManagement::Get_Instance();
+	NULL_CHECK(pManagement);
+
+	_vec3 vLook, vPos, vRight;
+	_mat matView;
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixInverse(&matView, 0, &matView);
+	memcpy(&vLook, &matView.m[2][0], sizeof(_vec3));
+	memcpy(&vRight, &matView.m[0][0], sizeof(_vec3));	
+
+	if (pManagement->Key_Pressing('W'))
 	{
-		return;
+		m_pTransformCom->Move_Pos(&vLook, 10.f, fDeltaTime);
 	}
-
-	_vec3 vPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
-
-	if (pManagement->Key_Pressing(VK_UP))
+	if (pManagement->Key_Pressing('S'))
 	{
-
-		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, fDeltaTime);
+		m_pTransformCom->Move_Pos(&vLook, 10.f, -fDeltaTime);
 	}
-
-	if (pManagement->Key_Pressing(VK_DOWN))
+	if (pManagement->Key_Pressing('A'))
 	{
-		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)), 10.f, -fDeltaTime);
+		m_pTransformCom->Move_Pos(&vRight, 10.f, -fDeltaTime);
 	}
-
-	if (pManagement->Key_Pressing(VK_LEFT))
+	if (pManagement->Key_Pressing('D'))
 	{
-
-		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, -fDeltaTime);
+		m_pTransformCom->Move_Pos(&vRight, 10.f, fDeltaTime);
 	}
-	if (pManagement->Key_Pressing(VK_RIGHT))
-	{		
-		m_pTransformCom->Move_Pos(&(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_RIGHT)), 10.f, fDeltaTime);
-	}
-	m_pTransformCom->Update_Component(fDeltaTime);
-
-	_vec3 movePos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
 
 
-	m_pTransformCom->Set_Pos(m_pNaviMeshCom->Compare_OnNaviMesh(&vPos, &movePos));
 
 }
 
@@ -183,7 +204,7 @@ Engine::CGameObject* CPlayer::Clone(void* pArg)
 	CPlayer* pClone = new CPlayer(*this);
 	if (pClone == nullptr)
 	{
-		PRINT_LOG(L"Error", L"Failed To Clone CPlayer");		
+		PRINT_LOG(L"Error", L"Failed To Clone CPlayer");
 	}
 
 	if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
@@ -191,16 +212,19 @@ Engine::CGameObject* CPlayer::Clone(void* pArg)
 		Safe_Release(pClone);
 	}
 
-
-
 	return pClone;
 }
 
-void CPlayer::Free(void)
+void CPlayer::Free()
 {
-	Safe_Release(m_pNaviMeshCom);
-	Safe_Release(m_pBufferCom);
+	if (m_bIsPrototype == false)
+		m_pWeapon[(_uint)eWeaponType::WEAPON_CROWBAR]->Release();
+
+
+	Safe_Release(m_pSupportCom);
 	Safe_Release(m_pTransformCom);
 
 	Engine::CGameObject::Free();
+
+
 }

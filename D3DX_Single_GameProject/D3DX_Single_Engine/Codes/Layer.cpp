@@ -6,7 +6,7 @@ CLayer::CLayer()
 {
 }
 
-HRESULT CLayer::Add_GameObject(const _tchar* pObjectTag, CGameObject* pGameObject)
+HRESULT CLayer::Add_GameObject(const std::wstring& pObjectTag, CGameObject* pGameObject)
 {
 	if (pGameObject == nullptr)
 		return E_FAIL;
@@ -16,7 +16,7 @@ HRESULT CLayer::Add_GameObject(const _tchar* pObjectTag, CGameObject* pGameObjec
 	return S_OK;
 }
 
-CGameObject* CLayer::Find_GameObject(const _tchar* pObjectTag)
+CGameObject* CLayer::Find_GameObject(const std::wstring& pObjectTag)
 {
 	auto iter = m_mapObject.find(pObjectTag);
 
@@ -28,14 +28,14 @@ CGameObject* CLayer::Find_GameObject(const _tchar* pObjectTag)
 	return iter->second;
 }
 
-CGameObject* CLayer::Get_GameObject(const _tchar* pObjectTag)
+CGameObject* CLayer::Get_GameObject(const std::wstring& pObjectTag)
 {
 	return Find_GameObject(pObjectTag);
 }
 
-CComponent* CLayer::Get_Component(const _tchar* pObjectTag, const _tchar* pComponentTag, COMPONENT_ID eID)
+CComponent* CLayer::Get_Component(const std::wstring& pObjectTag, const std::wstring& pComponentTag, COMPONENT_ID eID)
 {
-	auto	iter = find_if(m_mapObject.begin(), m_mapObject.end(), CTag_Finder(pObjectTag));
+	auto	iter = m_mapObject.find(pObjectTag);
 
 	if (iter == m_mapObject.end())
 		return nullptr;
@@ -43,7 +43,7 @@ CComponent* CLayer::Get_Component(const _tchar* pObjectTag, const _tchar* pCompo
 	return iter->second->Get_Component(pComponentTag, eID);
 }
 
-std::map<const _tchar*, CGameObject*>* CLayer::Get_ObjectLayer()
+std::map<const std::wstring, CGameObject*>* CLayer::Get_ObjectLayer()
 {
 	return &m_mapObject;
 }

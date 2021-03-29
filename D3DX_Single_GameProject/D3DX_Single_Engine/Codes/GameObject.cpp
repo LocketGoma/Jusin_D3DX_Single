@@ -22,7 +22,7 @@ _float CGameObject::Get_ViewZ()
 }
 
 
-CComponent* CGameObject::Get_Component(const _tchar* pComponentTag, Engine::COMPONENT_ID eID)
+CComponent* CGameObject::Get_Component(const std::wstring& pComponentTag, Engine::COMPONENT_ID eID)
 {
     CComponent* pComponent = Find_Component(pComponentTag, eID);
 
@@ -34,9 +34,9 @@ CComponent* CGameObject::Get_Component(const _tchar* pComponentTag, Engine::COMP
     return pComponent;
 }
 
-CComponent* CGameObject::Find_Component(const _tchar* pComponentTag, Engine::COMPONENT_ID eID)
+CComponent* CGameObject::Find_Component(const std::wstring& pComponentTag, Engine::COMPONENT_ID eID)
 {
-    auto	iter = std::find_if(m_mapComponent[(_uint)eID].begin(), m_mapComponent[(_uint)eID].end(), CTag_Finder(pComponentTag));
+    auto iter = m_mapComponent[(_uint)eID].find(pComponentTag);
 
     if (iter == m_mapComponent[(_uint)eID].end())
     {

@@ -57,6 +57,9 @@ public:
 	HRESULT Setup_CurrentScene(_int iSceneIndex, class CScene* pCurrentScene);
 	class CScene* Get_NowScene();
 	void Render_Scene();
+
+	CGameObject* Get_GameObject_From_Layer(const std::wstring & pLayerTag, const std::wstring & pObjectTag);
+	CComponent* Get_Component_From_Layer(const std::wstring & pLayerTag, const std::wstring & pObjectTag, const wstring & pCompTag, COMPONENT_ID eID);
 	//_uint	Update_Scene(_float fDeltaTime);
 	//_uint	LateUpdate_Scene(_float fDeltaTime);
 
@@ -92,7 +95,7 @@ public:
 	//3. GameObjectManager - 생성시 추가할것.
 	HRESULT Add_GameObject_Prototype(const std::wstring & PrototypeTag, class CGameObject* pPrototype);
 	CGameObject* Clone_GameObject(const std::wstring & PrototypeTag, void* pArg = nullptr);
-	CGameObject* Get_GameObject(const std::wstring & pObjectTag);
+
 
 
 

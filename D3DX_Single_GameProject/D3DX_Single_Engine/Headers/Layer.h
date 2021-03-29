@@ -16,11 +16,11 @@ private:
 	virtual ~CLayer() = default;
 
 public :
-	HRESULT Add_GameObject(const _tchar* pObjectTag, CGameObject* pGameObject);
-	CGameObject* Find_GameObject(const _tchar* pObjectTag);
-	CGameObject* Get_GameObject(const _tchar* pObjectTag);
-	CComponent* Get_Component(const _tchar* pObjectTag, const _tchar* pComponentTag, COMPONENT_ID eID);
-	std::map<const _tchar*, CGameObject*>* Get_ObjectLayer();
+	HRESULT Add_GameObject(const std::wstring& pObjectTag, CGameObject* pGameObject);
+	CGameObject* Find_GameObject(const std::wstring& pObjectTag);
+	CGameObject* Get_GameObject(const std::wstring& pObjectTag);
+	CComponent* Get_Component(const std::wstring& pObjectTag, const std::wstring& pComponentTag, COMPONENT_ID eID);
+	std::map<const std::wstring, CGameObject*>* Get_ObjectLayer();
 
 public :
 public:
@@ -30,7 +30,7 @@ public:
 	virtual void		Render_Layer(void);
 
 private:
-	std::map<const _tchar*, CGameObject*>		m_mapObject;
+	std::map<const std::wstring, CGameObject*>		m_mapObject;
 
 public:
 	static CLayer* Create(void);

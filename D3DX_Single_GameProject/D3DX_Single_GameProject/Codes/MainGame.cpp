@@ -59,12 +59,29 @@ _int CMainGame::Update_MainGame()
 
     m_pManagement->Update_Engine(fDeltaTime);
     m_pManagement->LateUpdate_Engine(fDeltaTime);
-
+    m_fTime += fDeltaTime;
     return _int();
 }
 
 void CMainGame::Render_MainGame()
 {
+    if (nullptr == m_pManagement)
+        return;
+
+    ++m_dwRenderCount;
+
+    if (m_fTime >= 1.f)
+    {
+        _tchar m_szFPS[256];
+
+        wsprintf(m_szFPS, L"FPS : %d", m_dwRenderCount);
+        m_fTime = 0.f;
+        m_dwRenderCount = 0;
+
+        SetWindowText(g_hWnd, m_szFPS);
+    }
+    
+
     if (FAILED(m_pManagement->Render_Engine(g_hWnd)))
     {
         PRINT_LOG(L"FATAL ERROR", L"RENDER ENGINE FAIL");

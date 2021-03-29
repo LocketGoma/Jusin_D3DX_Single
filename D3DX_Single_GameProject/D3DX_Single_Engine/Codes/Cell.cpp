@@ -8,7 +8,7 @@ USING(Engine)
 CCell::CCell(_Device pDevice)
 	: m_pDevice(pDevice)
 	, m_pD3DXLine(nullptr)
-	, m_fRadius(0.25f)
+	, m_fRadius(1.25f)
 	, m_fSlice(12)
 	, m_pTexture(nullptr)
 {

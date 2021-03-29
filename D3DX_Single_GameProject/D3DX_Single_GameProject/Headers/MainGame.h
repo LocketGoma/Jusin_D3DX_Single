@@ -35,6 +35,8 @@ public:
 private:
 	Engine::CManagement* m_pManagement = nullptr;
 
+	_uint	m_dwRenderCount = 0;
+	_float m_fTime = 0.f;
 	_Device			m_pDevice = nullptr;
 
 	//씬 매니저 구축 끝나면 지울것

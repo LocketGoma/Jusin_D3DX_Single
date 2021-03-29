@@ -1,6 +1,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+#include "GameObject.h"
+
 USING(Engine)
 IMPLEMENT_SINGLETON(CSceneManager)
 
@@ -81,6 +83,25 @@ void CSceneManager::Render_Scene()
 		return;
 	}
 	m_pCurrentScene->Render_Scene();
+}
+
+CGameObject* CSceneManager::Get_GameObject_From_Layer(const std::wstring& pLayerTag, const std::wstring& pObjectTag)
+{
+	if (m_pCurrentScene != nullptr)
+	{
+		CLayer* pLayer = m_pCurrentScene->Get_Layer(pLayerTag.c_str());
+
+		if (pLayer == nullptr)
+		{
+			return nullptr;
+		}
+		else
+		{
+			return pLayer->Find_GameObject(pObjectTag.c_str());
+		}		
+	}
+	
+	return nullptr;
 }
 
 

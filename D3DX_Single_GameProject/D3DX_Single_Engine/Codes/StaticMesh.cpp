@@ -40,6 +40,7 @@ CStaticMesh::CStaticMesh(const CStaticMesh& other)
 			m_ppTextures[i] = nullptr;
 		}
 	}
+	m_pOriMesh->AddRef();
 	m_pSampleTexture->AddRef();
 	m_pAdjacency->AddRef();
 	m_pSubset->AddRef();
@@ -126,10 +127,7 @@ void CStaticMesh::Render_Meshes()
 	//전체 순회
 	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
 	{
-		if (m_ppTextures[i] != nullptr)
-		{
-			m_pDevice->SetTexture(0, m_ppTextures[i]);
-		}
+		m_pDevice->SetTexture(0, m_ppTextures[i]);		
 		m_pMesh->DrawSubset(i);
 	}
 }
