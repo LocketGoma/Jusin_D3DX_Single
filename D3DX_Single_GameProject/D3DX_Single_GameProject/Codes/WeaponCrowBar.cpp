@@ -22,8 +22,10 @@ HRESULT CWeaponCrowbar::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, D3DXToRadian(-90.f));
+	m_pTransformCom->Set_Scale(_vec3(0.005f, 0.005f, 0.005f));
+	//m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, D3DXToRadian(-90.f));
+
+	m_pMeshCom->Set_AnimationSet(2);
 
 	return S_OK;
 }
@@ -46,8 +48,11 @@ _int CWeaponCrowbar::LateUpdate_GameObject(const _float& fDeltaTime)
 	}
 
 
+	m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
 
 	m_pTransformCom->Update_Component();
+
+	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
@@ -61,15 +66,18 @@ HRESULT CWeaponCrowbar::Render_GameObject(void)
 	_mat matView, matScale, matPos, matRotX;
 	//_vec3 vPos;
 	//_vec3 vScale = _vec3(0.05f, 0.05f, 0.05f);
-	//m_pDevice->GetTransform(D3DTS_VIEW, &matView);
-	//D3DXMatrixInverse(&matView, 0, &matView);
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixInverse(&matView, 0, &matView);
 	D3DXMatrixScaling(&matScale, 0.05f, 0.05f, 0.05f);
 	//D3DXMatrixTranslation(&matPos, 0.f, -10.f, 0.f);
 	//D3DXMatrixRotationX(&matRotX, D3DXToRadian(-90.f));
+	matView = matScale * matView;
 	//matView *= matScale * matRotX * matPos;
-	//m_pDevice->SetTransform(D3DTS_WORLD, &matView);
+	m_pDevice->SetTransform(D3DTS_WORLD, &matView);
 	
-	m_pTransformCom->LateUpdate_Component();
+
+
+	//m_pTransformCom->LateUpdate_Component();
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;

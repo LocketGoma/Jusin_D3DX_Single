@@ -184,9 +184,9 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 
-    //pGameObject = pManagement->Clone_GameObject(L"MapA");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"MapA");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
     pGameObject = m_pNaviController = CNaviMeshController::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
