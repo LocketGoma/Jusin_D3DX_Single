@@ -1,8 +1,6 @@
 #include "framework.h"
 #include "WeaponCrowBar.h"
 
-#include "Transform.h"
-
 CWeaponCrowbar::CWeaponCrowbar(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
@@ -118,10 +116,6 @@ HRESULT CWeaponCrowbar::Add_Component(void)
 		return MANAGER_OUT;
 	}
 	Engine::CComponent* pComponent = nullptr;
-
-	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
 	// DynamicMesh
 	pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Crowbar"));

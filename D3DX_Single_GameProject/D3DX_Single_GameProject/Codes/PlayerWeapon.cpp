@@ -1,7 +1,6 @@
 #include "framework.h"
 #include "PlayerWeapon.h"
 
-#include "Transform.h"
 #include "DynamicMesh.h"
 
 CPlayerWeapon::CPlayerWeapon(_Device pDevice)
@@ -36,22 +35,22 @@ CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 
 void CPlayerWeapon::Set_Position(_vec3 vPos)
 {
-	m_pTransformCom->Set_Pos(vPos);
+	;
 }
 
 void CPlayerWeapon::Set_Size(_vec3 vSize)
 {
-	m_pTransformCom->Set_Scale(vSize);
+	;
 }
 
 _vec3 CPlayerWeapon::Get_Position()
 {
-	return m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+	return _vec3();
 }
 
 _vec3 CPlayerWeapon::Get_Size()
 {
-	return m_pTransformCom->Get_TransformDescription().vScale;
+	return _vec3();
 }
 
 void CPlayerWeapon::Set_Animation(int iNumber)
@@ -70,7 +69,6 @@ void CPlayerWeapon::Free()
 	if (m_bIsPrototype == true)
 	{
 		Safe_Release(m_pMeshCom);
-		Safe_Release(m_pTransformCom);
 	}
 
 	Engine::CGameObject::Free();

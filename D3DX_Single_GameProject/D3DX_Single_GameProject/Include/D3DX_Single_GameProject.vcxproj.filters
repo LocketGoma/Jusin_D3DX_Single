@@ -131,6 +131,9 @@
     <Filter Include="01.Object\11.PlayerWeapon\06.RPG">
       <UniqueIdentifier>{55307d67-ec01-443d-bfb5-45850c407b3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\09.Light\01.StageALight">
+      <UniqueIdentifier>{83d14207-0a9d-4b99-80a5-4bc0d8c7a57c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -241,6 +244,7 @@
     <ClInclude Include="..\Headers\WeaponRPG.h">
       <Filter>01.Object\11.PlayerWeapon\06.RPG</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\StageALight.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -346,5 +350,6 @@
     <ClCompile Include="..\Codes\WeaponRPG.cpp">
       <Filter>01.Object\11.PlayerWeapon\06.RPG</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\StageALight.cpp" />
   </ItemGroup>
 </Project>

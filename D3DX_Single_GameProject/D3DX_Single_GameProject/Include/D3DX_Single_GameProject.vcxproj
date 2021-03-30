@@ -168,6 +168,7 @@
     <ClInclude Include="..\Headers\NaviMeshController.h" />
     <ClInclude Include="..\Headers\Player.h" />
     <ClInclude Include="..\Headers\PlayerWeapon.h" />
+    <ClInclude Include="..\Headers\StageALight.h" />
     <ClInclude Include="..\Headers\TestPlayer.h" />
     <ClInclude Include="..\Headers\SkyBox.h" />
     <ClInclude Include="..\Headers\StaticObject.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="..\Codes\NaviMeshController.cpp" />
     <ClCompile Include="..\Codes\Player.cpp" />
     <ClCompile Include="..\Codes\PlayerWeapon.cpp" />
+    <ClCompile Include="..\Codes\StageALight.cpp" />
     <ClCompile Include="..\Codes\TestPlayer.cpp" />
     <ClCompile Include="..\Codes\SkyBox.cpp" />
     <ClCompile Include="..\Codes\StaticObject.cpp" />

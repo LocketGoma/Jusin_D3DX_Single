@@ -7,7 +7,6 @@
 
 BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
-class CTransform;
 END_NAMESPACE
 
 class CPlayerWeapon abstract : public Engine::CGameObject
@@ -53,7 +52,6 @@ public:
 
 protected:
 	Engine::CDynamicMesh* m_pMeshCom;
-	Engine::CTransform* m_pTransformCom = nullptr;
 	_uint m_iMagAmmo;			//탄창 남은 탄환
 	_uint m_iMainAmmo;			//소지중 탄환
 	_uint m_iAltAmmo;			//소지중 2차탄환

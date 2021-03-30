@@ -26,7 +26,6 @@ HRESULT CWeaponRifle::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransformCom->Set_Scale(_vec3(0.005f, 0.005f, 0.005f));
 
 	m_pMeshCom->Set_AnimationSet((_uint)eRifleAction::Draw);
 
@@ -50,9 +49,6 @@ _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
-
-	m_pTransformCom->Update_Component();
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
@@ -129,9 +125,6 @@ HRESULT CWeaponRifle::Add_Component(void)
 	}
 	Engine::CComponent* pComponent = nullptr;
 
-	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
 	// DynamicMesh
 	pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"PlayerRifle"));
