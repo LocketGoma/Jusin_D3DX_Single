@@ -11,6 +11,8 @@ extern HWND g_hWnd;
 #define TERRAIN_VTX_COUNTZ 129
 #define TERRAIN_VTX_INTERVAL 1.f
 
+#define WEAPON_REDUCION_SIZE 0.0005f
+
 //옵션 넣을거 있으면 넣으세요
 #define NO_EVENT		0x00
 #define OBJ_DEAD		0x01

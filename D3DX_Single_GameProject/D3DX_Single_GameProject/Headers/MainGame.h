@@ -32,6 +32,8 @@ public:
 	static CMainGame* Create();
 	virtual void Free() override;
 
+	static void CALLBACK MouseProc(UINT message, WPARAM wParam);
+
 private:
 	Engine::CManagement* m_pManagement = nullptr;
 

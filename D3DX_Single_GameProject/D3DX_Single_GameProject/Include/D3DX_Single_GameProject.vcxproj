@@ -178,6 +178,12 @@
     <ClInclude Include="..\Headers\TestStage.h" />
     <ClInclude Include="..\Headers\TestTerrain.h" />
     <ClInclude Include="..\Headers\WeaponCrowBar.h" />
+    <ClInclude Include="..\Headers\WeaponPhysCannon.h" />
+    <ClInclude Include="..\Headers\WeaponPistol.h" />
+    <ClInclude Include="..\Headers\WeaponRifle.h" />
+    <ClInclude Include="..\Headers\WeaponRPG.h" />
+    <ClInclude Include="..\Headers\WeaponShotgun.h" />
+    <ClInclude Include="..\Headers\WeaponSMG.h" />
     <ClInclude Include="D3DX_Single_GameProject.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -206,6 +212,12 @@
     <ClCompile Include="..\Codes\TestStage.cpp" />
     <ClCompile Include="..\Codes\TestTerrain.cpp" />
     <ClCompile Include="..\Codes\WeaponCrowBar.cpp" />
+    <ClCompile Include="..\Codes\WeaponPhysCannon.cpp" />
+    <ClCompile Include="..\Codes\WeaponPistol.cpp" />
+    <ClCompile Include="..\Codes\WeaponRifle.cpp" />
+    <ClCompile Include="..\Codes\WeaponRPG.cpp" />
+    <ClCompile Include="..\Codes\WeaponShotgun.cpp" />
+    <ClCompile Include="..\Codes\WeaponSMG.cpp" />
     <ClCompile Include="D3DX_Single_GameProject.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -63,29 +63,54 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
     }
     //랜더 리스트 추가
 
-    if (FAILED(Render_Priority()))
+    if (FAILED(Render_Priority())) 
+    {
         return E_FAIL;
+    }
 
     if (FAILED(Render_Priority_Alpha()))
+    {
         return E_FAIL;
+    }
 
     if (FAILED(Render_NoAlpha()))
+    {
         return E_FAIL;
+    }
 
     if (FAILED(Render_Alpha()))
+    {
         return E_FAIL;
+    }
 
     if (FAILED(Render_HalfAlpha()))
-        return E_FAIL; 
-    
-    if (FAILED(Render_Wireframe()))
+    {
         return E_FAIL;
+    }
+
+    if (FAILED(Render_Wireframe()))
+    {
+        return E_FAIL;
+    }
+    if (FAILED(Render_Terminal_NoAlpha()))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(Render_NO_ZEnable_NoAlpha()))
+    {
+        return E_FAIL;
+    }
 
     if (FAILED(Render_UI()))
+    {
         return E_FAIL;
+    }
 
     if (FAILED(Render_Scene()))
+    {
         return E_FAIL;
+    }
 
     //랜더 리스트 끝
    
@@ -322,12 +347,59 @@ HRESULT CRenderer::Render_Wireframe()
     return S_OK;
 }
 
+HRESULT CRenderer::Render_NO_ZEnable_NoAlpha()
+{
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+    m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_NOZ_NOALPHA])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+        {
+            return E_FAIL;
+        }
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_NOZ_NOALPHA].clear();
+
+    m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+
+    
+    return S_OK;
+}
+
+HRESULT CRenderer::Render_Terminal_NoAlpha()
+{
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_TERMINAL_NOALPHA])
+        {
+            if (FAILED(pGameObject->Render_GameObject()))
+                return E_FAIL;
+
+            Safe_Release(pGameObject);
+        }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_TERMINAL_NOALPHA].clear();
+
+    return S_OK;
+}
+
 HRESULT CRenderer::Render_UI()
 {
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE)))
     {
         return E_FAIL;
     }
+
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
     {

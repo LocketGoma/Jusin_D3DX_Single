@@ -23,8 +23,8 @@ HRESULT CTestStage::Ready_Scene(void)
 
     SetWindowText(g_hWnd, L"Test Stage");
 
-    Add_Test_Layer(L"PlayerLayer");
-    //Add_Player_Layer(L"PlayerLayer");
+    //Add_Test_Layer(L"PlayerLayer");
+    Add_Player_Layer(L"PlayerLayer");
     //Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
@@ -57,10 +57,8 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 void CTestStage::Render_Scene(void)
 {
  //라이트 세팅
-
- //
-
-    CScene::Render_Scene();
+ // 
+    //CScene::Render_Scene();
 }
 
 HRESULT CTestStage::Ready_Resource(_Device& m_pDevice)
@@ -151,9 +149,9 @@ HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
         return E_FAIL;
     }
 
-    pGameObject = pManagement->Clone_GameObject(L"TestCamera");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pLayer->Add_GameObject(L"TestCamera", pGameObject);
+    //pGameObject = pManagement->Clone_GameObject(L"TestCamera");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pLayer->Add_GameObject(L"TestCamera", pGameObject);
 
     pGameObject = pManagement->Clone_GameObject(L"SkyBoxA");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);

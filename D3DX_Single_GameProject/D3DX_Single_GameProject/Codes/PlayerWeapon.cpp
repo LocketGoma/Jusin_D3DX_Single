@@ -6,7 +6,13 @@
 
 CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	: CGameObject(pDevice)
-	, m_pMeshCom(nullptr)	
+	, m_pMeshCom(nullptr)
+	, m_iMainAmmo(0)
+	, m_iAltAmmo(0)
+	, m_iMagAmmo(0)
+	, m_iMaxMagAmmo(0)
+	, m_iMaxAmmo(0)
+	, m_iMaxAltAmmo(0)
 {
 	m_bIsPrototype = true;
 }
@@ -14,7 +20,11 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 	: CGameObject(other)
 	, m_pMeshCom(other.m_pMeshCom)
-
+	, m_iMainAmmo(other.m_iMainAmmo)
+	, m_iAltAmmo(other.m_iAltAmmo)
+	, m_iMaxMagAmmo(other.m_iMaxMagAmmo)
+	, m_iMagAmmo(other.m_iMaxMagAmmo)
+	, m_iMaxAltAmmo(other.m_iMaxAltAmmo)
 {
 
 	m_bIsPrototype = false;
@@ -44,7 +54,8 @@ _vec3 CPlayerWeapon::Get_Size()
 
 void CPlayerWeapon::Set_Animation(int iNumber)
 {
-	m_pMeshCom->Set_AnimationSet(iNumber);
+	if (m_pMeshCom != nullptr)
+		m_pMeshCom->Set_AnimationSet(iNumber);
 }
 
 int CPlayerWeapon::Get_VertexNumber()
@@ -61,4 +72,36 @@ void CPlayerWeapon::Free()
 	}
 
 	Engine::CGameObject::Free();
+}
+
+void CPlayerWeapon::Reload_Weapon()
+{
+	//장전 공식 (샷건 제외)
+	m_iMainAmmo -= (m_iMaxMagAmmo - m_iMagAmmo);
+	m_iMagAmmo = m_iMaxMagAmmo;
+}
+
+_uint CPlayerWeapon::Get_RemainAmmo()
+{
+	return m_iMainAmmo;
+}
+
+_uint CPlayerWeapon::Get_MagAmmo()
+{
+	return m_iMagAmmo;
+}
+
+void CPlayerWeapon::Add_Ammo(_uint _iAmmo)
+{
+	m_iMainAmmo += _iAmmo;
+}
+
+_uint CPlayerWeapon::Get_RemainAltAmmo()
+{
+	return m_iAltAmmo;
+}
+
+void CPlayerWeapon::Add_AltAmmo(_uint _iAmmo)
+{
+	m_iAltAmmo += _iAmmo;
 }

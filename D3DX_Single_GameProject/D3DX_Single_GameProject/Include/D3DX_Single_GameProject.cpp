@@ -155,6 +155,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_MOUSEWHEEL:
+        CMainGame::MouseProc(message, wParam);
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

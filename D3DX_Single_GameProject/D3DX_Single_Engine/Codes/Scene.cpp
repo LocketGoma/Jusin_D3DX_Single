@@ -40,10 +40,10 @@ _int CScene::LateUpdate_Scene(const _float& fDeltaTime)
 
 void CScene::Render_Scene(void)
 {
-    for (auto& iter : m_mapLayer)
-    {
-        iter.second->Render_Layer();
-    }
+    //for (auto& iter : m_mapLayer)
+    //{
+    //    iter.second->Render_Layer();
+    //}
 }
 
 std::map<const std::wstring, CLayer*>* CScene::Get_LayerList()

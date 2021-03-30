@@ -77,10 +77,7 @@ void CBaseLogoScene::Render_Scene(void)
 	{
 		return;
 	}
-	pManagement->Render_Font(L"Font_BASE", m_pLoading->Get_String(), &_vec2((WINCX>>1) + (WINCX>>2), WINCY-20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
-
-
-	CScene::Render_Scene();
+	pManagement->Render_Font(L"Font_BASE", m_pLoading->Get_String(), &_vec2((WINCX>>1) + (WINCX>>2), WINCY-20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));	
 }
 //Resource Loader
 HRESULT CBaseLogoScene::Ready_Resource(_Device pDevice)

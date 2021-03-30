@@ -5,6 +5,11 @@
 
 #include "PlayerWeapon.h"
 
+enum class eCrowbarAction
+{
+	MissCenter2, MissCenter1, Idle, Holster, HitKill, HitCenter3, HitCenter2, HitCenter1, Draw, END
+};
+
 class CWeaponCrowbar final : public CPlayerWeapon
 {
 private:
@@ -22,9 +27,13 @@ public:
 
 
 public:
+	// CPlayerWeapon을(를) 통해 상속됨
+	virtual void Draw_Weapon() override;
 	virtual void Shoot_Weapon() override;
 	virtual void AltShoot_Weapon() override;
 	virtual void Reload_Weapon() override;
+	virtual void Release_Weapon() override;
+	virtual void Holster_Weapon() override;
 
 private:
 	HRESULT			Add_Component(void);
@@ -33,8 +42,15 @@ public:
 	static CWeaponCrowbar* Create(_Device pDevice);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
+
+
 private:
 	virtual void Free() override;
+
+private:
+	eCrowbarAction	eAction;
+	_bool			m_bZoom;
+
 };
 
 

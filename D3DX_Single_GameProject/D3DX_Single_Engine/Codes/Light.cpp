@@ -27,7 +27,6 @@ HRESULT CLight::Ready_Light(const D3DLIGHT9* pLightInfo, const _uint& iIndex)
 	m_pDevice->SetLight(iIndex, pLightInfo);
 	m_pDevice->LightEnable(iIndex, TRUE);
 
-
 	return S_OK;
 }
 

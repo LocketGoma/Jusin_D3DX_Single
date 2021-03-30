@@ -8,6 +8,8 @@
 #include "Transform.h"
 #include "CameraComponent.h"
 
+#include "Player.h"
+
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
     , pScene(nullptr)
@@ -135,4 +137,9 @@ void CMainGame::Free()
 
     Safe_Release(m_pDevice);
     Safe_Release(m_pManagement);
+}
+
+void CMainGame::MouseProc(UINT message, WPARAM wParam)
+{
+    return CPlayer::MouseProc(message, wParam);
 }

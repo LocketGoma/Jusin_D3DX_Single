@@ -45,7 +45,7 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 
 void CMainStageA::Render_Scene(void)
 {
-	CScene::Render_Scene();
+	//CScene::Render_Scene();
 
 }
 

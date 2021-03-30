@@ -70,7 +70,7 @@ HRESULT CTestTerrain::Render_GameObject(void)
 		return E_FAIL;
 	}
 
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
 }

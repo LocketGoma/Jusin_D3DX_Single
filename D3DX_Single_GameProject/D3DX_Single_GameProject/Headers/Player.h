@@ -16,7 +16,7 @@ class CPlayerWeapon;
 
 enum class eWeaponType
 {
-	WEAPON_CROWBAR, WEAPON_PISTOL, WEAPON_SHOTGUN, WEAPON_SMG, WEAPON_RIFLE, WEAPON_PHYCANNON, WEAPON_RPG, WEAPON_END
+	WEAPON_CROWBAR, WEAPON_PISTOL, WEAPON_SMG, WEAPON_RIFLE, WEAPON_SHOTGUN, WEAPON_PHYCANNON, WEAPON_RPG, WEAPON_END
 };
 
 class CPlayer : public Engine::CGameObject
@@ -39,6 +39,9 @@ public:
 	virtual _vec3 Get_Position() override;
 	virtual _vec3 Get_Size() override;
 
+	static void MouseProc(UINT message, WPARAM wParam);
+	static float g_zDelta;
+
 public:
 	void Set_Animation(int iNumber);
 	Engine::CAnimationController* Get_AniController();
@@ -54,6 +57,12 @@ private:
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	eWeaponType m_pWeaponType;
+
+//무기 컨트롤용
+private:
+	_float m_fWeaponTimer = 0.f;
+	_float m_fMaxWeaponTimer = 0.2f;
+	_bool m_bShootState;
 
 public:
 	static CPlayer* Create(_Device pDevice);

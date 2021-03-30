@@ -113,6 +113,24 @@
     <Filter Include="01.Object\11.PlayerWeapon\00.Crowbar">
       <UniqueIdentifier>{ca747cf7-3742-48b4-9e32-c8c90917ba12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon\01.Pistol">
+      <UniqueIdentifier>{67fee342-7c94-42f7-9d8e-5f270cb49ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon\02.SMG">
+      <UniqueIdentifier>{1944c582-494a-4fd1-9871-aa16f0fd3a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon\03.Rifle">
+      <UniqueIdentifier>{dba8254b-38e3-4129-888e-78a0eec9f6d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon\04.Shotgun">
+      <UniqueIdentifier>{e5011944-458c-4acd-876a-38a248e9a303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon\05.PhysCannon">
+      <UniqueIdentifier>{f2ede5c6-68bb-4528-a9db-180ffb5030d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\11.PlayerWeapon\06.RPG">
+      <UniqueIdentifier>{55307d67-ec01-443d-bfb5-45850c407b3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -205,6 +223,24 @@
     <ClInclude Include="..\Headers\WeaponCrowBar.h">
       <Filter>01.Object\11.PlayerWeapon\00.Crowbar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\WeaponPistol.h">
+      <Filter>01.Object\11.PlayerWeapon\01.Pistol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\WeaponSMG.h">
+      <Filter>01.Object\11.PlayerWeapon\02.SMG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\WeaponRifle.h">
+      <Filter>01.Object\11.PlayerWeapon\03.Rifle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\WeaponShotgun.h">
+      <Filter>01.Object\11.PlayerWeapon\04.Shotgun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\WeaponPhysCannon.h">
+      <Filter>01.Object\11.PlayerWeapon\05.PhysCannon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\WeaponRPG.h">
+      <Filter>01.Object\11.PlayerWeapon\06.RPG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -291,6 +327,24 @@
     </ClCompile>
     <ClCompile Include="..\Codes\WeaponCrowBar.cpp">
       <Filter>01.Object\11.PlayerWeapon\00.Crowbar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\WeaponPistol.cpp">
+      <Filter>01.Object\11.PlayerWeapon\01.Pistol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\WeaponSMG.cpp">
+      <Filter>01.Object\11.PlayerWeapon\02.SMG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\WeaponRifle.cpp">
+      <Filter>01.Object\11.PlayerWeapon\03.Rifle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\WeaponShotgun.cpp">
+      <Filter>01.Object\11.PlayerWeapon\04.Shotgun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\WeaponPhysCannon.cpp">
+      <Filter>01.Object\11.PlayerWeapon\05.PhysCannon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\WeaponRPG.cpp">
+      <Filter>01.Object\11.PlayerWeapon\06.RPG</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

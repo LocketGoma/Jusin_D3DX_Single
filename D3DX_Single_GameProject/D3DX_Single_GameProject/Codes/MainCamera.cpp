@@ -67,7 +67,7 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->LateUpdate_Component(0.f);
 
 	//¼öÁ¤ÇØÁà¾ßµÊ
-	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS) - m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_UP));
+	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_UP));
 
 	
 

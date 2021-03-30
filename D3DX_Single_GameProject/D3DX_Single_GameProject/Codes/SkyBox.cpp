@@ -125,7 +125,7 @@ HRESULT CSkyBox::Add_Component()
     m_mapComponent[0].emplace(L"Com_Buffer", pComponent);
 
     // Texture
-    pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Skybox"));
+    pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_SkyboxA"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[0].emplace(L"Com_Texture", pComponent);
 
