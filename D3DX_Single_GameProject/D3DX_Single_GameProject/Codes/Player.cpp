@@ -80,16 +80,23 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pTransformCom->LateUpdate_Component(0.f);
 
+	pManagement->Add_RenderList(Engine::RENDERID::RENDER_UI, this);
+
 	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime);
 
 	return NO_EVENT;
 }
 
 HRESULT CPlayer::Render_GameObject(void)
-{
-
+{	
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
+
+	if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
+	{
+		return Print_TestUI();
+	}
+
 
 	return S_OK;
 }
@@ -170,6 +177,20 @@ HRESULT CPlayer::Add_Component(void)
 	return S_OK;
 }
 
+HRESULT CPlayer::Print_TestUI()
+{
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return E_FAIL;
+	}
+	_tchar m_szAmmo[256];
+
+	wsprintf(m_szAmmo, L"%d / %d", m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo(), m_pWeapon[(_uint)(_uint)m_pWeaponType]->Get_RemainAmmo());
+	pManagement->Render_Font(L"Font_BASE", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - 20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
+
+}
+
 void CPlayer::Key_Input(const _float& fDeltaTime)
 {
 	auto* pManagement = Engine::CManagement::Get_Instance();
@@ -198,14 +219,20 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	{
 		m_pTransformCom->Move_Pos(&vRight, 10.f, fDeltaTime);
 	}
+
+	if (pManagement->Key_Down('R'))
+	{
+		m_bWeaponState = m_pWeapon[(_uint)m_pWeaponType]->Reload_Weapon();
+	}
+
 	//»ç°Ý
-	if (pManagement->Key_Pressing(VK_LBUTTON))
+	if (pManagement->Key_Down(VK_LBUTTON))
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->Shoot_Weapon();
 		m_bShootState = true;
 
 	}	
-	if (pManagement->Key_Pressing(VK_RBUTTON))
+	if (pManagement->Key_Down(VK_RBUTTON))
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->AltShoot_Weapon();
 		m_bShootState = true;

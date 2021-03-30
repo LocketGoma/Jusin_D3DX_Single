@@ -29,7 +29,7 @@ public:
 	virtual void Draw_Weapon() PURE;		//무기 꺼내기
 	virtual void Shoot_Weapon() PURE;		//1차사격
 	virtual void AltShoot_Weapon() PURE;	//2차사격
-	virtual void Reload_Weapon();			//재장전
+	virtual bool Reload_Weapon();			//재장전
 	virtual void Release_Weapon() PURE;		//사격종료
 	virtual void Holster_Weapon() PURE;		//무기 집어넣기
 
@@ -60,6 +60,8 @@ protected:
 	_uint m_iMaxAmmo;			//최대 소지가능 탄환
 	_uint m_iMaxMagAmmo;		//탄창 최대소지량
 	_uint m_iMaxAltAmmo;		//최대 소지가능 2차 탄환
+
+	_bool m_bFire;
 
 
 public:

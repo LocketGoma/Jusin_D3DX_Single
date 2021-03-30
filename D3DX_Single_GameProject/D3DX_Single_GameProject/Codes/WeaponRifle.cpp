@@ -6,6 +6,10 @@
 CWeaponRifle::CWeaponRifle(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
+	m_iMaxAmmo = 120;
+	m_iMainAmmo = m_iMaxAmmo;
+	m_iMagAmmo = 21;
+	m_iMaxMagAmmo = 20;
 }
 
 CWeaponRifle::CWeaponRifle(const CWeaponRifle& other)
@@ -80,7 +84,11 @@ void CWeaponRifle::Draw_Weapon()
 
 void CWeaponRifle::Shoot_Weapon()
 {
-	Set_Animation((_uint)eRifleAction::Fire);
+	if (m_iMagAmmo != 0)
+	{
+		m_iMagAmmo--;
+		Set_Animation((_uint)eRifleAction::Fire);
+	}
 }
 
 void CWeaponRifle::AltShoot_Weapon()
@@ -88,11 +96,18 @@ void CWeaponRifle::AltShoot_Weapon()
 	Set_Animation((_uint)eRifleAction::AltFire);
 }
 
-void CWeaponRifle::Reload_Weapon()
+bool CWeaponRifle::Reload_Weapon()
 {
-	CPlayerWeapon::Reload_Weapon();
+	if (m_iMainAmmo == 0)
+		return false;
 
+	if (CPlayerWeapon::Reload_Weapon() == true)
+	{
+		m_iMagAmmo++;
+	}
 	Set_Animation((_uint)eRifleAction::Reload);
+
+	return true;
 }
 
 void CWeaponRifle::Release_Weapon()

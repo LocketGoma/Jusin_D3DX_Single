@@ -13,6 +13,7 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	, m_iMaxMagAmmo(0)
 	, m_iMaxAmmo(0)
 	, m_iMaxAltAmmo(0)
+	, m_bFire(false)
 {
 	m_bIsPrototype = true;
 }
@@ -25,6 +26,7 @@ CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 	, m_iMaxMagAmmo(other.m_iMaxMagAmmo)
 	, m_iMagAmmo(other.m_iMaxMagAmmo)
 	, m_iMaxAltAmmo(other.m_iMaxAltAmmo)
+	, m_bFire(false)
 {
 
 	m_bIsPrototype = false;
@@ -74,11 +76,34 @@ void CPlayerWeapon::Free()
 	Engine::CGameObject::Free();
 }
 
-void CPlayerWeapon::Reload_Weapon()
+bool CPlayerWeapon::Reload_Weapon()
 {
 	//장전 공식 (샷건 제외)
-	m_iMainAmmo -= (m_iMaxMagAmmo - m_iMagAmmo);
-	m_iMagAmmo = m_iMaxMagAmmo;
+
+	_bool bReturn = false;
+
+	if (m_iMagAmmo == m_iMaxMagAmmo + 1)
+	{
+		return false;
+	}
+
+	if (m_iMagAmmo > 0)
+	{
+		bReturn = true;
+	}
+	if ((m_iMainAmmo + m_iMagAmmo) > m_iMaxMagAmmo)
+	{
+		m_iMainAmmo -= (m_iMaxMagAmmo - m_iMagAmmo);
+		m_iMagAmmo = m_iMaxMagAmmo;
+	}
+	else
+	{
+		m_iMagAmmo = (m_iMainAmmo + m_iMagAmmo);
+		m_iMainAmmo = 0;
+	}
+
+
+	return bReturn;
 }
 
 _uint CPlayerWeapon::Get_RemainAmmo()

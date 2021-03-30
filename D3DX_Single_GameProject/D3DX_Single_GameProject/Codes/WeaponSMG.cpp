@@ -6,6 +6,11 @@
 CWeaponSMG::CWeaponSMG(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
+	m_iMaxAmmo = 210;
+	m_iMainAmmo = m_iMaxAmmo;
+	m_iMagAmmo = 26;
+	m_iMaxMagAmmo = 25;
+
 }
 
 CWeaponSMG::CWeaponSMG(const CWeaponSMG& other)
@@ -79,7 +84,13 @@ void CWeaponSMG::Draw_Weapon()
 
 void CWeaponSMG::Shoot_Weapon()
 {
-	Set_Animation((rand() % 4 + (_uint)eSMGAction::Fire4));
+	if (m_iMagAmmo != 0)
+	{
+		m_iMagAmmo--;
+
+		Set_Animation((rand() % 4 + (_uint)eSMGAction::Fire4));
+	}
+
 }
 
 void CWeaponSMG::AltShoot_Weapon()
@@ -87,8 +98,19 @@ void CWeaponSMG::AltShoot_Weapon()
 	Set_Animation((_uint)eSMGAction::AltFire);
 }
 
-void CWeaponSMG::Reload_Weapon()
+bool CWeaponSMG::Reload_Weapon()
 {
+	if (m_iMainAmmo == 0)
+		return false;
+
+	if (CPlayerWeapon::Reload_Weapon() == true)
+	{
+		m_iMagAmmo++;
+	}
+	Set_Animation((_uint)eSMGAction::Reload);
+
+	return true;
+
 }
 
 void CWeaponSMG::Release_Weapon()

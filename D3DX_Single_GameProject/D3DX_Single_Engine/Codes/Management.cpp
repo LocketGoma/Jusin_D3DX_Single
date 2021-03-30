@@ -68,14 +68,13 @@ HRESULT CManagement::Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDi
 
 _uint CManagement::Update_Engine(_float fDeltaTime)
 {
-	m_pKeyManager->Key_Update();	
-
-
 	return m_pSceneManager->Update_Scene(fDeltaTime);
 }
 
 _uint CManagement::LateUpdate_Engine(_float fDeltaTime)
 {
+	m_pKeyManager->Key_Update();
+
 	return m_pSceneManager->LateUpdate_Scene(fDeltaTime);
 }
 

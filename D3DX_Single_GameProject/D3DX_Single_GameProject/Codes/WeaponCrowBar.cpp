@@ -5,13 +5,11 @@
 
 CWeaponCrowbar::CWeaponCrowbar(_Device pDevice)
 	: CPlayerWeapon(pDevice)
-	, eAction(eCrowbarAction::Draw)
 {
 }
 
 CWeaponCrowbar::CWeaponCrowbar(const CWeaponCrowbar& other)
 	: CPlayerWeapon(other)
-	, eAction(eCrowbarAction::Draw)
 	, m_bZoom(false)
 {
 }
@@ -25,7 +23,7 @@ HRESULT CWeaponCrowbar::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pMeshCom->Set_AnimationSet((_uint)eAction);
+	m_pMeshCom->Set_AnimationSet((_uint)eCrowbarAction::Draw);
 
 	return S_OK;
 }
@@ -44,6 +42,12 @@ _int CWeaponCrowbar::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
+
+	if (m_pMeshCom->End_AnimationSet())
+	{
+		Set_Animation((_uint)eCrowbarAction::Idle);		
+	}
+
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
@@ -80,8 +84,8 @@ void CWeaponCrowbar::Draw_Weapon()
 
 void CWeaponCrowbar::Shoot_Weapon()
 {
-	eAction = (eCrowbarAction)(rand() % 3 + (_uint)eCrowbarAction::HitCenter3);
-	Set_Animation((_uint)eAction);
+	m_bFire = true;
+	Set_Animation((rand() % 3 + (_uint)eCrowbarAction::HitCenter3));
 
 	m_bZoom = true;
 }
@@ -90,8 +94,9 @@ void CWeaponCrowbar::AltShoot_Weapon()
 {
 }
 
-void CWeaponCrowbar::Reload_Weapon()
+bool CWeaponCrowbar::Reload_Weapon()
 {
+	return false;
 }
 
 void CWeaponCrowbar::Release_Weapon()

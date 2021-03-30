@@ -30,7 +30,7 @@ public:
 	virtual void Draw_Weapon() override;
 	virtual void Shoot_Weapon() override;
 	virtual void AltShoot_Weapon() override;
-	virtual void Reload_Weapon() override;			//없음
+	virtual bool Reload_Weapon() override;			//없음
 	virtual void Release_Weapon() override;
 	virtual void Holster_Weapon() override;
 

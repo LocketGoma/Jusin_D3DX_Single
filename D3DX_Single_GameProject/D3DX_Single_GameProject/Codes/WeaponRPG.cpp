@@ -4,6 +4,10 @@
 CWeaponRPG::CWeaponRPG(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
+	m_iMaxAmmo = 10;
+	m_iMainAmmo = m_iMaxAmmo;
+	m_iMagAmmo = 1;
+	m_iMaxMagAmmo = 1;
 }
 
 CWeaponRPG::CWeaponRPG(const CWeaponRPG& other)
@@ -79,8 +83,17 @@ void CWeaponRPG::AltShoot_Weapon()
 {
 }
 
-void CWeaponRPG::Reload_Weapon()
+bool CWeaponRPG::Reload_Weapon()
 {
+	if (m_iMainAmmo == 0)
+		return false;
+
+	if(CPlayerWeapon::Reload_Weapon())
+		Set_Animation((_uint)eRPGAction::Reload);
+
+	return true;
+
+
 }
 
 void CWeaponRPG::Release_Weapon()

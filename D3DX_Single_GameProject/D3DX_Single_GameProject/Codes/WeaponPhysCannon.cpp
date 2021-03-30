@@ -79,8 +79,9 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 {
 }
 
-void CWeaponPhysCannon::Reload_Weapon()
+bool CWeaponPhysCannon::Reload_Weapon()
 {
+	return false;
 }
 
 void CWeaponPhysCannon::Release_Weapon()

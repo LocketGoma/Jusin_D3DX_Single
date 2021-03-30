@@ -4,8 +4,12 @@
 #include "Transform.h"
 
 CWeaponPistol::CWeaponPistol(_Device pDevice)
-	: CPlayerWeapon(pDevice)
+	: CPlayerWeapon(pDevice)	
 {
+	m_iMaxAmmo = 210;
+	m_iMainAmmo = m_iMaxAmmo;
+	m_iMagAmmo = 16;
+	m_iMaxMagAmmo = 15;
 }
 
 CWeaponPistol::CWeaponPistol(const CWeaponPistol& other)
@@ -21,8 +25,6 @@ HRESULT CWeaponPistol::Ready_GameObject()
 HRESULT CWeaponPistol::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	m_pTransformCom->Set_Scale(_vec3(0.005f, 0.005f, 0.005f));
 
 	m_pMeshCom->Set_AnimationSet(2);
 
@@ -44,9 +46,20 @@ _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	m_pTransformCom->Set_Scale(_vec3(0.05f, 0.05f, 0.05f));
+	if (m_pMeshCom->End_AnimationSet())
+	{
+		if (m_bFire == true)
+		{
+			if (m_iMagAmmo != 0)
+				Set_Animation((_uint)ePistolAction::Idle);
+			else
+				Set_Animation((_uint)ePistolAction::IdleEmpty);
 
-	m_pTransformCom->Update_Component();
+			m_bFire = false;
+		}
+	}
+
+
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
@@ -76,8 +89,17 @@ void CWeaponPistol::Draw_Weapon()
 
 void CWeaponPistol::Shoot_Weapon()
 {
-	eAction = (ePistolAction)(rand() % 4 + (_uint)ePistolAction::Fire3);
-	Set_Animation((_uint)eAction);
+	m_bFire = true;
+
+	if (m_iMagAmmo != 0)
+	{
+		m_iMagAmmo--;
+		Set_Animation(rand() % 4 + (_uint)ePistolAction::Fire3);
+	}
+	else
+	{
+		Set_Animation((_uint)ePistolAction::FireEmpty);
+	}
 }
 
 void CWeaponPistol::AltShoot_Weapon()
@@ -85,14 +107,27 @@ void CWeaponPistol::AltShoot_Weapon()
 	;
 }
 
-void CWeaponPistol::Reload_Weapon()
+bool CWeaponPistol::Reload_Weapon()
 {
+	if (m_iMainAmmo == 0 || m_iMagAmmo == (m_iMaxMagAmmo+1))
+		return false;
+
+	if (CPlayerWeapon::Reload_Weapon() == true)
+	{
+		m_iMagAmmo++;
+		m_iMainAmmo--;
+	}
 	Set_Animation((_uint)ePistolAction::Reload);
+
+	return true;
 }
 
 void CWeaponPistol::Release_Weapon()
 {
-	Set_Animation((_uint)ePistolAction::Idle);
+	if (m_iMagAmmo!=0)
+		Set_Animation((_uint)ePistolAction::Idle);
+	else
+		Set_Animation((_uint)ePistolAction::IdleEmpty);
 }
 
 void CWeaponPistol::Holster_Weapon()
@@ -107,10 +142,6 @@ HRESULT CWeaponPistol::Add_Component(void)
 		return MANAGER_OUT;
 	}
 	Engine::CComponent* pComponent = nullptr;
-
-	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
-	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
 	// DynamicMesh
 	pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Pistol"));

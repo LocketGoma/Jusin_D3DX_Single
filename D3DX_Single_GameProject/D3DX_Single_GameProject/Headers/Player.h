@@ -49,6 +49,7 @@ public:
 
 private:
 	HRESULT			Add_Component(void);
+	HRESULT			Print_TestUI();
 	void			Key_Input(const _float& fDeltaTime);
 
 
@@ -62,7 +63,8 @@ private:
 private:
 	_float m_fWeaponTimer = 0.f;
 	_float m_fMaxWeaponTimer = 0.2f;
-	_bool m_bShootState;
+	_bool m_bShootState;		//사격 여부
+	_bool m_bWeaponState;		//사격 가능 여부
 
 public:
 	static CPlayer* Create(_Device pDevice);

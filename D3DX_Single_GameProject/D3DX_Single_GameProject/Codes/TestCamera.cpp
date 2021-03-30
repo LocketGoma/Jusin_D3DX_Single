@@ -65,7 +65,10 @@ _int CTestCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 {
     m_pTransformCom->LateUpdate_Component(0.f);
 
-    m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)*5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
+    m_pCameraCom->Set_ViewVector(m_pTransformCom->
+        Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK)*5.f,
+        m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS),
+        m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
 
     return m_pCameraCom->LateUpdate_Component(fDeltaTime);
 }
