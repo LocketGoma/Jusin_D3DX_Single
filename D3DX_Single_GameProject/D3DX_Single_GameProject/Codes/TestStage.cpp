@@ -41,8 +41,10 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
     //m_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
     //m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
-
     CScene::Update_Scene(fDeltaTime);
+
+    m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
+
 
     return _int();
 }
@@ -182,9 +184,9 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 
-    pGameObject = pManagement->Clone_GameObject(L"MapA");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"MapA");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
     pGameObject = m_pNaviController = CNaviMeshController::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);

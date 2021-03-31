@@ -9,7 +9,6 @@ BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
 class CTransform;
 class CControlSupportUnit;
-
 END_NAMESPACE
 
 class CPlayerWeapon;
@@ -72,6 +71,9 @@ public:
 
 private:
 	virtual void Free() override;
+
+	//내부 변수
+	_float m_fHeight = 5.5f;	//플레이어 키
 
 
 };

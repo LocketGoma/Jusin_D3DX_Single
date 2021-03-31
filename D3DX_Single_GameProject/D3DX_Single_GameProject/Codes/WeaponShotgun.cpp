@@ -1,6 +1,8 @@
 #include "framework.h"
 #include "WeaponShotgun.h"
 
+//디테일작업 나중에 하시오
+
 CWeaponShotgun::CWeaponShotgun(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 	, m_bReloading(false)
@@ -14,15 +16,17 @@ CWeaponShotgun::CWeaponShotgun(_Device pDevice)
 	m_fFireInterval = ONEMINUTE / m_iROF;
 	m_fAltFireInterval = 0.8f;
 
-	m_fReloadTime = 0.7f;
-	m_fReloadActionTime = 0.f;
+	m_fReloadTime = 0.9f;
+	m_fReloadActionTime = 0.0f;
 
 }
 
 CWeaponShotgun::CWeaponShotgun(const CWeaponShotgun& other)
 	: CPlayerWeapon(other)
 	, m_bReloading(false)
+	, m_fReloadTime(other.m_fReloadTime)
 {
+	m_fReloadActionTime = 0.0f;
 }
 
 HRESULT CWeaponShotgun::Ready_GameObject()
@@ -45,6 +49,7 @@ _int CWeaponShotgun::Update_GameObject(const _float& fDeltaTime)
 
 	if (m_bReloading == true)
 	{
+		m_fReloadActionTime += fDeltaTime;
 		Reload_Weapon();
 	}
 
@@ -59,18 +64,37 @@ _int CWeaponShotgun::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	if (m_pMeshCom->End_AnimationSet())
+	if (m_bFire == true)
 	{
-		if (m_bFire == true)
-		{
-			m_pMeshCom->Set_AnimationSet((_uint)eShotgunAction::Pump);
-			m_bFire = false;
-		}
-		else 
-			m_pMeshCom->Set_AnimationSet((_uint)eShotgunAction::Idle);
+		m_fNowFItime += fDeltaTime;
 	}
 
-	
+	if (m_pMeshCom->End_AnimationSet())
+	{
+		if (m_bReloading == false)
+		{
+			if (m_bFire == true)
+			{
+				m_pMeshCom->Set_AnimationSet((_uint)eShotgunAction::Pump);
+				m_bFire = false;
+			}
+			else
+			{
+				m_pMeshCom->Set_AnimationSet((_uint)eShotgunAction::Idle);
+			}
+		}
+		else if (m_bReloading == true && m_bEndReload == true)
+		{
+			m_pMeshCom->Set_AnimationSet((_uint)eShotgunAction::Pump);
+			m_bReloading = false;
+		}
+		else if (m_bReloading = true)
+		{
+			;
+		}
+	}
+
+
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_TERMINAL_NOALPHA, this);
@@ -103,16 +127,20 @@ void CWeaponShotgun::Shoot_Weapon()
 {
 	m_bReloading = false;
 
-	m_bFire = true;
+	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
+	{
+		m_bFire = true;
 
-	if (m_iMagAmmo != 0)
-	{
-		m_iMagAmmo--;
-		Set_Animation((_uint)eShotgunAction::Fire);
-	}
-	else
-	{
-		Set_Animation((_uint)eShotgunAction::DryFire);
+		if (m_iMagAmmo != 0)
+		{
+			m_iMagAmmo--;
+			Set_Animation((_uint)eShotgunAction::Fire);
+		}
+		else
+		{
+			Set_Animation((_uint)eShotgunAction::DryFire);
+		}
+		m_fNowFItime = 0.f;
 	}
 }
 
@@ -136,42 +164,59 @@ void CWeaponShotgun::AltShoot_Weapon()
 
 bool CWeaponShotgun::Reload_Weapon()
 {
-	if (m_bReloading == false && m_iMainAmmo == 0)
-		return false;
+	//1. 탄창이 가득 차 있을때 or 탄환이 한발도 없을때
+	// = 아무것도 안함
+	//2. 탄창이 1발이상 비었을때
+	//-1.Reload1 모션 재생
+	//-2.필요한 탄 수 만큼 Reload2 재생 + 탄 충전
+	//-3.모든 탄이 다 들어갔으면 Reload3 재생
+	// 
+	// 	   아래는 추가 디테일
+	//3. 8발 다 쏜 상태에서 장전시 장전 끝나고 Pump
+	//4. 장전중 캔슬후 사격 가능
 
-	if (m_bReloading == false)
-	{
-		Set_Animation((_uint)eShotgunAction::Reload1);
-	}
-	bool test = m_pMeshCom->End_AnimationSet();
+	//if (m_bReloading == false && (m_iMagAmmo == m_iMaxMagAmmo || m_iMainAmmo == 0))
+	//	return false;
 
-	if (m_iMagAmmo == m_iMaxMagAmmo || m_iMainAmmo == 0)
-	{
-		Set_Animation((_uint)eShotgunAction::Reload3);
+	//if (m_fReloadActionTime >= m_fReloadTime && eShotgunAction::Reload3 == (eShotgunAction)m_pMeshCom->Get_NowAnimationNumber())
+	//{
+	//	Set_Animation((_uint)eShotgunAction::Pump);
 
-	}
-	else if (m_bReloading == false || m_pMeshCom->End_AnimationSet())
-	{
-		Set_Animation((_uint)eShotgunAction::Reload3);
-		Set_Animation((_uint)eShotgunAction::Reload2);
+	//	m_bReloading = false;
+	//	m_bEndReload = true;
+	//	return false;
+	//}
 
-		m_iMainAmmo--;
-		m_iMagAmmo++;
+	//if (m_bReloading == false)
+	//{
+	//	Set_Animation((_uint)eShotgunAction::Reload1);
+	//	m_bEndReload = false;
+	//	m_bReloading = true;
+	//}
 
-		m_bReloading = true;
+	//if (m_bReloading == true && (m_iMagAmmo == m_iMaxMagAmmo || m_iMainAmmo == 0))
+	//{
+	//	Set_Animation((_uint)eShotgunAction::Reload3);
 
-		return true;
-	}
-	
-	if (m_pMeshCom->End_AnimationSet())
-	{
-		Set_Animation((_uint)eShotgunAction::Pump);
+	//	m_bEndReload = true;
+	//	return false;
+	//}
 
-		m_bReloading = false;
-		return false;
-	}
+	//if (m_fReloadActionTime>=m_fReloadTime && m_pMeshCom->End_AnimationSet())
+	//{
+	//	Set_Animation((_uint)eShotgunAction::Pump);
+	//	Set_Animation((_uint)eShotgunAction::Reload2);
 
-	//Set_Animation((_uint)eShotgunAction::Reload);
+	//	m_iMainAmmo--;
+	//	m_iMagAmmo++;
+
+	//	m_fReloadActionTime = 0.f;
+
+	//	m_bReloading = true;
+	//}
+
+
+
 
 	return true;
 }
@@ -184,8 +229,6 @@ void CWeaponShotgun::Release_Weapon()
 void CWeaponShotgun::Holster_Weapon()
 {
 	m_bReloading = false;
-
-
 }
 
 

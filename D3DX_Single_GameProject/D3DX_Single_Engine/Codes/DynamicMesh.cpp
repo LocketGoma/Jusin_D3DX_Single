@@ -119,6 +119,11 @@ void CDynamicMesh::Play_AnimationSet(const _float& fDeltatime)
 	Update_FrameMatrices((D3DXFRAME_DERIVED*)m_pRootFrame, D3DXMatrixIdentity(&matTemp));
 }
 
+_uint CDynamicMesh::Get_NowAnimationNumber()
+{
+	return m_pAniControl->Get_NowAnimationNumber();
+}
+
 CAnimationController* CDynamicMesh::Get_AniController()
 {
 	return m_pAniControl;

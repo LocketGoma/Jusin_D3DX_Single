@@ -98,7 +98,7 @@ _vec3 CNaviMesh::Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos)
 {
 	if (COMPAREMOVE::MOVE == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
 	{
-		return *pNewPos;
+		return Caculate_OnNaviMesh(pNewPos);
 	}
 	else if (COMPAREMOVE::STOP == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
 	{
@@ -106,6 +106,11 @@ _vec3 CNaviMesh::Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos)
 	}
 
 	return *pOldPos;
+}
+
+_vec3 CNaviMesh::Caculate_OnNaviMesh(const _vec3* pTargetPos)
+{
+	return _vec3(pTargetPos->x, m_vecCell[m_dwCellIndex]->Get_Height_At_Cell(pTargetPos),pTargetPos->z);
 }
 
 HRESULT CNaviMesh::Add_NaviCell(_vec3& p1, _vec3& p2, _vec3& p3)

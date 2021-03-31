@@ -9,7 +9,6 @@ BEGIN_NAMESPACE(Engine)
 class CStaticMesh;
 class CDynamicMesh;
 class CTransform;
-
 END_NAMESPACE
 
 class CTestObject : public Engine::CGameObject

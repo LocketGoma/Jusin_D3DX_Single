@@ -34,6 +34,7 @@ public:
 	HRESULT		Ready_Cell(const _ulong& dwCellIndex, const _vec3* pPointA, const _vec3* pPointB, const _vec3* pPointC);
 	_bool		Compare_Point(const _vec3* pFirst, const _vec3* pSecond, CCell* pCell);
 	void		Render_Cell(void);
+	_float		Get_Height_At_Cell(const _vec3* pVPos);
 
 	COMPAREMOVE	Compare(const _vec3* pEndPos, _ulong* pCellIndex);
 

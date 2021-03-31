@@ -26,6 +26,7 @@ public:
 
 	void		Set_AnimationSet(const _uint& iIndex);
 	void		Play_AnimationSet(const _float& fDeltatime);
+	_uint		Get_NowAnimationNumber();
 
 public:
 	CAnimationController* Get_AniController();

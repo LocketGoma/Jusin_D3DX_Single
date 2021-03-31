@@ -157,6 +157,8 @@
     <ClInclude Include="..\Headers\Client_Enum.h" />
     <ClInclude Include="..\Headers\Client_Struct.h" />
     <ClInclude Include="..\Headers\DynamicObject.h" />
+    <ClInclude Include="..\Headers\EnemyAntLion.h" />
+    <ClInclude Include="..\Headers\EnemyHunter.h" />
     <ClInclude Include="..\Headers\framework.h" />
     <ClInclude Include="..\Headers\LoadingScene.h" />
     <ClInclude Include="..\Headers\LogoImage.h" />
@@ -193,6 +195,8 @@
     <ClCompile Include="..\Codes\BaseAI.cpp" />
     <ClCompile Include="..\Codes\BaseLogoScene.cpp" />
     <ClCompile Include="..\Codes\DynamicObject.cpp" />
+    <ClCompile Include="..\Codes\EnemyAntLion.cpp" />
+    <ClCompile Include="..\Codes\EnemyHunter.cpp" />
     <ClCompile Include="..\Codes\LoadingScene.cpp" />
     <ClCompile Include="..\Codes\LogoImage.cpp" />
     <ClCompile Include="..\Codes\MainCamera.cpp" />

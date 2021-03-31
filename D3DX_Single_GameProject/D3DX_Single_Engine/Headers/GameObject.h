@@ -36,6 +36,7 @@ public:
 
 protected:
 	_bool m_bIsPrototype;
+	_bool m_bDead;
 	_float m_fViewZ = 0.f;						//Z소팅 연산용
 	_Device m_pDevice;
 	std::map<const std::wstring, CComponent*> m_mapComponent[(_uint)(COMPONENT_ID::ID_END)];

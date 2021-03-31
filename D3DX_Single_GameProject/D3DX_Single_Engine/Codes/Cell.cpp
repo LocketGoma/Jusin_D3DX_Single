@@ -8,7 +8,7 @@ USING(Engine)
 CCell::CCell(_Device pDevice)
 	: m_pDevice(pDevice)
 	, m_pD3DXLine(nullptr)
-	, m_fRadius(1.25f)
+	, m_fRadius(0.25f)
 	, m_fSlice(12)
 	, m_pTexture(nullptr)
 {
@@ -199,6 +199,33 @@ void CCell::Render_Cell(void)
 
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
+}
+
+//https://m.blog.naver.com/ldj1725/220062476672
+_float CCell::Get_Height_At_Cell(const _vec3* pVPos)
+{
+	_float3 vPosA = m_vPoint[(_uint)NAVIPOINT::POINT_A];
+	_float3 vPosB = m_vPoint[(_uint)NAVIPOINT::POINT_B];
+	_float3 vPosC = m_vPoint[(_uint)NAVIPOINT::POINT_C];
+
+	//min / max
+	//_float2 fX = _float2(min(min(vPosA.x,vPosB.x),vPosC.x), max(max(vPosA.x, vPosB.x), vPosC.x));
+	//_float2 fZ = _float2(min(min(vPosA.z, vPosB.z), vPosC.z), max(max(vPosA.z, vPosB.z), vPosC.z));
+
+	//_float fRatioX = (pVPos->x - fX.x / (fX.y - fX.x));
+	//_float fRatioZ = (pVPos->z - fZ.x / (fZ.y - fZ.x));
+
+	_vec3 p1, p2, pPlane;
+	p1 = vPosB - vPosA;
+	p2 = vPosC - vPosA;
+
+	D3DXVec3Cross(&pPlane, &p1, &p2);
+	_float fAp = (vPosB.x * pPlane.x + vPosB.y * pPlane.y + vPosB.z * pPlane.z);
+
+	if (pPlane.y == 0)
+		return pVPos->y;
+
+	return ((fAp-((pVPos->x * pPlane.x)+(pVPos->z * pPlane.z)))/pPlane.y);
 }
 
 COMPAREMOVE CCell::Compare(const _vec3* pEndPos, _ulong* pCellIndex)

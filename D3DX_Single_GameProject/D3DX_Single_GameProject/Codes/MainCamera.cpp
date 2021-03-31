@@ -56,18 +56,19 @@ _int CMainCamera::Update_GameObject(const _float& fDeltaTime)
 	{
 		Mouse_Movement();
 	}
-	m_pTransformCom->Update_Component(fDeltaTime);
-	Base_Movement(fDeltaTime);
-
+	
 	return NO_EVENT;
 }
 
 _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	m_pTransformCom->LateUpdate_Component(0.f);
+	Base_Movement(fDeltaTime);
+	m_pTransformCom->Update_Component(fDeltaTime);
+
+
 
 	//¼öÁ¤ÇØÁà¾ßµÊ
-	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_UP));
+	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
 	
 
 	return m_pCameraCom->LateUpdate_Component(fDeltaTime);
@@ -75,6 +76,8 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CMainCamera::Render_GameObject(void)
 {
+	m_pTransformCom->LateUpdate_Component(0.f);
+
 	return S_OK;
 }
 

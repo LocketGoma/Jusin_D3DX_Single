@@ -4,6 +4,7 @@ USING(Engine)
 
 CGameObject::CGameObject(_Device pDevice)
     : m_pDevice(pDevice)
+    , m_bDead(false)
 {
     m_bIsPrototype = true;
     m_pDevice->AddRef();
@@ -11,9 +12,10 @@ CGameObject::CGameObject(_Device pDevice)
 
 CGameObject::CGameObject(const CGameObject& other)
     : m_pDevice(other.m_pDevice)
+    , m_bDead(other.m_bDead)
 {
-    Safe_AddReference(m_pDevice);
     m_bIsPrototype = false;
+    Safe_AddReference(m_pDevice);
 }
 
 _float CGameObject::Get_ViewZ()

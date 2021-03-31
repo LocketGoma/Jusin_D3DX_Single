@@ -55,14 +55,6 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	}
 
 	Key_Input(fDeltaTime);
-
-	//카메라 이동으로 인한 y값 보정 - 나중에 수정할것
-	_float fY = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS).y;
-	m_pTransformCom->Update_Component(fDeltaTime);
-	_vec3 vPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
-	//vPos.y = fY;
-	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_POS, &vPos);
-
 	
 	m_pWeapon[(_uint)m_pWeaponType]->Update_GameObject(fDeltaTime);
 
@@ -78,7 +70,14 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	m_pTransformCom->LateUpdate_Component(fDeltaTime);
+	//카메라 이동으로 인한 y값 보정 - 나중에 수정할것
+	_vec3 vAPos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
+	vAPos.y += m_fHeight;
+	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_POS, &vAPos);
+	m_pTransformCom->Update_Component(fDeltaTime);
+	_vec3 vPos = vAPos;
+	vPos.y -= m_fHeight;
+	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_POS, &vPos);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_UI, this);
 
@@ -89,6 +88,9 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CPlayer::Render_GameObject(void)
 {	
+
+	m_pTransformCom->LateUpdate_Component(0.f);
+
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
@@ -221,11 +223,18 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 		m_pTransformCom->Move_Pos(&vRight, 10.f, fDeltaTime);
 	}
 
-	if (pManagement->Key_Down('R'))
+	//시선에 따른 Y축 이동 보정
+	_vec3 vApPos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
+	vApPos.y = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS).y;
+	m_pTransformCom->Set_Pos(vApPos);
+
+	//이후 점프 처리
+	if (pManagement->Key_Down(VK_SPACE))
 	{
-		m_bWeaponState = m_pWeapon[(_uint)m_pWeaponType]->Reload_Weapon();
+		//점프
 	}
 
+	
 	//사격
 	if (pManagement->Key_Pressing(VK_LBUTTON))
 	{
@@ -245,6 +254,12 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 		m_fWeaponTimer = 0.f;
 		m_bShootState = false;
 	}
+	if (pManagement->Key_Down('R'))
+	{
+		m_bWeaponState = m_pWeapon[(_uint)m_pWeaponType]->Reload_Weapon();
+	}
+
+
 
 	if (g_zDelta > 0.1f)
 	{

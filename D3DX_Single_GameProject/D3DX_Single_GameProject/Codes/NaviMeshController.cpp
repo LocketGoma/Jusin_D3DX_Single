@@ -3,12 +3,13 @@
 
 #include "Transform.h"
 
-#include <iostream>
+#include "iostream"
 #include "json.h"
 
 CNaviMeshController::CNaviMeshController(_Device pDevice)
 	: CGameObject(pDevice)
 {
+	m_bVisuable = true;
 }
 
 CNaviMeshController::CNaviMeshController(const CNaviMeshController& other)
@@ -16,6 +17,8 @@ CNaviMeshController::CNaviMeshController(const CNaviMeshController& other)
 	, m_pNaviMeshCom(other.m_pNaviMeshCom)
 {
 	m_bIsPrototype = false;
+
+
 }
 
 HRESULT CNaviMeshController::Ready_GameObject(void)
@@ -57,8 +60,6 @@ HRESULT CNaviMeshController::Render_GameObject(void)
 	{
 		m_pNaviMeshCom->Render_NaviMesh();
 	}
-
-
 	return S_OK;
 }
 
@@ -151,39 +152,27 @@ void CNaviMeshController::Set_NowScene(Engine::CScene* pScene)
 	m_pScene = pScene;
 }
 
-HRESULT CNaviMeshController::Compare_NaviMove(std::map<const _tchar*, Engine::CLayer*>* pTargetScene)
+HRESULT CNaviMeshController::Compare_NaviMove(Engine::CLayer* pTargetLayer)
 {
 	if (m_pNaviMeshCom == nullptr)
 	{
 		return E_FAIL;
 	}
 
-	for (auto& iter : *pTargetScene)
+	for (auto& targetObject : *(pTargetLayer->Get_ObjectLayer()))
 	{
-		if (iter == *pTargetScene->end())
-		{
-			return E_FAIL;
-		}
-		if (iter.second == nullptr)
+		if (targetObject.second == nullptr)
 		{
 			continue;
 		}
-
-		for (auto& targetObject : *(iter.second->Get_ObjectLayer()))
-		{
-			if (targetObject.second == nullptr)
-			{
-				continue;
-			}
-
-			Engine::CTransform* pTransform = dynamic_cast<Engine::CTransform*>(targetObject.second->Find_Component(L"Com_Transform", Engine::COMPONENT_ID::ID_DYNAMIC));
+		Engine::CTransform* pTransform = dynamic_cast<Engine::CTransform*>(targetObject.second->Find_Component(L"Com_Transform", Engine::COMPONENT_ID::ID_DYNAMIC));
 			
-			if (pTransform != nullptr) {
-				pTransform->Set_Pos(m_pNaviMeshCom->Compare_OnNaviMesh(&(pTransform->Get_Info(Engine::TRANSFORM_INFO::INFO_POS)), &(
-					pTransform->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS))));
-			}
+		if (pTransform != nullptr) {
+			pTransform->Set_Pos(m_pNaviMeshCom->Compare_OnNaviMesh(&(pTransform->Get_Info(Engine::TRANSFORM_INFO::INFO_POS)), &(
+			pTransform->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS))));
 		}
 	}
+	
 
 	return S_OK;
 }

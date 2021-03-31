@@ -124,6 +124,11 @@ void CAnimationController::Play_AnimationSet(const _float& fDeltaTime)
 	m_fAccTime += fDeltaTime;
 }
 
+_uint CAnimationController::Get_NowAnimationNumber()
+{
+	return m_iOldAniIdx;
+}
+
 CAnimationController* CAnimationController::Create(LPD3DXANIMATIONCONTROLLER pAniControl)
 {
 	CAnimationController* pInstance = new CAnimationController(pAniControl);
