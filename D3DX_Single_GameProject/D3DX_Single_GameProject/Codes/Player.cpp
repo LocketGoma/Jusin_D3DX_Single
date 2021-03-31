@@ -78,7 +78,7 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	m_pTransformCom->LateUpdate_Component(0.f);
+	m_pTransformCom->LateUpdate_Component(fDeltaTime);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_UI, this);
 
@@ -120,7 +120,7 @@ _vec3 CPlayer::Get_Size()
 {
 	return m_pTransformCom->Get_TransformDescription().vScale;
 }
-
+//휠 조작용
 void CPlayer::MouseProc(UINT message, WPARAM wParam)
 {
 	if (message == WM_MOUSEWHEEL)
@@ -189,6 +189,7 @@ HRESULT CPlayer::Print_TestUI()
 	wsprintf(m_szAmmo, L"%d / %d", m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo(), m_pWeapon[(_uint)(_uint)m_pWeaponType]->Get_RemainAmmo());
 	pManagement->Render_Font(L"Font_BASE", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - 20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
 
+	return S_OK;
 }
 
 void CPlayer::Key_Input(const _float& fDeltaTime)
@@ -226,7 +227,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	}
 
 	//사격
-	if (pManagement->Key_Down(VK_LBUTTON))
+	if (pManagement->Key_Pressing(VK_LBUTTON))
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->Shoot_Weapon();
 		m_bShootState = true;
@@ -237,7 +238,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 		m_pWeapon[(_uint)m_pWeaponType]->AltShoot_Weapon();
 		m_bShootState = true;
 	}
-	if (pManagement->Key_Up(VK_LBUTTON) || m_fWeaponTimer >= m_fMaxWeaponTimer)
+	if (!pManagement->Key_Pressing(VK_LBUTTON) && m_pWeapon[(_uint)m_pWeaponType]->Is_End_Animation())
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->Release_Weapon();
 

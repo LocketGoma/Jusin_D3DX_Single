@@ -13,6 +13,9 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	, m_iMaxAmmo(0)
 	, m_iMaxAltAmmo(0)
 	, m_bFire(false)
+	, m_fNowFItime(0.f)
+	, m_iROF(0)
+	, m_fAltFireInterval(0.f)
 {
 	m_bIsPrototype = true;
 }
@@ -26,6 +29,10 @@ CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 	, m_iMagAmmo(other.m_iMaxMagAmmo)
 	, m_iMaxAltAmmo(other.m_iMaxAltAmmo)
 	, m_bFire(false)
+	, m_fNowFItime(0.f)
+	, m_iROF(other.m_iROF)
+	, m_fFireInterval(other.m_fFireInterval)
+	, m_fAltFireInterval(other.m_fAltFireInterval)
 {
 
 	m_bIsPrototype = false;
@@ -57,6 +64,14 @@ void CPlayerWeapon::Set_Animation(int iNumber)
 {
 	if (m_pMeshCom != nullptr)
 		m_pMeshCom->Set_AnimationSet(iNumber);
+}
+
+bool CPlayerWeapon::Is_End_Animation()
+{
+	if (m_pMeshCom != nullptr && m_pMeshCom->End_AnimationSet())
+		return true;
+
+	return false;
 }
 
 int CPlayerWeapon::Get_VertexNumber()

@@ -10,6 +10,13 @@ CWeaponShotgun::CWeaponShotgun(_Device pDevice)
 	m_iMagAmmo = 8;
 	m_iMaxMagAmmo = 8;
 
+	m_iROF = 120;
+	m_fFireInterval = ONEMINUTE / m_iROF;
+	m_fAltFireInterval = 0.8f;
+
+	m_fReloadTime = 0.7f;
+	m_fReloadActionTime = 0.f;
+
 }
 
 CWeaponShotgun::CWeaponShotgun(const CWeaponShotgun& other)

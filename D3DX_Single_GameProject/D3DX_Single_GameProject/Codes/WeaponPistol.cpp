@@ -10,6 +10,10 @@ CWeaponPistol::CWeaponPistol(_Device pDevice)
 	m_iMainAmmo = m_iMaxAmmo;
 	m_iMagAmmo = 16;
 	m_iMaxMagAmmo = 15;
+
+	m_iROF = 240;
+	m_fFireInterval = ONEMINUTE / m_iROF;
+
 }
 
 CWeaponPistol::CWeaponPistol(const CWeaponPistol& other)
@@ -26,7 +30,7 @@ HRESULT CWeaponPistol::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pMeshCom->Set_AnimationSet(2);
+	m_pMeshCom->Set_AnimationSet((_uint)ePistolAction::Idle);
 
 	return S_OK;
 }
@@ -45,6 +49,10 @@ _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
+	if (m_bFire == true)
+	{
+		m_fNowFItime += fDeltaTime;
+	}
 
 	if (m_pMeshCom->End_AnimationSet())
 	{
@@ -58,8 +66,6 @@ _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 			m_bFire = false;
 		}
 	}
-
-
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
@@ -89,16 +95,22 @@ void CWeaponPistol::Draw_Weapon()
 
 void CWeaponPistol::Shoot_Weapon()
 {
-	m_bFire = true;
 
-	if (m_iMagAmmo != 0)
+	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
-		m_iMagAmmo--;
-		Set_Animation(rand() % 4 + (_uint)ePistolAction::Fire3);
-	}
-	else
-	{
-		Set_Animation((_uint)ePistolAction::FireEmpty);
+		m_bFire = true;
+
+		if (m_iMagAmmo != 0)
+		{
+			m_iMagAmmo--;
+			Set_Animation(rand() % 4 + (_uint)ePistolAction::Fire3);
+		}
+		else
+		{
+			Set_Animation((_uint)ePistolAction::FireEmpty);
+		}
+
+		m_fNowFItime = 0.f;
 	}
 }
 

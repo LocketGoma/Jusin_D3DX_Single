@@ -10,6 +10,11 @@ CWeaponRifle::CWeaponRifle(_Device pDevice)
 	m_iMainAmmo = m_iMaxAmmo;
 	m_iMagAmmo = 21;
 	m_iMaxMagAmmo = 20;
+	m_iAltAmmo = 3;
+
+	m_iROF = 540;
+	m_fFireInterval = ONEMINUTE / m_iROF;
+	m_fAltFireInterval = 1.6f;
 }
 
 CWeaponRifle::CWeaponRifle(const CWeaponRifle& other)
@@ -26,8 +31,7 @@ HRESULT CWeaponRifle::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-
-	m_pMeshCom->Set_AnimationSet((_uint)eRifleAction::Draw);
+	m_pMeshCom->Set_AnimationSet((_uint)eRifleAction::Idle);
 
 	return S_OK;
 }
@@ -47,6 +51,31 @@ _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
+	}
+	if (m_bFire == true)
+	{
+		m_fNowFItime += fDeltaTime;
+	}
+
+	if (m_bAltFire == true)
+	{
+		m_fNowAFItime += fDeltaTime;
+	}
+
+	if (m_pMeshCom->End_AnimationSet())
+	{
+		Set_Animation((_uint)eRifleAction::Idle);
+
+		if (m_fNowFItime >= m_fFireInterval && m_bFire == true)
+		{
+			m_bFire = false;
+			m_fNowFItime = 0.f;
+		}
+		if (m_fNowAFItime >= m_fAltFireInterval && m_bAltFire == true)
+		{
+			m_bAltFire = false;
+			m_fNowAFItime = 0.f;
+		}
 	}
 
 
@@ -80,16 +109,34 @@ void CWeaponRifle::Draw_Weapon()
 
 void CWeaponRifle::Shoot_Weapon()
 {
-	if (m_iMagAmmo != 0)
+	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
-		m_iMagAmmo--;
-		Set_Animation((_uint)eRifleAction::Fire);
+		m_bFire = true;
+		if (m_iMagAmmo != 0)
+		{
+			m_iMagAmmo--;
+	
+			Set_Animation((_uint)eRifleAction::Fire);
+		}
+		m_fNowFItime = 0.f;
 	}
+	
 }
 
 void CWeaponRifle::AltShoot_Weapon()
 {
-	Set_Animation((_uint)eRifleAction::AltFire);
+	if (m_bAltFire == false || m_fNowAFItime >= m_fAltFireInterval)
+	{
+		m_bAltFire = true;
+		if (m_iAltAmmo != 0)
+		{
+			m_iAltAmmo--;
+	
+			Set_Animation((_uint)eRifleAction::AltFire);
+		}
+		m_fNowAFItime = 0.f;
+	}
+
 }
 
 bool CWeaponRifle::Reload_Weapon()

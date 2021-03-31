@@ -4,6 +4,8 @@
 CWeaponCrowbar::CWeaponCrowbar(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
+	m_iROF = 180;
+	m_fFireInterval = ONEMINUTE / m_iROF;
 }
 
 CWeaponCrowbar::CWeaponCrowbar(const CWeaponCrowbar& other)
@@ -41,11 +43,15 @@ _int CWeaponCrowbar::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
+	if (m_bFire == true)
+	{
+		m_fNowFItime += fDeltaTime;
+	}
 	if (m_pMeshCom->End_AnimationSet())
 	{
 		Set_Animation((_uint)eCrowbarAction::Idle);		
+		m_bFire = false;
 	}
-
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
@@ -62,7 +68,7 @@ HRESULT CWeaponCrowbar::Render_GameObject(void)
 	D3DXMatrixIdentity(&matPos);
 	if (m_bZoom == true)
 	{
-		D3DXMatrixTranslation(&matPos, 0.f, 0.f, -1.15f);
+		D3DXMatrixTranslation(&matPos, 0.f, 0.f, -0.15f);
 	}
 	D3DXMatrixScaling(&matScale, WEAPON_REDUCION_SIZE, WEAPON_REDUCION_SIZE, WEAPON_REDUCION_SIZE);
 	matView = matScale * matPos * matView;
@@ -82,10 +88,15 @@ void CWeaponCrowbar::Draw_Weapon()
 
 void CWeaponCrowbar::Shoot_Weapon()
 {
-	m_bFire = true;
-	Set_Animation((rand() % 3 + (_uint)eCrowbarAction::HitCenter3));
+	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
+	{
+		m_bFire = true;
+		Set_Animation((rand() % 3 + (_uint)eCrowbarAction::HitCenter3));
 
-	m_bZoom = true;
+		m_bZoom = true;
+
+		m_fNowFItime = 0.f;
+	}
 }
 
 void CWeaponCrowbar::AltShoot_Weapon()

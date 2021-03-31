@@ -8,6 +8,11 @@ CWeaponSMG::CWeaponSMG(_Device pDevice)
 	m_iMainAmmo = m_iMaxAmmo;
 	m_iMagAmmo = 26;
 	m_iMaxMagAmmo = 25;
+	m_iAltAmmo = 5;
+
+	m_iROF = 420;
+	m_fFireInterval = ONEMINUTE / m_iROF;
+	m_fAltFireInterval = 1.f;
 
 }
 
@@ -35,8 +40,6 @@ _int CWeaponSMG::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
-
-
 	return NO_EVENT;
 }
 
@@ -46,6 +49,32 @@ _int CWeaponSMG::LateUpdate_GameObject(const _float& fDeltaTime)
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
+	}
+
+	if (m_bFire == true)
+	{
+		m_fNowFItime += fDeltaTime;
+	}
+
+	if (m_bAltFire == true)
+	{
+		m_fNowAFItime += fDeltaTime;
+	}
+
+	if (m_pMeshCom->End_AnimationSet())
+	{
+		Set_Animation((_uint)eSMGAction::Idle);
+
+		if (m_fNowFItime >= m_fFireInterval && m_bFire == true)
+		{
+			m_bFire = false;
+			m_fNowFItime = 0.f;
+		}
+		if (m_fNowAFItime >= m_fAltFireInterval && m_bAltFire == true)
+		{
+			m_bAltFire = false;
+			m_fNowAFItime = 0.f;
+		}
 	}
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
@@ -77,18 +106,33 @@ void CWeaponSMG::Draw_Weapon()
 
 void CWeaponSMG::Shoot_Weapon()
 {
-	if (m_iMagAmmo != 0)
+	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
-		m_iMagAmmo--;
+		m_bFire = true;
+		if (m_iMagAmmo != 0)
+		{
+			m_iMagAmmo--;
 
-		Set_Animation((rand() % 4 + (_uint)eSMGAction::Fire4));
+			Set_Animation((rand() % 4 + (_uint)eSMGAction::Fire4));
+		}
+		m_fNowFItime = 0.f;
 	}
-
 }
 
 void CWeaponSMG::AltShoot_Weapon()
 {
-	Set_Animation((_uint)eSMGAction::AltFire);
+	if (m_bAltFire == false || m_fNowAFItime >= m_fAltFireInterval)
+	{
+		m_bAltFire = true;
+		if (m_iAltAmmo != 0)
+		{
+			m_iAltAmmo--;		
+
+			Set_Animation((_uint)eSMGAction::AltFire);
+		}
+		m_fNowAFItime = 0.f;
+	}
+
 }
 
 bool CWeaponSMG::Reload_Weapon()

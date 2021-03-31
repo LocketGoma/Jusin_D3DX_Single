@@ -48,6 +48,7 @@ public:
 
 public:
 	void Set_Animation(int iNumber);
+	bool Is_End_Animation();
 	int Get_VertexNumber();
 
 protected:
@@ -58,8 +59,14 @@ protected:
 	_uint m_iMaxAmmo;			//최대 소지가능 탄환
 	_uint m_iMaxMagAmmo;		//탄창 최대소지량
 	_uint m_iMaxAltAmmo;		//최대 소지가능 2차 탄환
+	_uint m_iROF;				//분당 최대 사격가능 발 수 (=연사력)
+	_float m_fFireInterval;		//1발당 쿨타임		= 자동 계산
+	_float m_fAltFireInterval;	//특수사격 쿨타임
+	_float m_fNowFItime;		//현재 쿨타임
+	_float m_fNowAFItime;		//현재 쿨타임
 
 	_bool m_bFire;
+	_bool m_bAltFire;
 
 
 public:

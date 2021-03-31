@@ -46,6 +46,8 @@ private:
 
 private:
 	_bool	m_bReloading;
+	_float	m_fReloadTime;			//1발 장전에 걸리는 시간
+	_float	m_fReloadActionTime;	//장전중 쿨타임
 
 };
 
