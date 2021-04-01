@@ -3,6 +3,8 @@
 #include "VTXTerrain.h"
 #include "Transform.h"
 
+#include "Collider.h"
+
 #include "StaticMesh.h"
 #include "DynamicMesh.h"
 
@@ -285,9 +287,118 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
     return vReturnPos;
 }
 
-_bool CControlSupportUnit::Collision_Picking(HWND hWnd, const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld)
+_bool CControlSupportUnit::Collision_Picking(HWND hWnd, CCollider* pCollider, CTransform* pTransform)
 {
-    return _bool();
+    POINT ptMouse{};
+
+    GetCursorPos(&ptMouse);
+    ScreenToClient(hWnd, &ptMouse);
+
+    _vec3 vMousePos;
+
+    //뷰포트 획득
+    D3DVIEWPORT9 pViewPort;
+    ZeroMemory(&pViewPort, sizeof(_D3DVIEWPORT9));
+    m_pDevice->GetViewport(&pViewPort);
+
+    //윈도우 좌표 -> 투영 좌표
+    vMousePos.x = ptMouse.x / (pViewPort.Width * 0.5f) - 1.f;
+    vMousePos.y = ptMouse.y / -(pViewPort.Height * 0.5f) + 1.f;
+    vMousePos.z = 0.f;
+
+    //투영 좌표 -> 뷰 좌표
+    _mat matProj;
+    m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+    D3DXMatrixInverse(&matProj, NULL, &matProj);
+    D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+    //이 시점에 마우스 좌표는 뷰에 있음.
+
+    //뷰 좌표 -> 월드 좌표
+    _mat matView;
+    m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixInverse(&matView, NULL, &matView);
+
+
+    //RayPos : 레이 스타트 / RayDir : 레이 방향
+    _vec3 vRayPos, vRayDir;
+
+    vRayPos = _vec3(0.f, 0.f, 0.f); //레이 시작 : 화면 중점
+    vRayDir = vMousePos - vRayPos; //레이 방향 : 마우스 클릭위치
+
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+    //월드 -> 로컬
+    //사유 : 버텍스 정보는 로컬정보니까.
+    _mat matWorld;
+    memcpy(&matWorld, pTransform->Get_TransformDescription().matWorld, sizeof(_mat));
+    D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+
+    //Coord : 위치 / Normal : 방향
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+    //위까지 마우스 피킹 처리
+
+    _vec3 pDestMin = *(pCollider->Get_Min());
+    _vec3 pDestMax = *(pCollider->Get_Max());
+
+    //앞면
+    _vec3 pVertex[8];
+    pVertex[0] = _vec3(pDestMin.x, pDestMax.y, pDestMin.z);
+    pVertex[1] = _vec3(pDestMax.x, pDestMax.y, pDestMin.z);
+    pVertex[2] = _vec3(pDestMax.x, pDestMin.y, pDestMin.z);
+    pVertex[3] = _vec3(pDestMin.x, pDestMin.y, pDestMin.z);
+
+    // 뒷면
+    pVertex[4] = _vec3(pDestMin.x, pDestMax.y, pDestMax.z);
+    pVertex[5] = _vec3(pDestMax.x, pDestMax.y, pDestMax.z);
+    pVertex[6] = _vec3(pDestMax.x, pDestMin.y, pDestMax.z);
+    pVertex[7] = _vec3(pDestMin.x, pDestMin.y, pDestMax.z);
+
+    //정면
+    if (D3DXIntersectTri(&pVertex[0], &pVertex[1], &pVertex[2], &vRayPos, &vRayDir, nullptr,nullptr,nullptr))
+    {
+        return true;
+    }
+    if (D3DXIntersectTri(&pVertex[1], &pVertex[3], &pVertex[2], &vRayPos, &vRayDir, nullptr, nullptr, nullptr))
+    {
+        return true;
+    }
+
+    //우측면
+    if (D3DXIntersectTri(&pVertex[4], &pVertex[0], &pVertex[3], &vRayPos, &vRayDir, nullptr, nullptr, nullptr))
+    {
+        return true;
+    }
+    if (D3DXIntersectTri(&pVertex[4], &pVertex[3], &pVertex[7], &vRayPos, &vRayDir, nullptr, nullptr, nullptr))
+    {
+        return true;
+    }
+
+    //우측면
+    if (D3DXIntersectTri(&pVertex[1], &pVertex[5], &pVertex[6], &vRayPos, &vRayDir, nullptr, nullptr, nullptr))
+    {
+        return true;
+    }
+    if (D3DXIntersectTri(&pVertex[1], &pVertex[6], &pVertex[2], &vRayPos, &vRayDir, nullptr, nullptr, nullptr))
+    {
+        return true;
+    }
+
+    //후면
+    if (D3DXIntersectTri(&pVertex[4], &pVertex[5], &pVertex[6], &vRayPos, &vRayDir, nullptr, nullptr, nullptr))
+    {
+        return true;
+    }
+    if (D3DXIntersectTri(&pVertex[4], &pVertex[6], &pVertex[7], &vRayPos, &vRayDir, nullptr, nullptr, nullptr))
+    {
+        return true;
+    }
+
+
+    return false;
 }
 
 _bool CControlSupportUnit::Collision_OBB(const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld, const _vec3* pSourceMin, const _vec3* pSourceMax, const _mat* pSourceWorld)

@@ -10,6 +10,7 @@ BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
 class CTransform;
 class CControlSupportUnit;
+class CCollider;
 END_NAMESPACE
 
 //DigDie : 바닥 대기 모션
@@ -72,6 +73,7 @@ private:
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
+	Engine::CCollider* m_pColliderCom = nullptr;
 
 
 };

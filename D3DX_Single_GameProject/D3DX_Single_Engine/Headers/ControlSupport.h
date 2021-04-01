@@ -14,7 +14,7 @@ class CTransform;
 class CVTXTerrain;
 class CStaticMesh;
 class CDynamicMesh;
-
+class CCollider;
 
 class ENGINE_DLL CControlSupportUnit : public CComponent
 {
@@ -43,7 +43,7 @@ public:
 	_bool Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh* pMesh, const CTransform* pTransform);
 	_vec3 Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer, const CTransform* pTransform);	
 
-	_bool Collision_Picking(HWND hWnd, const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld);
+	_bool Collision_Picking(HWND hWnd, CCollider* pCollider, CTransform* pTransform);
 
 	_bool Collision_OBB(const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld, const _vec3* pSourceMin, const _vec3* pSourceMax, const _mat* pSourceWorld);
 	

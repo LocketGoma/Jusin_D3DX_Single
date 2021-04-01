@@ -3,6 +3,7 @@
 
 #include "DynamicMesh.h"
 #include "Transform.h"
+#include "Collider.h"
 #include "ControlSupport.h"
 
 CEnemyAntLion::CEnemyAntLion(_Device pDevice)
@@ -36,7 +37,9 @@ _int CEnemyAntLion::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
-	m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom);
+	//if (m_pSupportCom->Collision_Picking(g_hWnd, m_pColliderCom, m_pTransformCom))
+
+
 
 	return NO_EVENT;
 }
@@ -48,10 +51,12 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
+	if (pManagement->Key_Down(VK_LBUTTON))
+		m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom);
 
 	m_pTransformCom->Update_Component(fDeltaTime);
 
-	pManagement->Add_RenderList(Engine::RENDERID::RENDER_UI, this);
+	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
 	return NO_EVENT;
 }
@@ -194,6 +199,14 @@ HRESULT CEnemyAntLion::Add_Component(void)
 	pComponent = m_pSupportCom = Engine::CControlSupportUnit::Create(m_pDevice);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Support", pComponent);
+
+	//콜라이더
+	//pComponent = m_pColliderCom = Engine::CCollider::Create(m_pDevice,
+	//	m_pMeshCom->Get_VtxPos(),
+	//	m_pMeshCom->Get_VtxCnt(),
+	//	m_pMeshCom->Get_Stride());
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
 
 	return S_OK;
 }
