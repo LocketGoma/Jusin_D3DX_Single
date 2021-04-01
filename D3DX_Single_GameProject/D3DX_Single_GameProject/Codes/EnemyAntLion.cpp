@@ -3,7 +3,7 @@
 
 #include "DynamicMesh.h"
 #include "Transform.h"
-#include "Collider.h"
+#include "SphereCollider.h"
 #include "ControlSupport.h"
 
 CEnemyAntLion::CEnemyAntLion(_Device pDevice)
@@ -51,8 +51,17 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
-	if (pManagement->Key_Down(VK_LBUTTON))
-		m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom);
+	//if (pManagement->Key_Down(VK_LBUTTON)) 
+	//{
+		if (m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom) == true)
+		{
+			eType = Engine::COLIDETYPE::COL_TRUE;
+		}
+	//}
+	else 
+	{
+		eType = Engine::COLIDETYPE::COL_FALSE;
+	}
 
 	m_pTransformCom->Update_Component(fDeltaTime);
 
@@ -69,7 +78,7 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 		return E_FAIL;
 
 	m_pMeshCom->Render_Meshes();
-
+	m_pColliderCom->Render_Collider(eType, &(m_pTransformCom->Get_TransformDescription().matWorld));
 	return S_OK;
 }
 
@@ -208,10 +217,20 @@ HRESULT CEnemyAntLion::Add_Component(void)
 	//NULL_CHECK_RETURN(pComponent, E_FAIL);
 	//m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
 
+	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), 4.25f);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), 4.25f);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
 	return S_OK;
 }
 
 void CEnemyAntLion::Free()
 {
+	
+
 	CDynamicObject::Free();
 }

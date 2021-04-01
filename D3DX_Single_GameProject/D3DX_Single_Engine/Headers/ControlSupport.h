@@ -46,6 +46,8 @@ public:
 	_bool Collision_Picking(HWND hWnd, CCollider* pCollider, CTransform* pTransform);
 
 	_bool Collision_OBB(const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld, const _vec3* pSourceMin, const _vec3* pSourceMax, const _mat* pSourceWorld);
+
+	_bool Collision_Sphere(const _vec3* pDestPos, const _float fDestRadius, const _vec3* pSourcePos, const _float fSourceRadius);
 	
 private:
 	void		Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax);

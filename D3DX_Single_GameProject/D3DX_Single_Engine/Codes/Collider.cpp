@@ -175,9 +175,9 @@ void CCollider::Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix
 #endif
 }
 
-CCollider* CCollider::Create(_Device pGraphicDev, const _vec3* pPos, const _ulong& dwVtxCnt, const _ulong& dwStride)
+CCollider* CCollider::Create(_Device pDevice, const _vec3* pPos, const _ulong& dwVtxCnt, const _ulong& dwStride)
 {
-	CCollider* pInstance = new CCollider(pGraphicDev);
+	CCollider* pInstance = new CCollider(pDevice);
 
 	if (FAILED(pInstance->Ready_Collider(pPos, dwVtxCnt, dwStride)))
 		Safe_Release(pInstance);

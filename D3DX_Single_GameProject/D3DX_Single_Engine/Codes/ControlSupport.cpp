@@ -141,7 +141,6 @@ _bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh*
         {
             break;
         }
-
         D3DXMESHCONTAINER_DERIVED* pMeshContainer = iter;
         LPDIRECT3DVERTEXBUFFER9 pVTXBuffer;
         LPDIRECT3DINDEXBUFFER9 pIndexBuffer;
@@ -173,7 +172,6 @@ _bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh*
 
         Safe_Release(pVTXBuffer);
         Safe_Release(pIndexBuffer);
-
     }
     return bResult;
 }
@@ -404,6 +402,15 @@ _bool CControlSupportUnit::Collision_Picking(HWND hWnd, CCollider* pCollider, CT
 _bool CControlSupportUnit::Collision_OBB(const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld, const _vec3* pSourceMin, const _vec3* pSourceMax, const _mat* pSourceWorld)
 {
     return _bool();
+}
+
+_bool CControlSupportUnit::Collision_Sphere(const _vec3* pDestPos, const _float fDestRadius, const _vec3* pSourcePos, const _float fSourceRadius)
+{
+    _vec3 vRangePos = *pDestPos - *pSourcePos;
+    _float fRadiusRange = fDestRadius + fSourceRadius;
+    _float fSphereRange = D3DXVec3Length(&vRangePos);
+    
+    return fRadiusRange >= fSphereRange;
 }
 
 void CControlSupportUnit::Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax)

@@ -152,6 +152,12 @@
     <Filter Include="01.Resources\01.Component\05.Collider">
       <UniqueIdentifier>{242cccf7-16ca-45ea-89e6-b5e940261de0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\01.Component\05.Collider\00.Box">
+      <UniqueIdentifier>{abdb46d0-d877-408e-9688-2dc357f1a150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\05.Collider\01.Sphere">
+      <UniqueIdentifier>{69d424dd-7755-45de-b203-d35f516e07de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -287,7 +293,10 @@
       <Filter>01.Resources\08.RenderTarget</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Collider.cpp">
-      <Filter>01.Resources\01.Component\05.Collider</Filter>
+      <Filter>01.Resources\01.Component\05.Collider\00.Box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\SphereCollider.cpp">
+      <Filter>01.Resources\01.Component\05.Collider\01.Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,7 +454,10 @@
       <Filter>01.Resources\08.RenderTarget</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Collider.h">
-      <Filter>01.Resources\01.Component\05.Collider</Filter>
+      <Filter>01.Resources\01.Component\05.Collider\00.Box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\SphereCollider.h">
+      <Filter>01.Resources\01.Component\05.Collider\01.Sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

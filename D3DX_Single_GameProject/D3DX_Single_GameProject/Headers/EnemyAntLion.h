@@ -10,7 +10,7 @@ BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
 class CTransform;
 class CControlSupportUnit;
-class CCollider;
+class CSphereCollider;
 END_NAMESPACE
 
 //DigDie : 바닥 대기 모션
@@ -70,10 +70,12 @@ public:
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
+	Engine::COLIDETYPE eType;
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
-	Engine::CCollider* m_pColliderCom = nullptr;
+	Engine::CSphereCollider* m_pColliderCom = nullptr;
+	Engine::CSphereCollider* m_pAttackColliderCom = nullptr;
 
 
 };
