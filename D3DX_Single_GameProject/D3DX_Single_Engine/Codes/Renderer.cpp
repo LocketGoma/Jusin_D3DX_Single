@@ -380,6 +380,9 @@ HRESULT CRenderer::Render_NO_ZEnable_NoAlpha()
 
 HRESULT CRenderer::Render_Terminal_NoAlpha()
 {
+ //http://telnet.or.kr/directx/graphics/reference/d3d/interfaces/idirect3ddevice9/clear.htm
+ //   쉐이더 써야겠네;
+
     for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_TERMINAL_NOALPHA])
         {
             if (FAILED(pGameObject->Render_GameObject()))

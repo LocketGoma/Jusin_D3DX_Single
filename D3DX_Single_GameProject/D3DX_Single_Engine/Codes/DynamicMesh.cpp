@@ -134,6 +134,11 @@ int CDynamicMesh::Get_VertexCount()
 	return m_iVertexNumber;
 }
 
+const std::list<D3DXMESHCONTAINER_DERIVED*>* CDynamicMesh::Get_VertrxInfo() const
+{
+	return &m_MeshContainerList;
+}
+
 void CDynamicMesh::Update_FrameMatrices(D3DXFRAME_DERIVED* pFrame, const _matrix* pParentMatrix)
 {
 	//프레임 별 매트릭스 업데이트 

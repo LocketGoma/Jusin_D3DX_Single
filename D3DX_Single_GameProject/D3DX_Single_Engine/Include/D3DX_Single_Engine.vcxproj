@@ -123,6 +123,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>3.0</ShaderModel>
+      <AdditionalIncludeDirectories>../Codes/;../Headers/;../Include</AdditionalIncludeDirectories>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -141,6 +148,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>3.0</ShaderModel>
+      <AdditionalIncludeDirectories>../Codes/;../Headers/;../Include</AdditionalIncludeDirectories>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -180,12 +194,20 @@
     <Link>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>3.0</ShaderModel>
+      <AdditionalIncludeDirectories>../Codes/;../Headers/;../Include</AdditionalIncludeDirectories>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\AnimationController.h" />
     <ClInclude Include="..\Headers\Base.h" />
     <ClInclude Include="..\Headers\CameraComponent.h" />
     <ClInclude Include="..\Headers\Cell.h" />
+    <ClInclude Include="..\Headers\Collider.h" />
     <ClInclude Include="..\Headers\Component.h" />
     <ClInclude Include="..\Headers\ControlSupport.h" />
     <ClInclude Include="..\Headers\DynamicMesh.h" />
@@ -217,6 +239,8 @@
     <ClInclude Include="..\Headers\Optimization.h" />
     <ClInclude Include="..\Headers\PrototypeManager.h" />
     <ClInclude Include="..\Headers\Renderer.h" />
+    <ClInclude Include="..\Headers\RenderTarget.h" />
+    <ClInclude Include="..\Headers\RenderTargetManager.h" />
     <ClInclude Include="..\Headers\Scene.h" />
     <ClInclude Include="..\Headers\SceneManager.h" />
     <ClInclude Include="..\Headers\StaticMesh.h" />
@@ -237,6 +261,7 @@
     <ClCompile Include="..\Codes\Base.cpp" />
     <ClCompile Include="..\Codes\CameraComponent.cpp" />
     <ClCompile Include="..\Codes\Cell.cpp" />
+    <ClCompile Include="..\Codes\Collider.cpp" />
     <ClCompile Include="..\Codes\Component.cpp" />
     <ClCompile Include="..\Codes\ControlSupport.cpp" />
     <ClCompile Include="..\Codes\DynamicMesh.cpp" />
@@ -261,6 +286,8 @@
     <ClCompile Include="..\Codes\Optimization.cpp" />
     <ClCompile Include="..\Codes\PrototypeManager.cpp" />
     <ClCompile Include="..\Codes\Renderer.cpp" />
+    <ClCompile Include="..\Codes\RenderTarget.cpp" />
+    <ClCompile Include="..\Codes\RenderTargetManager.cpp" />
     <ClCompile Include="..\Codes\Scene.cpp" />
     <ClCompile Include="..\Codes\SceneManager.cpp" />
     <ClCompile Include="..\Codes\StaticMesh.cpp" />

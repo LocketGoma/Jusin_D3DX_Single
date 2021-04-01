@@ -34,6 +34,7 @@ enum class POINTTRACK { POINT_START, POINT_FINISH, POINT_END };
 
 enum class COMPARE { COMPARE_LEFT, COMPARE_RIGHT }; // 플레이어 위치를 기준으로 왼쪽에 선분이 있으면 이동한 것
 
+enum class COLIDETYPE {COL_FALSE,COL_TRUE,COL_END};
 END_NAMESPACE
 
 

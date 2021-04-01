@@ -3,6 +3,9 @@
 #include "VTXTerrain.h"
 #include "Transform.h"
 
+#include "StaticMesh.h"
+#include "DynamicMesh.h"
+
 USING(Engine)
 
 CControlSupportUnit::CControlSupportUnit(_Device pDevice)
@@ -65,9 +68,19 @@ _float CControlSupportUnit::Calculate_HeightOnTerrain(const _vec3* pPos, const _
     return fResult;
 }
 
-//이거 중력건 만들려면 반드시 만들어놔야됨.
-_vec3 CControlSupportUnit::Picking_Object(HWND hWnd, const CVIBuffer* pBuffer,const CTransform* pTransform)
+_bool CControlSupportUnit::Picking_Object_Static(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform)
 {
+    return _vec3();
+}
+
+//1. ColliderBox-레이 피킹 처리
+//2. 1번 통과 시 아래 코드 작동
+
+//이거 중력건 만들려면 반드시 만들어놔야됨.
+_bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh* pMesh, const CTransform* pTransform)
+{
+    _bool bResult = false;
+
     POINT ptMouse{};
 
     GetCursorPos(&ptMouse);
@@ -108,13 +121,62 @@ _vec3 CControlSupportUnit::Picking_Object(HWND hWnd, const CVIBuffer* pBuffer,co
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
+    //월드 -> 로컬
+    //사유 : 버텍스 정보는 로컬정보니까.
+    _mat matWorld;
+    memcpy(&matWorld, pTransform->Get_TransformDescription().matWorld, sizeof(_mat));
+    D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+
+    //Coord : 위치 / Normal : 방향
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
 
 
+    auto* meshList = pMesh->Get_VertrxInfo();
+    for (auto& iter : *meshList)
+    {
+        if (bResult == true)
+        {
+            break;
+        }
 
+        D3DXMESHCONTAINER_DERIVED* pMeshContainer = iter;
+        LPDIRECT3DVERTEXBUFFER9 pVTXBuffer;
+        LPDIRECT3DINDEXBUFFER9 pIndexBuffer;
+        _uint iIndexNumber = pMeshContainer->MeshData.pMesh->GetNumFaces();
+        pMeshContainer->MeshData.pMesh->GetVertexBuffer(&pVTXBuffer);
+        pMeshContainer->MeshData.pMesh->GetIndexBuffer(&pIndexBuffer);
 
+        WORD* pIndices;
+        D3DVERTEX* pVertices;        
 
-    return _vec3();
+        pIndexBuffer->Lock(0, 0, (void**)&pIndices, 0);
+        pVTXBuffer->Lock(0, 0, (void**)&pVertices, 0);
+
+        for (_uint i = 0; i < iIndexNumber; i++)
+        {
+            _vec3 v0 = pVertices[pIndices[3 * i + 0]].p;
+            _vec3 v1 = pVertices[pIndices[3 * i + 1]].p;
+            _vec3 v2 = pVertices[pIndices[3 * i + 2]].p;
+
+            _float fU, fV, fDist;
+            if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &fU, &fV, &fDist))
+            {
+                bResult = true;
+                break;
+            }
+        }
+        pVTXBuffer->Unlock();
+        pIndexBuffer->Unlock();
+
+        Safe_Release(pVTXBuffer);
+        Safe_Release(pIndexBuffer);
+
+    }
+    return bResult;
 }
+
+
 
 _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer, const CTransform* pTransform)
 {
@@ -221,6 +283,24 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
        
     //없으면 초기값
     return vReturnPos;
+}
+
+_bool CControlSupportUnit::Collision_Picking(HWND hWnd, const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld)
+{
+    return _bool();
+}
+
+_bool CControlSupportUnit::Collision_OBB(const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld, const _vec3* pSourceMin, const _vec3* pSourceMax, const _mat* pSourceWorld)
+{
+    return _bool();
+}
+
+void CControlSupportUnit::Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax)
+{
+}
+
+void CControlSupportUnit::Set_Axis(OBB* pObb)
+{
 }
 
 CControlSupportUnit* CControlSupportUnit::Create(_Device pDevice)

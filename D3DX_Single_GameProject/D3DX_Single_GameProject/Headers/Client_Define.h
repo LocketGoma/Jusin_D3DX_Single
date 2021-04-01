@@ -11,8 +11,11 @@ extern HWND g_hWnd;
 #define TERRAIN_VTX_COUNTZ 129
 #define TERRAIN_VTX_INTERVAL 1.f
 
-#define WEAPON_REDUCION_SIZE	0.0005f		//무기 관련 이미지 축소 비율
-#define ONEMINUTE				60.00f		//60초
+#define WEAPON_REDUCION_SIZE		0.0005f		//무기 관련 이미지 축소 비율
+#define BASE_ENEMY_REDUCION_SIZE	0.0025f		//적 관련 이미지 축소 비율
+#define WEAPON_REDUCION_VECTOR		_vec3(WEAPON_REDUCION_SIZE,WEAPON_REDUCION_SIZE,WEAPON_REDUCION_SIZE)		//무기 관련 이미지 축소 벡터
+#define BASE_ENEMY_REDUCION_VECTOR	_vec3(BASE_ENEMY_REDUCION_SIZE,BASE_ENEMY_REDUCION_SIZE,BASE_ENEMY_REDUCION_SIZE)		//적 관련 이미지 축소 벡터
+#define ONEMINUTE					60.00f		//60초
 
 //옵션 넣을거 있으면 넣으세요
 #define NO_EVENT		0x00

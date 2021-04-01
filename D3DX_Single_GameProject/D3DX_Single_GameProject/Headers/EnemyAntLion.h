@@ -49,11 +49,12 @@ public:
 	virtual void Go_Side(_float fDeltaTime, eAlign pAlign) override;
 	virtual void Do_Run(_float fDeltaTime) override;
 	virtual void Do_Walk(_float fDeltaTime) override;
-	virtual void Do_Rotate(_float fDeltaTime) override;
+	virtual void Do_Rotate(_float fDeltaTime, eAlign pAlign) override;
 	virtual void Do_Attack(_float fDeltaTime) override;
 	virtual void Do_Idle(_float fDeltaTime) override;
 	virtual void Do_Spawn(_float fDeltaTime) override;
 	virtual void Do_Dead(_float fDeltaTime) override;
+
 
 public:
 	// CDynamicObject을(를) 통해 상속됨
@@ -71,10 +72,6 @@ private:
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
-
-
-
-
 
 
 };

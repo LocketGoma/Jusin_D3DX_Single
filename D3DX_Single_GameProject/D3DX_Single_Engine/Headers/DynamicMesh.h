@@ -31,6 +31,7 @@ public:
 public:
 	CAnimationController* Get_AniController();
 	int Get_VertexCount();
+	const std::list<D3DXMESHCONTAINER_DERIVED*>* Get_VertrxInfo() const;
 
 private:
 	//  모든 뼈를 순회하면서 뼈들이 소유한 CombinedTransformationMatrix를 갱신하는 함수

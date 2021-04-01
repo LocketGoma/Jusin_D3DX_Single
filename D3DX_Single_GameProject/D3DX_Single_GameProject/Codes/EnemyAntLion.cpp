@@ -25,6 +25,8 @@ HRESULT CEnemyAntLion::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
+
 	m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
 
 	return S_OK;
@@ -33,6 +35,8 @@ HRESULT CEnemyAntLion::Ready_GameObject_Clone(void* pArg)
 _int CEnemyAntLion::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+
+	m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom);
 
 	return NO_EVENT;
 }
@@ -54,6 +58,8 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CEnemyAntLion::Render_GameObject(void)
 {
+	m_pTransformCom->LateUpdate_Component(0.f);
+
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
@@ -84,16 +90,35 @@ _vec3 CEnemyAntLion::Get_Size()
 
 CEnemyAntLion* CEnemyAntLion::Create(_Device pDevice)
 {
-	return nullptr;
+	CEnemyAntLion* pInstance = new CEnemyAntLion(pDevice);
+
+	if (FAILED(pInstance->Ready_GameObject()))
+	{
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 Engine::CGameObject* CEnemyAntLion::Clone(void* pArg)
 {
-	return nullptr;
+	CEnemyAntLion* pClone = new CEnemyAntLion(*this);
+	if (pClone == nullptr)
+	{
+		PRINT_LOG(L"Error", L"Failed To Clone CEnemyAntLion");
+	}
+
+	if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
+	{
+		Safe_Release(pClone);
+	}
+
+	return pClone;
 }
 
 void CEnemyAntLion::Set_Animation(_uint iIndex)
 {
+	m_pMeshCom->Set_AnimationSet(iIndex);
 }
 
 void CEnemyAntLion::Go_Stright(_float fDeltaTime)
@@ -121,8 +146,9 @@ void CEnemyAntLion::Do_Walk(_float fDeltaTime)
 	m_fAnimationSpeed = 1.f;
 }
 
-void CEnemyAntLion::Do_Rotate(_float fDeltaTime)
+void CEnemyAntLion::Do_Rotate(_float fDeltaTime, eAlign pAlign)
 {
+	m_fRotate += (((int)pAlign - 0.5f) * 2.f)*fDeltaTime;
 }
 
 void CEnemyAntLion::Do_Attack(_float fDeltaTime)
@@ -132,6 +158,7 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime)
 
 void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 {
+	m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
 }
 
 void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
@@ -141,6 +168,7 @@ void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 
 void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 {
+	m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 
 HRESULT CEnemyAntLion::Add_Component(void)
@@ -158,13 +186,19 @@ HRESULT CEnemyAntLion::Add_Component(void)
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
 	// DynamicMesh
-	pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"AntLion"));
+	pComponent = m_pMeshCom = dynamic_cast<Engine::CDynamicMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Antlion"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Mesh", pComponent);
+
+	//서포트 컴포넌트
+	pComponent = m_pSupportCom = Engine::CControlSupportUnit::Create(m_pDevice);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Support", pComponent);
 
 	return S_OK;
 }
 
 void CEnemyAntLion::Free()
 {
+	CDynamicObject::Free();
 }

@@ -11,6 +11,7 @@
 #include "TimeManager.h"
 #include "KeyManager.h"
 #include "Renderer.h"
+#include "RenderTargetManager.h"
 #include "SceneManager.h"
 #include "GameObjectManager.h"
 #include "PrototypeManager.h"
@@ -75,6 +76,21 @@ public:
 	HRESULT Add_RenderList(RENDERID eRenderID, class CGameObject* pGameObject);
 
 public:
+	//RenderTarget Setting
+	HRESULT Ready_Sheader(_Device pDevice);
+
+	HRESULT Ready_RenderTarget(const _tchar * pTargetTag, _Device pDevice, const _uint & iWidth, const _uint & iHeight, D3DFORMAT Format, D3DXCOLOR Color);
+
+	HRESULT		Ready_MRT(const _tchar * pMRTTag, const _tchar * pTargetTag);
+	HRESULT		Begin_MRT(const _tchar * pMRTTag);
+	HRESULT		End_MRT(const _tchar * pMRTTag);
+	HRESULT			Ready_DebugBuffer(const _tchar * pTargetTag, const _float & fX, const _float & fY, const _float & fSizeX, const _float & fSizeY);
+	void			Render_DebugBuffer(const _tchar * pMRTTag);
+	void			SetUp_OnShader(LPD3DXEFFECT & pEffect, const _tchar * pTargetTag, const char* pConstantTable);
+
+
+
+public:
 	//ProtoTypeManager & ResourceManager & GameObjectManager
 	//1. PrototypeManager (Non-GraphicResource Component)
 	HRESULT		Ready_Prototype(const _tchar * pProtoTag, CComponent * pInstance);
@@ -106,6 +122,7 @@ public:
 private:
 	CGraphicDevice*			 m_pDeviceManager	  = nullptr;
 	CRenderer*				 m_pRenderer		  = nullptr;
+	CRenderTargetManager*	 m_pRenderManager	  = nullptr;
 	CKeyManager*			 m_pKeyManager		  = nullptr;
 	CFontManager*			 m_pFontManager		  = nullptr;
 	CTimeManager*			 m_pTimeManager		  = nullptr;

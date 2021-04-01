@@ -7,6 +7,7 @@ IMPLEMENT_SINGLETON(CManagement)
 CManagement::CManagement()
 	: m_pDeviceManager(CGraphicDevice::Get_Instance())
 	, m_pRenderer(CRenderer::Get_Instance())
+	, m_pRenderManager(CRenderTargetManager::Get_Instance())
 	, m_pPrototypeManager(CPrototypeManager::Get_Instance())
 	, m_pGraphicManager(CGraphicResourceManager::Get_Instance())
 	, m_pKeyManager(CKeyManager::Get_Instance())
@@ -19,6 +20,7 @@ CManagement::CManagement()
 {
 	Safe_AddReference(m_pDeviceManager);
 	Safe_AddReference(m_pRenderer);
+	Safe_AddReference(m_pRenderManager);
 	Safe_AddReference(m_pPrototypeManager);
 	Safe_AddReference(m_pGraphicManager);
 	Safe_AddReference(m_pKeyManager);
@@ -205,7 +207,64 @@ HRESULT CManagement::Add_RenderList(RENDERID eRenderID, CGameObject* pGameObject
 
 	return m_pRenderer->Add_RenderList(eRenderID, pGameObject);
 }
+//랜더타겟 관련
+HRESULT CManagement::Ready_Sheader(_Device pDevice)
+{
+	D3DVIEWPORT9		ViewPort;
+	pDevice->GetViewport(&ViewPort);
 
+	//Base
+	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_BaseAlbedo", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_BaseAlbedo", 0.f, 0.f, 200.f, 200.f), E_FAIL);
+
+	//깊이 버퍼
+	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_Depth", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_Depth", 0.f, 200.f, 200.f, 200.f), E_FAIL);
+
+	//무기
+	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_WeaponAlbedo", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_WeaponAlbedo", 0.f, 400.f, 200.f, 200.f), E_FAIL);
+
+	return S_OK;
+}
+
+HRESULT CManagement::Ready_RenderTarget(const _tchar* pTargetTag, _Device pDevice, const _uint& iWidth, const _uint& iHeight, D3DFORMAT Format, D3DXCOLOR Color)
+{
+	return m_pRenderManager->Ready_RenderTarget(pTargetTag,pDevice, iWidth, iHeight,Format,Color);
+}
+
+HRESULT CManagement::Ready_MRT(const _tchar* pMRTTag, const _tchar* pTargetTag)
+{
+	return m_pRenderManager->Ready_MRT(pMRTTag,pTargetTag);
+}
+
+HRESULT CManagement::Begin_MRT(const _tchar* pMRTTag)
+{
+	return m_pRenderManager->Begin_MRT(pMRTTag);
+}
+
+HRESULT CManagement::End_MRT(const _tchar* pMRTTag)
+{
+	return m_pRenderManager->End_MRT(pMRTTag);
+}
+
+HRESULT CManagement::Ready_DebugBuffer(const _tchar* pTargetTag, const _float& fX, const _float& fY, const _float& fSizeX, const _float& fSizeY)
+{
+	return m_pRenderManager->Ready_DebugBuffer(pTargetTag,fX,fY,fSizeX,fSizeY);
+}
+
+void CManagement::Render_DebugBuffer(const _tchar* pMRTTag)
+{
+	m_pRenderManager->Render_DebugBuffer(pMRTTag);
+}
+
+void CManagement::SetUp_OnShader(LPD3DXEFFECT& pEffect, const _tchar* pTargetTag, const char* pConstantTable)
+{
+	m_pRenderManager->SetUp_OnShader(pEffect, pTargetTag, pConstantTable);
+}
+//랜더타겟관련 끝
+
+//오브젝트 관련
 HRESULT CManagement::Ready_Prototype(const _tchar* pProtoTag, CComponent* pInstance)
 {
 	if (m_pPrototypeManager == nullptr)
@@ -281,6 +340,7 @@ void CManagement::Free()
 	Safe_Release(m_pGameObjectManager);
 	Safe_Release(m_pGraphicManager);
 	Safe_Release(m_pPrototypeManager);
+	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pDeviceManager);
 }
@@ -314,6 +374,9 @@ void CManagement::Release_Engine()
 
 	if (CPrototypeManager::Destroy_Instance())
 		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CProtoTypeManager (Management.cpp)");
+
+	if (CRenderTargetManager::Destroy_Instance())
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderTargetManager");
 
 	if (CRenderer::Destroy_Instance())
 		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderer");

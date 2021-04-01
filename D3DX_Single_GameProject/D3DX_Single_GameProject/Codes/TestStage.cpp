@@ -28,6 +28,7 @@ HRESULT CTestStage::Ready_Scene(void)
     //Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
+    Add_Enemy_Layer(L"EnemyLayer");
 
     
 
@@ -192,8 +193,35 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestNavi", pGameObject), E_FAIL);
 
-    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/Test.json");
+    //m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/Test.json");
+    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/testfile.json");
 
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
+{
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+    pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
+
+    pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(16.f, 0.f, 15.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 

@@ -37,17 +37,25 @@ public:
 	virtual void Go_Side(_float fDeltaTime, eAlign pAlign) PURE;	//사이드 이동
 	virtual void Do_Run(_float fDeltaTime) PURE;				//달림
 	virtual void Do_Walk(_float fDeltaTime) PURE;				//걸음
-	virtual void Do_Rotate(_float fDeltaTime) PURE;				//회전
+	virtual void Do_Rotate(_float fDeltaTime, eAlign pAlign) PURE;				//회전
 	virtual void Do_Attack(_float fDeltaTime) PURE;				//공격
 	virtual void Do_Idle(_float fDeltaTime) PURE;				//대기 + 멈춤
 	virtual void Do_Spawn(_float fDeltaTime) PURE;				//등장 (생략 가능)
 	virtual void Do_Dead(_float fDeltaTime) PURE;				//사망
-
+			
+		
 	//virtual void Do_Tracking() PURE;			//적 추적
 
 //외부 애니메이션 조작용
 public:
 	virtual void Set_Animation(_uint iIndex) PURE;
+//공통 상태 함수
+public:
+	_uint Get_Damage();
+	_uint Get_NowHP();
+	void Hit_Attack(_uint iDamage);
+
+
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
@@ -58,6 +66,11 @@ protected:
 	//움직임
 	_float m_fMoveSpeed;
 	_float m_fAnimationSpeed;
+	_float m_fRotate;
+
+	_int m_iHP;					//현재 체력
+	_uint m_iMaxHP;				//최대 체력
+	_uint m_iDamage;			//공격력
 
 	//기본 공격 간격
 	_float m_fAttackInterval;

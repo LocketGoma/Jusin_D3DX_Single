@@ -17,7 +17,7 @@
 #include "TestPlayer.h"
 
 
-//진짜배기들
+///진짜배기들
 #include "MainMapA.h"
 
 #include "StaticObject.h"
@@ -25,6 +25,10 @@
 
 #include "Player.h"
 #include "MainCamera.h"
+
+//적 들
+#include "EnemyAntLion.h"
+
 
 //무기류
 #include "PlayerWeapon.h"
@@ -262,9 +266,18 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
 
     ///아래부터 진짜배기 메쉬들
+
+    //맵
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapA", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map01/", L"Max01_Fina_Edited.x");
 
-    //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapA", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map02/", L"Map02_Edited.x");
+    //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapB", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map02/", L"Map02_Edited.x");
+
+    //적
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Antlion", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Antlion/", L"Antlion_Final.x");
+
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Hunter", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Hunter/", L"Hunter_Final.x");
+
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Strider", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Strider/", L"Strider_Final.x");
 
 
     //플레이어 (무기)
@@ -309,6 +322,18 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CSkyBox::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"SkyBoxA", pGameObject);
+
+
+    //적 (기본)
+    pGameObject = CEnemyAntLion::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"EnemyAntlion", pGameObject);
+
+
+    //적 (보스급)
+
+
+    //플레이어 기본
 
     pGameObject = CPlayer::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -140,6 +140,18 @@
     <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain\00.BatchTerrain">
       <UniqueIdentifier>{7c7bd91d-9ca9-43a9-b75a-f3ca62d4861d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Resources\12.Sheader">
+      <UniqueIdentifier>{1c61027d-51e7-4c76-933a-c982e382b26a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\08.RenderTargetManager">
+      <UniqueIdentifier>{856cc09a-2848-443a-899d-d62de1247687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\08.RenderTarget">
+      <UniqueIdentifier>{f7ac0e22-c1da-462f-b9e4-206198983cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\05.Collider">
+      <UniqueIdentifier>{242cccf7-16ca-45ea-89e6-b5e940261de0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -267,6 +279,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\VTXBatchTerrain.cpp">
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain\00.BatchTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\RenderTargetManager.cpp">
+      <Filter>00.System\08.RenderTargetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\RenderTarget.cpp">
+      <Filter>01.Resources\08.RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\Collider.cpp">
+      <Filter>01.Resources\01.Component\05.Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +437,15 @@
     </ClInclude>
     <ClInclude Include="..\Headers\VTXBatchTerrain.h">
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain\00.BatchTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\RenderTargetManager.h">
+      <Filter>00.System\08.RenderTargetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\RenderTarget.h">
+      <Filter>01.Resources\08.RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Collider.h">
+      <Filter>01.Resources\01.Component\05.Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

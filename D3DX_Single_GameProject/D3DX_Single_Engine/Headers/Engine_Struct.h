@@ -5,6 +5,17 @@
 
 BEGIN_NAMESPACE(Engine)
 
+typedef struct D3DVERTEX
+{
+	D3DXVECTOR3 p;
+	D3DXVECTOR3 n;
+	FLOAT tu, tv;
+
+}D3VERTEX;
+const DWORD    FVF_D3DVERTEX = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
+
+
+
 typedef struct tagVertexColor
 {
 	_vec3		vPosition;

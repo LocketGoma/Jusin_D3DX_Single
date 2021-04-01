@@ -19,7 +19,8 @@ private:
 public:
 
 
-
+	void Set_ControlUnit(CDynamicObject* pUnit);
+	void Set_Target(Engine::CGameObject* pTarget);
 
 public:
 	//static CBaseAI* Create();

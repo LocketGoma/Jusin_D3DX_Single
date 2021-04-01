@@ -152,6 +152,9 @@
     <Filter Include="01.Object\03.DynamicObject\01.Boss\01.Strider">
       <UniqueIdentifier>{ece3d0b5-0929-4332-a289-2613e87ef7a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07.AI&amp;Algorithm\00.BaseAttacker">
+      <UniqueIdentifier>{6c04e093-ef44-4fd8-9db4-b447ddd26b7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
