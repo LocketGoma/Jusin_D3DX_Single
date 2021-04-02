@@ -18,7 +18,7 @@ CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 CEnemyAntLion::CEnemyAntLion(const CEnemyAntLion& other)
 	: CDynamicObject(other)		
 {
-	eAction = eAntLionAction::Idle;
+	eAction = eAntLionAction::DigDie;
 }
 
 HRESULT CEnemyAntLion::Ready_GameObject(_uint iTexNumber)

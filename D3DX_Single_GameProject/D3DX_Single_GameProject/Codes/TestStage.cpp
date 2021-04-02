@@ -59,7 +59,6 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
 _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 {
-    CScene::LateUpdate_Scene(fDeltaTime);
 
     auto pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
@@ -84,6 +83,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 
 
         
+    CScene::LateUpdate_Scene(fDeltaTime);
 
 
 

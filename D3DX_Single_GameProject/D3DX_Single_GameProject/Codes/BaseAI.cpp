@@ -46,12 +46,16 @@ _int CBaseAI::Update_GameObject(const _float& fDeltaTime)
 	_vec3 vRange = (m_pTargetUnit->Get_Position()) - (m_pControlUnit->Get_Position());
 	m_fRangeToTarget = D3DXVec3Length(&vRange);
 
-
-	Do_Appear(fDeltaTime);
+	if (m_bAppear == false)
+	{
+		Do_Appear(fDeltaTime);
+	}
 	Do_Idle(fDeltaTime);
-	Do_Movement(fDeltaTime);
-	Do_Attack(fDeltaTime);
-
+	if (m_bSpawn == false && m_bAppear == true)
+	{
+		Do_Movement(fDeltaTime);
+		Do_Attack(fDeltaTime);
+	}
 	return _int();
 }
 
@@ -100,15 +104,16 @@ HRESULT CBaseAI::Do_Appear(const _float& fDeltaTime)
 	
 	if ((PLAYER_BASE_HITBOX + m_pControlUnit->Get_RecogRange()) >= m_fRangeToTarget)
 	{
-		m_bAppear = true;
-	}
-	else
-	{
-		m_bAppear = false;
+		m_pControlUnit->Do_Spawn(fDeltaTime);
+		m_bSpawn = true;
 	}
 	
-	if (m_bAppear == true)
-	//m_pControlUnit->Do_Spawn(fDeltaTime);
+	if (m_bSpawn == true && m_pControlUnit->End_Animation_State() == true)
+	{
+		m_bSpawn = false;
+		m_bAppear = true;
+	}
+	
 
 
 	return S_OK;
