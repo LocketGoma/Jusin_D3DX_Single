@@ -34,6 +34,10 @@ public:
 	virtual _vec3 Get_Position() PURE;
 	virtual _vec3 Get_Size() PURE;
 
+public:
+	void Set_Dead();
+	bool Is_Dead();
+
 protected:
 	_bool m_bIsPrototype;
 	_bool m_bDead;

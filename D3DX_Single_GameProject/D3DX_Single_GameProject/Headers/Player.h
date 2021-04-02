@@ -46,6 +46,8 @@ public:
 	Engine::CAnimationController* Get_AniController();
 	int Get_VertexNumber();
 
+	_uint Get_WeaponDamage();
+
 private:
 	HRESULT			Add_Component(void);
 	HRESULT			Print_TestUI();

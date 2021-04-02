@@ -146,6 +146,14 @@ int CPlayer::Get_VertexNumber()
 	return 0;
 }
 
+_uint CPlayer::Get_WeaponDamage()
+{
+	if (m_bShootState == true)
+		return m_pWeapon[(_uint)m_pWeaponType]->Get_Damage_Primary();
+	else
+		return 0;
+}
+
 HRESULT CPlayer::Add_Component(void)
 {
 	auto pManagement = Engine::CManagement::Get_Instance();

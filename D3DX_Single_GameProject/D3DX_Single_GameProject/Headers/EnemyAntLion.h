@@ -70,14 +70,9 @@ public:
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
-	Engine::COLIDETYPE eType;
-	Engine::CDynamicMesh* m_pMeshCom = nullptr;
-	Engine::CTransform* m_pTransformCom = nullptr;
-	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
-	Engine::CSphereCollider* m_pColliderCom = nullptr;
-	Engine::CSphereCollider* m_pAttackColliderCom = nullptr;
+	eAntLionAction eAction;
 
-
+	_float m_fTime;
 };
 
 #endif

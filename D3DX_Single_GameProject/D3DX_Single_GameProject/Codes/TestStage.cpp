@@ -12,6 +12,10 @@
 
 #include "NaviMeshController.h"
 
+#include "Player.h"
+#include "BaseAI.h"
+#include "DynamicObject.h"
+
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
 {
@@ -29,6 +33,7 @@ HRESULT CTestStage::Ready_Scene(void)
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
     Add_Enemy_Layer(L"EnemyLayer");
+    //Add_Enemy_Control_Layer(L"EnemyControlLayer");
 
     
 
@@ -47,12 +52,35 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
     m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
 
 
+
+
     return _int();
 }
 
 _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 {
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));
+
+    
+
+    auto* targetLayer = Get_Layer(L"EnemyLayer");
+    for (auto& iter : *targetLayer->Get_ObjectLayer())
+    {
+        if (dynamic_cast<CDynamicObject*>(iter.second)!=nullptr)
+            dynamic_cast<CDynamicObject*>(iter.second)->Check_Hit(false, pPlayer->Get_WeaponDamage());
+    }
+
+
+        
     CScene::LateUpdate_Scene(fDeltaTime);
+
+
 
     return _int();
 }
@@ -223,7 +251,34 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     pGameObject->Set_Position(_vec3(16.f, 0.f, 15.f));
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
+    pGameObject = CBaseAI::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
+    dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
+
+    //pGameObject = CBaseAI::Create(m_pDevice);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion2")));
+    //dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
+
     m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CTestStage::Add_Enemy_Control_Layer(const _tchar* pLayerTag)
+{
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
 
     return S_OK;
 }

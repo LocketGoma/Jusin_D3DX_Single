@@ -84,6 +84,16 @@ HRESULT CGameObject::Render_GameObject()
     return S_OK;
 }
 
+void CGameObject::Set_Dead()
+{
+    m_bDead = true;
+}
+
+bool CGameObject::Is_Dead()
+{
+    return m_bDead;
+}
+
 void CGameObject::Free(void)
 {
     for (_uint i = 0; i < (_uint)(COMPONENT_ID::ID_END); ++i)

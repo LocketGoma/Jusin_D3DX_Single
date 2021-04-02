@@ -6,6 +6,10 @@ CWeaponCrowbar::CWeaponCrowbar(_Device pDevice)
 {
 	m_iROF = 180;
 	m_fFireInterval = ONEMINUTE / m_iROF;
+
+	m_iPriDamage = 10;
+
+
 }
 
 CWeaponCrowbar::CWeaponCrowbar(const CWeaponCrowbar& other)

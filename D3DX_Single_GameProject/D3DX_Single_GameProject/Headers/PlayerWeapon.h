@@ -32,6 +32,9 @@ public:
 	virtual void Release_Weapon() PURE;		//사격종료
 	virtual void Holster_Weapon() PURE;		//무기 집어넣기
 
+	_uint Get_Damage_Primary();
+	_uint Get_Damage_Secondery();
+
 //탄 Get/Set
 public:
 	_uint Get_RemainAmmo();				//현재 남은 탄환
@@ -64,6 +67,9 @@ protected:
 	_float m_fAltFireInterval;	//특수사격 쿨타임
 	_float m_fNowFItime;		//현재 쿨타임
 	_float m_fNowAFItime;		//현재 쿨타임
+
+	_uint m_iPriDamage;
+	_uint m_iSecDamage;
 
 	_bool m_bFire;
 	_bool m_bAltFire;

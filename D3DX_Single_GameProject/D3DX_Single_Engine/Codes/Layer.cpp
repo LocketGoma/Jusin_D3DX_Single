@@ -55,9 +55,20 @@ HRESULT CLayer::Ready_Layer(void)
 
 _int CLayer::Update_Layer(const _float& fDeltaTime)
 {
-	for (auto& iter : m_mapObject)
+	for (auto& iter = m_mapObject.begin() ; iter!=m_mapObject.end(); )
 	{
-		iter.second->Update_GameObject(fDeltaTime);
+		iter->second->Update_GameObject(fDeltaTime);
+
+		if (iter->second->Is_Dead())
+		{
+			Safe_Release(iter->second);
+			m_mapObject.erase(iter->first);
+			iter = m_mapObject.begin();
+		}
+		else
+		{
+			iter++;
+		}
 	}
 
 	return 0;

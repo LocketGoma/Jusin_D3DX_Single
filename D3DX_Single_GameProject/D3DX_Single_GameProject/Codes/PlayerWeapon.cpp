@@ -16,6 +16,8 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	, m_fNowFItime(0.f)
 	, m_iROF(0)
 	, m_fAltFireInterval(0.f)
+	, m_iPriDamage(0)
+	, m_iSecDamage(0)
 {
 	m_bIsPrototype = true;
 }
@@ -33,6 +35,8 @@ CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 	, m_iROF(other.m_iROF)
 	, m_fFireInterval(other.m_fFireInterval)
 	, m_fAltFireInterval(other.m_fAltFireInterval)
+	, m_iPriDamage(other.m_iPriDamage)
+	, m_iSecDamage(other.m_iSecDamage)
 {
 
 	m_bIsPrototype = false;
@@ -117,6 +121,16 @@ bool CPlayerWeapon::Reload_Weapon()
 
 
 	return bReturn;
+}
+
+_uint CPlayerWeapon::Get_Damage_Primary()
+{
+	return m_iPriDamage;
+}
+
+_uint CPlayerWeapon::Get_Damage_Secondery()
+{
+	return m_iSecDamage;
 }
 
 _uint CPlayerWeapon::Get_RemainAmmo()
