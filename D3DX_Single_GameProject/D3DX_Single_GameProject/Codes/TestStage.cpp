@@ -59,6 +59,8 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
 _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 {
+    CScene::LateUpdate_Scene(fDeltaTime);
+
     auto pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
@@ -72,13 +74,16 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
     auto* targetLayer = Get_Layer(L"EnemyLayer");
     for (auto& iter : *targetLayer->Get_ObjectLayer())
     {
-        if (dynamic_cast<CDynamicObject*>(iter.second)!=nullptr)
-            dynamic_cast<CDynamicObject*>(iter.second)->Check_Hit(false, pPlayer->Get_WeaponDamage());
+        CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
+        if (pObject != nullptr)
+        {
+            pObject->Force_Update_Animation();
+            pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
+        }
     }
 
 
         
-    CScene::LateUpdate_Scene(fDeltaTime);
 
 
 

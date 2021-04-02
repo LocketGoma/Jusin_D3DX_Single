@@ -69,6 +69,30 @@ HRESULT CDynamicMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileN
 	return S_OK;
 }
 
+void CDynamicMesh::Update_Meshes(void)
+{
+	for (auto& iter : m_MeshContainerList)
+	{
+		D3DXMESHCONTAINER_DERIVED* pMeshContainer = iter;
+
+		for (_ulong i = 0; i < pMeshContainer->dwNumBones; ++i)
+		{
+			pMeshContainer->pRenderingMatrix[i] = pMeshContainer->pFrameOffsetMatrix[i] * *pMeshContainer->ppFrameCombinedMatrix[i];
+		}
+		void* pDestVtx = nullptr;
+		void* pSourVtx = nullptr;
+
+		pMeshContainer->pOriMesh->LockVertexBuffer(0, &pDestVtx);
+		pMeshContainer->MeshData.pMesh->LockVertexBuffer(0, &pSourVtx);
+
+		// 소프트웨어 스키닝을 수행하는 함수(스키닝 뿐 아니라 애니메이션 변경 시, 뼈대들과 정점 정보들의 변경 또한 동시에 수행)
+		pMeshContainer->pSkinInfo->UpdateSkinnedMesh(pMeshContainer->pRenderingMatrix, NULL, pDestVtx, pSourVtx);
+
+		pMeshContainer->pOriMesh->UnlockVertexBuffer();
+		pMeshContainer->MeshData.pMesh->UnlockVertexBuffer();
+	}
+}
+
 void CDynamicMesh::Render_Meshes(void)
 {
 	for (auto& iter : m_MeshContainerList)

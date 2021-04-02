@@ -32,7 +32,7 @@ HRESULT CEnemyAntLion::Ready_GameObject_Clone(void* pArg)
 
 	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
 
-	m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
+	m_pMeshCom->Set_AnimationSet((_uint)eAction);
 
 	return S_OK;
 }
@@ -53,23 +53,12 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
-	////if (pManagement->Key_Down(VK_LBUTTON)) 
-	////{
-	//	if (m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom) == true)
-	//	{
-	//		eType = Engine::COLIDETYPE::COL_TRUE;
-	//	}
-	////}
-	//else 
-	//{
-	//	eType = Engine::COLIDETYPE::COL_FALSE;
-	//}
+
 
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y,m_fRotate);
 	m_fRotate = 0.f;
 
 	m_pTransformCom->Update_Component(fDeltaTime);
-
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
@@ -142,6 +131,14 @@ Engine::CGameObject* CEnemyAntLion::Clone(void* pArg)
 	}
 
 	return pClone;
+}
+//얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
+void CEnemyAntLion::Force_Update_Animation()
+{
+	m_pMeshCom->Set_AnimationSet((_uint)eAction);
+	m_pMeshCom->Play_AnimationSet(0.f);	
+	m_pMeshCom->Update_Meshes();
+	m_pTransformCom->Update_Component(0.f);
 }
 
 void CEnemyAntLion::Set_Animation(_uint iIndex)

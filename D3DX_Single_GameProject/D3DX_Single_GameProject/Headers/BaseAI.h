@@ -54,7 +54,8 @@ private:
 
 //플레이어 사거리는 일단 5.f 로 계산해서 사용할것.
 private:
-	_bool m_bAppear;		//등장했는가
+	_bool m_bSpawn;			//등장했는가
+	_bool m_bAppear;		//움직이는가
 	_bool m_bTrack;			//추적중인가
 	_bool m_bAttack;		//공격중인가
 

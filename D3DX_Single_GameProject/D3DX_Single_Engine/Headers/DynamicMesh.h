@@ -22,6 +22,7 @@ public:
 
 public:
 	HRESULT		Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileName);
+	void		Update_Meshes(void);
 	void		Render_Meshes(void);
 
 	void		Set_AnimationSet(const _uint& iIndex);

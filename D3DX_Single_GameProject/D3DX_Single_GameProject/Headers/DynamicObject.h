@@ -56,6 +56,9 @@ public:
 //외부 애니메이션 조작용
 public:
 	virtual void Set_Animation(_uint iIndex) PURE;
+	virtual void Force_Update_Animation() PURE;
+	_bool End_Animation_State();
+
 //공통 상태 함수
 public:
 	_uint Get_Damage();

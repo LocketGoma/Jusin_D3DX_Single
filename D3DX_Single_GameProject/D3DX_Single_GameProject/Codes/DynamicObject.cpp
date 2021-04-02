@@ -36,6 +36,11 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	Safe_AddReference(m_pDevice);
 }
 
+_bool CDynamicObject::End_Animation_State()
+{
+	return m_pMeshCom->End_AnimationSet();
+}
+
 _uint CDynamicObject::Get_Damage()
 {
 	return m_iDamage;

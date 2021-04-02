@@ -125,7 +125,14 @@ bool CPlayerWeapon::Reload_Weapon()
 
 _uint CPlayerWeapon::Get_Damage_Primary()
 {
-	return m_iPriDamage;
+	if (m_fNowFItime > 0.f)
+	{
+		return 0;
+	}
+	else
+	{
+		return m_iPriDamage;
+	}
 }
 
 _uint CPlayerWeapon::Get_Damage_Secondery()
