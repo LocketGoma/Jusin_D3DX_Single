@@ -55,10 +55,13 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	}
 
 
+
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y,m_fRotate);
 	m_fRotate = 0.f;
 
 	m_pTransformCom->Update_Component(fDeltaTime);
+
+	m_pTransformCom->Set_Pos(vOriPos);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
@@ -72,6 +75,12 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 	eAntLionAction Anumber = (eAntLionAction)m_pMeshCom->Get_NowAnimationNumber();
 
 	m_pMeshCom->Set_AnimationSet((_uint)eAction);
+
+	if (eAction == eAntLionAction::Idle)
+	{
+		m_pTransformCom->Set_Pos(vOriPos);
+		m_pTransformCom->Update_Component(0.f);
+	}
 
 	m_pTransformCom->LateUpdate_Component(0.f);
 
@@ -135,10 +144,15 @@ Engine::CGameObject* CEnemyAntLion::Clone(void* pArg)
 //얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
 void CEnemyAntLion::Force_Update_Animation()
 {
-	m_pMeshCom->Set_AnimationSet((_uint)eAction);
+	//m_pMeshCom->Set_AnimationSet((_uint)eAction);
 	m_pMeshCom->Play_AnimationSet(0.f);	
 	m_pMeshCom->Update_Meshes();
 	m_pTransformCom->Update_Component(0.f);
+}
+
+_bool CEnemyAntLion::End_Animation_State_Force()
+{
+	return (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAction && m_pMeshCom->End_AnimationSet());
 }
 
 void CEnemyAntLion::Set_Animation(_uint iIndex)
@@ -182,26 +196,39 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime)
 	if (eAction != eAntLionAction::AttackA && eAction != eAntLionAction::AttackB) 
 	{
 		eAction = (eAntLionAction)(rand() % 2 + (_uint)eAntLionAction::AttackB);
-		m_pMeshCom->Set_AnimationSet((_uint)eAction);
+		//m_pMeshCom->Set_AnimationSet((_uint)eAction);
 	}
 }
 
 void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 {
 	eAction = eAntLionAction::Idle;
-	m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
+	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
 }
 
 void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 {
+	vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+	if (eAction == eAntLionAction::DigOut)
+	{
+		m_pTransformCom->Set_Pos(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - (m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 8.5f / BASE_ENEMY_REDUCION_SIZE));
+	}
 	eAction = eAntLionAction::DigOut;
-	m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::DigOut);
+	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::DigOut);
+
+	if (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::DigOut && m_pMeshCom->End_AnimationSet())
+	{
+		//eAction = eAntLionAction::Idle;
+
+		m_pTransformCom->Set_Pos(m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS) - (m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_LOOK) * 8.5f / BASE_ENEMY_REDUCION_SIZE));
+		
+	}
 }
 
 void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 {
 	eAction = eAntLionAction::RagDoll;
-	m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
+	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 
 HRESULT CEnemyAntLion::Add_Component(void)

@@ -108,10 +108,10 @@ HRESULT CBaseAI::Do_Appear(const _float& fDeltaTime)
 		m_bSpawn = true;
 	}
 	
-	if (m_bSpawn == true && m_pControlUnit->End_Animation_State() == true)
+	if (m_bSpawn == true && m_pControlUnit->End_Animation_State_Force() == true)
 	{
 		m_bSpawn = false;
-		m_bAppear = true;
+		m_bAppear = true;		
 	}
 	
 

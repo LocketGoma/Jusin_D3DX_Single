@@ -58,6 +58,7 @@ public:
 	virtual void Set_Animation(_uint iIndex) PURE;
 	virtual void Force_Update_Animation() PURE;
 	_bool End_Animation_State();
+	virtual _bool End_Animation_State_Force() PURE;
 
 //공통 상태 함수
 public:

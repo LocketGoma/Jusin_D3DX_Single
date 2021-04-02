@@ -73,9 +73,13 @@ private:
 	eAntLionAction eAction;
 
 	_float m_fTime;
+	_vec3 vOriPos;
 
 	// CDynamicObject을(를) 통해 상속됨
 	virtual void Force_Update_Animation() override;
+
+	// CDynamicObject을(를) 통해 상속됨
+	virtual _bool End_Animation_State_Force() override;
 };
 
 #endif
