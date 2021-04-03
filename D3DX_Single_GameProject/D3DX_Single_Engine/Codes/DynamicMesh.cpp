@@ -92,7 +92,7 @@ void CDynamicMesh::Update_Meshes(void)
 		pMeshContainer->MeshData.pMesh->UnlockVertexBuffer();
 	}
 
-	//m_CombinedMatrix = m_pRootFrame->TransformationMatrix;
+
 }
 
 void CDynamicMesh::Render_Meshes(void)
@@ -157,11 +157,6 @@ void CDynamicMesh::Play_AnimationSet(const _float& fDeltatime)
 _uint CDynamicMesh::Get_NowAnimationNumber()
 {
 	return m_pAniControl->Get_NowAnimationNumber();
-}
-
-_mat& CDynamicMesh::Get_RootMatrix()
-{	
-	return m_CombinedMatrix;
 }
 
 CAnimationController* CDynamicMesh::Get_AniController()

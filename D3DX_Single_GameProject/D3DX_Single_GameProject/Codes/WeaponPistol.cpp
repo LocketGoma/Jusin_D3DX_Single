@@ -14,6 +14,8 @@ CWeaponPistol::CWeaponPistol(_Device pDevice)
 	m_iROF = 240;
 	m_fFireInterval = ONEMINUTE / m_iROF;
 
+	m_iPriDamage = 5;
+
 }
 
 CWeaponPistol::CWeaponPistol(const CWeaponPistol& other)

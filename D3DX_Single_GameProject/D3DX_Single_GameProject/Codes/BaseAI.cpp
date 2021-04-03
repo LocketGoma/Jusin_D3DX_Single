@@ -177,7 +177,7 @@ HRESULT CBaseAI::Do_Movement(const _float& fDeltaTime)
 	}
 
 
-	return S_OK;
+	return S_OK; 
 }
 
 HRESULT CBaseAI::Do_Attack(const _float& fDeltaTime)
@@ -186,8 +186,9 @@ HRESULT CBaseAI::Do_Attack(const _float& fDeltaTime)
 	if (m_fRangeToTarget <= PLAYER_BASE_HITBOX + m_pControlUnit->Get_AttackRange())
 	{
 		m_bAttack = true;
+		m_bTrack = false;
 	}
-	else
+	else if (m_bTrack == false)
 	{
 		m_pControlUnit->Do_Idle(fDeltaTime);
 		m_bAttack = false;

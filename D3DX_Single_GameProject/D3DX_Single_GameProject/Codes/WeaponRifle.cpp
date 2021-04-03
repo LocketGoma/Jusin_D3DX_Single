@@ -15,6 +15,9 @@ CWeaponRifle::CWeaponRifle(_Device pDevice)
 	m_iROF = 540;
 	m_fFireInterval = ONEMINUTE / m_iROF;
 	m_fAltFireInterval = 1.6f;
+
+	m_iPriDamage = 3;
+	m_iSecDamage = 100;
 }
 
 CWeaponRifle::CWeaponRifle(const CWeaponRifle& other)

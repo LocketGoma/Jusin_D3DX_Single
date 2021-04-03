@@ -14,6 +14,8 @@ CWeaponSMG::CWeaponSMG(_Device pDevice)
 	m_fFireInterval = ONEMINUTE / m_iROF;
 	m_fAltFireInterval = 1.f;
 
+	m_iPriDamage = 2;
+	m_iSecDamage = 60;
 }
 
 CWeaponSMG::CWeaponSMG(const CWeaponSMG& other)

@@ -29,7 +29,6 @@ public:
 	void		Force_Change_AnimationSet(const _uint& iIndex);
 	void		Play_AnimationSet(const _float& fDeltatime);
 	_uint		Get_NowAnimationNumber();
-	_mat&		Get_RootMatrix();
 
 public:
 	CAnimationController* Get_AniController();

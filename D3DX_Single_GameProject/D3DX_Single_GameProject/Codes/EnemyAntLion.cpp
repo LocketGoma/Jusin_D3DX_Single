@@ -9,8 +9,8 @@
 CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 	: CDynamicObject(pDevice)
 {
-	m_fRecognizeRange = 25.f;
-	m_fMoveRange = 15.f;
+	m_fRecognizeRange = 35.f;
+	m_fMoveRange = 20.f;
 	m_fAttackRange = 8.f;
 
 	m_fMoveSpeed = 10.f;
@@ -21,6 +21,7 @@ CEnemyAntLion::CEnemyAntLion(const CEnemyAntLion& other)
 	: CDynamicObject(other)		
 {
 	eAction = eAntLionAction::DigDie;
+	ePrevAction = ePrevAction;
 }
 
 HRESULT CEnemyAntLion::Ready_GameObject(_uint iTexNumber)
@@ -56,8 +57,6 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-
-
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y,m_fRotate);
 	m_fRotate = 0.f;
 
@@ -67,6 +66,12 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		m_pTransformCom->Set_Pos(vOriPos);
 	}
+	if (eAction != ePrevAction && ePrevAction == eAntLionAction::Run)
+	{
+		m_vCorePos.y = vOriPos.y;
+		m_pTransformCom->Set_Pos(m_vCorePos);
+	}
+
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
@@ -89,23 +94,27 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 
 	m_pTransformCom->LateUpdate_Component(0.f);
 
-	m_pMeshCom->Play_AnimationSet(m_fTime);
+	m_pMeshCom->Play_AnimationSet(m_fTime* m_fAnimationSpeed);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
 	m_pMeshCom->Render_Meshes();
-
+	
 	//대가리 기준 정점
+	m_vCorePos = _vec3(0.f, 0.f, 0.f);
 
-	_vec3 vNPos = _vec3(0.f, 0.f, 0.f);
-	_mat matWorld = m_pMeshCom->Get_FrameByName("Antlion_Head_Bone")->CombinedTranformationMatrix;	
+	_mat matWorld = m_pMeshCom->Get_FrameByName("Antlion_Head_Bone")->CombinedTranformationMatrix;
 
 	matWorld = matWorld * m_pTransformCom->Get_TransformDescription().matWorld;
 
-	D3DXVec3TransformCoord(&vNPos, &vNPos ,&matWorld);
-	
-	m_pColliderCom->Render_Collider(eType, &vNPos);
+	D3DXVec3TransformCoord(&m_vCorePos, &m_vCorePos, &matWorld);
+	//정점계산 끝
+
+	m_pColliderCom->Render_Collider(eType, &m_vCorePos);
+
+	ePrevAction = eAction;
+
 	return S_OK;
 }
 
@@ -177,14 +186,15 @@ void CEnemyAntLion::Set_Animation(_uint iIndex)
 
 void CEnemyAntLion::Go_Stright(_float fDeltaTime)
 {
+	//Corepos 이용하기.
 	_vec3 vLook = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
 	D3DXVec3Normalize(&vLook, &vLook);
 
 	eAction = eAntLionAction::Run;
 
-	m_pMeshCom->Set_AnimationSet((_uint)eAction);
+	m_pMeshCom->Set_AnimationSet((_uint)eAction);	
 
-	m_pTransformCom->Move_Pos(&vLook, m_fMoveSpeed, fDeltaTime);
+	//m_pTransformCom->Move_Pos(&vLook, m_fMoveSpeed, fDeltaTime);
 }
 
 void CEnemyAntLion::Go_Side(_float fDeltaTime, eAlign pAlign)
@@ -219,12 +229,14 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime)
 	{
 		eAction = (eAntLionAction)(rand() % 2 + (_uint)eAntLionAction::AttackB);
 		//m_pMeshCom->Set_AnimationSet((_uint)eAction);
+		m_fAnimationSpeed = 1.0f;
 	}
 }
 
 void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 {
 	eAction = eAntLionAction::Idle;
+	m_fAnimationSpeed = 1.0f;
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
 }
 
