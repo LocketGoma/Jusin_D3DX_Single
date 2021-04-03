@@ -24,6 +24,7 @@ public:
 public:
 	HRESULT Ready_AnimationController();
 	void Set_AnimationSet(const _uint& iIndex);
+	void Force_Change_AnimationSet(const _uint& iIndex);
 	void Play_AnimationSet(const _float& fDeltaTime);
 	_uint Get_NowAnimationNumber();
 

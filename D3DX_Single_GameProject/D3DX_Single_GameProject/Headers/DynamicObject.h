@@ -83,6 +83,7 @@ protected:
 	_float m_fMoveSpeed;
 	_float m_fAnimationSpeed;
 	_float m_fRotate;
+	_vec3  m_vCorePos;			//메쉬 좌표 기준점
 
 	_int m_iHP;					//현재 체력
 	_uint m_iMaxHP;				//최대 체력

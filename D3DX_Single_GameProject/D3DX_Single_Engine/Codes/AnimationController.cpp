@@ -41,7 +41,7 @@ _bool CAnimationController::End_AnimationSet()
 	m_pAniControl->GetTrackDesc(m_iCurrentTrack, &TrackInfo);
 
 	//현재 프레임이 실제 재생시간을 (아주 살짝이라도) 넘어가면
-	if (TrackInfo.Position >= m_dPeriod - 0.15)
+	if (TrackInfo.Position >= m_dPeriod - 0.25)
 		return true;
 
 	return false;
@@ -92,14 +92,14 @@ void CAnimationController::Set_AnimationSet(const _uint& iIndex)
 	m_pAniControl->KeyTrackSpeed(m_iCurrentTrack, 1.f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 
 	// 트랙이 해제되는 시간동안 현재 애니메이션 셋은 어떤 가중치를 갖게 할 지(속도의 상수 값은 각자 1)
-	m_pAniControl->KeyTrackWeight(m_iCurrentTrack, 0.0f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniControl->KeyTrackWeight(m_iCurrentTrack, 0.7f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 
 	// 트랙 활성화의 유무를 판단하는 함수
 	m_pAniControl->SetTrackEnable(m_iNewTrack, TRUE);
 	// 트랙이 시작하는 시간동안 현재 애니메이션 셋은 어떤 속도로 움직일지 결정(속도의 상수 값은 각자 1)
 	m_pAniControl->KeyTrackSpeed(m_iNewTrack, 1.f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 	// 트랙이 시작하는 시간동안 현재 애니메이션 셋은 어떤 가중치를 갖게 할 지(속도의 상수 값은 각자 1)
-	m_pAniControl->KeyTrackWeight(m_iNewTrack, 1.0f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniControl->KeyTrackWeight(m_iNewTrack, 0.3f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 
 
 	m_pAniControl->ResetTime(); // 애니메이션이 재생되던 시간을 다시 세팅(advanced함수 호출 시 내부적으로 누적되던 시간 리셋)
@@ -113,6 +113,63 @@ void CAnimationController::Set_AnimationSet(const _uint& iIndex)
 	m_iCurrentTrack = m_iNewTrack;
 
 	//애니메이션 변경 끝
+}
+
+void CAnimationController::Force_Change_AnimationSet(const _uint& iIndex)
+{
+	//트랙 스위칭
+	m_iNewTrack = (m_iCurrentTrack == 0 ? 1 : 0);
+
+	LPD3DXANIMATIONSET		pAS = nullptr;
+
+	m_pAniControl->GetAnimationSet(iIndex, &pAS);
+
+	m_dPeriod = pAS->GetPeriod();	//현재 애니메이션 셋의 전체 재생 시간 반환
+
+	//새 트랙에 재생하고자 하는 애니메이션 셋 설정
+	m_pAniControl->SetTrackAnimationSet(m_iNewTrack, pAS);
+
+	//키 이벤트 날림
+	m_pAniControl->UnkeyAllTrackEvents(m_iCurrentTrack);
+	m_pAniControl->UnkeyAllTrackEvents(m_iNewTrack);
+
+	///아래는 애니메이션 선형보간 파트
+	//...를 무시 시켜야됨.
+
+	m_fAccTime = 0.1f;
+
+	//1. 종료될 애니메이션
+
+	// 지정한 트랙의 사용 유무를 결정하는 함수.
+	//1번 : 지정 트랙
+	//2번 : True - 애니메이션 시작 / False - 애니메이션 종료
+	//3번 : 언제부터 트랙을 사용 또는 해제할 것인지 결정
+	m_pAniControl->KeyTrackEnable(m_iCurrentTrack, FALSE, 0.f);
+
+	// 트랙이 해제되는 시간동안 현재 애니메이션 셋은 어떤 속도로 움직일지 결정(속도의 상수 값은 각자 1)
+	m_pAniControl->KeyTrackSpeed(m_iCurrentTrack, 1.f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+
+	// 트랙이 해제되는 시간동안 현재 애니메이션 셋은 어떤 가중치를 갖게 할 지(속도의 상수 값은 각자 1)
+	m_pAniControl->KeyTrackWeight(m_iCurrentTrack, 0.0f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+
+	// 트랙 활성화의 유무를 판단하는 함수
+	m_pAniControl->SetTrackEnable(m_iNewTrack, TRUE);
+	// 트랙이 시작하는 시간동안 현재 애니메이션 셋은 어떤 속도로 움직일지 결정(속도의 상수 값은 각자 1)
+	m_pAniControl->KeyTrackSpeed(m_iNewTrack, 1.f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+	// 트랙이 시작하는 시간동안 현재 애니메이션 셋은 어떤 가중치를 갖게 할 지(속도의 상수 값은 각자 1)
+	m_pAniControl->KeyTrackWeight(m_iNewTrack, 1.0f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+
+
+	m_pAniControl->ResetTime(); // 애니메이션이 재생되던 시간을 다시 세팅(advanced함수 호출 시 내부적으로 누적되던 시간 리셋)
+
+	m_fAccTime = 0.0f;
+
+	m_pAniControl->SetTrackPosition(m_iNewTrack, 0.0);
+
+	m_iOldAniIdx = iIndex;
+
+	m_iCurrentTrack = m_iNewTrack;
+
 }
 
 

@@ -156,12 +156,13 @@ HRESULT CBaseAI::Do_Idle(const _float& fDeltaTime)
 
 HRESULT CBaseAI::Do_Movement(const _float& fDeltaTime)
 {
-	if (m_bTrack == true && m_bAttack == true)
+	if (m_bAttack == true)
 	{
-		m_bAttack = false;
+		m_bTrack = false;
+		return S_OK;
 	}
 
-	if (m_bTrack == false && (PLAYER_BASE_HITBOX + m_pControlUnit->Get_MoveRange()) <= m_fRangeToTarget)
+	if (m_bTrack == false && (PLAYER_BASE_HITBOX + m_pControlUnit->Get_MoveRange()) >= m_fRangeToTarget)
 	{
 		m_bTrack = true;
 	}

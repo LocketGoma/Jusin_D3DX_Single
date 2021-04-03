@@ -26,8 +26,10 @@ public:
 	void		Render_Meshes(void);
 
 	void		Set_AnimationSet(const _uint& iIndex);
+	void		Force_Change_AnimationSet(const _uint& iIndex);
 	void		Play_AnimationSet(const _float& fDeltatime);
 	_uint		Get_NowAnimationNumber();
+	_mat&		Get_RootMatrix();
 
 public:
 	CAnimationController* Get_AniController();
@@ -46,6 +48,9 @@ private:
 	int m_iVertexNumber;
 
 	std::list<D3DXMESHCONTAINER_DERIVED*>			m_MeshContainerList;
+
+private:
+	_mat m_CombinedMatrix;
 
 public:
 	static CDynamicMesh* Create(_Device pDevice, const _tchar* pFilePath, const _tchar* pFileName);

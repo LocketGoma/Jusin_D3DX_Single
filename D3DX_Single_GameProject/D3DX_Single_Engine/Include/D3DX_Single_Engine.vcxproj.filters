@@ -125,15 +125,6 @@
     <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\06.SphereColor">
       <UniqueIdentifier>{d3854395-e3dc-473e-984c-5f0d1b91bca4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh">
-      <UniqueIdentifier>{0edcb42e-b8c3-4b11-be15-3b069052cb5d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\00.Cell">
-      <UniqueIdentifier>{52320aca-757a-44e7-888a-dea00149098a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\01.Line">
-      <UniqueIdentifier>{3e2085a9-adeb-49f0-b380-a9c9d2caa867}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.System\21.Json">
       <UniqueIdentifier>{83651d88-eb05-425d-aa01-a22fdd4294fd}</UniqueIdentifier>
     </Filter>
@@ -157,6 +148,15 @@
     </Filter>
     <Filter Include="01.Resources\01.Component\05.Collider\01.Sphere">
       <UniqueIdentifier>{69d424dd-7755-45de-b203-d35f516e07de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh">
+      <UniqueIdentifier>{0edcb42e-b8c3-4b11-be15-3b069052cb5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh\00.Cell">
+      <UniqueIdentifier>{52320aca-757a-44e7-888a-dea00149098a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh\01.Line">
+      <UniqueIdentifier>{3e2085a9-adeb-49f0-b380-a9c9d2caa867}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -272,13 +272,13 @@
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\06.SphereColor</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\NaviMesh.cpp">
-      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh</Filter>
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\Cell.cpp">
-      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\00.Cell</Filter>
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh\00.Cell</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\NaviLine.cpp">
-      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\01.Line</Filter>
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh\01.Line</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\jsoncpp.cpp">
       <Filter>00.System\21.Json</Filter>
@@ -430,13 +430,13 @@
       <Filter>01.Resources\01.Component\01.GraphicResource\00.VIBuffer\06.SphereColor</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\NaviMesh.h">
-      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh</Filter>
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\Cell.h">
-      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\00.Cell</Filter>
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh\00.Cell</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\NaviLine.h">
-      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02. NaviMesh\01.Line</Filter>
+      <Filter>01.Resources\01.Component\01.GraphicResource\02.Mesh\02.NaviMesh\01.Line</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\json-forwards.h">
       <Filter>00.System\21.Json</Filter>
