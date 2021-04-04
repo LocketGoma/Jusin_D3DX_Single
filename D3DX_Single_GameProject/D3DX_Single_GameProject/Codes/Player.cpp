@@ -108,7 +108,7 @@ HRESULT CPlayer::Render_GameObject(void)
 
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pColliderCom->Render_Collider(eType, &m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS));
+	//m_pColliderCom->Render_Collider(eType, &m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS));
 
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	//if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)

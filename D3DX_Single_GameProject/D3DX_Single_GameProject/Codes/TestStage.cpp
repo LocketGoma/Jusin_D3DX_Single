@@ -27,7 +27,7 @@ HRESULT CTestStage::Ready_Scene(void)
 
     SetWindowText(g_hWnd, L"Test Stage");
 
-    //Add_Test_Layer(L"PlayerLayer");
+    //Add_Test_Layer(L"TestLayer");
     Add_Player_Layer(L"PlayerLayer");
     //Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
@@ -59,6 +59,7 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
 _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 {
+    CScene::LateUpdate_Scene(fDeltaTime);
 
     auto pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
@@ -71,6 +72,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
     
 
     auto* targetLayer = Get_Layer(L"EnemyLayer");
+    if (targetLayer != nullptr)
     for (auto& iter : *targetLayer->Get_ObjectLayer())
     {
         CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
@@ -89,7 +91,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 
 
         
-    CScene::LateUpdate_Scene(fDeltaTime);
+
 
 
 
@@ -127,6 +129,10 @@ HRESULT CTestStage::Add_Test_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"WeaponCrowbar");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"WeaponCrowbar", pGameObject);
+
+    pGameObject = pManagement->Clone_GameObject(L"TestCamera");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"TestCamera", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 
@@ -191,13 +197,9 @@ HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
         return E_FAIL;
     }
 
-    //pGameObject = pManagement->Clone_GameObject(L"TestCamera");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pLayer->Add_GameObject(L"TestCamera", pGameObject);
 
-    pGameObject = pManagement->Clone_GameObject(L"SkyBoxA");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pLayer->Add_GameObject(L"SkyBoxA", pGameObject);
+
+
         
     m_mapLayer.emplace(pLayerTag, pLayer);
 
@@ -223,6 +225,10 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"TestLight");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
+
+    pGameObject = pManagement->Clone_GameObject(L"SkyBoxA");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"SkyBoxA", pGameObject);
 
     //pGameObject = pManagement->Clone_GameObject(L"MapA");
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -254,15 +260,15 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     }
     ///적 스폰 파트
     //개미귀신
-    pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
 
-    pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(16.f, 0.f, 15.f));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pGameObject->Set_Position(_vec3(16.f, 0.f, 15.f));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
     //헌터
     //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
@@ -270,20 +276,25 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
     //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter", pGameObject), E_FAIL);
 
+    //스트라이더
+    pGameObject = pManagement->Clone_GameObject(L"BossStrider");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(20.f, 0.f, 20.f)); //보정치의 상태가?
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
 
     ///기본 적 AI파트
     //개미귀신
-    pGameObject = CBaseAI::Create(m_pDevice);
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
+    //pGameObject = CBaseAI::Create(m_pDevice);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
+    //dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
 
-    pGameObject = CBaseAI::Create(m_pDevice);
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion2")));
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
+    //pGameObject = CBaseAI::Create(m_pDevice);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion2")));
+    //dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
 
 
 
@@ -296,20 +307,6 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     return S_OK;
 }
 
-HRESULT CTestStage::Add_Enemy_Control_Layer(const _tchar* pLayerTag)
-{
-    Engine::CLayer* pLayer = Engine::CLayer::Create();
-
-    Engine::CGameObject* pGameObject = nullptr;
-
-    auto pManagement = Engine::CManagement::Get_Instance();
-    if (pManagement == nullptr)
-    {
-        return E_FAIL;
-    }
-
-    return S_OK;
-}
 
 CTestStage* CTestStage::Create(_Device pDevice)
 {

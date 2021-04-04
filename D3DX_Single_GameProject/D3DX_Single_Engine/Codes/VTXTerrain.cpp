@@ -61,7 +61,7 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
     _ulong		dwByte = 0;
     _ulong* pPixel;
 
-    m_hFile = CreateFile(L"../../Resource/TestResource/Texture/Terrain/Height.bmp",
+   /* m_hFile = CreateFile(L"../../Resource/TestResource/Texture/Terrain/Height.bmp",
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
     if (m_hFile != INVALID_HANDLE_VALUE)
@@ -77,7 +77,7 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
     {
         pPixel = new _ulong[(dwCountX) * (dwCountZ)]{};
     }
-    CloseHandle(m_hFile);
+    CloseHandle(m_hFile);*/
 
     VTXTEX* pVertex = NULL;
 
@@ -92,7 +92,7 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
             dwIndex = i * dwCountX + j;
 
             pVertex[dwIndex].vPosition = _vec3(_float(j) * dwVTXInterval,
-                (pPixel[dwIndex] & 0x000000ff) / 20.f,
+                0.f,
                 _float(i) * dwVTXInterval);
 
             m_pPos[dwIndex] = (pVertex[dwIndex].vPosition);
@@ -105,7 +105,7 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
     }
     m_pVB->Unlock();
 
-    Safe_Delete_Array(pPixel);
+    //Safe_Delete_Array(pPixel);
 
     //높이맵 지정 끝
 

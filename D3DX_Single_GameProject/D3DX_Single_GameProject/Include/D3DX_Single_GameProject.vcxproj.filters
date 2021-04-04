@@ -274,6 +274,7 @@
     <ClInclude Include="..\Headers\EnemyHunter.h">
       <Filter>01.Object\03.DynamicObject\00.Enemy\01.Hunter</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\BossStrider.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -388,5 +389,6 @@
     <ClCompile Include="..\Codes\EnemyHunter.cpp">
       <Filter>01.Object\03.DynamicObject\00.Enemy\01.Hunter</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\BossStrider.cpp" />
   </ItemGroup>
 </Project>
