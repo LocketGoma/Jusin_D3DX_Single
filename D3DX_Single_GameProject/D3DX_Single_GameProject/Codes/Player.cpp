@@ -7,6 +7,8 @@
 
 #include "CameraComponent.h"
 
+#include "SphereCollider.h"
+
 //무기
 
 #include "PlayerWeapon.h"
@@ -19,8 +21,13 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_pWeaponType(eWeaponType::WEAPON_CROWBAR)
 	, m_fWeaponTimer(0.f)
 	, m_bShootState(false)
+	, m_iFullHP(100)
+	, m_fHitboxSize(7.5f)
+	, eType(Engine::COLIDETYPE::COL_FALSE)
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
+
+	m_iHP = m_iFullHP;
 }
 
 CPlayer::CPlayer(const CPlayer& other)
@@ -28,8 +35,13 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_pWeaponType(other.m_pWeaponType)
 	, m_fWeaponTimer(0.f)
 	, m_bShootState(false)
+	, m_iFullHP(other.m_iFullHP)
+	, m_fHitboxSize(other.m_fHitboxSize)
+	, eType(Engine::COLIDETYPE::COL_FALSE)
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
+
+	m_iHP = m_iFullHP;
 }
 
 HRESULT CPlayer::Ready_GameObject(_uint iTexNumber)
@@ -94,13 +106,20 @@ HRESULT CPlayer::Render_GameObject(void)
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
-	if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
-	{
-		return Print_TestUI();
-	}
+	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	m_pColliderCom->Render_Collider(eType, &m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS));
+
+	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
+	//{
+	//}
 
 
-	return S_OK;
+
+	return Print_TestUI();
+
+	//return S_OK;
 }
 
 void CPlayer::Set_Position(_vec3 vPos)
@@ -154,6 +173,17 @@ _uint CPlayer::Get_WeaponDamage()
 		return 0;
 }
 
+bool CPlayer::Hit_Attack(_uint iDamage)
+{
+	m_iHP -= iDamage;
+
+	if (m_iHP <= 0)
+	{
+		return true;
+	}
+	return false;
+}
+
 HRESULT CPlayer::Add_Component(void)
 {
 	auto pManagement = Engine::CManagement::Get_Instance();
@@ -167,6 +197,17 @@ HRESULT CPlayer::Add_Component(void)
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
+
+	//서포트 컴포넌트
+	pComponent = m_pSupportCom = Engine::CControlSupportUnit::Create(m_pDevice);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Support", pComponent);
+
+	//콜라이더
+	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
 
 	//아래는 위치 옮겨둘것
 
@@ -194,10 +235,18 @@ HRESULT CPlayer::Print_TestUI()
 	{
 		return E_FAIL;
 	}
+	_tchar m_szHP[256];
 	_tchar m_szAmmo[256];
 
-	wsprintf(m_szAmmo, L"%d / %d", m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo(), m_pWeapon[(_uint)(_uint)m_pWeaponType]->Get_RemainAmmo());
-	pManagement->Render_Font(L"Font_BASE", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - 20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
+	if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
+	{
+		wsprintf(m_szAmmo, L"%d / %d", m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo(), m_pWeapon[(_uint)(_uint)m_pWeaponType]->Get_RemainAmmo());
+		pManagement->Render_Font(L"Font_BASE", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - 20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
+	}
+
+	wsprintf(m_szHP, L"HP : %d", m_iHP);
+	pManagement->Render_Font(L"Font_BASE", m_szHP, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY-60), D3DXCOLOR(0.8f, 0.8f, 0.1f, 1.0f));
+
 
 	return S_OK;
 }
@@ -296,6 +345,20 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 		m_fWeaponTimer += fDeltaTime;
 	}
 
+}
+
+_bool CPlayer::Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius)
+{
+	_bool bReturn = m_pSupportCom->Collision_Sphere(&(this->Get_Position()), this->m_fHitboxSize, pSourcePos, fSourceRadius);
+
+	if (bReturn == true)
+	{
+		;
+	}
+
+	bReturn == true ? eType = Engine::COLIDETYPE::COL_TRUE : eType = Engine::COLIDETYPE::COL_FALSE;
+
+	return bReturn;
 }
 
 CPlayer* CPlayer::Create(_Device pDevice)

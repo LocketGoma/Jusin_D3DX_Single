@@ -125,7 +125,7 @@ bool CPlayerWeapon::Reload_Weapon()
 
 _uint CPlayerWeapon::Get_Damage_Primary()
 {
-	if (m_fNowFItime > 0.f)
+	if (m_fNowFItime > 0.f || m_iMagAmmo == 0)
 	{
 		return 0;
 	}

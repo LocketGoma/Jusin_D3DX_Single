@@ -17,7 +17,9 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_fRecognizeRange(30.f)
 	, m_fMoveRange(20.f)
 	, m_fAttackRange(10.f)
+	, m_fHitboxSize(5.f)
 {
+	m_iHP = m_iMaxHP;
 }
 
 CDynamicObject::CDynamicObject(const CDynamicObject& other)
@@ -32,8 +34,17 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_fRecognizeRange(other.m_fRecognizeRange)
 	, m_fMoveRange(other.m_fMoveRange)
 	, m_fAttackRange(other.m_fAttackRange)
+	, m_fHitboxSize(other.m_fHitboxSize)
+	, m_fNowAttackTime(0.f)
 {
 	Safe_AddReference(m_pDevice);
+}
+//얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
+void CDynamicObject::Force_Update_Animation()
+{
+	m_pMeshCom->Play_AnimationSet(0.f);
+	m_pMeshCom->Update_Meshes();
+	m_pTransformCom->Update_Component(0.f);
 }
 
 _bool CDynamicObject::End_Animation_State()
@@ -43,6 +54,15 @@ _bool CDynamicObject::End_Animation_State()
 
 _uint CDynamicObject::Get_Damage()
 {
+	if (m_bAttackHitEnable == false)
+	{
+		return 0;
+	}
+	else
+	{
+		m_bAttackHitEnable = false;
+	}
+
 	return m_iDamage;
 }
 
@@ -75,6 +95,16 @@ const _float CDynamicObject::Get_MoveRange()
 const _float CDynamicObject::Get_AttackRange()
 {
 	return m_fAttackRange;
+}
+
+const _float CDynamicObject::Get_CollideRange()
+{
+	return m_fHitboxSize;
+}
+
+const _vec3 CDynamicObject::Get_CorePos()
+{
+	return m_vCorePos;
 }
 
 const Engine::CTransform* CDynamicObject::Get_Transform()

@@ -13,7 +13,15 @@ CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 	m_fMoveRange = 20.f;
 	m_fAttackRange = 8.f;
 
+	m_fAttackInterval = 1.6f;
+
+	m_fHitboxSize = 5.25f;
+
 	m_fMoveSpeed = 10.f;
+
+	m_iMaxHP = 20;
+
+	m_iDamage = 3;
 }
 
 //분명 행렬처리 관련때문에 "무언가를" 깊은 복사 해줘야 한다고 했던거 같은데
@@ -43,6 +51,8 @@ HRESULT CEnemyAntLion::Ready_GameObject_Clone(void* pArg)
 _int CEnemyAntLion::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+
+	m_fNowAttackTime += fDeltaTime;
 
 	//if (m_pSupportCom->Collision_Picking(g_hWnd, m_pColliderCom, m_pTransformCom))
 
@@ -82,8 +92,6 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CEnemyAntLion::Render_GameObject(void)
 {
-	eAntLionAction Anumber = (eAntLionAction)m_pMeshCom->Get_NowAnimationNumber();
-
 	m_pMeshCom->Set_AnimationSet((_uint)eAction);
 
 	//if (eAction == eAntLionAction::Idle)
@@ -165,14 +173,6 @@ Engine::CGameObject* CEnemyAntLion::Clone(void* pArg)
 
 	return pClone;
 }
-//얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
-void CEnemyAntLion::Force_Update_Animation()
-{
-	//m_pMeshCom->Set_AnimationSet((_uint)eAction);
-	m_pMeshCom->Play_AnimationSet(0.f);	
-	m_pMeshCom->Update_Meshes();
-	m_pTransformCom->Update_Component(0.f);
-}
 
 _bool CEnemyAntLion::End_Animation_State_Force()
 {
@@ -225,16 +225,24 @@ void CEnemyAntLion::Do_Rotate(_float fDeltaTime, eAlign pAlign)
 
 void CEnemyAntLion::Do_Attack(_float fDeltaTime)
 {
+	if (m_fNowAttackTime >= m_fAttackInterval)
+	{
+		m_fNowAttackTime = 0.f;
+		m_bAttackHitEnable = true;
+	}
+
 	if (eAction != eAntLionAction::AttackA && eAction != eAntLionAction::AttackB) 
 	{
 		eAction = (eAntLionAction)(rand() % 2 + (_uint)eAntLionAction::AttackB);
-		//m_pMeshCom->Set_AnimationSet((_uint)eAction);
 		m_fAnimationSpeed = 1.0f;
 	}
 }
 
 void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 {
+	m_fNowAttackTime = 0.f;
+	m_bAttackHitEnable = false;
+
 	eAction = eAntLionAction::Idle;
 	m_fAnimationSpeed = 1.0f;
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
@@ -297,14 +305,7 @@ HRESULT CEnemyAntLion::Add_Component(void)
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Support", pComponent);
 
 	//콜라이더
-	//pComponent = m_pColliderCom = Engine::CCollider::Create(m_pDevice,
-	//	m_pMeshCom->Get_VtxPos(),
-	//	m_pMeshCom->Get_VtxCnt(),
-	//	m_pMeshCom->Get_Stride());
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
-
-	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), 4.25f);
+	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
 

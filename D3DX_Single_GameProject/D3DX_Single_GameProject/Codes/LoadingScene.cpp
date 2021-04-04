@@ -28,6 +28,7 @@
 
 //적 들
 #include "EnemyAntLion.h"
+#include "EnemyHunter.h"
 
 
 //무기류
@@ -328,6 +329,10 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CEnemyAntLion::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"EnemyAntlion", pGameObject);
+
+    pGameObject = CEnemyHunter::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"EnemyHunter", pGameObject);
 
 
     //적 (보스급)

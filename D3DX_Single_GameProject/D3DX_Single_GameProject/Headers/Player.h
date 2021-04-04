@@ -9,6 +9,7 @@ BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
 class CTransform;
 class CControlSupportUnit;
+class CSphereCollider;
 END_NAMESPACE
 
 class CPlayerWeapon;
@@ -48,17 +49,30 @@ public:
 
 	_uint Get_WeaponDamage();
 
+	bool Hit_Attack(_uint iDamage);
+
 private:
 	HRESULT			Add_Component(void);
 	HRESULT			Print_TestUI();
 	void			Key_Input(const _float& fDeltaTime);
 
+public:
+	_bool			Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius);
 
+//컴포넌트 및 컴포넌트 관리용
 private:
+	Engine::COLIDETYPE eType;		//충돌 판정용
 	CPlayerWeapon* m_pWeapon[(_uint)eWeaponType::WEAPON_END];
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
+	Engine::CSphereCollider* m_pColliderCom = nullptr;
 	eWeaponType m_pWeaponType;
+	
+//기본 변수들
+private:
+	int m_iHP;
+	_uint m_iFullHP;
+	_float m_fHitboxSize;
 
 //무기 컨트롤용
 private:
