@@ -34,6 +34,6 @@ extern HWND g_hWnd;
 
 //디버그 전용
 #define DEBUG_MODE
-#define DEBUG_TIMESPEED	5
+#define DEBUG_TIMESPEED	1
 
 #endif

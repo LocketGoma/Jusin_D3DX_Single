@@ -10,14 +10,14 @@ CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 	: CDynamicObject(pDevice)
 {
 	m_fRecognizeRange = 35.f;
-	m_fMoveRange = 20.f;
+	m_fMoveRange = 25.f;
 	m_fAttackRange = 8.f;
 
 	m_fAttackInterval = 1.6f;
 
 	m_fHitboxSize = 5.25f;
 
-	m_fMoveSpeed = 10.f;
+	m_fMoveSpeed = 5.f;
 	m_fRotateSpeed = 2.5f;
 
 	m_iMaxHP = 20;
@@ -94,9 +94,6 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 		m_pTransformCom->Set_Pos(vOriPos);
 	}
 
-
-
-
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
 	m_fTime = fDeltaTime;
@@ -110,7 +107,16 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 
 	m_pTransformCom->LateUpdate_Component(0.f);
 
-	m_pMeshCom->Play_AnimationSet(m_fTime* m_fAnimationSpeed);
+	if (eAction == eAntLionAction::Run)
+	{
+		m_fAnimationSpeed = 0.5f;
+	}
+	else
+	{
+		m_fAnimationSpeed = 1.0f;
+	}
+
+	m_pMeshCom->Play_AnimationSet(m_fTime * m_fAnimationSpeed);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
@@ -212,13 +218,13 @@ void CEnemyAntLion::Go_Side(_float fDeltaTime, eAlign pAlign)
 
 void CEnemyAntLion::Do_Run(_float fDeltaTime)
 {
-	m_fMoveSpeed = 15.f;
+	m_fMoveSpeed = 10.f;
 	m_fAnimationSpeed = 1.5f;
 }
 
 void CEnemyAntLion::Do_Walk(_float fDeltaTime)
 {
-	m_fMoveSpeed = 10.f;
+	m_fMoveSpeed = 5.f;
 	m_fAnimationSpeed = 1.f;
 }
 
