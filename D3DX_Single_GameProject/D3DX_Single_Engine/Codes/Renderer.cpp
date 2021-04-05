@@ -278,7 +278,7 @@ HRESULT CRenderer::Render_Alpha()
         return E_FAIL;
     }
 
-    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA])
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_ALPHA])
     {
         if (FAILED(pGameObject->Render_GameObject()))
             return E_FAIL;
@@ -286,7 +286,7 @@ HRESULT CRenderer::Render_Alpha()
         Safe_Release(pGameObject);
     }
 
-    m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA].clear();
+    m_GameObjects[(_uint)RENDERID::RENDER_ALPHA].clear();
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
     {

@@ -41,7 +41,7 @@ _bool CAnimationController::End_AnimationSet()
 	m_pAniControl->GetTrackDesc(m_iCurrentTrack, &TrackInfo);
 
 	//현재 프레임이 실제 재생시간을 (아주 살짝이라도) 넘어가면
-	if (TrackInfo.Position >= m_dPeriod - 0.15)
+	if (TrackInfo.Position >= m_dPeriod - 0.25)
 	{		
 		return true;
 	}

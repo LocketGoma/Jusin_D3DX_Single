@@ -158,6 +158,24 @@
     <Filter Include="01.Object\03.DynamicObject\00.Enemy\02.HeadCrap">
       <UniqueIdentifier>{ade783ee-6450-43af-9b61-bf44ebc6c02d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\12.Projectile">
+      <UniqueIdentifier>{86c8da50-19bb-4988-b5e9-8c160dae25b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\12.Projectile\00.BasicAmmo">
+      <UniqueIdentifier>{2f0e2e22-d8ca-42bf-a5f3-0a82e0744428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\12.Projectile\02.Flechette">
+      <UniqueIdentifier>{07a491a9-c17d-496c-acba-929508d4f926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\12.Projectile\04.CoreBall">
+      <UniqueIdentifier>{39fc3ce9-16c0-4ea8-a496-f4fc125f1e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\12.Projectile\01.PulseAmmo">
+      <UniqueIdentifier>{4d13d34d-13ac-4bf0-8add-780ab81cc44f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\12.Projectile\03.Grenade">
+      <UniqueIdentifier>{7105e7b7-0d49-40a0-a009-6a79dce614cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -283,6 +301,15 @@
     <ClInclude Include="..\Headers\BossHunter.h">
       <Filter>01.Object\03.DynamicObject\01.Boss\00.BossHunter</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\BaseProjectile.h">
+      <Filter>01.Object\12.Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ProjFlechette.h">
+      <Filter>01.Object\12.Projectile\02.Flechette</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ProjCoreBall.h">
+      <Filter>01.Object\12.Projectile\04.CoreBall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -402,6 +429,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\BossHunter.cpp">
       <Filter>01.Object\03.DynamicObject\01.Boss\00.BossHunter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseProjectile.cpp">
+      <Filter>01.Object\12.Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ProjFlechette.cpp">
+      <Filter>01.Object\12.Projectile\02.Flechette</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ProjCoreBall.cpp">
+      <Filter>01.Object\12.Projectile\04.CoreBall</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

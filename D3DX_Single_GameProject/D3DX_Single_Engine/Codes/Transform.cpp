@@ -57,6 +57,25 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	return _int();
 }
 
+_int CTransform::Update_Component(_vec3 vAxis, _float fRotate, const _float& fDeltaTime)
+{
+	_mat matScale, matRotate, matTrans;
+
+	D3DXMatrixScaling(&matScale, m_TransformDesc.vScale.x, m_TransformDesc.vScale.y, m_TransformDesc.vScale.z);
+	D3DXMatrixRotationAxis(&matRotate, &vAxis, fRotate);
+	D3DXMatrixTranslation(&matTrans, m_TransformDesc.m_vInfo[(_uint)TRANSFORM_INFO::INFO_POS].x, m_TransformDesc.m_vInfo[(_uint)TRANSFORM_INFO::INFO_POS].y, m_TransformDesc.m_vInfo[(_uint)TRANSFORM_INFO::INFO_POS].z);
+
+	m_TransformDesc.matWorld = matScale * matRotate * matTrans;
+
+	//메모리 채워넣기
+	for (int i = 0; i < (int)TRANSFORM_INFO::INFO_END; i++)
+	{
+		memcpy(&m_TransformDesc.m_vInfo[i], &m_TransformDesc.matWorld.m[i][0], sizeof(_vec3));
+	}
+
+	return _int();
+}
+
 _int CTransform::LateUpdate_Component(const _float& fDeltaTime)
 {
 	if (m_pDevice == nullptr)

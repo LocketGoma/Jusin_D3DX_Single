@@ -9,13 +9,16 @@
 CEnemyHunter::CEnemyHunter(_Device pDevice)
 	: CDynamicObject(pDevice)
 {
-	m_fRecognizeRange = 35.f;
-	m_fMoveRange = 30.f;
-	m_fAttackRange = 15.f;
+	m_fRecognizeRange = 45.f;
+	m_fMoveRange = 40.f;
+	m_fAttackRange = 20.f;
 
 	m_fHitboxSize = 6.25;
 
-	m_fMoveSpeed = 8.f;
+	m_fMoveSpeed = 6.f;
+	m_fRotateSpeed = 2.5f;	//multiple
+
+	m_iMaxHP = 100;
 
 	m_iDamage = 3;
 
@@ -50,6 +53,8 @@ _int CEnemyHunter::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
+	m_fNowAttackTime += fDeltaTime;
+
 	return NO_EVENT;
 }
 
@@ -63,6 +68,20 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
 	m_fRotate = 0.f;
+
+	if (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eHunterAction::Walk_N && m_pMeshCom->End_Animation_Sequence())
+	{
+		vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+		m_bEndChecker = true;
+		m_vCorePos.y = vOriPos.y;
+		m_pTransformCom->Set_Pos(m_vCorePos);
+
+		m_pMeshCom->Force_Change_AnimationSet((_uint)eAction);
+	}
+	else if (eAction != ePrevAction && ePrevAction == eHunterAction::Walk_N)
+	{
+		m_pMeshCom->Force_Change_AnimationSet((_uint)eAction);
+	}
 
 	m_pTransformCom->Update_Component();
 
@@ -86,11 +105,11 @@ HRESULT CEnemyHunter::Render_GameObject(void)
 
 	m_pMeshCom->Render_Meshes();
 
+
 	//¾Æ·¡ ´«±ò ±âÁØ Á¤Á¡
 	m_vCorePos = _vec3(0.f, 0.f, 0.f);
 	
 	_mat matWorld = m_pMeshCom->Get_FrameByName("MiniStrider_low_eye_bone")->CombinedTranformationMatrix;
-
 
 	matWorld = matWorld * m_pTransformCom->Get_TransformDescription().matWorld;
 
@@ -166,7 +185,6 @@ _bool CEnemyHunter::End_Animation_State_Force()
 
 void CEnemyHunter::Go_Stright(_float fDeltaTime)
 {
-
 	eAction = eHunterAction::Walk_N;
 }
 
@@ -180,13 +198,13 @@ void CEnemyHunter::Go_Side(_float fDeltaTime, eAlign pAlign)
 
 void CEnemyHunter::Do_Run(_float fDeltaTime)
 {
-	m_fMoveSpeed = 12.f;
+	m_fMoveSpeed = 9.f;
 	m_fAnimationSpeed = 1.5f;
 }
 
 void CEnemyHunter::Do_Walk(_float fDeltaTime)
 {
-	m_fMoveSpeed = 8.f;
+	m_fMoveSpeed = 6.f;
 	m_fAnimationSpeed = 1.f;
 }
 
@@ -197,6 +215,7 @@ void CEnemyHunter::Do_Rotate(_float fDeltaTime, eAlign pAlign)
 
 void CEnemyHunter::Do_Attack(_float fDeltaTime)
 {
+	eAction = eHunterAction::Hunter_Angry;
 }
 
 void CEnemyHunter::Do_Idle(_float fDeltaTime)
@@ -207,6 +226,7 @@ void CEnemyHunter::Do_Idle(_float fDeltaTime)
 
 void CEnemyHunter::Do_Spawn(_float fDeltaTime)
 {
+	eAction = eHunterAction::Drop_Down;
 }
 
 void CEnemyHunter::Do_Dead(_float fDeltaTime)
@@ -220,10 +240,14 @@ void CEnemyHunter::PattonA()
 {
 }
 
+//ÇÃ·¹½¦Æ® ¹ß»ç
 void CEnemyHunter::PattonB()
 {
-}
 
+
+
+}
+//±â°üÃÑ ¹ß»ç
 void CEnemyHunter::PattonC()
 {
 }

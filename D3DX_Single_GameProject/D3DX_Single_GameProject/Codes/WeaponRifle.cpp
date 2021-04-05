@@ -3,6 +3,8 @@
 
 #include "Transform.h"
 
+#include "ProjCoreBall.h"
+
 CWeaponRifle::CWeaponRifle(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
@@ -14,7 +16,7 @@ CWeaponRifle::CWeaponRifle(_Device pDevice)
 
 	m_iROF = 540;
 	m_fFireInterval = ONEMINUTE / m_iROF;
-	m_fAltFireInterval = 1.6f;
+	m_fAltFireInterval = 0.6f;
 
 	m_iPriDamage = 3;
 	m_iSecDamage = 100;
@@ -56,22 +58,20 @@ _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-
-
 	if (m_pMeshCom->End_AnimationSet())
 	{
 		Set_Animation((_uint)eRifleAction::Idle);
+	}
 
-		if (m_fNowFItime >= m_fFireInterval && m_bFire == true)
-		{
-			m_bFire = false;
-			m_fNowFItime = 0.f;
-		}
-		if (m_fNowAFItime >= m_fAltFireInterval && m_bAltFire == true)
-		{
-			m_bAltFire = false;
-			m_fNowAFItime = 0.f;
-		}
+	if (m_fNowFItime >= m_fFireInterval && m_bFire == true)
+	{
+		m_bFire = false;
+		m_fNowFItime = 0.f;
+	}
+	if (m_fNowAFItime >= m_fAltFireInterval && m_bAltFire == true)
+	{
+		m_bAltFire = false;
+		m_fNowAFItime = 0.f;
 	}
 
 
@@ -133,18 +133,37 @@ void CWeaponRifle::Shoot_Weapon()
 
 void CWeaponRifle::AltShoot_Weapon()
 {
-	if (m_bAltFire == false || m_fNowAFItime >= m_fAltFireInterval)
+	if (m_bAltFire == false || m_fNowAFItime <= 0.f)
 	{
 		m_bAltFire = true;
 		if (m_iAltAmmo != 0)
 		{
-			m_iAltAmmo--;
-	
-			Set_Animation((_uint)eRifleAction::AltFire);
-		}
-		m_fNowAFItime = 0.f;
-	}
+			auto pManagement = Engine::CManagement::Get_Instance();
+			if (pManagement == nullptr)
+			{
+				return;
+			}
 
+			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_CoreBall");
+			NULL_CHECK(pObject);
+
+			_vec3 vPos, vDir;
+			_mat matWorld;
+			m_pDevice->GetTransform(D3DTS_VIEW, &matWorld);
+			D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+			memcpy(&vDir, &matWorld.m[2][0], sizeof(_vec3));
+			memcpy(&vPos, &matWorld.m[3][0], sizeof(_vec3));
+
+			dynamic_cast<CProjCoreBall*>(pObject)->Set_Position(vPos);
+			dynamic_cast<CProjCoreBall*>(pObject)->Set_Direction(vDir);
+
+			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(L"CoreBall"+ m_iAltAmmo, pObject)))
+			{
+				m_iAltAmmo--;
+				Set_Animation((_uint)eRifleAction::AltFire);
+			}			
+		}		
+	}
 }
 
 bool CWeaponRifle::Reload_Weapon()

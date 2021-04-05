@@ -28,6 +28,7 @@ private:
 public:
 	HRESULT Ready_Transform();
 	virtual _int Update_Component(const _float& fDeltaTime = 0.f);
+	virtual _int Update_Component(_vec3 vAxis, _float fRotate = 0.f, const _float& fDeltaTime = 0.f);
 	virtual _int LateUpdate_Component(const _float& fDeltaTime = 0.f);
 
 //Control + Setter
@@ -39,7 +40,6 @@ public:
 	void Set_Info(TRANSFORM_INFO eType, _vec3* pvInfo);
 	void Set_WorldMatrix(_mat pWorld);
 	void Set_TransformDescription(TRANSFORM_DESC* pDesc);
-
 
 //Getter
 public :

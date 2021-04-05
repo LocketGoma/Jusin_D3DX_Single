@@ -3,11 +3,17 @@
 USING(Engine);
 
 CSphereCollider::CSphereCollider(_Device pDevice)
-	: m_pDevice(pDevice)
-	, m_fRadius(0.f)
+	: m_fRadius(0.f)
+#ifdef _DEBUG
+	, m_pDevice(pDevice)
+	 
 {
 	m_pDevice->AddRef();
 }
+#else
+{
+}
+#endif // _DEBUG
 
 const _matrix* CSphereCollider::Get_ColMatrix()
 {
@@ -58,7 +64,16 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _matrix* pCollider
 
 	memcpy(&m_vCore, &m_matColMatrix.m[3][0], sizeof(_vec3));
 
-	Render_Collider(eType, &m_vCore);
+#ifdef _DEBUG
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_matColMatrix);
+	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+	m_pDevice->SetTexture(0, m_pTexture[(_uint)eType]);
+
+	m_pMesh->DrawSubset(0);
+
+	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+#endif
 }
 
 void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos)

@@ -22,7 +22,9 @@ _ulong CBase::Release()
 	{
 		Free();
 
+#ifdef _DEBUG
 		delete this;
+#endif // _DEBUG
 
 		return 0;
 	}

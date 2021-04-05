@@ -2,10 +2,15 @@
 USING(Engine)
 
 CCollider::CCollider(_Device pDevice)
+#ifdef _DEBUG
 	: m_pDevice(pDevice)
 {
 	m_pDevice -> AddRef();
 }
+#else
+{
+}
+#endif // _DEBUG
 
 const _matrix* CCollider::Get_ColMatrix()
 {
@@ -192,6 +197,7 @@ CComponent* CCollider::Clone(void* pArg)
 
 void CCollider::Free(void)
 {
+#ifdef _DEBUG
 	Safe_Release(m_pIB);
 	Safe_Release(m_pVB);
 
@@ -199,4 +205,5 @@ void CCollider::Free(void)
 		Safe_Release(m_pTexture[i]);
 
 	Safe_Release(m_pDevice);
+#endif // _DEBUG
 }

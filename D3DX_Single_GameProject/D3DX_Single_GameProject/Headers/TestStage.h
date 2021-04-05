@@ -29,6 +29,7 @@ private:
 	HRESULT Add_Camera_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Environment_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Enemy_Layer(const _tchar* pLayerTag);
+	HRESULT Add_Weapon_Layer(const _tchar* pLayerTag);	
 
 public :
 	static CTestStage* Create(_Device pDevice);

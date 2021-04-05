@@ -2,6 +2,7 @@
 
 //몬스터 등. AI를 따르는 다이나믹 오브젝트들
 #ifndef __DYNAMIC_OBJECT_H__
+#define __DYNAMIC_OBJECT_H__
 
 #include "GameObject.h"
 

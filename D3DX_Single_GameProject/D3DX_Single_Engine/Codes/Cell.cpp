@@ -150,6 +150,7 @@ _bool CCell::Compare_Point(const _vec3* pFirst, const _vec3* pSecond, CCell* pCe
 
 void CCell::Render_Cell(void)
 {
+#ifdef _DEBUG
 	_vec3		vPoint[4];
 
 	vPoint[0] = m_vPoint[(_uint)NAVIPOINT::POINT_A];
@@ -198,6 +199,8 @@ void CCell::Render_Cell(void)
 	}
 
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+#endif // _DEBUG
 
 }
 
