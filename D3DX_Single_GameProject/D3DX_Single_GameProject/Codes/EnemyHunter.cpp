@@ -69,7 +69,13 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
 	m_fRotate = 0.f;
 
-	if (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eHunterAction::Walk_N && m_pMeshCom->End_Animation_Sequence())
+	eHunterAction eActon = (eHunterAction)m_pMeshCom->Get_NowAnimationNumber();
+
+	if ((m_pMeshCom->Get_NowAnimationNumber() == (_uint)eHunterAction::Walk_N ||
+		m_pMeshCom->Get_NowAnimationNumber() == (_uint)eHunterAction::Dodge_E ||
+		m_pMeshCom->Get_NowAnimationNumber() == (_uint)eHunterAction::Dodge_W 
+		)
+		&& m_pMeshCom->End_Animation_Sequence())
 	{
 		vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
 		m_bEndChecker = true;

@@ -11,7 +11,12 @@ CBaseAI::CBaseAI(_Device pDevice)
 	, m_bAppear(false)
 	, m_bTrack(false)
 	, m_bAttack(false)
+	, m_bDodge(false)
+	, m_fInvinTime(1.20f)
 {
+	m_fDodgeTime = 0.f;
+
+	m_iHPState = INT_MAX;
 }
 
 CBaseAI::CBaseAI(const CBaseAI& other)
@@ -22,7 +27,12 @@ CBaseAI::CBaseAI(const CBaseAI& other)
 	, m_bAppear(false)
 	, m_bTrack(false)
 	, m_bAttack(false)
+	, m_bDodge(false)
+	, m_fInvinTime(other.m_fInvinTime)
 {
+	m_fDodgeTime = 0.f;
+
+	m_iHPState = INT_MAX;
 }
 
 HRESULT CBaseAI::Ready_GameObject()
@@ -51,16 +61,25 @@ _int CBaseAI::Update_GameObject(const _float& fDeltaTime)
 		Do_Appear(fDeltaTime);
 	}
 	Do_Idle(fDeltaTime);
-	if (m_bSpawn == false && m_bAppear == true)
+	if (m_bSpawn == false && m_bAppear == true && m_bDodge == false)
 	{
 		Do_Movement(fDeltaTime);
 		Do_Attack(fDeltaTime);
 	}
+	if (m_bDodge == true)
+	{
+		m_bAttack = false;
+		m_fDodgeTime += fDeltaTime;
+	}
+
 	return _int();
 }
 
 _int CBaseAI::LateUpdate_GameObject(const _float& fDeltaTime)
 {
+
+
+
 	return _int();
 }
 
@@ -85,6 +104,8 @@ _vec3 CBaseAI::Get_Size()
 	return _vec3();
 }
 
+
+
 HRESULT CBaseAI::Set_ControlUnit(CDynamicObject* pUnit)
 {
 	NULL_CHECK_RETURN(pUnit, E_FAIL);
@@ -103,6 +124,15 @@ HRESULT CBaseAI::Set_Target(Engine::CGameObject* pTarget)
 	return S_OK;
 }
 
+//필요시 사용
+HRESULT CBaseAI::Do_Spawn(const _float& fDeltaTime)
+{
+	m_bReady = true;
+
+	return S_OK;
+}
+
+//등장씬
 HRESULT CBaseAI::Do_Appear(const _float& fDeltaTime)
 {
 	
@@ -117,12 +147,11 @@ HRESULT CBaseAI::Do_Appear(const _float& fDeltaTime)
 		m_bSpawn = false;
 		m_bAppear = true;		
 	}
-	
 
 
 	return S_OK;
 }
-
+//기본 대기상태
 HRESULT CBaseAI::Do_Idle(const _float& fDeltaTime)
 {
 	if (m_bAppear == true)
@@ -154,10 +183,21 @@ HRESULT CBaseAI::Do_Idle(const _float& fDeltaTime)
 				m_pControlUnit->Do_Rotate(fDeltaTime, eAlign::LEFT);
 		}
 	}
+	if (Check_HP_Change())
+	{
+		m_pControlUnit->Go_Side(fDeltaTime, (eAlign)(rand() % 2));
+		m_bDodge = true;
+	}
+	else if (m_fDodgeTime >= m_fInvinTime)
+	{
+		m_bDodge = false;
+		m_fDodgeTime = 0.f;
+	}
+
 	
 	return S_OK;
 }
-
+//기본 움직임
 HRESULT CBaseAI::Do_Movement(const _float& fDeltaTime)
 {
 	if (m_bAttack == true)
@@ -207,6 +247,24 @@ HRESULT CBaseAI::Do_Attack(const _float& fDeltaTime)
 	}
 
 	return S_OK;
+}
+
+_bool CBaseAI::Check_HP_Change()
+{
+	if (m_iHPState != m_pControlUnit->Get_NowHP())
+	{
+		if (m_iHPState != INT_MAX)
+		{	
+			m_iHPState = m_pControlUnit->Get_NowHP();
+			return true;
+		}
+		else
+		{
+			m_iHPState = m_pControlUnit->Get_NowHP();
+		}
+	}
+
+	return false;
 }
 
 CBaseAI* CBaseAI::Create(_Device pDevice)

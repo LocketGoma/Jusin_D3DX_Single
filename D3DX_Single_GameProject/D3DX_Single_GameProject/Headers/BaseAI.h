@@ -36,11 +36,13 @@ public:
 
 //내부 판단 함수들
 private:
+	HRESULT Do_Spawn(const _float& fDeltaTime);
 	HRESULT Do_Appear(const _float& fDeltaTime);
 	HRESULT Do_Idle(const _float& fDeltaTime);
 	HRESULT Do_Movement(const _float& fDeltaTime);
 	HRESULT Do_Attack(const _float& fDeltaTime);
 
+	_bool Check_HP_Change();
 
 public:
 	static CBaseAI* Create(_Device pDevice);
@@ -54,12 +56,18 @@ private:
 
 //플레이어 사거리는 일단 5.f 로 계산해서 사용할것.
 private:
+	_bool m_bReady;			//대기모드 여부
 	_bool m_bSpawn;			//등장했는가
 	_bool m_bAppear;		//움직이는가
 	_bool m_bTrack;			//추적중인가
 	_bool m_bAttack;		//공격중인가
+	_bool m_bDodge;			//회피중인가
 
 	_float m_fRangeToTarget;	//타겟까지의 거리
+	_float m_fDodgeTime;		//무적시간 - 흐르는것
+	_float m_fInvinTime;		//무적시간
+
+	int m_iHPState;				//이전 HP상태 (상태비교용)
 
 
 };
