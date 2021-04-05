@@ -12,7 +12,7 @@ CBaseAI::CBaseAI(_Device pDevice)
 	, m_bTrack(false)
 	, m_bAttack(false)
 	, m_bDodge(false)
-	, m_fInvinTime(1.20f)
+	, m_fInvinTime(1.25f)
 {
 	m_fDodgeTime = 0.f;
 
@@ -206,7 +206,7 @@ HRESULT CBaseAI::Do_Movement(const _float& fDeltaTime)
 		return S_OK;
 	}
 
-	if (m_bTrack == false && (PLAYER_BASE_HITBOX + m_pControlUnit->Get_MoveRange()) >= m_fRangeToTarget)
+	if (m_bDodge == false && m_bTrack == false && (PLAYER_BASE_HITBOX + m_pControlUnit->Get_MoveRange()) >= m_fRangeToTarget)
 	{
 		m_bTrack = true;
 	}

@@ -252,10 +252,10 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     }
     ///적 스폰 파트
     //개미귀신
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
 
     //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -276,11 +276,11 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
 
     ///기본 적 AI파트
     //개미귀신
-    //pGameObject = CBaseAI::Create(m_pDevice);
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
-    //dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
+    pGameObject = CBaseAI::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
+    dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
 
     //pGameObject = CBaseAI::Create(m_pDevice);
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);
