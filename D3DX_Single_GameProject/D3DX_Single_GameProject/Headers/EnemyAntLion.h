@@ -74,7 +74,6 @@ private:
 	eAntLionAction eAction;
 	eAntLionAction ePrevAction;			//직전에 실행된 애니메이션
 
-	_float m_fTime;
 	_vec3 vOriPos;
 
 

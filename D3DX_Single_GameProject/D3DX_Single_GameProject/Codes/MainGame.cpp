@@ -58,7 +58,9 @@ HRESULT CMainGame::Ready_MainGame()
 _int CMainGame::Update_MainGame()
 {
     _float fDeltaTime = m_pManagement->Get_DeltaTime();
-
+#ifdef DEBUG_MODE
+    fDeltaTime /= DEBUG_TIMESPEED;
+#endif
     m_pManagement->Update_Engine(fDeltaTime);
     m_pManagement->LateUpdate_Engine(fDeltaTime);
     m_fTime += fDeltaTime;

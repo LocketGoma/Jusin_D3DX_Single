@@ -1,5 +1,6 @@
 #pragma once
 #ifndef __CLINENT_DEFINE_H__
+#define __CLINENT_DEFINE_H__
 
 extern HWND g_hWnd;
 
@@ -29,5 +30,10 @@ extern HWND g_hWnd;
 
 #define CHANGE_SCENE	0x10
 
-#define __CLINENT_DEFINE_H__
+
+
+//디버그 전용
+#define DEBUG_MODE
+#define DEBUG_TIMESPEED	5
+
 #endif

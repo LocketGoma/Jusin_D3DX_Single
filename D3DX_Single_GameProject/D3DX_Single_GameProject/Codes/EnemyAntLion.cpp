@@ -18,8 +18,10 @@ CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 	m_fHitboxSize = 5.25f;
 
 	m_fMoveSpeed = 10.f;
+	m_fRotateSpeed = 2.5f;
 
 	m_iMaxHP = 20;
+
 
 	m_iDamage = 3;
 }
@@ -70,17 +72,29 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y,m_fRotate);
 	m_fRotate = 0.f;
 
-	m_pTransformCom->Update_Component(fDeltaTime);
+	//트랜스폼 업데이트 전 수행할 것들
+	if ((eAction != ePrevAction && ePrevAction == eAntLionAction::Run) || (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::Run && m_pMeshCom->End_Animation_Sequence()&& m_bEndChecker == false))
+	{
+		vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+		m_bEndChecker = true;
+		m_vCorePos.y = vOriPos.y;
+		m_pTransformCom->Set_Pos(m_vCorePos);
 
+		m_pMeshCom->Force_Change_AnimationSet((_uint)eAction);
+	}
+	else
+	{
+		m_bEndChecker = false;
+	}
+	m_pTransformCom->Update_Component(fDeltaTime);
+	
+	//트랜스폼 업데이트 후 수행할 것들
 	if (eAction == eAntLionAction::DigOut)
 	{
 		m_pTransformCom->Set_Pos(vOriPos);
 	}
-	if (eAction != ePrevAction && ePrevAction == eAntLionAction::Run)
-	{
-		m_vCorePos.y = vOriPos.y;
-		m_pTransformCom->Set_Pos(m_vCorePos);
-	}
+
+
 
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
@@ -94,12 +108,6 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 {
 	m_pMeshCom->Set_AnimationSet((_uint)eAction);
 
-	//if (eAction == eAntLionAction::Idle)
-	//{
-	//	m_pTransformCom->Set_Pos(vOriPos);
-	//	m_pTransformCom->Update_Component(0.f);
-	//}
-
 	m_pTransformCom->LateUpdate_Component(0.f);
 
 	m_pMeshCom->Play_AnimationSet(m_fTime* m_fAnimationSpeed);
@@ -109,10 +117,10 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 
 	m_pMeshCom->Render_Meshes();
 	
-	//대가리 기준 정점
+	//가슴 기준 정점
 	m_vCorePos = _vec3(0.f, 0.f, 0.f);
 
-	_mat matWorld = m_pMeshCom->Get_FrameByName("Antlion_Head_Bone")->CombinedTranformationMatrix;
+	_mat matWorld = m_pMeshCom->Get_FrameByName("Antlion_Body_Bone")->CombinedTranformationMatrix;
 
 	matWorld = matWorld * m_pTransformCom->Get_TransformDescription().matWorld;
 
@@ -192,9 +200,6 @@ void CEnemyAntLion::Go_Stright(_float fDeltaTime)
 
 	eAction = eAntLionAction::Run;
 
-	m_pMeshCom->Set_AnimationSet((_uint)eAction);	
-
-	//m_pTransformCom->Move_Pos(&vLook, m_fMoveSpeed, fDeltaTime);
 }
 
 void CEnemyAntLion::Go_Side(_float fDeltaTime, eAlign pAlign)
@@ -220,7 +225,7 @@ void CEnemyAntLion::Do_Walk(_float fDeltaTime)
 void CEnemyAntLion::Do_Rotate(_float fDeltaTime, eAlign pAlign)
 {
 	//+=? =?
-	m_fRotate = (((int)pAlign - 0.5f) * 2.f)*fDeltaTime;
+	m_fRotate = (((int)pAlign - 0.5f) * 2.f)*fDeltaTime * m_fRotateSpeed;
 }
 
 void CEnemyAntLion::Do_Attack(_float fDeltaTime)
@@ -245,7 +250,7 @@ void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 
 	eAction = eAntLionAction::Idle;
 	m_fAnimationSpeed = 1.0f;
-	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::Idle);
+
 }
 
 void CEnemyAntLion::Do_Spawn(_float fDeltaTime)

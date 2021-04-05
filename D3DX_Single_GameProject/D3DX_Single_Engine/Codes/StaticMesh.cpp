@@ -117,6 +117,7 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 
 		if (FAILED(D3DXCreateTextureFromFile(m_pDevice, szFullPath, &m_ppTextures[i])))
 			return E_FAIL;		
+
 	}
 
 	return S_OK;
@@ -158,16 +159,18 @@ void CStaticMesh::Free(void)
 	Safe_Release(m_pSubset);
 	Safe_Release(m_pOriMesh);
 
-	for (_uint i = 0; i < m_dwSubsetCnt; ++i)
-	{
-		if (m_ppTextures[i]!=nullptr)
-			Safe_Release(m_ppTextures[i]);
-	}
-	Safe_Delete_Array(m_ppTextures);
-	Safe_Release(m_pSampleTexture);
-
 	if (true == m_bIsPrototype)
+	{
+		for (_uint i = 0; i < m_dwSubsetCnt; ++i)
+		{
+			if (m_ppTextures[i] != nullptr)
+				Safe_Release(m_ppTextures[i]);
+		}
+		Safe_Delete_Array(m_ppTextures);
+		Safe_Release(m_pSampleTexture);
+
 		Safe_Delete_Array(m_pVtxPos);
+	}
 
 	CMesh::Free();
 }

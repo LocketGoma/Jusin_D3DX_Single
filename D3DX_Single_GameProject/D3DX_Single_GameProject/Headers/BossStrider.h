@@ -75,7 +75,7 @@ private:
 	eStriderAction ePrevAction;
 	eStriderPatton ePatton;
 
-	_float m_fTime;
+
 	_vec3 vOriPos;
 	_vec3 vCalibrationPos;		//메쉬 좌표 뒤틀림으로 인한 위치 보정
 

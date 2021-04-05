@@ -19,6 +19,7 @@ private:
 public:
 	const D3DFRAME_DERIVED* Get_FrameByName(const char* pFrameName);
 	_bool	End_AnimationSet();
+	_bool	End_Animation_Sequence();
 
 public:
 	HRESULT		Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileName);

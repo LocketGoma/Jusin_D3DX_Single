@@ -42,7 +42,7 @@ enum class eHunterPatton
 
 class CEnemyHunter :  public CDynamicObject
 {
-private:
+protected:
 	explicit CEnemyHunter(_Device pDevice);
 	explicit CEnemyHunter(const CEnemyHunter& other);
 	virtual ~CEnemyHunter() = default;
@@ -78,8 +78,7 @@ public:
 private:
 	void PattonA();
 	void PattonB();
-	void PattonC();
-	
+	void PattonC();	
 
 private:
 	HRESULT Add_Component();
@@ -95,8 +94,6 @@ private:
 	eHunterAction ePrevAction;
 
 	eHunterPatton ePatton;
-
-	_float m_fTime;
 	_vec3 vOriPos;
 
 

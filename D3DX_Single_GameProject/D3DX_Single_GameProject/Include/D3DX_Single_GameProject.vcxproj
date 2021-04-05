@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="..\Headers\BaseAI.h" />
     <ClInclude Include="..\Headers\BaseLogoScene.h" />
+    <ClInclude Include="..\Headers\BossHunter.h" />
     <ClInclude Include="..\Headers\BossStrider.h" />
     <ClInclude Include="..\Headers\Client_Define.h" />
     <ClInclude Include="..\Headers\Client_Enum.h" />
@@ -195,6 +196,7 @@
   <ItemGroup>
     <ClCompile Include="..\Codes\BaseAI.cpp" />
     <ClCompile Include="..\Codes\BaseLogoScene.cpp" />
+    <ClCompile Include="..\Codes\BossHunter.cpp" />
     <ClCompile Include="..\Codes\BossStrider.cpp" />
     <ClCompile Include="..\Codes\DynamicObject.cpp" />
     <ClCompile Include="..\Codes\EnemyAntLion.cpp" />

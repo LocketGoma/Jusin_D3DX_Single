@@ -33,6 +33,11 @@ _bool CDynamicMesh::End_AnimationSet()
     return m_pAniControl->End_AnimationSet();
 }
 
+_bool CDynamicMesh::End_Animation_Sequence()
+{
+	return m_pAniControl->End_Animation_Sequence();;
+}
+
 //메쉬 로더
 HRESULT CDynamicMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileName)
 {

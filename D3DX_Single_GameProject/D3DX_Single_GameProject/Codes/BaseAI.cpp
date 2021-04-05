@@ -90,6 +90,8 @@ HRESULT CBaseAI::Set_ControlUnit(CDynamicObject* pUnit)
 	NULL_CHECK_RETURN(pUnit, E_FAIL);
 
 	m_pControlUnit = pUnit;
+
+	return S_OK;
 }
 
 HRESULT CBaseAI::Set_Target(Engine::CGameObject* pTarget)
@@ -97,6 +99,8 @@ HRESULT CBaseAI::Set_Target(Engine::CGameObject* pTarget)
 	NULL_CHECK_RETURN(pTarget, E_FAIL);
 
 	m_pTargetUnit = pTarget;
+
+	return S_OK;
 }
 
 HRESULT CBaseAI::Do_Appear(const _float& fDeltaTime)
@@ -190,8 +194,11 @@ HRESULT CBaseAI::Do_Attack(const _float& fDeltaTime)
 	}
 	else if (m_bTrack == false)
 	{
-		m_pControlUnit->Do_Idle(fDeltaTime);
 		m_bAttack = false;
+	}
+	else if (m_bTrack == false && m_bAttack == false)
+	{
+		m_pControlUnit->Do_Idle(fDeltaTime);
 	}
 
 	if (m_bAttack == true)

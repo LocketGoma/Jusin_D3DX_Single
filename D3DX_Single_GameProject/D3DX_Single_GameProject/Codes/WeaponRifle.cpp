@@ -55,15 +55,8 @@ _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
-	if (m_bFire == true)
-	{
-		m_fNowFItime += fDeltaTime;
-	}
 
-	if (m_bAltFire == true)
-	{
-		m_fNowAFItime += fDeltaTime;
-	}
+
 
 	if (m_pMeshCom->End_AnimationSet())
 	{
@@ -86,6 +79,8 @@ _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_TERMINAL_NOALPHA, this);
 
+	m_fTime = fDeltaTime;
+
 	return NO_EVENT;
 }
 
@@ -102,6 +97,16 @@ HRESULT CWeaponRifle::Render_GameObject(void)
 		return E_FAIL;
 
 	m_pMeshCom->Render_Meshes();
+
+	if (m_bFire == true)
+	{
+		m_fNowFItime += m_fTime;
+	}
+	if (m_bAltFire == true)
+	{
+		m_fNowAFItime += m_fTime;
+	}
+
 
 	return S_OK;
 }

@@ -53,15 +53,7 @@ _int CWeaponSMG::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	if (m_bFire == true)
-	{
-		m_fNowFItime += fDeltaTime;
-	}
 
-	if (m_bAltFire == true)
-	{
-		m_fNowAFItime += fDeltaTime;
-	}
 
 	if (m_pMeshCom->End_AnimationSet())
 	{
@@ -83,6 +75,8 @@ _int CWeaponSMG::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_TERMINAL_NOALPHA, this);
 
+	m_fTime = fDeltaTime;
+
 	return NO_EVENT;
 }
 
@@ -99,6 +93,16 @@ HRESULT CWeaponSMG::Render_GameObject(void)
 		return E_FAIL;
 
 	m_pMeshCom->Render_Meshes();
+
+	//어쩔수없이 랜더에 처박기...
+	if (m_bFire == true)
+	{
+		m_fNowFItime += m_fTime;
+	}
+	if (m_bAltFire == true)
+	{
+		m_fNowAFItime += m_fTime;
+	}
 
 	return S_OK;
 }

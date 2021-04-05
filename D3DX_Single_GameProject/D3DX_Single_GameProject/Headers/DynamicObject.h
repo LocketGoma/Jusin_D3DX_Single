@@ -85,7 +85,9 @@ protected:
 	_float m_fMoveSpeed;
 	_float m_fAnimationSpeed;
 	_float m_fRotate;
+	_float m_fRotateSpeed;
 	_vec3  m_vCorePos;			//메쉬 좌표 기준점
+	_bool  m_bEndChecker;		//애니메이션 종료 체크
 
 	_int m_iHP;					//현재 체력
 	_uint m_iMaxHP;				//최대 체력
@@ -101,6 +103,8 @@ protected:
 	_float m_fMoveRange;		//이동 범위 (공격을 위해 다가오는 거리)
 	_float m_fAttackRange;		//공격 범위 (공격 사거리)
 	_float m_fHitboxSize;
+
+	_float m_fTime;				//델타 타임 보관용
 
 //컴포넌트들
 protected:

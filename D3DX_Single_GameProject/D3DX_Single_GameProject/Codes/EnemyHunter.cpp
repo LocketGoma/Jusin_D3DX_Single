@@ -64,6 +64,7 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
 	m_fRotate = 0.f;
 
+	m_pTransformCom->Update_Component();
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 

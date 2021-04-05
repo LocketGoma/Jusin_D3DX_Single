@@ -61,9 +61,9 @@ HRESULT CVTXBatchTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwC
 	_long dwCountHX = dwCountX >> 1;
 	_long dwInterval = dwVTXInterval;
 
-	for (_long i = 0; i < dwCountZ; i++)
+	for (_long i = 0; i <(_long)dwCountZ; i++)
 	{
-		for (_long j = 0; j < dwCountX; j++)
+		for (_long j = 0; j <(_long)dwCountX; j++)
 		{
 			dwIndex = i * dwCountX + j;
 			pVertex[dwIndex].vPosition = _vec3(_float((j - (dwCountHX)) * dwInterval), 0.f, _float((i - (dwCountHZ)) * dwInterval));

@@ -20,6 +20,7 @@ private:
 public:
 	LPD3DXANIMATIONCONTROLLER	Get_AnimationControl();
 	_bool						End_AnimationSet();
+	_bool						End_Animation_Sequence();
 
 public:
 	HRESULT Ready_AnimationController();

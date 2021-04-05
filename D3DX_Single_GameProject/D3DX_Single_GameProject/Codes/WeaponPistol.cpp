@@ -51,10 +51,6 @@ _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
-	if (m_bFire == true)
-	{
-		m_fNowFItime += fDeltaTime;
-	}
 
 	if (m_pMeshCom->End_AnimationSet())
 	{
@@ -72,6 +68,9 @@ _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_TERMINAL_NOALPHA, this);
+
+	m_fTime = fDeltaTime;
+
 	return NO_EVENT;
 }
 
@@ -88,6 +87,11 @@ HRESULT CWeaponPistol::Render_GameObject(void)
 		return E_FAIL;
 
 	m_pMeshCom->Render_Meshes();
+
+	if (m_bFire == true)
+	{
+		m_fNowFItime += m_fTime;
+	}
 
 	return S_OK;
 }

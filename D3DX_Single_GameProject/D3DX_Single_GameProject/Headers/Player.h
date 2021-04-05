@@ -81,6 +81,13 @@ private:
 	_bool m_bShootState;		//사격 여부
 	_bool m_bWeaponState;		//사격 가능 여부
 
+//플레이어 컨트롤용
+private:
+	_float m_fJumpPower;		//점프 힘
+	_float m_fNowMoveSpeed;		//현재 이동속도
+	_float m_fWalkSpeed;		//걷는 속도
+	_float m_fRunSpeed;			//달리는 속도
+
 public:
 	static CPlayer* Create(_Device pDevice);
 	virtual CGameObject* Clone(void* pArg = nullptr);

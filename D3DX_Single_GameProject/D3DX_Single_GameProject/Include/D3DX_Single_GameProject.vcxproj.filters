@@ -155,6 +155,9 @@
     <Filter Include="07.AI&amp;Algorithm\00.BaseAttacker">
       <UniqueIdentifier>{6c04e093-ef44-4fd8-9db4-b447ddd26b7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\03.DynamicObject\00.Enemy\02.HeadCrap">
+      <UniqueIdentifier>{ade783ee-6450-43af-9b61-bf44ebc6c02d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -274,7 +277,12 @@
     <ClInclude Include="..\Headers\EnemyHunter.h">
       <Filter>01.Object\03.DynamicObject\00.Enemy\01.Hunter</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\BossStrider.h" />
+    <ClInclude Include="..\Headers\BossStrider.h">
+      <Filter>01.Object\03.DynamicObject\01.Boss\01.Strider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BossHunter.h">
+      <Filter>01.Object\03.DynamicObject\01.Boss\00.BossHunter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -389,6 +397,11 @@
     <ClCompile Include="..\Codes\EnemyHunter.cpp">
       <Filter>01.Object\03.DynamicObject\00.Enemy\01.Hunter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\BossStrider.cpp" />
+    <ClCompile Include="..\Codes\BossStrider.cpp">
+      <Filter>01.Object\03.DynamicObject\01.Boss\01.Strider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BossHunter.cpp">
+      <Filter>01.Object\03.DynamicObject\01.Boss\00.BossHunter</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

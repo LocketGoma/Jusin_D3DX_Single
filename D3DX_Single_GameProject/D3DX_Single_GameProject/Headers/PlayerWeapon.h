@@ -74,6 +74,7 @@ protected:
 	_bool m_bFire;
 	_bool m_bAltFire;
 
+	_float m_fTime;				//델타타임 보관용
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;

@@ -24,6 +24,9 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_iFullHP(100)
 	, m_fHitboxSize(7.5f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
+	, m_fJumpPower(15.f)
+	, m_fWalkSpeed(10.f)
+	, m_fRunSpeed(20.f)
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 
@@ -38,10 +41,15 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_iFullHP(other.m_iFullHP)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
+	, m_fJumpPower(other.m_fJumpPower)
+	, m_fWalkSpeed(other.m_fWalkSpeed)
+	, m_fRunSpeed(other.m_fRunSpeed)
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 
 	m_iHP = m_iFullHP;
+
+	m_fNowMoveSpeed = m_fWalkSpeed;
 }
 
 HRESULT CPlayer::Ready_GameObject(_uint iTexNumber)
@@ -58,7 +66,7 @@ HRESULT CPlayer::Ready_GameObject_Clone(void* pArg)
 
 _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 {	
-	Engine::CGameObject::Update_GameObject(fDeltaTime);
+	Engine::CGameObject::Update_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
@@ -66,9 +74,9 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	Key_Input(fDeltaTime);
+	Key_Input(fDeltaTime* DEBUG_TIMESPEED);
 	
-	m_pWeapon[(_uint)m_pWeaponType]->Update_GameObject(fDeltaTime);
+	m_pWeapon[(_uint)m_pWeaponType]->Update_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
 	return NO_EVENT;
 }
@@ -93,7 +101,7 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_UI, this);
 
-	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime);
+	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
 	return NO_EVENT;
 }
@@ -265,20 +273,29 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 
 	if (pManagement->Key_Pressing('W'))
 	{
-		m_pTransformCom->Move_Pos(&vLook, 10.f, fDeltaTime);
+		m_pTransformCom->Move_Pos(&vLook, m_fNowMoveSpeed, fDeltaTime);
 	}
 	if (pManagement->Key_Pressing('S'))
 	{
-		m_pTransformCom->Move_Pos(&vLook, 10.f, -fDeltaTime);
+		m_pTransformCom->Move_Pos(&vLook, m_fNowMoveSpeed, -fDeltaTime);
 	}
 	if (pManagement->Key_Pressing('A'))
 	{
-		m_pTransformCom->Move_Pos(&vRight, 10.f, -fDeltaTime);
+		m_pTransformCom->Move_Pos(&vRight, m_fNowMoveSpeed, -fDeltaTime);
 	}
 	if (pManagement->Key_Pressing('D'))
 	{
-		m_pTransformCom->Move_Pos(&vRight, 10.f, fDeltaTime);
+		m_pTransformCom->Move_Pos(&vRight, m_fNowMoveSpeed, fDeltaTime);
 	}
+	if (pManagement->Key_Pressing(VK_LSHIFT))
+	{
+		m_fNowMoveSpeed = m_fRunSpeed;
+	}
+	else
+	{
+		m_fNowMoveSpeed = m_fWalkSpeed;
+	}
+
 
 	//시선에 따른 Y축 이동 보정
 	_vec3 vApPos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
@@ -326,6 +343,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 		{
 			m_pWeaponType = eWeaponType::WEAPON_CROWBAR;
 		}
+		m_bShootState = false;
 	}
 	else if (g_zDelta < -0.1f)
 	{
@@ -337,6 +355,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 		{
 			m_pWeaponType = (eWeaponType)((_uint)m_pWeaponType - 1);
 		}
+		m_bShootState = false;
 	}
 	g_zDelta = 0.f;
 

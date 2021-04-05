@@ -18,6 +18,8 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_fMoveRange(20.f)
 	, m_fAttackRange(10.f)
 	, m_fHitboxSize(5.f)
+	, m_fRotateSpeed(1.0f)
+	, m_bEndChecker(false)
 {
 	m_iHP = m_iMaxHP;
 }
@@ -36,6 +38,8 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_fAttackRange(other.m_fAttackRange)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, m_fNowAttackTime(0.f)
+	, m_fRotateSpeed(other.m_fRotateSpeed)
+	, m_bEndChecker(false)
 {
 	Safe_AddReference(m_pDevice);
 }
@@ -44,7 +48,7 @@ void CDynamicObject::Force_Update_Animation()
 {
 	m_pMeshCom->Play_AnimationSet(0.f);
 	m_pMeshCom->Update_Meshes();
-	m_pTransformCom->Update_Component(0.f);
+	//m_pTransformCom->Update_Component(0.f);
 }
 
 _bool CDynamicObject::End_Animation_State()

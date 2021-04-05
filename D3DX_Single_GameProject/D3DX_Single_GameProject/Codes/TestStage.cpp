@@ -42,16 +42,12 @@ HRESULT CTestStage::Ready_Scene(void)
 
 _int CTestStage::Update_Scene(const _float& fDeltaTime)
 {
-    //D3DXMatrixLookAtLH(&m_matView, &_vec3(0.f, 0.f, -5.f), &_vec3(0.f, 0.f, 1.f), &_vec3(0.f, 1.f, 0.f));
-    //D3DXMatrixPerspectiveFovLH(&m_matProj, D3DXToRadian(60.f), _float(WINCX) / WINCY, 0.1f, 1000.f);
 
-    //m_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
-    //m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
     CScene::Update_Scene(fDeltaTime);
+    
+
 
     m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
-
-
 
 
     return _int();
@@ -78,7 +74,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
         CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
         if (pObject != nullptr)
         {
-            pObject->Force_Update_Animation();
+            //pObject->Force_Update_Animation();
             pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
 
             
@@ -87,15 +83,10 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
                 pPlayer->Hit_Attack(pObject->Get_Damage());
             }
         }
-    }
+    }        
 
 
-        
-
-
-
-
-    return _int();
+    return NO_EVENT;
 }
 
 void CTestStage::Render_Scene(void)
@@ -260,10 +251,10 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     }
     ///적 스폰 파트
     //개미귀신
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
 
     //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -271,24 +262,24 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
     //헌터
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter", pGameObject), E_FAIL);
 
     //스트라이더
     pGameObject = pManagement->Clone_GameObject(L"BossStrider");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(20.f, 0.f, 20.f)); //보정치의 상태가?
+    pGameObject->Set_Position(_vec3(25.f, 0.f, 20.f));
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
 
     ///기본 적 AI파트
     //개미귀신
-    //pGameObject = CBaseAI::Create(m_pDevice);
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
-    //dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
+    pGameObject = CBaseAI::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
+    dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
 
     //pGameObject = CBaseAI::Create(m_pDevice);
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);

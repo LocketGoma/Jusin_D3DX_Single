@@ -64,7 +64,7 @@ _int CBossStrider::LateUpdate_GameObject(const _float& fDeltaTime)
 
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
-
+	
 	m_fTime = fDeltaTime;
 
 	return NO_EVENT;

@@ -7,6 +7,8 @@ CWeaponCrowbar::CWeaponCrowbar(_Device pDevice)
 	m_iROF = 180;
 	m_fFireInterval = ONEMINUTE / m_iROF;
 
+
+
 	m_iPriDamage = 1;
 
 
@@ -16,6 +18,7 @@ CWeaponCrowbar::CWeaponCrowbar(const CWeaponCrowbar& other)
 	: CPlayerWeapon(other)
 	, m_bZoom(false)
 {
+	m_iMagAmmo = INT_MAX;
 }
 
 HRESULT CWeaponCrowbar::Ready_GameObject()
@@ -47,10 +50,7 @@ _int CWeaponCrowbar::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	if (m_bFire == true)
-	{
-		m_fNowFItime += fDeltaTime;
-	}
+
 	if (m_pMeshCom->End_AnimationSet())
 	{
 		Set_Animation((_uint)eCrowbarAction::Idle);		
@@ -60,6 +60,8 @@ _int CWeaponCrowbar::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_TERMINAL_NOALPHA, this);
+
+	m_fTime = fDeltaTime;
 
 	return NO_EVENT;
 }
@@ -82,6 +84,11 @@ HRESULT CWeaponCrowbar::Render_GameObject(void)
 		return E_FAIL;
 
 	m_pMeshCom->Render_Meshes();
+
+	if (m_bFire == true)
+	{
+		m_fNowFItime += m_fTime;
+	}
 
 	return S_OK;
 
