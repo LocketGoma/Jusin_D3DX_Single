@@ -33,7 +33,7 @@ public:
 	void Set_CameraDesc(CAMERA_DESC& cDesc);
 	void Set_ViewVector(_vec3 vEye, _vec3 vAt, _vec3 vUp);
 	void Set_Projection(_float fFovY, _float fAspect, _float fZnear = 1.f, _float fZFar = 1000.f);
-	//void Set_Ortho(_vec3 vScale, _vec3 vPos);
+	void Set_Ortho(_vec3 vScale, _vec3 vPos);
 
 	
 	void Set_Ortho(_bool bUse);

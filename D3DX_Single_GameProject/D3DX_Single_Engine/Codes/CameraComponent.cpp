@@ -48,6 +48,38 @@ void CCameraComponent::Set_Projection(_float fFovY, _float fAspect, _float fZnea
     m_CameraDesc.fZFar = fZFar;
 }
 
+void CCameraComponent::Set_Ortho(_vec3 vScale, _vec3 vPos)
+{
+    _mat matWorld, matView, matProj;
+
+    D3DXMatrixIdentity(&matWorld);
+    D3DXMatrixIdentity(&matView);
+    D3DXMatrixIdentity(&matProj);
+
+    D3DXMatrixOrthoLH(
+        &m_CameraDesc.matOrtho, /* 직교투영행렬 반환 */
+        WINCX, // 가로폭 (WINCX, 하드코딩한거 반드시 바꿀것)
+        WINCY, // 세로폭 (WINCY)
+        m_CameraDesc.fZNear, /* Near Z: 관찰자와 가장 가까운 면과의 Z거리 */
+        m_CameraDesc.fZFar /* Far Z: 관찰자와 가장 먼 편과의 Z거리 */);
+
+    matProj = m_CameraDesc.matOrtho;
+
+
+    matView._11 = vScale.x;
+    matView._22 = vScale.y;
+    matView._33 = vScale.z;
+
+    matView._41 = vPos.x;
+    matView._42 = vPos.y;
+    matView._43 = vPos.z;
+
+    m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+    m_pDevice->SetTransform(D3DTS_VIEW, &matView);
+    m_pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
+
+}
+
 void CCameraComponent::Set_Ortho(_bool bUse)
 {
     m_bUseOrtho = bUse;

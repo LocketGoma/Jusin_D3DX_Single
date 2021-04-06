@@ -41,54 +41,15 @@ _int CEffectMuzzle::LateUpdate_GameObject(const _float& fDeltaTime)
     }       
 
     //if (m_bIsVisible)
-    pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
+    pManagement->Add_RenderList(Engine::RENDERID::RENDER_EFFECT, this);
 
     return NO_EVENT;
 }
 
 HRESULT CEffectMuzzle::Render_GameObject(void)
 {
-    _mat matFWorld, matScale, matWorld, matParentBoneReduce, matParentBone, matParentTrans;
-    _mat matView, matBill;
+    Set_Ortho(_vec3(100,100,100),_vec3(100,-100,1.f));
 
-    m_pDevice->GetTransform(D3DTS_VIEW, &matWorld);
-    m_pDevice->GetTransform(D3DTS_VIEW, &matView);
-    D3DXMatrixInverse(&matWorld,NULL,&matWorld);
-
-    if (m_pTargetMesh != nullptr)
-    {
-        const Engine::D3DXFRAME_DERIVED* pFrame = m_pTargetMesh->Get_FrameByName("ValveBiped_square");
-        matParentBone = pFrame->CombinedTranformationMatrix;
-    }
-
-    D3DXMatrixIdentity(&matBill);
-
-    matBill._11 = matView._11;
-    matBill._13 = matView._13;
-    matBill._31 = matView._31;
-    matBill._33 = matView._33;
-
-
-
-
-    D3DXMatrixInverse(&matBill, NULL, &matBill);
-    _vec3 vPos = _vec3(0.f,0.f,0.f);
-    D3DXVec3TransformCoord(&vPos, &vPos, &matUpParent);
-    _mat matPosition;
-    D3DXMatrixTranslation(&matPosition, vPos.x, vPos.y, vPos.z);
-    
-    matFWorld = matBill * matWorld * matParentBone * matParent;
-      
-    matFWorld._11 = 0.1;
-    matFWorld._22 = 0.1;
-    matFWorld._33 = 0.1;
-
-    //m_pTransformCom->Set_WorldMatrix(matFWorld);
-
-    m_pDevice->SetTransform(D3DTS_WORLD, &matFWorld);
-
-    //m_pTransformCom->LateUpdate_Component();
-    
     if (FAILED(CGameObject::Render_GameObject()))
     {
         return E_FAIL;
@@ -103,9 +64,50 @@ HRESULT CEffectMuzzle::Render_GameObject(void)
     {
         return E_FAIL;
     }
-
+    m_pDevice->SetTransform(D3DTS_VIEW, &matOriView);
+    m_pDevice->SetTransform(D3DTS_PROJECTION, &matOriProj);
 
 	return S_OK;
+}
+
+void CEffectMuzzle::Set_Ortho(_vec3 vScale, _vec3 vPos)
+{
+    _mat matWorld, matView, matProj, matOrtho;
+
+    
+    m_pDevice->GetTransform(D3DTS_VIEW, &matOriView);
+    m_pDevice->GetTransform(D3DTS_PROJECTION, &matOriProj);
+    
+
+
+    D3DXMatrixIdentity(&matWorld);
+    D3DXMatrixIdentity(&matView);
+    D3DXMatrixIdentity(&matProj);
+
+    D3DXMatrixOrthoLH(
+        &matOrtho, /* 직교투영행렬 반환 */
+        WINCX, // 가로폭 (WINCX, 하드코딩한거 반드시 바꿀것)
+        WINCY, // 세로폭 (WINCY)
+       0, /* Near Z: 관찰자와 가장 가까운 면과의 Z거리 */
+        1 /* Far Z: 관찰자와 가장 먼 편과의 Z거리 */);
+
+    matProj = matOrtho;
+
+
+    matView._11 = vScale.x;
+    matView._22 = vScale.y;
+    matView._33 = vScale.z;
+
+    matView._41 = vPos.x;
+    matView._42 = vPos.y;
+    matView._43 = vPos.z;
+
+    m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+    m_pDevice->SetTransform(D3DTS_VIEW, &matView);
+    m_pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
+
+
+
 }
 
 HRESULT CEffectMuzzle::Add_Component()

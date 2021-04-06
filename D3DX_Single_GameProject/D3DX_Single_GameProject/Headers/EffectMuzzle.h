@@ -22,6 +22,9 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
+	void Set_Ortho(_vec3 vScale, _vec3 vPos);
+
+
 private:
 	HRESULT Add_Component();
 	virtual void Free();
@@ -31,7 +34,7 @@ public:
 	virtual Engine::CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
-
+	_mat matOriView, matOriProj;
 
 };
 
