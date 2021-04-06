@@ -66,6 +66,11 @@ _vec3 CPlayerWeapon::Get_Size()
 	return _vec3();
 }
 
+void CPlayerWeapon::Set_Parent_Matrix(_mat& pMat)
+{
+	m_matParent = pMat;
+}
+
 void CPlayerWeapon::Set_Animation(int iNumber)
 {
 	if (m_pMeshCom != nullptr)

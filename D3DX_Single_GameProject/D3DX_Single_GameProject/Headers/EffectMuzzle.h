@@ -21,7 +21,6 @@ public:
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
-	HRESULT Render_GameObject(_mat& matParent);
 
 private:
 	HRESULT Add_Component();

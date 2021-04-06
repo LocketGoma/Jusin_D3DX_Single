@@ -48,6 +48,7 @@ public:
 	virtual void Set_Size(_vec3 vSize) override;
 	virtual _vec3 Get_Position() override;
 	virtual _vec3 Get_Size() override;
+	void Set_Parent_Matrix(_mat& pMat);
 
 public:
 	void Set_Animation(int iNumber);
@@ -75,6 +76,8 @@ protected:
 	_bool m_bAltFire;
 
 	_float m_fTime;				//델타타임 보관용
+
+	_mat m_matParent;			//부모행렬...
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;

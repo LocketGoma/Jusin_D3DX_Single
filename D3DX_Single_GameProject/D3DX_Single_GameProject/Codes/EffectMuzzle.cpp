@@ -38,23 +38,15 @@ _int CEffectMuzzle::LateUpdate_GameObject(const _float& fDeltaTime)
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;
-    }
-
-    
-        
+    }       
 
     //if (m_bIsVisible)
-    pManagement->Add_RenderList(Engine::RENDERID::RENDER_EFFECT, this);
+    pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
     return NO_EVENT;
 }
 
 HRESULT CEffectMuzzle::Render_GameObject(void)
-{
-    return S_OK;
-}
-
-HRESULT CEffectMuzzle::Render_GameObject(_mat& matParent)
 {
     _mat matFWorld, matScale, matWorld, matParentBoneReduce, matParentBone, matParentTrans;
     _mat matView, matBill;
@@ -69,10 +61,6 @@ HRESULT CEffectMuzzle::Render_GameObject(_mat& matParent)
         matParentBone = pFrame->CombinedTranformationMatrix;
     }
 
-// * matParent;
-    D3DXMatrixScaling(&matScale, (1 / WEAPON_REDUCION_SIZE), (1 / WEAPON_REDUCION_SIZE ), (1 / WEAPON_REDUCION_SIZE));
-    D3DXMatrixScaling(&matParentBoneReduce, WEAPON_REDUCION_SIZE, WEAPON_REDUCION_SIZE, WEAPON_REDUCION_SIZE);
-
     D3DXMatrixIdentity(&matBill);
 
     matBill._11 = matView._11;
@@ -80,18 +68,26 @@ HRESULT CEffectMuzzle::Render_GameObject(_mat& matParent)
     matBill._31 = matView._31;
     matBill._33 = matView._33;
 
-    D3DXMatrixInverse(&matBill, NULL, &matBill);
 
-    matFWorld = matWorld * matParentBone * matParent;
+
+
+    D3DXMatrixInverse(&matBill, NULL, &matBill);
+    _vec3 vPos = _vec3(0.f,0.f,0.f);
+    D3DXVec3TransformCoord(&vPos, &vPos, &matUpParent);
+    _mat matPosition;
+    D3DXMatrixTranslation(&matPosition, vPos.x, vPos.y, vPos.z);
+    
+    matFWorld = matBill * matWorld * matParentBone * matParent;
       
     matFWorld._11 = 0.1;
     matFWorld._22 = 0.1;
     matFWorld._33 = 0.1;
 
-    m_pTransformCom->Set_WorldMatrix(matBill*matFWorld);
+    //m_pTransformCom->Set_WorldMatrix(matFWorld);
 
+    m_pDevice->SetTransform(D3DTS_WORLD, &matFWorld);
 
-    m_pTransformCom->LateUpdate_Component();
+    //m_pTransformCom->LateUpdate_Component();
     
     if (FAILED(CGameObject::Render_GameObject()))
     {

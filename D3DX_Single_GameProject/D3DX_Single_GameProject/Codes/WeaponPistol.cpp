@@ -80,12 +80,12 @@ _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CWeaponPistol::Render_GameObject(void)
 {
-	_mat matView, matScale;
+	_mat matWorld, matView, matScale;
 	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
 	D3DXMatrixInverse(&matView, 0, &matView);
 	D3DXMatrixScaling(&matScale, WEAPON_REDUCION_SIZE, WEAPON_REDUCION_SIZE, WEAPON_REDUCION_SIZE);
-	matView = matScale * matView;
-	m_pDevice->SetTransform(D3DTS_WORLD, &matView);
+	matWorld = matScale * matView;
+	m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
@@ -97,7 +97,8 @@ HRESULT CWeaponPistol::Render_GameObject(void)
 		m_fNowFItime += m_fTime;
 	}
 
-	m_pEffect->Render_GameObject(matView);
+	//m_pEffect->Set_ParentMatrix(matWorld);
+	//m_pEffect->Set_UpParentMatrix(m_matParent);
 
 	return S_OK;
 }

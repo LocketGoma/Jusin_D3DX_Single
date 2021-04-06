@@ -92,6 +92,12 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
     {
         return E_FAIL;
     }
+    
+    if (FAILED(Render_Effect()))
+    {
+        return E_FAIL;
+    }
+
     if (FAILED(Render_Terminal_NoAlpha()))
     {
         return E_FAIL;
