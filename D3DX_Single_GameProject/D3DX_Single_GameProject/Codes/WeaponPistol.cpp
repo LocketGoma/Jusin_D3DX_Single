@@ -3,6 +3,8 @@
 
 #include "Transform.h"
 
+#include "EffectMuzzle.h"
+
 CWeaponPistol::CWeaponPistol(_Device pDevice)
 	: CPlayerWeapon(pDevice)	
 {
@@ -71,6 +73,8 @@ _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_fTime = fDeltaTime;
 
+	m_pEffect->LateUpdate_GameObject(fDeltaTime);
+
 	return NO_EVENT;
 }
 
@@ -92,6 +96,8 @@ HRESULT CWeaponPistol::Render_GameObject(void)
 	{
 		m_fNowFItime += m_fTime;
 	}
+
+	m_pEffect->Render_GameObject(matView);
 
 	return S_OK;
 }
@@ -166,6 +172,9 @@ HRESULT CWeaponPistol::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Mesh", pComponent);
 
+	m_pEffect = dynamic_cast<CEffectMuzzle*>(pManagement->Clone_GameObject(L"Effect_Muzzle"));
+	m_pEffect->Set_Target(m_pMeshCom);
+
 	return S_OK;
 }
 
@@ -199,6 +208,9 @@ Engine::CGameObject* CWeaponPistol::Clone(void* pArg)
 
 void CWeaponPistol::Free()
 {
+	if (m_bIsPrototype == false)
+		Safe_Release(m_pEffect);
+
 	CPlayerWeapon::Free();
 }
 

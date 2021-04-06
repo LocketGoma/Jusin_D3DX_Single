@@ -182,6 +182,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="01.Object\10.Effect">
+      <UniqueIdentifier>{814dc325-0214-4fc6-9a1d-d976aa69712e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\00.Muzzle">
+      <UniqueIdentifier>{378230e8-0944-4f27-b37b-42b4ed4073ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -325,6 +331,10 @@
     <ClInclude Include="..\Headers\BossAI_Hunter.h">
       <Filter>07.AI&amp;Algorithm\02.BossHunter</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\BaseEffect.h">
+      <Filter>01.Object\10.Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\EffectMuzzle.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -463,5 +473,9 @@
     <ClCompile Include="..\Codes\BossAI_Hunter.cpp">
       <Filter>07.AI&amp;Algorithm\02.BossHunter</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\BaseEffect.cpp">
+      <Filter>01.Object\10.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\EffectMuzzle.cpp" />
   </ItemGroup>
 </Project>

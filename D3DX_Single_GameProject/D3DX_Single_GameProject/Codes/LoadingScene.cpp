@@ -47,6 +47,9 @@
 #include "ProjFlechette.h"
 #include "ProjCoreBall.h"
 
+//ÀÌÆåÆ®
+#include "EffectMuzzle.h"
+
 //·Îµå µ¥ÀÌÅÍ ³¡
 
 
@@ -305,6 +308,14 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"RocketLauncher", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Weapon/RocketLauncher/", L"RocketLauncher_Final.x");
 
+
+    /// ÀÌÆåÆ®µé
+    // ÃÑ±â ¸ÓÁñ ÀÌÆåÆ®
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Muzzle", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Muzzle/muzzleflash%d.tga", 4);
+
+
+
+
     return S_OK;
 }
 
@@ -399,6 +410,12 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CProjCoreBall::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Projectile_CoreBall", pGameObject);
+
+
+    //ÀÌÆåÆ®
+    pGameObject = CEffectMuzzle::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Effect_Muzzle", pGameObject);
 
     return S_OK;
 

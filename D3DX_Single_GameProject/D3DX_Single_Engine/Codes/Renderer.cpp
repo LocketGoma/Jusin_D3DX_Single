@@ -347,6 +347,50 @@ HRESULT CRenderer::Render_Wireframe()
     return S_OK;
 }
 
+//빌보드 설정까지 같이 넣기
+HRESULT CRenderer::Render_Effect()
+{    
+        ////알파블랜딩 먹임
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+
+    m_pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    m_pDevice->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_INVSRCCOLOR);
+    m_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_EFFECT])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+        {
+            return E_FAIL;
+        }
+
+        Safe_Release(pGameObject);   
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_EFFECT].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW)))
+    {
+        return E_FAIL;
+    }
+
+
+    return S_OK;
+}
+
 HRESULT CRenderer::Render_NO_ZEnable_NoAlpha()
 {
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE)))

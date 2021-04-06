@@ -59,7 +59,7 @@ HRESULT CVTXTerrain::Ready_Buffer(const _ulong& dwCountX, const _ulong& dwCountZ
     //높이맵 지정
 
     _ulong		dwByte = 0;
-    _ulong* pPixel;
+    //_ulong* pPixel;
 
    /* m_hFile = CreateFile(L"../../Resource/TestResource/Texture/Terrain/Height.bmp",
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);

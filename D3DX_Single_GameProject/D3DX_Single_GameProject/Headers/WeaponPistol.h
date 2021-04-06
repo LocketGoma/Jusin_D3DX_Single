@@ -4,6 +4,8 @@
 
 #include "PlayerWeapon.h"
 
+class CEffectMuzzle;
+
 enum class ePistolAction
 {
 	Reload, IdleEmpty, Idle, HolsterEmpty, Holster, FireEmpty, Fire3, Fire2, Fire1, Fire0, DrawEmpty, Draw, END
@@ -45,6 +47,9 @@ private:
 
 	ePistolAction eAction;
 
+
+	//Test
+	CEffectMuzzle* m_pEffect;
 };
 
 

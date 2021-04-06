@@ -154,6 +154,7 @@
     <ClInclude Include="..\Headers\BaseAI_Attacker.h" />
     <ClInclude Include="..\Headers\BaseAI.h" />
     <ClInclude Include="..\Headers\BaseAI_Shooter.h" />
+    <ClInclude Include="..\Headers\BaseEffect.h" />
     <ClInclude Include="..\Headers\BaseLogoScene.h" />
     <ClInclude Include="..\Headers\BaseProjectile.h" />
     <ClInclude Include="..\Headers\BossAI_Hunter.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\Headers\Client_Enum.h" />
     <ClInclude Include="..\Headers\Client_Struct.h" />
     <ClInclude Include="..\Headers\DynamicObject.h" />
+    <ClInclude Include="..\Headers\EffectMuzzle.h" />
     <ClInclude Include="..\Headers\EnemyAntLion.h" />
     <ClInclude Include="..\Headers\EnemyHunter.h" />
     <ClInclude Include="..\Headers\framework.h" />
@@ -203,12 +205,14 @@
     <ClCompile Include="..\Codes\BaseAI_Attacker.cpp" />
     <ClCompile Include="..\Codes\BaseAI.cpp" />
     <ClCompile Include="..\Codes\BaseAI_Shooter.cpp" />
+    <ClCompile Include="..\Codes\BaseEffect.cpp" />
     <ClCompile Include="..\Codes\BaseLogoScene.cpp" />
     <ClCompile Include="..\Codes\BaseProjectile.cpp" />
     <ClCompile Include="..\Codes\BossAI_Hunter.cpp" />
     <ClCompile Include="..\Codes\BossHunter.cpp" />
     <ClCompile Include="..\Codes\BossStrider.cpp" />
     <ClCompile Include="..\Codes\DynamicObject.cpp" />
+    <ClCompile Include="..\Codes\EffectMuzzle.cpp" />
     <ClCompile Include="..\Codes\EnemyAntLion.cpp" />
     <ClCompile Include="..\Codes\EnemyHunter.cpp" />
     <ClCompile Include="..\Codes\LoadingScene.cpp" />

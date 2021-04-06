@@ -25,9 +25,7 @@ CEnemyHunter::CEnemyHunter(_Device pDevice)
 	m_iDamage = 3;
 
 	m_eAction = eHunterAction::Idle;
-	m_ePrevAction = m_eAction;
-
-	
+	m_ePrevAction = m_eAction;	
 
 	m_ePatton = eHunterPatton::Idle;
 
@@ -160,14 +158,13 @@ CEnemyHunter* CEnemyHunter::Create(_Device pDevice)
 Engine::CGameObject* CEnemyHunter::Clone(void* pArg)
 {
 	CEnemyHunter* pClone = new CEnemyHunter(*this);
-	if (pClone == nullptr)
+	if (pClone == nullptr ||(FAILED(pClone->Ready_GameObject_Clone(pArg))))
 	{
-		PRINT_LOG(L"Error", L"Failed To Clone CEnemyHunter");
-	}
-
-	if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
-	{
+		PRINT_LOG(L"Error", L"Failed To Clone CEnemyHunter");		
+	
 		Safe_Release(pClone);
+
+		return nullptr;
 	}
 
 	return pClone;

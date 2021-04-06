@@ -35,6 +35,7 @@ private:
 	HRESULT Render_HalfAlpha();
 	HRESULT Render_Alpha();
 	HRESULT Render_Wireframe();
+	HRESULT Render_Effect();
 	HRESULT Render_NO_ZEnable_NoAlpha();
 	HRESULT Render_Terminal_NoAlpha();
 	HRESULT Render_UI();
