@@ -25,6 +25,7 @@ public:
 	void				Render_NaviMesh(void);
 	_vec3				Move_OnNaviMesh(const _vec3* pTargetPos, const _vec3* pTargetDir);
 	_vec3				Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos);
+	_vec3				Compare_OnNaviMesh_for_Mesh(const _vec3* pOldPos, const _vec3* pNewPos, const _vec3* pTargetPos);
 	_vec3				Caculate_OnNaviMesh(const _vec3* pTargetPos);						//네비매시 Y값 타게 만들어주는 함수.
 
 	//Get/Set

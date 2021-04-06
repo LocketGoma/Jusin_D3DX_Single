@@ -46,7 +46,7 @@ public:
 	virtual void Do_Run(_float fDeltaTime) override;
 	virtual void Do_Walk(_float fDeltaTime) override;
 	virtual void Do_Rotate(_float fDeltaTime, eAlign pAlign) override;
-	virtual void Do_Attack(_float fDeltaTime) override;
+	virtual void Do_Attack(_float fDeltaTime, _uint iPatton) override;
 	virtual void Do_Idle(_float fDeltaTime) override;
 	virtual void Do_Spawn(_float fDeltaTime) override;
 	virtual void Do_Dead(_float fDeltaTime) override;

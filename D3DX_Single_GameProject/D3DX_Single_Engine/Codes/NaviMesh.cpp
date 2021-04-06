@@ -108,6 +108,20 @@ _vec3 CNaviMesh::Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos)
 	return *pOldPos;
 }
 
+//1. 검사할 pos값이 넘어간 경우 -> 보정된 pos 값 리턴
+//2. 검사할 pos값이 넘어가진 않은 경우 -> 현재 pos값 리턴
+_vec3 CNaviMesh::Compare_OnNaviMesh_for_Mesh(const _vec3* pOldPos, const _vec3* pNewPos, const _vec3* pTargetPos)
+{
+	if (COMPAREMOVE::STOP == m_vecCell[m_dwCellIndex]->Compare(pTargetPos, &m_dwCellIndex))
+	{
+		return Caculate_OnNaviMesh(pNewPos);
+	}
+	else
+	{
+		return Caculate_OnNaviMesh(pOldPos);
+	}
+}
+
 _vec3 CNaviMesh::Caculate_OnNaviMesh(const _vec3* pTargetPos)
 {
 	return _vec3(pTargetPos->x, m_vecCell[m_dwCellIndex]->Get_Height_At_Cell(pTargetPos),pTargetPos->z);

@@ -25,6 +25,11 @@ enum class eAntLionAction
 	DigDie, DigOut, Flip, RagDoll, AttackB, AttackA, Run, Idle, END
 };
 
+enum class eAntLionPatton
+{
+	Idle,Dodge,PattonA,END
+};
+
 class CEnemyAntLion : public CDynamicObject
 {
 private:
@@ -39,10 +44,6 @@ public:
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
-	virtual void Set_Position(_vec3 vPos) override;
-	virtual void Set_Size(_vec3 vSize) override;
-	virtual _vec3 Get_Position() override;
-	virtual _vec3 Get_Size() override;
 
 public:
 	// CDynamicObject을(를) 통해 상속됨
@@ -51,16 +52,17 @@ public:
 	virtual void Do_Run(_float fDeltaTime) override;
 	virtual void Do_Walk(_float fDeltaTime) override;
 	virtual void Do_Rotate(_float fDeltaTime, eAlign pAlign) override;
-	virtual void Do_Attack(_float fDeltaTime) override;
+	virtual void Do_Attack(_float fDeltaTime, _uint iPatton = 0) override;
 	virtual void Do_Idle(_float fDeltaTime) override;
 	virtual void Do_Spawn(_float fDeltaTime) override;
 	virtual void Do_Dead(_float fDeltaTime) override;
-
+	virtual _bool Do_Dodge(_float fDeltatime) override;
 
 public:
 	// CDynamicObject을(를) 통해 상속됨
 	virtual void Set_Animation(_uint iIndex) override;
-	virtual _bool End_Animation_State_Force() override;
+	virtual _bool End_Animation_State_Force() override;	
+	virtual _uint Get_Patton() override;
 
 private:
 	HRESULT	Add_Component(void);
@@ -71,12 +73,12 @@ public:
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
-	eAntLionAction eAction;
-	eAntLionAction ePrevAction;			//직전에 실행된 애니메이션
+	eAntLionAction m_eAction;
+	eAntLionAction m_ePrevAction;			//직전에 실행된 애니메이션
+
+	eAntLionPatton m_ePatton;
 
 	_vec3 vOriPos;
-
-
 };
 
 #endif

@@ -2,6 +2,7 @@
 #include "NaviMeshController.h"
 
 #include "Transform.h"
+#include "DynamicObject.h"
 
 #include "iostream"
 #include "json.h"
@@ -173,6 +174,28 @@ HRESULT CNaviMeshController::Compare_NaviMove(Engine::CLayer* pTargetLayer)
 		}
 	}
 	
+
+	return S_OK;
+}
+
+HRESULT CNaviMeshController::Compare_Navi_MeshMove(Engine::CLayer* pTargetLayer)
+{
+	if (m_pNaviMeshCom == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	for (auto& targetObject : *(pTargetLayer->Get_ObjectLayer()))
+	{
+		if (targetObject.second == nullptr)
+		{
+			continue;
+		}
+		CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(targetObject.second);
+
+		pObject->Set_Position(m_pNaviMeshCom->Compare_OnNaviMesh_for_Mesh(&(pObject->Get_Position()), &(pObject->Calc_Position_At_Mesh()),  &(pObject->Get_Position_At_Mesh())));
+	}
+
 
 	return S_OK;
 }

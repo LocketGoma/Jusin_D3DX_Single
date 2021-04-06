@@ -14,6 +14,7 @@
 
 #include "Player.h"
 #include "BaseAI.h"
+#include "BaseAI_Attacker.h"
 #include "DynamicObject.h"
 
 CTestStage::CTestStage(_Device pDevice)
@@ -49,6 +50,8 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
 
     m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
+    m_pNaviController->Compare_Navi_MeshMove(Get_Layer(L"EnemyLayer"));
+    
 
 
     return _int();
@@ -64,9 +67,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
         return E_FAIL;
     }
 
-    CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));
-
-    
+    CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));    
 
     auto* targetLayer = Get_Layer(L"EnemyLayer");
     if (targetLayer != nullptr)
@@ -242,6 +243,7 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
 HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
+    Engine::CLayer* pAILayer = Engine::CLayer::Create();
 
     Engine::CGameObject* pGameObject = nullptr;
 
@@ -252,10 +254,10 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     }
     ///적 스폰 파트
     //개미귀신
-    pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
 
     //pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -276,29 +278,30 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
 
     ///기본 적 AI파트
     //개미귀신
-    pGameObject = CBaseAI::Create(m_pDevice);
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
+    //pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
 
     //pGameObject = CBaseAI::Create(m_pDevice);
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);
     //dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion2")));
     //dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
+    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
 
-    pGameObject = CBaseAI::Create(m_pDevice);
+    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter")));
-    dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EnemyHunterAI", pGameObject), E_FAIL);
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter")));
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI", pGameObject), E_FAIL);
 
     
 
 
 
     m_mapLayer.emplace(pLayerTag, pLayer);
+    m_mapLayer.emplace(L"AILayer", pAILayer);
 
     return S_OK;
 }

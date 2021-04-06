@@ -20,6 +20,7 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_fHitboxSize(5.f)
 	, m_fRotateSpeed(1.0f)
 	, m_bEndChecker(false)
+	, m_vCorePos(_vec3(0.f,0.f,0.f))
 {
 	m_iHP = m_iMaxHP;
 }
@@ -40,6 +41,7 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_fNowAttackTime(0.f)
 	, m_fRotateSpeed(other.m_fRotateSpeed)
 	, m_bEndChecker(false)
+	, m_vCorePos(other.m_vCorePos)
 {
 	Safe_AddReference(m_pDevice);
 }
@@ -55,6 +57,7 @@ _bool CDynamicObject::End_Animation_State()
 {
 	return m_pMeshCom->End_AnimationSet();
 }
+
 
 _uint CDynamicObject::Get_Damage()
 {
@@ -150,4 +153,42 @@ void CDynamicObject::Check_Hit(_bool bForce, _uint iDamage)
 
 
 
+}
+
+void CDynamicObject::Set_Position(_vec3 vPos)
+{
+	m_pTransformCom->Set_Pos(vPos);
+}
+
+void CDynamicObject::Set_Size(_vec3 vSize)
+{
+	m_pTransformCom->Set_Scale(vSize);
+}
+
+_vec3 CDynamicObject::Calc_Position_At_Mesh()
+{
+	_vec3 vNowPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+
+	_vec3 vGab = m_vCorePos - m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+	
+	vGab.y = 0.f;
+
+	_vec3 vCalivPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - vGab;
+
+	return vCalivPos;
+}
+
+_vec3 CDynamicObject::Get_Position()
+{
+	return m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+}
+
+_vec3 CDynamicObject::Get_Size()
+{
+	return m_pTransformCom->Get_TransformDescription().vScale;
+}
+
+_vec3 CDynamicObject::Get_Position_At_Mesh()
+{
+	return m_vCorePos;
 }

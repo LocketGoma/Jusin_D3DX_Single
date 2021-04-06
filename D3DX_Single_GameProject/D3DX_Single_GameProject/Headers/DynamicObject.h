@@ -18,6 +18,11 @@ enum class eAlign
 	LEFT, RIGHT,  END
 };
 
+enum class eBasePatton
+{
+	Idle, Dodge, PattonA, PattonB, PattonC, PattonD, PattonE, END
+};
+
 class CDynamicObject abstract : public Engine::CGameObject
 {
 protected:
@@ -34,10 +39,12 @@ public:
 	virtual HRESULT Render_GameObject(void) PURE;
 
 public:
-	virtual void Set_Position(_vec3 vPos) PURE;
-	virtual void Set_Size(_vec3 vSize) PURE;
-	virtual _vec3 Get_Position() PURE;
-	virtual _vec3 Get_Size() PURE;
+	virtual void Set_Position(_vec3 vPos);
+	virtual void Set_Size(_vec3 vSize);
+			_vec3 Calc_Position_At_Mesh();
+	virtual _vec3 Get_Position();
+	virtual _vec3 Get_Size();
+			_vec3 Get_Position_At_Mesh();
 
 //기본 액션들 - AI에서 쓸것
 public:
@@ -46,10 +53,11 @@ public:
 	virtual void Do_Run(_float fDeltaTime) PURE;				//달림
 	virtual void Do_Walk(_float fDeltaTime) PURE;				//걸음
 	virtual void Do_Rotate(_float fDeltaTime, eAlign pAlign) PURE;				//회전
-	virtual void Do_Attack(_float fDeltaTime) PURE;				//공격
+	virtual void Do_Attack(_float fDeltaTime, _uint iPatton = 0) PURE;				//공격
 	virtual void Do_Idle(_float fDeltaTime) PURE;				//대기 + 멈춤
 	virtual void Do_Spawn(_float fDeltaTime) PURE;				//등장 (생략 가능)
 	virtual void Do_Dead(_float fDeltaTime) PURE;				//사망
+	virtual _bool Do_Dodge(_float fDeltatime)PURE;				//회피
 	void Do_Anichange(_uint iAnimation);
 	void Check_Hit(_bool bForce, _uint iDamage);				//일단 어택 콜라이더 빼고 작업...
 	//virtual void Do_Tracking() PURE;			//적 추적
@@ -63,6 +71,7 @@ public:
 
 //공통 상태 함수
 public:
+	virtual _uint Get_Patton() PURE;
 	_uint Get_Damage();
 	_uint Get_NowHP();
 	bool Hit_Attack(_uint iDamage);

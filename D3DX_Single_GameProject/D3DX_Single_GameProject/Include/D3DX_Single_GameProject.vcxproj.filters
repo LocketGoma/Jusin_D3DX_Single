@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="99.Default">
       <UniqueIdentifier>{2465df2b-804b-4277-953a-f197728ebef5}</UniqueIdentifier>
     </Filter>
@@ -176,6 +172,16 @@
     <Filter Include="01.Object\12.Projectile\03.Grenade">
       <UniqueIdentifier>{7105e7b7-0d49-40a0-a009-6a79dce614cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07.AI&amp;Algorithm\02.BossHunter">
+      <UniqueIdentifier>{b2af29f6-15e6-4f6b-9e82-79ae274d581f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.AI&amp;Algorithm\03.BossStrider">
+      <UniqueIdentifier>{bd46f2a4-98da-470a-b9db-4e52d35a96e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Default\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -310,18 +316,27 @@
     <ClInclude Include="..\Headers\ProjCoreBall.h">
       <Filter>01.Object\12.Projectile\04.CoreBall</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\BaseAI_Attacker.h">
+      <Filter>07.AI&amp;Algorithm\00.BaseAttacker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BaseAI_Shooter.h">
+      <Filter>07.AI&amp;Algorithm\01.BaseShooter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BossAI_Hunter.h">
+      <Filter>07.AI&amp;Algorithm\02.BossHunter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
-      <Filter>리소스 파일</Filter>
+      <Filter>99.Default\리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
+      <Filter>99.Default\리소스 파일</Filter>
     </Image>
     <Image Include="D3DX_Single_GameProject.ico">
-      <Filter>리소스 파일</Filter>
+      <Filter>99.Default\리소스 파일</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -438,6 +453,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\ProjCoreBall.cpp">
       <Filter>01.Object\12.Projectile\04.CoreBall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseAI_Attacker.cpp">
+      <Filter>07.AI&amp;Algorithm\00.BaseAttacker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseAI_Shooter.cpp">
+      <Filter>07.AI&amp;Algorithm\01.BaseShooter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BossAI_Hunter.cpp">
+      <Filter>07.AI&amp;Algorithm\02.BossHunter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

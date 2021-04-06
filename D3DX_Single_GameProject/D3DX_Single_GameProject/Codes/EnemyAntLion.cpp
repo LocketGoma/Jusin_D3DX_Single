@@ -8,6 +8,7 @@
 
 CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 	: CDynamicObject(pDevice)
+	, m_ePatton(eAntLionPatton::Idle)
 {
 	m_fRecognizeRange = 35.f;
 	m_fMoveRange = 25.f;
@@ -29,9 +30,10 @@ CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 //분명 행렬처리 관련때문에 "무언가를" 깊은 복사 해줘야 한다고 했던거 같은데
 CEnemyAntLion::CEnemyAntLion(const CEnemyAntLion& other)
 	: CDynamicObject(other)		
+	, m_ePatton(other.m_ePatton)
 {
-	eAction = eAntLionAction::DigDie;
-	ePrevAction = ePrevAction;
+	m_eAction = eAntLionAction::DigDie;
+	m_ePrevAction = m_ePrevAction;
 }
 
 HRESULT CEnemyAntLion::Ready_GameObject(_uint iTexNumber)
@@ -45,7 +47,7 @@ HRESULT CEnemyAntLion::Ready_GameObject_Clone(void* pArg)
 
 	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
 
-	m_pMeshCom->Set_AnimationSet((_uint)eAction);
+	m_pMeshCom->Set_AnimationSet((_uint)m_eAction);
 
 	return S_OK;
 }
@@ -73,14 +75,14 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_fRotate = 0.f;
 
 	//트랜스폼 업데이트 전 수행할 것들
-	if ((eAction != ePrevAction && ePrevAction == eAntLionAction::Run) || (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::Run && m_pMeshCom->End_Animation_Sequence()&& m_bEndChecker == false))
+	if ((m_eAction != m_ePrevAction && m_ePrevAction == eAntLionAction::Run) || (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::Run && m_pMeshCom->End_Animation_Sequence()&& m_bEndChecker == false))
 	{
 		vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
 		m_bEndChecker = true;
 		m_vCorePos.y = vOriPos.y;
 		m_pTransformCom->Set_Pos(m_vCorePos);
 
-		m_pMeshCom->Force_Change_AnimationSet((_uint)eAction);
+		m_pMeshCom->Force_Change_AnimationSet((_uint)m_eAction);
 	}
 	else
 	{
@@ -89,7 +91,7 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->Update_Component(fDeltaTime);
 	
 	//트랜스폼 업데이트 후 수행할 것들
-	if (eAction == eAntLionAction::DigOut)
+	if (m_eAction == eAntLionAction::DigOut)
 	{
 		m_pTransformCom->Set_Pos(vOriPos);
 	}
@@ -103,11 +105,11 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CEnemyAntLion::Render_GameObject(void)
 {
-	m_pMeshCom->Set_AnimationSet((_uint)eAction);
+	m_pMeshCom->Set_AnimationSet((_uint)m_eAction);
 
 	m_pTransformCom->LateUpdate_Component(0.f);
 
-	if (eAction == eAntLionAction::Run)
+	if (m_eAction == eAntLionAction::Run)
 	{
 		m_fAnimationSpeed = 0.5f;
 	}
@@ -135,29 +137,9 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 
 	m_pColliderCom->Render_Collider(eType, &m_vCorePos);
 
-	ePrevAction = eAction;
+	m_ePrevAction = m_eAction;
 
 	return S_OK;
-}
-
-void CEnemyAntLion::Set_Position(_vec3 vPos)
-{
-	m_pTransformCom->Set_Pos(vPos);
-}
-
-void CEnemyAntLion::Set_Size(_vec3 vSize)
-{
-	m_pTransformCom->Set_Scale(vSize);
-}
-
-_vec3 CEnemyAntLion::Get_Position()
-{
-	return m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
-}
-
-_vec3 CEnemyAntLion::Get_Size()
-{
-	return m_pTransformCom->Get_TransformDescription().vScale;	
 }
 
 CEnemyAntLion* CEnemyAntLion::Create(_Device pDevice)
@@ -188,9 +170,20 @@ Engine::CGameObject* CEnemyAntLion::Clone(void* pArg)
 	return pClone;
 }
 
+_uint CEnemyAntLion::Get_Patton()
+{
+	return (_uint)m_ePatton;
+}
+
+_bool CEnemyAntLion::Do_Dodge(_float fDeltatime)
+{
+	//회피 없음
+	return false;
+}
+
 _bool CEnemyAntLion::End_Animation_State_Force()
 {
-	return (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAction && m_pMeshCom->End_AnimationSet());
+	return (m_pMeshCom->Get_NowAnimationNumber() == (_uint)m_eAction && m_pMeshCom->End_AnimationSet());
 }
 
 void CEnemyAntLion::Set_Animation(_uint iIndex)
@@ -204,7 +197,7 @@ void CEnemyAntLion::Go_Stright(_float fDeltaTime)
 	_vec3 vLook = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
 	D3DXVec3Normalize(&vLook, &vLook);
 
-	eAction = eAntLionAction::Run;
+	m_eAction = eAntLionAction::Run;
 
 }
 
@@ -234,7 +227,7 @@ void CEnemyAntLion::Do_Rotate(_float fDeltaTime, eAlign pAlign)
 	m_fRotate = (((int)pAlign - 0.5f) * 2.f)*fDeltaTime * m_fRotateSpeed;
 }
 
-void CEnemyAntLion::Do_Attack(_float fDeltaTime)
+void CEnemyAntLion::Do_Attack(_float fDeltaTime, _uint iPatton)
 {
 	if (m_fNowAttackTime >= m_fAttackInterval)
 	{
@@ -242,9 +235,10 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime)
 		m_bAttackHitEnable = true;
 	}
 
-	if (eAction != eAntLionAction::AttackA && eAction != eAntLionAction::AttackB) 
+	if (m_eAction != eAntLionAction::AttackA && m_eAction != eAntLionAction::AttackB) 
 	{
-		eAction = (eAntLionAction)(rand() % 2 + (_uint)eAntLionAction::AttackB);
+		m_ePatton = eAntLionPatton::PattonA;
+		m_eAction = (eAntLionAction)(rand() % 2 + (_uint)eAntLionAction::AttackB);
 		m_fAnimationSpeed = 1.0f;
 	}
 }
@@ -254,30 +248,31 @@ void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 	m_fNowAttackTime = 0.f;
 	m_bAttackHitEnable = false;
 
-	eAction = eAntLionAction::Idle;
+	m_eAction = eAntLionAction::Idle;
 	m_fAnimationSpeed = 1.0f;
 
+	m_ePatton = eAntLionPatton::Idle;
 }
 
 void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 {
 	vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
 
-	if (eAction == eAntLionAction::Idle)
+	if (m_eAction == eAntLionAction::Idle)
 	{
 		return;
 	}
 
-	if (eAction == eAntLionAction::DigOut)
+	if (m_eAction == eAntLionAction::DigOut)
 	{
 		m_pTransformCom->Set_Pos(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - (m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 8.5f / BASE_ENEMY_REDUCION_SIZE));
 	}
-	eAction = eAntLionAction::DigOut;
+	m_eAction = eAntLionAction::DigOut;
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::DigOut);
 
 	if (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::DigOut && m_pMeshCom->End_AnimationSet())
 	{
-		eAction = eAntLionAction::Idle;
+		m_eAction = eAntLionAction::Idle;
 		m_pMeshCom->Force_Change_AnimationSet((_uint)eAntLionAction::Idle);		
 
 		m_pTransformCom->Set_Pos(vOriPos);
@@ -287,7 +282,7 @@ void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 
 void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 {
-	eAction = eAntLionAction::RagDoll;
+	m_eAction = eAntLionAction::RagDoll;
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 

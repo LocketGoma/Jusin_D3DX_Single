@@ -39,7 +39,8 @@ public:
 //연산 + IO
 public:
 	//네비매시 연산기. 레이어 정보 넣어주면 이게 돌도록 / 씬은 규모가 너무 큼
-	HRESULT Compare_NaviMove(Engine::CLayer* pTargetLayer);
+	HRESULT Compare_NaviMove(Engine::CLayer* pTargetLayer);		//플레이어, 오브젝트용
+	HRESULT Compare_Navi_MeshMove(Engine::CLayer* pTargetLayer);//몬스터 용
 	void Clear_NaviMesh();
 
 public:

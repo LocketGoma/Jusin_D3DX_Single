@@ -36,7 +36,7 @@ CProjCoreBall::CProjCoreBall(_Device pDevice)
 	m_eForceType = eForceType::NONE;
 	m_fHitboxSize = 2.5f;		//테스트용. 실제로는 좀 더 작게
 
-	m_iDamage = 10.f;
+	m_iDamage = 10;
 	m_fSplashRadius = 5.f;
 	m_vStartPos = _vec3(0.f, 0.f, 0.f);
 	m_vDirection = _vec3(0.f, 0.f, 1.f);

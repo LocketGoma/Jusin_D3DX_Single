@@ -11,17 +11,17 @@
 
 class CBaseAI : public Engine::CGameObject
 {
-private:
+protected:
 	explicit CBaseAI(_Device pDevice);
 	explicit CBaseAI(const CBaseAI& other);
 	virtual ~CBaseAI() = default;
 
 public:
-	virtual HRESULT Ready_GameObject() override;
-	virtual HRESULT Ready_GameObject_Clone(void* pArg) override;
-	virtual _int Update_GameObject(const _float& fDeltaTime) override;
-	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
-	virtual HRESULT Render_GameObject(void) override;
+	virtual HRESULT Ready_GameObject() PURE;
+	virtual HRESULT Ready_GameObject_Clone(void* pArg) PURE;
+	virtual _int Update_GameObject(const _float& fDeltaTime) PURE;
+	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) PURE;
+	virtual HRESULT Render_GameObject(void) PURE;
 
 public:
 // CGameObject을(를) 통해 상속됨... 근데 안써요.
@@ -35,27 +35,26 @@ public:
 	HRESULT Set_Target(Engine::CGameObject* pTarget);
 
 //내부 판단 함수들
-private:
-	HRESULT Do_Spawn(const _float& fDeltaTime);
-	HRESULT Do_Appear(const _float& fDeltaTime);
-	HRESULT Do_Idle(const _float& fDeltaTime);
-	HRESULT Do_Movement(const _float& fDeltaTime);
-	HRESULT Do_Attack(const _float& fDeltaTime);
+protected:
+	virtual HRESULT Do_Spawn(const _float& fDeltaTime) PURE;
+	virtual HRESULT Do_Appear(const _float& fDeltaTime) PURE;
+	virtual HRESULT Do_Idle(const _float& fDeltaTime) PURE;
+	virtual HRESULT Do_Movement(const _float& fDeltaTime) PURE;
+	virtual HRESULT Do_Attack(const _float& fDeltaTime) PURE;
 
 	_bool Check_HP_Change();
 
 public:
-	static CBaseAI* Create(_Device pDevice);
-	virtual CGameObject* Clone(void* pArg = nullptr) override;
+	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 
 	virtual void Free() override;
 
-private:
+protected:
 			CDynamicObject*	m_pControlUnit;		//AI가 조작할 타겟
 	Engine::CGameObject*	m_pTargetUnit;		//AI가 노려볼 타겟
 
 //플레이어 사거리는 일단 5.f 로 계산해서 사용할것.
-private:
+protected:
 	_bool m_bReady;			//대기모드 여부
 	_bool m_bSpawn;			//등장했는가
 	_bool m_bAppear;		//움직이는가
@@ -68,6 +67,8 @@ private:
 	_float m_fInvinTime;		//무적시간
 
 	int m_iHPState;				//이전 HP상태 (상태비교용)
+
+	eBasePatton m_eBasePatton;	//패턴 검사용
 
 
 };
