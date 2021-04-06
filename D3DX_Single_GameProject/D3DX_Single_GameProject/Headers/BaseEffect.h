@@ -35,11 +35,6 @@ public:
 	void Set_Visible(_bool bState);
 	_bool Get_Visible();
 
-public:
-	void Set_Target(Engine::CDynamicMesh* pTarget);
-	void Set_ParentMatrix(_mat& pMat);
-	void Set_UpParentMatrix(_mat& pMat);
-
 protected:
 	virtual void Free();
 
@@ -49,14 +44,10 @@ public:
 
 
 protected:
-	Engine::CDynamicMesh* m_pTargetMesh = nullptr;		//다이나믹매시요?
-
 	Engine::CVTXRectTexture* m_pBufferCom = nullptr;	
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CTexture* m_pTextureCom = nullptr;
 
-	_mat matParent;
-	_mat matUpParent;
 
 	_bool m_bIsVisible;
 };

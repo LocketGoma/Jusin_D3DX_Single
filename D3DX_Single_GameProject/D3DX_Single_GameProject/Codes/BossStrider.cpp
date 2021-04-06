@@ -144,9 +144,10 @@ void CBossStrider::Do_Rotate(_float fDeltaTime, eAlign pAlign)
 {
 }
 
-void CBossStrider::Do_Attack(_float fDeltaTime)
+void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 {
 }
+
 
 void CBossStrider::Do_Idle(_float fDeltaTime)
 {
@@ -187,6 +188,16 @@ Engine::CGameObject* CBossStrider::Clone(void* pArg)
 	}
 
 	return pClone;
+}
+
+_bool CBossStrider::Do_Dodge(_float fDeltatime)
+{
+	return _bool();
+}
+
+_uint CBossStrider::Get_Patton()
+{
+	return _uint();
 }
 
 

@@ -174,7 +174,6 @@ HRESULT CWeaponPistol::Add_Component(void)
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Mesh", pComponent);
 
 	m_pEffect = dynamic_cast<CEffectMuzzle*>(pManagement->Clone_GameObject(L"Effect_Muzzle"));
-	m_pEffect->Set_Target(m_pMeshCom);
 
 	return S_OK;
 }

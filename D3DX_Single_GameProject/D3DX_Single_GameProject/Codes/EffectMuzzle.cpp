@@ -48,14 +48,15 @@ _int CEffectMuzzle::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CEffectMuzzle::Render_GameObject(void)
 {
-    Set_Ortho(_vec3(100,100,100),_vec3(100,-100,1.f));
+    Set_Ortho(_vec3(100,100,100),_vec3(100,-100,0.1f));
 
     if (FAILED(CGameObject::Render_GameObject()))
     {
         return E_FAIL;
     }
 
-    if (FAILED(m_pTextureCom->Set_Texture(rand() % MUZZLE_EFFECT_COUNT)))
+    //if (FAILED(m_pTextureCom->Set_Texture(rand() % MUZZLE_EFFECT_COUNT)))
+    if (FAILED(m_pTextureCom->Set_Texture(0)))
     {
         return E_FAIL;
     }
@@ -130,7 +131,7 @@ HRESULT CEffectMuzzle::Add_Component()
     m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
     // Texture
-    pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Muzzle"));
+    pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_MuzzleA"));
     NULL_CHECK_RETURN(pComponent, E_FAIL);
     m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Texture", pComponent);
 

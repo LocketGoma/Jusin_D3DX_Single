@@ -41,6 +41,7 @@ public:
 	virtual _vec3 Get_Size() override;
 
 public:
+	// CDynamicObject을(를) 통해 상속됨
 	virtual void Go_Stright(_float fDeltaTime) override;
 	virtual void Go_Side(_float fDeltaTime, eAlign pAlign) override;
 	virtual void Do_Run(_float fDeltaTime) override;
@@ -50,10 +51,12 @@ public:
 	virtual void Do_Idle(_float fDeltaTime) override;
 	virtual void Do_Spawn(_float fDeltaTime) override;
 	virtual void Do_Dead(_float fDeltaTime) override;
+	virtual _bool Do_Dodge(_float fDeltatime) override;
 
 public:
 	virtual void Set_Animation(_uint iIndex) override;
 	virtual _bool End_Animation_State_Force() override;
+	virtual _uint Get_Patton() override;
 
 
 private:
@@ -78,6 +81,9 @@ private:
 
 	_vec3 vOriPos;
 	_vec3 vCalibrationPos;		//메쉬 좌표 뒤틀림으로 인한 위치 보정
+
+
+
 
 };
 

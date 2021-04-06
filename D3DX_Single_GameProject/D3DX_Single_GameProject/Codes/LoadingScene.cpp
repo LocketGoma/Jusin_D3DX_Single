@@ -312,6 +312,7 @@ HRESULT CLoadingScene::Load_Base_Resource()
     /// ÀÌÆåÆ®µé
     // ÃÑ±â ¸ÓÁñ ÀÌÆåÆ®
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Muzzle", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Muzzle/muzzleflash%d.tga", 4);
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_MuzzleA", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Muzzle/muzzleflash%d.png", 1);
 
 
 

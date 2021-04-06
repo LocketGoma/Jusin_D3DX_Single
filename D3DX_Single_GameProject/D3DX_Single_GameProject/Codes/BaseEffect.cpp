@@ -43,21 +43,6 @@ _bool CBaseEffect::Get_Visible()
 	return m_bIsVisible;
 }
 
-void CBaseEffect::Set_Target(Engine::CDynamicMesh* pTarget)
-{
-	m_pTargetMesh = pTarget;
-}
-
-void CBaseEffect::Set_ParentMatrix(_mat& pMat)
-{
-	matParent = pMat;
-}
-
-void CBaseEffect::Set_UpParentMatrix(_mat& pMat)
-{
-	matUpParent = pMat;
-}
-
 void CBaseEffect::Free()
 {
 	Safe_Release(m_pBufferCom);
