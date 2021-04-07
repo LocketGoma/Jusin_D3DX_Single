@@ -188,6 +188,9 @@
     <Filter Include="01.Object\10.Effect\00.Muzzle">
       <UniqueIdentifier>{378230e8-0944-4f27-b37b-42b4ed4073ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\10.Effect\01.AR2Muzzle">
+      <UniqueIdentifier>{2eca22c4-e589-4845-801e-bd81278753ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -337,6 +340,10 @@
     <ClInclude Include="..\Headers\EffectMuzzle.h">
       <Filter>01.Object\10.Effect\00.Muzzle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\EffectA2Muzzle.h">
+      <Filter>01.Object\10.Effect\01.AR2Muzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ProjPulseAmmo.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -481,5 +488,9 @@
     <ClCompile Include="..\Codes\EffectMuzzle.cpp">
       <Filter>01.Object\10.Effect\00.Muzzle</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\EffectA2Muzzle.cpp">
+      <Filter>01.Object\10.Effect\01.AR2Muzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ProjPulseAmmo.cpp" />
   </ItemGroup>
 </Project>

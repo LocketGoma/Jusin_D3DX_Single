@@ -101,7 +101,6 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_UI, this);
 
-	m_pWeapon[(_uint)m_pWeaponType]->Set_Parent_Matrix(m_pTransformCom->Get_TransformDescription().matWorld);
 	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
 	return NO_EVENT;

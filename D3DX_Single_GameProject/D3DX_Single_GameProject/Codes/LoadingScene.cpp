@@ -49,6 +49,7 @@
 
 //ÀÌÆåÆ®
 #include "EffectMuzzle.h"
+#include "EffectA2Muzzle.h"
 
 //·Îµå µ¥ÀÌÅÍ ³¡
 
@@ -313,7 +314,7 @@ HRESULT CLoadingScene::Load_Base_Resource()
     // ÃÑ±â ¸ÓÁñ ÀÌÆåÆ®
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Muzzle", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Muzzle/muzzleflash%d.tga", 4);
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_MuzzleA", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Muzzle/muzzleflash%d.png", 1);
-
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Ar2_Muzzle", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ar2Muzzle/combinemuzzle%d.tga", 2);
 
 
 
@@ -418,6 +419,11 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Effect_Muzzle", pGameObject);
 
+    pGameObject = CEffectA2Muzzle::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Effect_A2_Muzzle", pGameObject);
+
+    
     return S_OK;
 
 }

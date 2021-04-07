@@ -13,6 +13,7 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	, m_iMaxAmmo(0)
 	, m_iMaxAltAmmo(0)
 	, m_bFire(false)
+	, m_bAltFire(false)
 	, m_fNowFItime(0.f)
 	, m_fNowAFItime(0.f)
 	, m_iROF(0)
@@ -32,6 +33,7 @@ CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 	, m_iMagAmmo(other.m_iMaxMagAmmo)
 	, m_iMaxAltAmmo(other.m_iMaxAltAmmo)
 	, m_bFire(false)
+	, m_bAltFire(false)
 	, m_fNowFItime(0.f)
 	, m_fNowAFItime(0.f)
 	, m_iROF(other.m_iROF)
@@ -66,10 +68,6 @@ _vec3 CPlayerWeapon::Get_Size()
 	return _vec3();
 }
 
-void CPlayerWeapon::Set_Parent_Matrix(_mat& pMat)
-{
-	m_matParent = pMat;
-}
 
 void CPlayerWeapon::Set_Animation(int iNumber)
 {

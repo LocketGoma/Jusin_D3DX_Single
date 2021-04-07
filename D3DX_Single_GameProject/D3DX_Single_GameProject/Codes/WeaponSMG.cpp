@@ -1,6 +1,8 @@
 #include "framework.h"
 #include "WeaponSMG.h"
 
+#include "EffectMuzzle.h"
+
 CWeaponSMG::CWeaponSMG(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
@@ -35,6 +37,9 @@ HRESULT CWeaponSMG::Ready_GameObject_Clone(void* pArg)
 
 	m_pMeshCom->Set_AnimationSet((_uint)eSMGAction::Idle);
 
+	m_pEffect->Set_EffectPosition(_vec3(150.f, 100.f, 1.f), _vec3(120.f, -80.f, 0.1f));
+	m_pAltEffect->Set_EffectPosition(_vec3(180.f, 180.f, 1.f), _vec3(120.f, -75.f, 0.1f));
+
 	return S_OK;
 }
 
@@ -58,17 +63,19 @@ _int CWeaponSMG::LateUpdate_GameObject(const _float& fDeltaTime)
 	if (m_pMeshCom->End_AnimationSet())
 	{
 		Set_Animation((_uint)eSMGAction::Idle);
+	}
 
-		if (m_fNowFItime >= m_fFireInterval && m_bFire == true)
-		{
-			m_bFire = false;
-			m_fNowFItime = 0.f;
-		}
-		if (m_fNowAFItime >= m_fAltFireInterval && m_bAltFire == true)
-		{
-			m_bAltFire = false;
-			m_fNowAFItime = 0.f;
-		}
+	if (m_fNowFItime >= m_fFireInterval && m_bFire == true)
+	{
+		m_bFire = false;
+		m_fNowFItime = 0.f;
+		m_pEffect->Set_Visible(false);
+	}
+	if (m_fNowAFItime >= m_fAltFireInterval && m_bAltFire == true)
+	{
+		m_bAltFire = false;
+		m_fNowAFItime = 0.f;
+		m_pAltEffect->Set_Visible(false);
 	}
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
@@ -76,6 +83,14 @@ _int CWeaponSMG::LateUpdate_GameObject(const _float& fDeltaTime)
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_TERMINAL_NOALPHA, this);
 
 	m_fTime = fDeltaTime;
+
+	m_pEffect->LateUpdate_GameObject(fDeltaTime);
+	m_pAltEffect->LateUpdate_GameObject(fDeltaTime);
+
+	if (m_fNowAFItime >= 0.1f)
+	{
+		m_pAltEffect->Set_Visible(false);
+	}
 
 	return NO_EVENT;
 }
@@ -114,12 +129,15 @@ void CWeaponSMG::Shoot_Weapon()
 {
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
+		m_pEffect->Set_Visible(false);
 		m_bFire = true;
 		if (m_iMagAmmo != 0)
 		{
 			m_iMagAmmo--;
 
 			Set_Animation((rand() % 4 + (_uint)eSMGAction::Fire4));
+
+			m_pEffect->Set_Visible(true);
 		}
 		m_fNowFItime = 0.f;
 	}
@@ -129,12 +147,15 @@ void CWeaponSMG::AltShoot_Weapon()
 {
 	if (m_bAltFire == false || m_fNowAFItime >= m_fAltFireInterval)
 	{
+		m_pAltEffect->Set_Visible(false);
 		m_bAltFire = true;
 		if (m_iAltAmmo != 0)
 		{
 			m_iAltAmmo--;		
 
 			Set_Animation((_uint)eSMGAction::AltFire);
+
+			m_pAltEffect->Set_Visible(true);
 		}
 		m_fNowAFItime = 0.f;
 	}
@@ -180,6 +201,9 @@ HRESULT CWeaponSMG::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Mesh", pComponent);
 
+	m_pEffect = dynamic_cast<CEffectMuzzle*>(pManagement->Clone_GameObject(L"Effect_Muzzle"));
+	m_pAltEffect = dynamic_cast<CEffectMuzzle*>(pManagement->Clone_GameObject(L"Effect_Muzzle"));
+
 	return S_OK;
 }
 
@@ -213,6 +237,13 @@ Engine::CGameObject* CWeaponSMG::Clone(void* pArg)
 
 void CWeaponSMG::Free()
 {
+	if (m_bIsPrototype == false)
+	{
+		Safe_Release(m_pEffect);
+		Safe_Release(m_pAltEffect);
+
+	}
+
 	CPlayerWeapon::Free();
 }
 

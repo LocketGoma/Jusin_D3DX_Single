@@ -9,7 +9,7 @@
 
 class CEffectMuzzle : public CBaseEffect
 {
-private:
+protected:
 	explicit CEffectMuzzle(_Device pDevice);
 	explicit CEffectMuzzle(const CEffectMuzzle& other);
 	virtual ~CEffectMuzzle() = default;
@@ -27,18 +27,18 @@ public:
 	void Set_EffectPosition(_vec3 vScale, _vec3 vPos);
 
 
-private:
+protected:
 	void Change_To_Ortho();
 	void Change_To_Proj();
 	
-	HRESULT Add_Component();
+	virtual HRESULT Add_Component();
 	virtual void Free();
 
 public:
 	static CEffectMuzzle* Create(_Device pDevice);
 	virtual Engine::CGameObject* Clone(void* pArg = nullptr) override;
 
-private:
+protected:
 	_mat matWorld, matView, matOrtho;		//기본 행렬
 	_mat matOriView, matOriProj;					//원본 행렬
 	_vec3 m_vScale;

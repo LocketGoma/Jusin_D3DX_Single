@@ -164,6 +164,7 @@
     <ClInclude Include="..\Headers\Client_Enum.h" />
     <ClInclude Include="..\Headers\Client_Struct.h" />
     <ClInclude Include="..\Headers\DynamicObject.h" />
+    <ClInclude Include="..\Headers\EffectA2Muzzle.h" />
     <ClInclude Include="..\Headers\EffectMuzzle.h" />
     <ClInclude Include="..\Headers\EnemyAntLion.h" />
     <ClInclude Include="..\Headers\EnemyHunter.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="..\Headers\PlayerWeapon.h" />
     <ClInclude Include="..\Headers\ProjCoreBall.h" />
     <ClInclude Include="..\Headers\ProjFlechette.h" />
+    <ClInclude Include="..\Headers\ProjPulseAmmo.h" />
     <ClInclude Include="..\Headers\StageALight.h" />
     <ClInclude Include="..\Headers\TestPlayer.h" />
     <ClInclude Include="..\Headers\SkyBox.h" />
@@ -212,6 +214,7 @@
     <ClCompile Include="..\Codes\BossHunter.cpp" />
     <ClCompile Include="..\Codes\BossStrider.cpp" />
     <ClCompile Include="..\Codes\DynamicObject.cpp" />
+    <ClCompile Include="..\Codes\EffectA2Muzzle.cpp" />
     <ClCompile Include="..\Codes\EffectMuzzle.cpp" />
     <ClCompile Include="..\Codes\EnemyAntLion.cpp" />
     <ClCompile Include="..\Codes\EnemyHunter.cpp" />
@@ -227,6 +230,7 @@
     <ClCompile Include="..\Codes\PlayerWeapon.cpp" />
     <ClCompile Include="..\Codes\ProjCoreBall.cpp" />
     <ClCompile Include="..\Codes\ProjFlechette.cpp" />
+    <ClCompile Include="..\Codes\ProjPulseAmmo.cpp" />
     <ClCompile Include="..\Codes\StageALight.cpp" />
     <ClCompile Include="..\Codes\TestPlayer.cpp" />
     <ClCompile Include="..\Codes\SkyBox.cpp" />

@@ -5,6 +5,9 @@
 
 #include "ProjCoreBall.h"
 
+#include "EffectMuzzle.h"
+#include "EffectA2Muzzle.h"
+
 CWeaponRifle::CWeaponRifle(_Device pDevice)
 	: CPlayerWeapon(pDevice)
 {
@@ -38,6 +41,9 @@ HRESULT CWeaponRifle::Ready_GameObject_Clone(void* pArg)
 
 	m_pMeshCom->Set_AnimationSet((_uint)eRifleAction::Idle);
 
+	m_pEffect->Set_EffectPosition(_vec3(210.f, 120.f, 1.f), _vec3(90.f, -80.f, 0.1f));
+	m_pAltEffect->Set_EffectPosition(_vec3(180.f, 180.f, 1.f), _vec3(100.f, -75.f, 0.1f));
+
 	return S_OK;
 }
 
@@ -67,11 +73,13 @@ _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		m_bFire = false;
 		m_fNowFItime = 0.f;
+		m_pEffect->Set_Visible(false);
 	}
 	if (m_fNowAFItime >= m_fAltFireInterval && m_bAltFire == true)
 	{
 		m_bAltFire = false;
 		m_fNowAFItime = 0.f;
+		m_pAltEffect->Set_Visible(false);
 	}
 
 
@@ -80,6 +88,15 @@ _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_TERMINAL_NOALPHA, this);
 
 	m_fTime = fDeltaTime;
+
+	
+	m_pEffect->LateUpdate_GameObject(fDeltaTime);
+	m_pAltEffect->LateUpdate_GameObject(fDeltaTime);
+
+	if (m_fNowAFItime >= 0.1f)
+	{
+		m_pAltEffect->Set_Visible(false);
+	}
 
 	return NO_EVENT;
 }
@@ -108,6 +125,7 @@ HRESULT CWeaponRifle::Render_GameObject(void)
 	}
 
 
+
 	return S_OK;
 }
 
@@ -119,12 +137,14 @@ void CWeaponRifle::Shoot_Weapon()
 {
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
+		m_pEffect->Set_Visible(false);
 		m_bFire = true;
 		if (m_iMagAmmo != 0)
 		{
 			m_iMagAmmo--;
 	
 			Set_Animation((_uint)eRifleAction::Fire);
+			m_pEffect->Set_Visible(true);
 		}
 		m_fNowFItime = 0.f;
 	}
@@ -135,6 +155,7 @@ void CWeaponRifle::AltShoot_Weapon()
 {
 	if (m_bAltFire == false || m_fNowAFItime <= 0.f)
 	{
+		m_pAltEffect->Set_Visible(false);
 		m_bAltFire = true;
 		if (m_iAltAmmo != 0)
 		{
@@ -161,6 +182,7 @@ void CWeaponRifle::AltShoot_Weapon()
 			{
 				m_iAltAmmo--;
 				Set_Animation((_uint)eRifleAction::AltFire);
+				m_pAltEffect->Set_Visible(true);
 			}			
 		}		
 	}
@@ -205,6 +227,10 @@ HRESULT CWeaponRifle::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Mesh", pComponent);
 
+
+	m_pEffect = dynamic_cast<CEffectMuzzle*>(pManagement->Clone_GameObject(L"Effect_A2_Muzzle"));
+	m_pAltEffect = dynamic_cast<CEffectMuzzle*>(pManagement->Clone_GameObject(L"Effect_A2_Muzzle"));
+
 	return S_OK;
 }
 
@@ -238,5 +264,11 @@ Engine::CGameObject* CWeaponRifle::Clone(void* pArg)
 
 void CWeaponRifle::Free()
 {
+	if (m_bIsPrototype == false)
+	{
+		Safe_Release(m_pEffect);
+		Safe_Release(m_pAltEffect);
+	}
+
 	CPlayerWeapon::Free();
 }

@@ -47,9 +47,6 @@ private:
 
 	ePistolAction eAction;
 
-
-	//Test
-	CEffectMuzzle* m_pEffect;
 };
 
 
