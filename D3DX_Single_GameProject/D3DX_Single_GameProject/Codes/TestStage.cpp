@@ -44,10 +44,7 @@ HRESULT CTestStage::Ready_Scene(void)
 
 _int CTestStage::Update_Scene(const _float& fDeltaTime)
 {
-
     CScene::Update_Scene(fDeltaTime);
-    
-
 
     m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
     m_pNaviController->Compare_Navi_MeshMove(Get_Layer(L"EnemyLayer"));
