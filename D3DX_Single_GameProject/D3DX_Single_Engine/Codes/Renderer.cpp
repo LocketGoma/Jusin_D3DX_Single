@@ -353,9 +353,15 @@ HRESULT CRenderer::Render_Wireframe()
     return S_OK;
 }
 
-//빌보드 설정까지 같이 넣기
+//빌보드 설정까지 같이 넣기?
 HRESULT CRenderer::Render_Effect()
 {    
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE)))
+    {
+        return E_FAIL;
+    }
+
         ////알파블랜딩 먹임
     if (FAILED(m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE)))
     {
@@ -425,6 +431,10 @@ HRESULT CRenderer::Render_Effect()
         return E_FAIL;
     }
 
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE)))
+    {
+        return E_FAIL;
+    }
 
     return S_OK;
 }

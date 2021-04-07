@@ -41,6 +41,11 @@ _int CLogoImage::LateUpdate_GameObject(const _float& fDeltaTime)
 HRESULT CLogoImage::Render_GameObject(void)
 {
     m_pTransformCom->LateUpdate_Component();
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE)))
+    {
+        return E_FAIL;
+    }
+
 
     if (FAILED(CGameObject::Render_GameObject()))
     {
@@ -53,6 +58,11 @@ HRESULT CLogoImage::Render_GameObject(void)
     }
 
     if (FAILED(m_pBufferCom->Render_Buffer()))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE)))
     {
         return E_FAIL;
     }

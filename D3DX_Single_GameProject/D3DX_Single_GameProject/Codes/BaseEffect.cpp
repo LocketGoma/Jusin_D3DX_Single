@@ -5,11 +5,13 @@
 
 CBaseEffect::CBaseEffect(_Device pDevice)
 	: CGameObject(pDevice)
+	, m_bIsVisible(false)
 {
 }
 
 CBaseEffect::CBaseEffect(const CBaseEffect& other)
 	: CGameObject(other)
+	, m_bIsVisible(false)
 {
 }
 

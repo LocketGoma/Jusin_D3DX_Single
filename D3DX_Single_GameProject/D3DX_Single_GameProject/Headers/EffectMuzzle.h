@@ -24,8 +24,13 @@ public:
 
 	void Set_Ortho(_vec3 vScale, _vec3 vPos);
 
+	void Set_EffectPosition(_vec3 vScale, _vec3 vPos);
+
 
 private:
+	void Change_To_Ortho();
+	void Change_To_Proj();
+	
 	HRESULT Add_Component();
 	virtual void Free();
 
@@ -34,7 +39,10 @@ public:
 	virtual Engine::CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
-	_mat matOriView, matOriProj;
+	_mat matWorld, matView, matOrtho;		//기본 행렬
+	_mat matOriView, matOriProj;					//원본 행렬
+	_vec3 m_vScale;
+	_vec3 m_vPos;
 
 };
 

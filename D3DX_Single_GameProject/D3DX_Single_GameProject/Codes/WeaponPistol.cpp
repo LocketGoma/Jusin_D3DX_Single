@@ -36,6 +36,8 @@ HRESULT CWeaponPistol::Ready_GameObject_Clone(void* pArg)
 
 	m_pMeshCom->Set_AnimationSet((_uint)ePistolAction::Idle);
 
+	m_pEffect->Set_EffectPosition(_vec3(100.f, 100.f, 1.f), _vec3(100.f, -100.f, 0.1f));
+
 	return S_OK;
 }
 
@@ -96,9 +98,10 @@ HRESULT CWeaponPistol::Render_GameObject(void)
 	{
 		m_fNowFItime += m_fTime;
 	}
-
-	//m_pEffect->Set_ParentMatrix(matWorld);
-	//m_pEffect->Set_UpParentMatrix(m_matParent);
+	if (m_fNowFItime >= 0.1f)
+	{
+		m_pEffect->Set_Visible(false);
+	}
 
 	return S_OK;
 }
@@ -117,6 +120,8 @@ void CWeaponPistol::Shoot_Weapon()
 		{
 			m_iMagAmmo--;
 			Set_Animation(rand() % 4 + (_uint)ePistolAction::Fire3);
+
+			m_pEffect->Set_Visible(true);
 		}
 		else
 		{
