@@ -46,6 +46,9 @@ protected:
 	_vec3 m_vDirection;
 	_float m_fRotate;			//빙글빙글 (있어보이게 하는 용도임)
 
+	_vec3 m_vAmmoSize;			//실제로 보이는 크기
+
+
 
 };
 

@@ -105,6 +105,32 @@ void CTransform::Rotation(ROTATION eType, const _float& fAngle)
 	*(((_float*)&m_TransformDesc.vRotate) + (_uint)(eType)) += fAngle;
 }
 
+void CTransform::Rotation(_vec3 vAxis, const _float& fAngle)
+{
+	_mat matRotate;
+	D3DXMatrixRotationAxis(&matRotate, &vAxis, fAngle);
+
+	memcpy(&m_TransformDesc.vRotate.x, &matRotate.m[0][0], sizeof(_vec3));
+	memcpy(&m_TransformDesc.vRotate.y, &matRotate.m[1][0], sizeof(_vec3));
+	memcpy(&m_TransformDesc.vRotate.z, &matRotate.m[2][0], sizeof(_vec3));
+
+}
+
+void CTransform::Single_Rotation(ROTATION eType, const _float& fAngle)
+{
+	*(((_float*)&m_TransformDesc.vRotate) + (_uint)(eType)) = fAngle;
+}
+
+void CTransform::Reset_Rotation()
+{
+	_float m_fZero;
+	m_fZero = D3DXToRadian(0.f);
+
+	m_TransformDesc.vRotate.x = m_fZero;
+	m_TransformDesc.vRotate.y = m_fZero;
+	m_TransformDesc.vRotate.z = m_fZero;
+}
+
 void CTransform::Set_Pos(_vec3 vPos)
 {
 	m_TransformDesc.m_vInfo[(_uint)TRANSFORM_INFO::INFO_POS] = vPos;

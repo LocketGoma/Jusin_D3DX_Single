@@ -4,6 +4,9 @@
 #define __PROJECTILE_PULSE_AMMO_H__
 
 #include "BaseProjectile.h"
+
+
+
 class CProjPulseAmmo : public CBaseProjectile
 {
 private:
@@ -28,6 +31,11 @@ public:
 
 private:
 	virtual void Free();
+
+
+private:
+	Engine::CVTXRectTexture* m_pBufferCom[(_uint)eEffectAxis::END] = {};
+	Engine::CTexture* m_pTextureCom = nullptr;
 
 };
 

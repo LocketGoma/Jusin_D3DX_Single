@@ -24,9 +24,14 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_iFullHP(100)
 	, m_fHitboxSize(7.5f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
-	, m_fJumpPower(15.f)
 	, m_fWalkSpeed(10.f)
 	, m_fRunSpeed(20.f)
+	, m_fJumpPower(1.0f)
+	, m_fNowJumpPos(0.f)
+	, m_fGravition(5.0f)
+	, m_bJump(false)
+	, m_bJumpStart(false)
+	
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 
@@ -41,9 +46,13 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_iFullHP(other.m_iFullHP)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
-	, m_fJumpPower(other.m_fJumpPower)
 	, m_fWalkSpeed(other.m_fWalkSpeed)
 	, m_fRunSpeed(other.m_fRunSpeed)
+	, m_fJumpPower(other.m_fJumpPower)
+	, m_fNowJumpPos(other.m_fNowJumpPos)
+	, m_fGravition(other.m_fGravition)
+	, m_bJump(false)
+	, m_bJumpStart(false)
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 
@@ -89,6 +98,8 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
+
+	Jump_Action(fDeltaTime);
 
 	//카메라 이동으로 인한 y값 보정 - 나중에 수정할것
 	_vec3 vAPos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
@@ -305,7 +316,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	//이후 점프 처리
 	if (pManagement->Key_Down(VK_SPACE))
 	{
-		//점프
+		m_bJump = true;
 	}
 
 	
@@ -366,6 +377,32 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 
 }
 
+_bool CPlayer::Jump_Action(const _float& fDeltaTime)
+{
+	if (m_bJump == true && m_bJumpStart == false)
+	{		
+		m_bJumpStart = false;
+
+		m_fStartPos = Get_Position().y;
+	}
+	if (m_bJump)
+	{
+		m_fJumpTime += fDeltaTime;
+
+		m_fNowJumpPos = m_fJumpPower * m_fJumpTime - (m_fGravition * m_fJumpTime * m_fJumpTime) / 2;
+
+		_vec3 vNowPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+		vNowPos.y = m_fStartPos + m_fNowJumpPos;
+		m_pTransformCom->Set_Pos(vNowPos);		
+
+
+	}
+
+
+
+	return _bool();
+}
+
 _bool CPlayer::Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius)
 {
 	_bool bReturn = m_pSupportCom->Collision_Sphere(&(this->Get_Position()), this->m_fHitboxSize, pSourcePos, fSourceRadius);
@@ -378,6 +415,14 @@ _bool CPlayer::Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourc
 	bReturn == true ? eType = Engine::COLIDETYPE::COL_TRUE : eType = Engine::COLIDETYPE::COL_FALSE;
 
 	return bReturn;
+}
+
+void CPlayer::Jump_Cancel()
+{
+	m_bJumpStart = false;
+	m_bJump = false;
+
+	m_fJumpTime = 0.f;
 }
 
 CPlayer* CPlayer::Create(_Device pDevice)

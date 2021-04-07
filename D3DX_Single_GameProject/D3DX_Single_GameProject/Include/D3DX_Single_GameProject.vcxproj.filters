@@ -343,7 +343,9 @@
     <ClInclude Include="..\Headers\EffectA2Muzzle.h">
       <Filter>01.Object\10.Effect\01.AR2Muzzle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\ProjPulseAmmo.h" />
+    <ClInclude Include="..\Headers\ProjPulseAmmo.h">
+      <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -491,6 +493,8 @@
     <ClCompile Include="..\Codes\EffectA2Muzzle.cpp">
       <Filter>01.Object\10.Effect\01.AR2Muzzle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\ProjPulseAmmo.cpp" />
+    <ClCompile Include="..\Codes\ProjPulseAmmo.cpp">
+      <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

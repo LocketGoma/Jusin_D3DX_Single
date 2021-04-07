@@ -51,6 +51,17 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
     m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
     m_pNaviController->Compare_Navi_MeshMove(Get_Layer(L"EnemyLayer"));
+
+    CPlayer* pPlayer = dynamic_cast<CPlayer*>(Get_Layer(L"PlayerLayer")->Get_GameObject(L"Player"));
+    if (pPlayer == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    if (m_pNaviController->Stand_NaviMesh(pPlayer))
+    {
+        pPlayer->Jump_Cancel();
+    }
     
 
 

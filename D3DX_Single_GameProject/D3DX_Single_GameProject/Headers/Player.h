@@ -55,9 +55,12 @@ private:
 	HRESULT			Add_Component(void);
 	HRESULT			Print_TestUI();
 	void			Key_Input(const _float& fDeltaTime);
+	_bool			Jump_Action(const _float& fDeltaTime);
+	
 
 public:
 	_bool			Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius);
+	void			Jump_Cancel();
 
 //컴포넌트 및 컴포넌트 관리용
 private:
@@ -84,6 +87,15 @@ private:
 //플레이어 컨트롤용
 private:
 	_float m_fJumpPower;		//점프 힘
+	_float m_fNowJumpPos;		//현재 점프 높이
+	_float m_fStartPos;			//점프 시작 높이
+	_float m_fGravition;		//중력값
+	_float m_fJumpTime;			//점프 시간
+	_bool m_bJump;				//점프중임?
+	_bool m_bJumpStart;			//점프 시작함?
+
+
+
 	_float m_fNowMoveSpeed;		//현재 이동속도
 	_float m_fWalkSpeed;		//걷는 속도
 	_float m_fRunSpeed;			//달리는 속도

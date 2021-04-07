@@ -35,6 +35,9 @@ public:
 public:
 	void Move_Pos(const _vec3* pDir, const _float& fSpeed, _float fDeltaTime);	
 	void Rotation(ROTATION eType, const _float& fAngle);
+	void Rotation(_vec3 vAxis, const _float& fAngle);
+	void Single_Rotation(ROTATION eType, const _float& fAngle);
+	void Reset_Rotation();
 	void Set_Pos(_vec3 vPos);
 	void Set_Scale(_vec3 vScale);
 	void Set_Info(TRANSFORM_INFO eType, _vec3* pvInfo);

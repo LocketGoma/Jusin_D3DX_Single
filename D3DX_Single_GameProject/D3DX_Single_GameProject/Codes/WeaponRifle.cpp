@@ -3,6 +3,7 @@
 
 #include "Transform.h"
 
+#include "ProjPulseAmmo.h"
 #include "ProjCoreBall.h"
 
 #include "EffectMuzzle.h"
@@ -141,10 +142,44 @@ void CWeaponRifle::Shoot_Weapon()
 		m_bFire = true;
 		if (m_iMagAmmo != 0)
 		{
-			m_iMagAmmo--;
-	
-			Set_Animation((_uint)eRifleAction::Fire);
-			m_pEffect->Set_Visible(true);
+			//-------------------총알 발사파트
+			auto pManagement = Engine::CManagement::Get_Instance();
+			if (pManagement == nullptr)
+			{
+				return;
+			}
+
+			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_PulseAmmo");
+			NULL_CHECK(pObject);
+
+			_vec3 vPos, vDir;
+			_mat matWorld;
+			m_pDevice->GetTransform(D3DTS_VIEW, &matWorld);
+			D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+			memcpy(&vDir, &matWorld.m[2][0], sizeof(_vec3));
+			memcpy(&vPos, &matWorld.m[3][0], sizeof(_vec3));
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Position(vPos+(vDir*0.5f));
+			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Direction(vDir);
+
+			TCHAR tObjName[128] = L"";
+			TCHAR tObjData[] = L"Ar2Ammo %d";
+			swprintf_s(tObjName, tObjData, m_iMagAmmo + m_iMainAmmo);
+
+			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
+			{
+				m_iMagAmmo--;
+
+				Set_Animation((_uint)eRifleAction::Fire);
+				m_pEffect->Set_Visible(true);
+			}
+			else
+			{
+				Safe_Release(pObject);
+			}
+
+			//-----------------------
 		}
 		m_fNowFItime = 0.f;
 	}
@@ -165,6 +200,8 @@ void CWeaponRifle::AltShoot_Weapon()
 				return;
 			}
 
+
+			//코어 볼 출력파트
 			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_CoreBall");
 			NULL_CHECK(pObject);
 
@@ -178,7 +215,11 @@ void CWeaponRifle::AltShoot_Weapon()
 			dynamic_cast<CProjCoreBall*>(pObject)->Set_Position(vPos);
 			dynamic_cast<CProjCoreBall*>(pObject)->Set_Direction(vDir);
 
-			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(L"CoreBall"+ m_iAltAmmo, pObject)))
+			TCHAR tObjName[128] = L"";
+			TCHAR tObjData[] = L"CoreBall %d";
+			swprintf_s(tObjName, tObjData, m_iAltAmmo);
+
+			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
 				m_iAltAmmo--;
 				Set_Animation((_uint)eRifleAction::AltFire);

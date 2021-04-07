@@ -46,6 +46,7 @@
 //≈∫æ‡∑˘
 #include "ProjFlechette.h"
 #include "ProjCoreBall.h"
+#include "ProjPulseAmmo.h"
 
 //¿Ã∆Â∆Æ
 #include "EffectMuzzle.h"
@@ -315,7 +316,8 @@ HRESULT CLoadingScene::Load_Base_Resource()
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Muzzle", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Muzzle/muzzleflash%d.tga", 4);
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_MuzzleA", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Muzzle/muzzleflash%d.png", 1);
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Ar2_Muzzle", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ar2Muzzle/combinemuzzle%d.tga", 2);
-
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Tracer_Pulse", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ammo/gunshiptracer.tga", 1);
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Tracer_PHYS", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ammo/tracer_middle%d.tga", 2);
 
 
     return S_OK;
@@ -413,6 +415,9 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Projectile_CoreBall", pGameObject);
 
+    pGameObject = CProjPulseAmmo::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Projectile_PulseAmmo", pGameObject);
 
     //¿Ã∆Â∆Æ
     pGameObject = CEffectMuzzle::Create(m_pDevice);

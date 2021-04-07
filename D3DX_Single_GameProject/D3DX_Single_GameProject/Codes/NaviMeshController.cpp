@@ -200,6 +200,29 @@ HRESULT CNaviMeshController::Compare_Navi_MeshMove(Engine::CLayer* pTargetLayer)
 	return S_OK;
 }
 
+_bool CNaviMeshController::Stand_NaviMesh(Engine::CGameObject* pObject)
+{
+	if (m_pNaviMeshCom == nullptr)
+	{
+		return false;
+	}
+
+	if (pObject == nullptr)
+	{
+		return false;
+	}
+
+	_vec3 vCalPos = m_pNaviMeshCom->Caculate_OnNaviMesh(&(pObject->Get_Position()));
+
+	if (vCalPos.y > pObject->Get_Position().y)
+	{
+		pObject->Set_Position(vCalPos);
+
+		return true;
+	}
+	return false;
+}
+
 void CNaviMeshController::Clear_NaviMesh()
 {
 	m_pNaviMeshCom->Clear_NaviMesh();
