@@ -43,6 +43,7 @@ CBossStrider::CBossStrider(_Device pDevice)
 	m_fPattonACooltime = 0.f;
 
 	m_fTripleShootInterval = 0.15f;
+	m_fTripleShootCooldownInterval = 0.45;
 	m_fTripleShootTime = 0.f;
 
 	m_bShootLock = false;
@@ -64,6 +65,7 @@ CBossStrider::CBossStrider(const CBossStrider& other)
 	, m_fPattonAInterval(other.m_fPattonAInterval)
 	, m_fPattonACooltime(other.m_fPattonACooltime)
 	, m_fTripleShootInterval(other.m_fTripleShootInterval)
+	, m_fTripleShootCooldownInterval(other.m_fTripleShootCooldownInterval)
 	, m_fTripleShootTime(other.m_fTripleShootTime)
 	, m_bShootLock(other.m_bShootLock)
 	, m_bTripleShootLock(other.m_bTripleShootLock)
@@ -213,8 +215,6 @@ void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 {
 	if (m_bAttackLock == false && m_bPattonLock == false)
 	{
-		m_fNowAttackTime = 0.f;
-
 		m_bAttackLock = true;
 	}
 
@@ -222,6 +222,12 @@ void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 	{
 		m_ePatton = eStriderPatton::PattonA;
 		PattonA();
+	}
+	else if (m_bPattonLock)
+	{
+		m_bStand == true ? m_eAction = eStriderAction::idle_high : m_eAction = eStriderAction::idle_low;
+
+		m_ePatton = eStriderPatton::Idle;
 	}
 	else if (m_fPattonCooltime <= 0.f)
 	{
@@ -237,23 +243,20 @@ void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 		//}
 		//else if ((eStriderPatton)iPatton == eStriderPatton::PattonD)
 		//{
-//			m_ePatton = eStriderPatton::PattonD;
-	//		PattonD();
+		//	m_ePatton = eStriderPatton::PattonD;
+		//	PattonD();
 		//}
 	}
-	else if (m_bPattonLock)
-	{
-		m_bStand == true ? m_eAction = eStriderAction::idle_high : m_eAction = eStriderAction::idle_low;
 
-		m_ePatton = eStriderPatton::Idle;
-	}
 	if (m_bPattonLock)
 	{
 		m_fPattonCooltime += fDeltaTime;
 	}
+
 	if (m_fPattonCooltime >= m_fPattonInterval)
 	{
 		m_fPattonCooltime = 0.f;
+		m_fNowAttackTime = 0.f;
 		m_bPattonLock = false;
 	}
 }
@@ -312,7 +315,7 @@ _bool CBossStrider::Do_Dodge(_float fDeltatime)
 
 _uint CBossStrider::Get_Patton()
 {
-	return _uint();
+	return (_uint)m_ePatton;
 }
 
 void CBossStrider::Set_TargetPosition(_vec3 vPos)
@@ -449,8 +452,11 @@ void CBossStrider::PattonB()
 
 void CBossStrider::PattonC()
 {
-	if (m_fNowAttackTime <= 0.f || (_uint)(m_fNowAttackTime * 10) == 3 || (_uint)(m_fNowAttackTime * 10) == 6)
-	{		
+	if (m_fNowAttackTime <= 0.f)
+	{
+		m_bTripleShootLock = true;
+		m_fTripleShootTime = 0.f;
+
 		if (m_bStand == true)
 		{
 			m_eAction = eStriderAction::Crouch;
@@ -468,7 +474,7 @@ void CBossStrider::PattonC()
 	}
 	else 
 	{
-		m_bShootLock = false;
+		m_bShootLock = false;		
 	}
 
 	if (m_bStand == false)
@@ -476,19 +482,89 @@ void CBossStrider::PattonC()
 		m_ePatton = eStriderPatton::PattonC;
 		m_eAction = eStriderAction::idle_low;
 
-		if (m_bTripleShootLock == false)
+		//3발 연속 사격이 가능하면
+		if (m_bTripleShootLock == true)
 		{
-			m_fNowAttackTime += m_fTime;
-			m_iTripleShootCount = 0;
-		}
+			//3발 연속 쿨타임이 초기화상태면
+			if (m_fTripleShootTime <= 0.f)
+			{
+				//shoot
+				auto pManagement = Engine::CManagement::Get_Instance();
+				if (pManagement == nullptr)
+				{
+					return;
+				}
 
-		if (m_fNowAttackTime >= m_fAttackInterval)
-		{
-			m_bAttackLock = false;
-			m_bPattonLock = true;
+				//기관총 출력파트
+				Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_PulseAmmo");
+				NULL_CHECK(pObject);
+
+				_vec3 vPos, vDir;
+				_mat matWorld;
+
+				vPos = m_vShootPos;
+				vDir = m_vTargetPos - vPos;
+
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Position(vPos);
+				dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Direction(vDir);
+				dynamic_cast<CProjPulseAmmo*>(pObject)->Set_TargetState(eTargetState::ToPlayer);
+
+				TCHAR tObjName[128] = L"";
+				TCHAR tObjData[] = L"HunterPulsetAmmo %d";
+				swprintf_s(tObjName, tObjData, m_iPattonBShoot++);
+
+				if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
+				{
+					m_bAttackHitEnable = true;
+					m_iTripleShootCount++;
+				}
+				//Shoot 끝
+			}
+
+			m_fTripleShootTime += m_fTime;
+
+			if (m_fTripleShootTime >= m_fTripleShootInterval)
+			{
+				m_fTripleShootTime = 0.f;
+			}
+			if (m_iTripleShootCount >= 3)
+			{
+				m_iTripleShootGroupCount++;
+				m_fTripleShootTime = 0.f;
+				m_bTripleShootLock = false;
+			}
 		}
 	}
 
+	//3발 연속 다 사격했으면 (=쿨타임)
+	//이때 패턴 C 글로벌 쿨타임이 돔.
+	if (m_bTripleShootLock == false)
+	{
+		m_fTripleShootTime += m_fTime;
+
+		m_fNowAttackTime += m_fTime;
+		m_iTripleShootCount = 0;
+	}
+	if (m_fTripleShootTime >= m_fTripleShootCooldownInterval)
+	{
+		m_bTripleShootLock = true;
+		m_fTripleShootTime = 0.f;
+	}
+
+	//패턴 C 글로벌 쿨타임이 끝나면
+	//패턴 락 쿨타임 시작 = 패턴 빠져나감
+	if (m_fNowAttackTime >= m_fAttackInterval || m_iTripleShootGroupCount >= 3)
+	{
+		m_iTripleShootGroupCount = 0;
+		m_iTripleShootCount = 0;
+		m_fTripleShootTime = 0.f;
+		
+		m_bTripleShootLock = false;
+		m_bAttackLock = false;
+		m_bPattonLock = true;
+	}
 
 }
 

@@ -107,8 +107,11 @@ private:
 
 	//3연발용
 	_float m_fTripleShootInterval;	//3연속 사격 쿨타임 - 3연발 내 간격
+	_float m_fTripleShootCooldownInterval;	//3연속 사격 쿨타임 - 3연발 간 간격	
 	_float m_fTripleShootTime;		//3연속 사격 쿨타임 - 현재 시간
+
 	_uint m_iTripleShootCount = 0;
+	_uint m_iTripleShootGroupCount = 0;
 
 	_bool m_bShootLock;				//연속 사격 쿨타임	- 3연발 간 간격
 	_bool m_bTripleShootLock;		//3연속 사격 쿨타임 - 3연발 내 간격
