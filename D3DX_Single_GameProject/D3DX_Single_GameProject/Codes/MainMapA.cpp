@@ -57,10 +57,11 @@ _int CMainMapA::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CMainMapA::Render_GameObject(void)
 {
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	m_pTransformCom->LateUpdate_Component();
 	m_pMeshCom->Render_Meshes();
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
 }
@@ -74,7 +75,7 @@ HRESULT CMainMapA::Add_Component()
 	}
 	Engine::CComponent* pComponent = nullptr;
 
-	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"MapA"));
+	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"MapA_Mesh"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Mesh", pComponent);
 
@@ -113,5 +114,8 @@ Engine::CGameObject* CMainMapA::Clone(void* pArg)
 
 void CMainMapA::Free()
 {
+	Safe_Release(m_pMeshCom);
+	Safe_Release(m_pTransformCom);
+
 	CMapObject::Free();
 }

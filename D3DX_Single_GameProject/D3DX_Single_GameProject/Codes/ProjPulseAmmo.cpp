@@ -31,7 +31,7 @@ CProjPulseAmmo::CProjPulseAmmo(_Device pDevice)
 {
 	m_iWeight = 0;
 	m_fLifeTime = 0.5f;
-	m_fSpeed = 30.f;
+	m_fSpeed = 50.f;
 	m_eForceType = eForceType::NONE;
 	m_fHitboxSize = 2.5f;		//테스트용. 실제로는 좀 더 작게
 
@@ -111,7 +111,7 @@ HRESULT CProjPulseAmmo::Render_GameObject(void)
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	//m_pColliderCom->Render_Collider(Engine::COLIDETYPE::COL_FALSE, &matWorld);
+	m_pColliderCom->Render_Collider(Engine::COLIDETYPE::COL_FALSE, &matWorld);
 
 
 	if (FAILED(m_pTextureCom->Set_Texture()))

@@ -6,12 +6,17 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
+#include "ProjFlechette.h"
+#include "ProjPulseAmmo.h"
+
+_uint CEnemyHunter::m_iPattonBShoot = 0;
+
 CEnemyHunter::CEnemyHunter(_Device pDevice)
 	: CDynamicObject(pDevice)
 	, m_fPattonCooltime(0.f)
-	, m_fPattonInterval(3.f)
+	, m_fPattonInterval(2.f)
 {
-	m_fRecognizeRange = 45.f;
+	m_fRecognizeRange = 75.f;
 	m_fMoveRange = 45.f;
 	m_fAttackRange = 30.f;
 
@@ -43,6 +48,7 @@ CEnemyHunter::CEnemyHunter(const CEnemyHunter& other)
 
 	m_bAttackLock = false;
 	m_bPattonLock = false;
+	m_bShootLock = false;
 
 }
 
@@ -233,7 +239,7 @@ void CEnemyHunter::Do_Attack(_float fDeltaTime, _uint iPatton)
 	}
 
 	else if (m_fPattonCooltime <= 0.f)
-	{
+	{		
 		if ((eHunterPatton)iPatton == eHunterPatton::PattonB)
 		{
 			m_ePatton = eHunterPatton::PattonB;
@@ -321,8 +327,39 @@ void CEnemyHunter::PattonA()
 void CEnemyHunter::PattonB()
 {
 	if (m_fNowAttackTime <= 0.f)
-	{		
-		m_bAttackHitEnable = true;
+	{	
+		auto pManagement = Engine::CManagement::Get_Instance();
+		if (pManagement == nullptr)
+		{
+			return;
+		}
+
+
+		//플레쉐트 출력파트
+		Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_Flechette");
+		NULL_CHECK(pObject);
+
+		_vec3 vPos, vDir;
+		_mat matWorld;
+	
+		vPos = m_vCorePos;
+		vDir = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
+
+		D3DXVec3Normalize(&vDir, &vDir);
+
+		dynamic_cast<CProjFlechette*>(pObject)->Set_Position(vPos);
+		dynamic_cast<CProjFlechette*>(pObject)->Set_Direction(vDir);
+		dynamic_cast<CProjFlechette*>(pObject)->Set_TargetState(eTargetState::ToPlayer);
+
+		TCHAR tObjName[128] = L"";
+		TCHAR tObjData[] = L"HunterFlechette %d";
+		swprintf_s(tObjName, tObjData, m_iPattonBShoot++);
+
+		if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
+		{
+			m_bAttackHitEnable = true;
+		}
+
 	}
 	m_ePatton = eHunterPatton::PattonB;
 	m_eAction = eHunterAction::RangeAttack;
@@ -339,9 +376,48 @@ void CEnemyHunter::PattonB()
 //기관총 발사 - 3발
 void CEnemyHunter::PattonC()
 {
-	if (m_fNowAttackTime <= 0.f)
+	if (m_fNowAttackTime <= 0.f || (_uint)(m_fNowAttackTime*10) == 3 || (_uint)(m_fNowAttackTime * 10)  == 6)
 	{
-		m_bAttackHitEnable = true;
+		if (m_bShootLock == false)
+		{
+			m_bShootLock = true;
+
+
+			auto pManagement = Engine::CManagement::Get_Instance();
+			if (pManagement == nullptr)
+			{
+				return;
+			}
+
+			//기관총 출력파트
+			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_PulseAmmo");
+			NULL_CHECK(pObject);
+
+			_vec3 vPos, vDir;
+			_mat matWorld;
+
+			vPos = m_vCorePos;
+			vDir = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
+
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Position(vPos);
+			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Direction(vDir);
+			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_TargetState(eTargetState::ToPlayer);
+
+			TCHAR tObjName[128] = L"";
+			TCHAR tObjData[] = L"HunterPulsetAmmo %d";
+			swprintf_s(tObjName, tObjData, m_iPattonBShoot++);
+
+			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
+			{
+				m_bAttackHitEnable = true;
+			}
+		}
+	}
+	else
+	{
+		m_bShootLock = false;
 	}
 	m_ePatton = eHunterPatton::PattonC;
 	m_eAction = eHunterAction::Shoot_Minigun;

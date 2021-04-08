@@ -16,8 +16,15 @@ CMapObject::CMapObject(const CMapObject& other)
 	, m_pTransformCom(other.m_pTransformCom)
 	, m_pMeshCom(other.m_pMeshCom)
 {
-	Safe_AddReference(m_pMeshCom);
-	Safe_AddReference(m_pTransformCom);
+	//if (m_pTransformCom != nullptr)
+	//{
+	//	m_pTransformCom->AddRef();
+	//}
+	//if (m_pMeshCom != nullptr)
+	//{
+	//	m_pMeshCom->AddRef();
+	//}
+
 }
 
 HRESULT CMapObject::Set_MapName(const _tchar* pMapName)

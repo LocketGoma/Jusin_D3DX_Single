@@ -346,6 +346,9 @@
     <ClInclude Include="..\Headers\ProjPulseAmmo.h">
       <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\BossAI_Strider.h">
+      <Filter>07.AI&amp;Algorithm\03.BossStrider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -495,6 +498,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\ProjPulseAmmo.cpp">
       <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BossAI_Strider.cpp">
+      <Filter>07.AI&amp;Algorithm\03.BossStrider</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

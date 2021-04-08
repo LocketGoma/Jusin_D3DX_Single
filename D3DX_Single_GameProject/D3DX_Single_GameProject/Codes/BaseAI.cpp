@@ -13,11 +13,13 @@ CBaseAI::CBaseAI(_Device pDevice)
 	, m_bTrack(false)
 	, m_bAttack(false)
 	, m_bDodge(false)
-	, m_fInvinTime(1.25f)
 	, m_eBasePatton(eBasePatton::Idle)
+	, m_fRangeToTarget(0.f)
+	, m_fDodgeTime(0.f)
+	, m_fInvinTime(1.25f)
+	, m_fDodgeCoolTime(0.f)
+	, m_fDodgeCountTime(0.f)
 {
-	m_fDodgeTime = 0.f;
-
 	m_iHPState = INT_MAX;
 }
 
@@ -31,11 +33,13 @@ CBaseAI::CBaseAI(const CBaseAI& other)
 	, m_bTrack(false)
 	, m_bAttack(false)
 	, m_bDodge(false)
-	, m_fInvinTime(other.m_fInvinTime)
 	, m_eBasePatton(other.m_eBasePatton)
+	, m_fRangeToTarget(other.m_fRangeToTarget)
+	, m_fDodgeTime(other.m_fDodgeTime)
+	, m_fInvinTime(other.m_fInvinTime)
+	, m_fDodgeCoolTime(other.m_fDodgeCoolTime)
+	, m_fDodgeCountTime(other.m_fDodgeCountTime)
 {
-	m_fDodgeTime = 0.f;
-
 	m_iHPState = INT_MAX;
 }
 

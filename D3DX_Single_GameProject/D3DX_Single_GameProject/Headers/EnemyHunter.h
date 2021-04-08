@@ -100,6 +100,11 @@ private:
 
 	_bool m_bAttackLock;			//공격 간격 잠금
 	_bool m_bPattonLock;			//패턴 잠금 (쿨타임)
+	
+	_bool m_bShootLock;				//연속 사격 쿨타임
+
+static	_uint m_iPattonAShoot;		//기관총
+static	_uint m_iPattonBShoot;		//플레쉐트
 
 	// CDynamicObject을(를) 통해 상속됨
 

@@ -9,6 +9,10 @@ CBaseAI_Attacker::CBaseAI_Attacker(_Device pDevice)
 {
 	m_fDodgeTime = 0.f;
 	m_fInvinTime = 2.f;
+	m_fDodgeCoolTime = 7.5f;
+	m_fDodgeCountTime = 0.f;
+
+	m_bDodgeLock = false;
 
 	m_iHPState = INT_MAX;
 }
@@ -17,8 +21,7 @@ CBaseAI_Attacker::CBaseAI_Attacker(const CBaseAI_Attacker& other)
 	: CBaseAI(other)
 
 {
-	m_fDodgeTime = 0.f;
-
+	m_bDodgeLock = false;
 
 	m_iHPState = INT_MAX;
 }
@@ -60,7 +63,7 @@ _int CBaseAI_Attacker::Update_GameObject(const _float& fDeltaTime)
 		m_fDodgeTime += fDeltaTime;
 	}
 
-	return _int();
+	return NO_EVENT;
 }
 
 _int CBaseAI_Attacker::LateUpdate_GameObject(const _float& fDeltaTime)
@@ -135,10 +138,11 @@ HRESULT CBaseAI_Attacker::Do_Idle(const _float& fDeltaTime)
 				m_pControlUnit->Do_Rotate(fDeltaTime, eAlign::LEFT);
 		}
 	}
-	if (Check_HP_Change())
+	if (Check_HP_Change() && m_bDodgeLock == false)
 	{
 		m_pControlUnit->Go_Side(fDeltaTime, (eAlign)(rand() % 2));
 		m_bDodge = true;
+		m_bDodgeLock = true;
 	}
 	else if (m_fDodgeTime >= m_fInvinTime || m_pControlUnit->Do_Dodge(fDeltaTime) == true)
 	{
@@ -146,6 +150,15 @@ HRESULT CBaseAI_Attacker::Do_Idle(const _float& fDeltaTime)
 		m_fDodgeTime = 0.f;
 	}
 
+	if (m_bDodgeLock == true)
+	{
+		m_fDodgeCountTime += fDeltaTime;
+	}
+	if (m_fDodgeCountTime >= m_fDodgeCoolTime)
+	{
+		m_bDodgeLock = false;
+		m_fDodgeCountTime = 0.f;
+	}
 
 	return S_OK;
 }

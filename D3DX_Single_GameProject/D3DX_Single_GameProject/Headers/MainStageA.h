@@ -29,6 +29,7 @@ private:
 	HRESULT Add_Boss_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Object_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Environment_Layer(const _tchar* pLayerTag);
+	HRESULT Add_Weapon_Layer(const _tchar* pLayerTag);
 
 
 public:

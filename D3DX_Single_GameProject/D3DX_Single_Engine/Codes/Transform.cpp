@@ -10,6 +10,8 @@ CTransform::CTransform(_Device pDevice)
 	m_TransformDesc.vScale = _float3(1.f, 1.f, 1.f);
 	m_TransformDesc.vRotate = _float3(0.f, 0.f, 0.f);
 
+	m_bIsPrototype = true;
+
 	Safe_AddReference(m_pDevice);
 }
 

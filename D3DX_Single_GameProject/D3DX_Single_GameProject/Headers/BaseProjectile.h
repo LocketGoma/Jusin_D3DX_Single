@@ -7,6 +7,14 @@
 #include "GameObject.h"
 #include "Base.h"
 
+//ToPlayer : 플레이어에게 대미지 입힘
+//ToEnemy : 적에게 대미지 입힘
+//Both : 둘다 대미지 입음 (실시간 대미지 아님)
+enum class eTargetState
+{
+	ToPlayer, ToEnemy, Both, None, END
+};
+
 class CBaseProjectile abstract : public CStaticObject
 {
 protected:
@@ -25,6 +33,8 @@ public:
 public:
 	const _uint Get_Damage();
 	void Set_Damage(_uint iDamage);
+	const _float Get_Radius();
+	void Set_Radius(_float fRadius);
 	const _float Get_Splash_Radius();
 	void Set_Splash_Radius(_float fRadius);
 
@@ -32,6 +42,9 @@ public:
 	void Set_StartPos(_vec3 vPos);
 	const _vec3 Get_Direction();
 	void Set_Direction(_vec3 vDir);
+
+	eTargetState Get_TargetState();
+	void Set_TargetState(eTargetState eState);
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
@@ -48,7 +61,7 @@ protected:
 
 	_vec3 m_vAmmoSize;			//실제로 보이는 크기
 
-
+	eTargetState m_eTargetState;
 
 };
 

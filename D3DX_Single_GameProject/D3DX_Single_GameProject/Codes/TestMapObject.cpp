@@ -116,5 +116,8 @@ Engine::CGameObject* CTestMapObject::Clone(void* pArg = nullptr)
 
 void CTestMapObject::Free()
 {
+	Safe_Release(m_pMeshCom);
+	Safe_Release(m_pTransformCom);
+
 	CMapObject::Free();
 }

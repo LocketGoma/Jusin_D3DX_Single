@@ -162,10 +162,12 @@ void CWeaponRifle::Shoot_Weapon()
 
 			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Position(vPos+(vDir*0.5f));
 			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Direction(vDir);
+			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_TargetState(eTargetState::ToEnemy);
 
 			TCHAR tObjName[128] = L"";
 			TCHAR tObjData[] = L"Ar2Ammo %d";
 			swprintf_s(tObjName, tObjData, m_iMagAmmo + m_iMainAmmo);
+
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{

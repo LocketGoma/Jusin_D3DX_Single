@@ -1,0 +1,91 @@
+	if (m_fNowAttackTime <= 0.f || (_uint)(m_fNowAttackTime * 10) == 3 || (_uint)(m_fNowAttackTime * 10) == 6)
+	{		
+		if (m_bStand == true)
+		{
+			m_eAction = eStriderAction::Crouch;
+		}
+		if (m_eAction == eStriderAction::Crouch && End_Animation_State())
+		{
+			m_bStand = false;
+
+			m_eAction = eStriderAction::idle_low;
+		}
+		if (m_bStand == false)
+		{
+			m_eAction = eStriderAction::idle_low;
+			if (m_bShootLock == false && m_iTripleShootCount >= 3)
+			{
+				m_bShootLock = true;
+				m_bTripleShootLock = false;
+			}
+			if (m_bShootLock == false)
+			{
+				m_bTripleShootLock = true;
+
+				if (m_fTripleShootTime <= 0)
+				{
+					auto pManagement = Engine::CManagement::Get_Instance();
+					if (pManagement == nullptr)
+					{
+						return;
+					}
+
+					//기관총 출력파트
+					Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_PulseAmmo");
+					NULL_CHECK(pObject);
+
+					_vec3 vPos, vDir;
+					_mat matWorld;
+
+					vPos = m_vCorePos;
+					vDir = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
+
+					D3DXVec3Normalize(&vDir, &vDir);
+
+					dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Position(vPos);
+					dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Direction(vDir);
+					dynamic_cast<CProjPulseAmmo*>(pObject)->Set_TargetState(eTargetState::ToPlayer);
+
+					TCHAR tObjName[128] = L"";
+					TCHAR tObjData[] = L"HunterPulsetAmmo %d";
+					swprintf_s(tObjName, tObjData, m_iPattonBShoot++);
+
+					if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
+					{
+						m_bAttackHitEnable = true;
+						m_iTripleShootCount++;
+					}
+				}
+
+
+				m_fTripleShootTime += m_fTime;
+
+				if (m_fTripleShootTime >= m_fTripleShootInterval)
+				{
+					m_fTripleShootTime = 0.0f;
+				}
+			}
+		}
+	}
+	else 
+	{
+		m_bShootLock = false;
+	}
+
+	if (m_bStand == false)
+	{
+		m_ePatton = eStriderPatton::PattonC;
+		m_eAction = eStriderAction::idle_low;
+
+		if (m_bTripleShootLock == false)
+		{
+			m_fNowAttackTime += m_fTime;
+			m_iTripleShootCount = 0;
+		}
+
+		if (m_fNowAttackTime >= m_fAttackInterval)
+		{
+			m_bAttackLock = false;
+			m_bPattonLock = true;
+		}
+	}

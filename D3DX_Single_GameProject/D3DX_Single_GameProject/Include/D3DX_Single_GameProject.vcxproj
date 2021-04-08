@@ -158,6 +158,7 @@
     <ClInclude Include="..\Headers\BaseLogoScene.h" />
     <ClInclude Include="..\Headers\BaseProjectile.h" />
     <ClInclude Include="..\Headers\BossAI_Hunter.h" />
+    <ClInclude Include="..\Headers\BossAI_Strider.h" />
     <ClInclude Include="..\Headers\BossHunter.h" />
     <ClInclude Include="..\Headers\BossStrider.h" />
     <ClInclude Include="..\Headers\Client_Define.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="..\Codes\BaseLogoScene.cpp" />
     <ClCompile Include="..\Codes\BaseProjectile.cpp" />
     <ClCompile Include="..\Codes\BossAI_Hunter.cpp" />
+    <ClCompile Include="..\Codes\BossAI_Strider.cpp" />
     <ClCompile Include="..\Codes\BossHunter.cpp" />
     <ClCompile Include="..\Codes\BossStrider.cpp" />
     <ClCompile Include="..\Codes\DynamicObject.cpp" />

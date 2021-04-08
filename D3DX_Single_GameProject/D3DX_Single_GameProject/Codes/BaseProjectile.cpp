@@ -8,6 +8,7 @@ CBaseProjectile::CBaseProjectile(_Device pDevice)
 	, m_vStartPos(_vec3(0.f,0.f,0.f))
 	, m_vDirection(_vec3(0.f,0.f,0.f))
 	, m_fRotate(0.f)
+	, m_eTargetState(eTargetState::ToEnemy)
 {
 }
 
@@ -18,6 +19,7 @@ CBaseProjectile::CBaseProjectile(const CBaseProjectile& other)
 	, m_vStartPos(other.m_vStartPos)
 	, m_vDirection(other.m_vDirection)
 	, m_fRotate(other.m_fRotate)
+	, m_eTargetState(other.m_eTargetState)
 {
 }
 
@@ -29,6 +31,16 @@ const _uint CBaseProjectile::Get_Damage()
 void CBaseProjectile::Set_Damage(_uint iDamage)
 {
 	m_iDamage = iDamage;
+}
+
+const _float CBaseProjectile::Get_Radius()
+{
+	return m_fHitboxSize;
+}
+
+void CBaseProjectile::Set_Radius(_float fRadius)
+{
+	m_fHitboxSize = fRadius;
 }
 
 const _float CBaseProjectile::Get_Splash_Radius()
@@ -59,6 +71,16 @@ const _vec3 CBaseProjectile::Get_Direction()
 void CBaseProjectile::Set_Direction(_vec3 vDir)
 {
 	m_vDirection = vDir;
+}
+
+eTargetState CBaseProjectile::Get_TargetState()
+{
+	return m_eTargetState;
+}
+
+void CBaseProjectile::Set_TargetState(eTargetState eState)
+{
+	m_eTargetState = eState;
 }
 
 void CBaseProjectile::Free(void)

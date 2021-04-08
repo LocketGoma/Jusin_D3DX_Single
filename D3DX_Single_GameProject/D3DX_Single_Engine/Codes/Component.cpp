@@ -7,6 +7,11 @@ CComponent::CComponent(void)
 {
 }
 
+CComponent::CComponent(const CComponent& other)
+	: m_bIsPrototype(false)
+{
+}
+
 CComponent::~CComponent(void)
 {
 }

@@ -12,6 +12,7 @@ class ENGINE_DLL CComponent : public CBase
 {
 protected:
 	explicit CComponent(void);
+	explicit CComponent(const CComponent& other);
 	virtual ~CComponent(void);
 
 public:

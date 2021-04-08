@@ -15,7 +15,9 @@
 #include "Player.h"
 #include "BaseAI.h"
 #include "BaseAI_Attacker.h"
+#include "BossAI_Strider.h"
 #include "DynamicObject.h"
+#include "BaseProjectile.h"
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -77,6 +79,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 
     CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));    
 
+    //플레이어 - 몬스터 충돌판정
     auto* targetLayer = Get_Layer(L"EnemyLayer");
     if (targetLayer != nullptr)
     for (auto& iter : *targetLayer->Get_ObjectLayer())
@@ -93,7 +96,25 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
                 pPlayer->Hit_Attack(pObject->Get_Damage());
             }
         }
-    }        
+    }
+
+    //플레이어 - 총알 충돌판정
+    targetLayer = Get_Layer(L"WeaponLayer");
+    for (auto& iter : *targetLayer->Get_ObjectLayer())
+    {
+        CBaseProjectile* pObject = dynamic_cast<CBaseProjectile*>(iter.second);
+        if (pObject != nullptr)
+        {
+            if (pObject->Get_TargetState() == eTargetState::ToPlayer)
+            {
+                if (pPlayer->Check_Attack_Collide(&(pObject->Get_Position()), pObject->Get_Radius()))
+                {
+                    pPlayer->Hit_Attack(pObject->Get_Damage());
+                    pObject->Set_Dead();
+                }
+            }
+        }
+    }
 
 
     return NO_EVENT;
@@ -231,9 +252,9 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"SkyBoxA", pGameObject);
 
-    //pGameObject = pManagement->Clone_GameObject(L"MapA");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"MapA");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
     pGameObject = m_pNaviController = CNaviMeshController::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -273,16 +294,16 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
     //헌터
-    pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter", pGameObject), E_FAIL);
 
     //스트라이더
-    //pGameObject = pManagement->Clone_GameObject(L"BossStrider");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(25.f, 0.f, 20.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"BossStrider");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(25.f, 0.f, 20.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
 
     ///기본 적 AI파트
     //개미귀신
@@ -298,13 +319,20 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
     //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
 
-    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter")));
-    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI", pGameObject), E_FAIL);
+    //pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter")));
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI", pGameObject), E_FAIL);
 
-    
+    //스트라이더
+    pGameObject = CBossAI_Strider::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Strider")));
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyStriderAI", pGameObject), E_FAIL);
+
+
 
 
 

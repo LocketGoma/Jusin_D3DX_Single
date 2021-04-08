@@ -61,10 +61,13 @@ protected:
 	_bool m_bTrack;			//추적중인가
 	_bool m_bAttack;		//공격중인가
 	_bool m_bDodge;			//회피중인가
+	_bool m_bDodgeLock;			//회피중인가
 
 	_float m_fRangeToTarget;	//타겟까지의 거리
 	_float m_fDodgeTime;		//무적시간 - 흐르는것
 	_float m_fInvinTime;		//무적시간
+	_float m_fDodgeCoolTime;	//회피 쿨타임
+	_float m_fDodgeCountTime;	//회피 쿨타임 - 흐르는것
 
 	int m_iHPState;				//이전 HP상태 (상태비교용)
 
