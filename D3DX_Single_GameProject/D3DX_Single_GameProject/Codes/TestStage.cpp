@@ -35,7 +35,7 @@ HRESULT CTestStage::Ready_Scene(void)
     //Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
-    //Add_Enemy_Layer(L"EnemyLayer");
+    Add_Enemy_Layer(L"EnemyLayer");
     Add_Weapon_Layer(L"WeaponLayer");    
     //Add_Enemy_Control_Layer(L"EnemyControlLayer");
 
@@ -57,10 +57,10 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
         return E_FAIL;
     }
 
-    //if (m_pNaviController->Stand_NaviMesh(pPlayer))
-    //{
-    //    pPlayer->Jump_Cancel();
-    //}
+    if (m_pNaviController->Stand_NaviMesh(pPlayer))
+    {
+        pPlayer->Jump_Cancel();
+    }
     
 
 
@@ -173,7 +173,7 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"Player");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"Player", pGameObject);
-    pGameObject->Set_Position(_vec3(155.f, 14.f, -240.f));
+   // pGameObject->Set_Position(_vec3(155.f, 14.f, -240.f));
 
     pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -253,17 +253,16 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"SkyBoxA", pGameObject);
 
-    pGameObject = pManagement->Clone_GameObject(L"MapA");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"MapA");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
     pGameObject = m_pNaviController = CNaviMeshController::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestNavi", pGameObject), E_FAIL);
 
-    //m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/Test.json");
-   // m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/testfile.json");
-    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map1.json");
+    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/testfile.json");
+    //m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map1.json");
 
 
     m_mapLayer.emplace(pLayerTag, pLayer);

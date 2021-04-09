@@ -163,7 +163,7 @@ HRESULT CNaviMesh::Set_NaviMesh(std::vector<CCell*>* vCellList)
 
 HRESULT CNaviMesh::Edit_NaviMesh(_uint iIndex, _vec3& p1, _vec3& p2, _vec3& p3)
 {
-	if (iIndex > m_vecCell.size())
+	if (iIndex >= m_vecCell.size())
 	{
 		return E_FAIL;
 	}

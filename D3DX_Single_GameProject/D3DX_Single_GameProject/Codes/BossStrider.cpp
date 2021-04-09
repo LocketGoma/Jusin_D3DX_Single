@@ -265,7 +265,7 @@ void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 
 void CBossStrider::Do_Idle(_float fDeltaTime)
 {
-	m_eAction = eStriderAction::idle_high;
+	m_bStand == true ? m_eAction = eStriderAction::idle_high : m_eAction = eStriderAction::idle_low;
 	m_ePatton = eStriderPatton::Idle;
 }
 
