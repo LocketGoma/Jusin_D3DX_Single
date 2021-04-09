@@ -41,6 +41,7 @@ public:
 	_float Calculate_HeightOnTerrain(const _vec3* pPos, const _vec3* pTerrainVTX, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVTXInterval = 1);	
 	_bool Picking_Object_Static(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform);
 	_bool Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh* pMesh, const CTransform* pTransform);
+	_vec3 Picking_Object(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform);
 	_vec3 Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer, const CTransform* pTransform);	
 
 	_bool Collision_Picking(HWND hWnd, CCollider* pCollider, CTransform* pTransform);

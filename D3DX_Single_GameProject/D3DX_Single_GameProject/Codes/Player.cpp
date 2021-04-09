@@ -26,9 +26,9 @@ CPlayer::CPlayer(_Device pDevice)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(10.f)
 	, m_fRunSpeed(20.f)
-	, m_fJumpPower(1.0f)
+	, m_fJumpPower(16.5f)
 	, m_fNowJumpPos(0.f)
-	, m_fGravition(5.0f)
+	, m_fGravition(29.40f)
 	, m_bJump(false)
 	, m_bJumpStart(false)
 	
@@ -284,7 +284,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 
 	if (pManagement->Key_Pressing('W'))
 	{
-		m_pTransformCom->Move_Pos(&vLook, m_fNowMoveSpeed, fDeltaTime);
+ 		m_pTransformCom->Move_Pos(&vLook, m_fNowMoveSpeed, fDeltaTime);
 	}
 	if (pManagement->Key_Pressing('S'))
 	{
@@ -305,19 +305,18 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	else
 	{
 		m_fNowMoveSpeed = m_fWalkSpeed;
+	}	
+	if (pManagement->Key_Pressing(VK_SPACE))
+	{
+		m_bJump = true;
 	}
-
 
 	//시선에 따른 Y축 이동 보정
 	_vec3 vApPos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
 	vApPos.y = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS).y;
 	m_pTransformCom->Set_Pos(vApPos);
 
-	//이후 점프 처리
-	if (pManagement->Key_Down(VK_SPACE))
-	{
-		m_bJump = true;
-	}
+
 
 	
 	//사격
@@ -375,6 +374,8 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 		m_fWeaponTimer += fDeltaTime;
 	}
 
+	
+
 }
 
 _bool CPlayer::Jump_Action(const _float& fDeltaTime)
@@ -391,9 +392,9 @@ _bool CPlayer::Jump_Action(const _float& fDeltaTime)
 
 		m_fNowJumpPos = m_fJumpPower * m_fJumpTime - (m_fGravition * m_fJumpTime * m_fJumpTime) / 2;
 
-		_vec3 vNowPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
-		vNowPos.y = m_fStartPos + m_fNowJumpPos;
-		m_pTransformCom->Set_Pos(vNowPos);		
+		_vec3 vNowPos = _vec3(0.f, 0.f, 0.f);
+		vNowPos.y = m_fNowJumpPos;
+		m_pTransformCom->Add_Pos(vNowPos);
 
 
 	}

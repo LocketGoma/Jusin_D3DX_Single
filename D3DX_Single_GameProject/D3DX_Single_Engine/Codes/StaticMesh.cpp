@@ -133,6 +133,11 @@ void CStaticMesh::Render_Meshes()
 	}
 }
 
+const LPD3DXMESH* CStaticMesh::Get_VertrxInfo() const
+{
+	return &m_pMesh;
+}
+
 CStaticMesh* CStaticMesh::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pFilePath, const _tchar* pFileName)
 {
 	CStaticMesh* pInstance = new CStaticMesh(pGraphicDev);

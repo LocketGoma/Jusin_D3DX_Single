@@ -43,7 +43,7 @@ CBossStrider::CBossStrider(_Device pDevice)
 	m_fPattonACooltime = 0.f;
 
 	m_fTripleShootInterval = 0.15f;
-	m_fTripleShootCooldownInterval = 0.45;
+	m_fTripleShootCooldownInterval = 0.45f;
 	m_fTripleShootTime = 0.f;
 
 	m_bShootLock = false;
@@ -70,7 +70,8 @@ CBossStrider::CBossStrider(const CBossStrider& other)
 	, m_bShootLock(other.m_bShootLock)
 	, m_bTripleShootLock(other.m_bTripleShootLock)
 {
-	m_vCalibrationPos = _vec3(0.f, 28.f, 20.f);
+	//m_vCalibrationPos = _vec3(0.f, 28.f, 20.f);
+	m_vCalibrationPos = _vec3(0.f,28.f,0.f);
 }
 _uint CBossStrider::m_iPattonBShoot = 0;
 _uint CBossStrider::m_iPattonCShoot = 0;
@@ -109,7 +110,7 @@ _int CBossStrider::LateUpdate_GameObject(const _float& fDeltaTime)
 	
 
 
-	//m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
+	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
 	m_fRotate = 0.f;	
 
 	//아래는 위치 보정 함수... 가 의미 없음 피봇 위치 자체를 바꿔야됨!
@@ -208,7 +209,7 @@ void CBossStrider::Do_Walk(_float fDeltaTime)
 //일단 킵 (3)
 void CBossStrider::Do_Rotate(_float fDeltaTime, eAlign pAlign)
 {
-	//m_fRotate = (((int)pAlign - 0.5f) * 2.f) * fDeltaTime;
+	m_fRotate = (((int)pAlign - 0.5f) * 2.f) * fDeltaTime;
 }
 
 void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)

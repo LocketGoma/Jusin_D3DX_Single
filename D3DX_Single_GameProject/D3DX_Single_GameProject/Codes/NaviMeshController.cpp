@@ -184,6 +184,10 @@ HRESULT CNaviMeshController::Compare_Navi_MeshMove(Engine::CLayer* pTargetLayer)
 	{
 		return E_FAIL;
 	}
+	if (pTargetLayer == nullptr)
+	{
+		return S_OK;
+	}
 
 	for (auto& targetObject : *(pTargetLayer->Get_ObjectLayer()))
 	{
@@ -216,7 +220,7 @@ _bool CNaviMeshController::Stand_NaviMesh(Engine::CGameObject* pObject)
 
 	if (vCalPos.y > pObject->Get_Position().y)
 	{
-		pObject->Set_Position(vCalPos);
+//		pObject->Set_Position(vCalPos);
 
 		return true;
 	}

@@ -40,6 +40,21 @@ _int CMainStageA::Update_Scene(const _float& fDeltaTime)
 {
 	CScene::Update_Scene(fDeltaTime);
 
+	m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
+	m_pNaviController->Compare_Navi_MeshMove(Get_Layer(L"EnemyLayer"));
+
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(Get_Layer(L"PlayerLayer")->Get_GameObject(L"Player"));
+	if (pPlayer == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	if (m_pNaviController->Stand_NaviMesh(pPlayer))
+	{
+		pPlayer->Jump_Cancel();
+	}
+
+
 	return NO_EVENT;
 }
 
@@ -76,7 +91,7 @@ HRESULT CMainStageA::Add_Player_Layer(const _tchar* pLayerTag)
 	pGameObject = pManagement->Clone_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(L"Player", pGameObject);
-	pGameObject->Set_Position(_vec3(25.f, 3.f, -40.f));
+	pGameObject->Set_Position(_vec3(155.f, 14.f, -240.f));
 
 	pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

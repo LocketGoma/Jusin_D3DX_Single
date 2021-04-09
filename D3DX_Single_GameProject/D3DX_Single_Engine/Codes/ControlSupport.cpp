@@ -5,6 +5,7 @@
 
 #include "Collider.h"
 
+#include "Mesh.h"
 #include "StaticMesh.h"
 #include "DynamicMesh.h"
 
@@ -174,6 +175,103 @@ _bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh*
         Safe_Release(pIndexBuffer);
     }
     return bResult;
+}
+
+_vec3 CControlSupportUnit::Picking_Object(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform)
+{
+    _vec3 vResult = _vec3(0.f,0.f,0.f);
+    _bool bResult = false;
+
+    POINT ptMouse{};
+
+    GetCursorPos(&ptMouse);
+    ScreenToClient(hWnd, &ptMouse);
+
+    _vec3 vMousePos;
+
+    //뷰포트 획득
+    D3DVIEWPORT9 pViewPort;
+    ZeroMemory(&pViewPort, sizeof(_D3DVIEWPORT9));
+    m_pDevice->GetViewport(&pViewPort);
+
+    //윈도우 좌표 -> 투영 좌표
+    vMousePos.x = ptMouse.x / (pViewPort.Width * 0.5f) - 1.f;
+    vMousePos.y = ptMouse.y / -(pViewPort.Height * 0.5f) + 1.f;
+    vMousePos.z = 0.f;
+
+    //투영 좌표 -> 뷰 좌표
+    _mat matProj;
+    m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+    D3DXMatrixInverse(&matProj, NULL, &matProj);
+    D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+    //이 시점에 마우스 좌표는 뷰에 있음.
+
+    //뷰 좌표 -> 월드 좌표
+    _mat matView;
+    m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixInverse(&matView, NULL, &matView);
+
+
+    //RayPos : 레이 스타트 / RayDir : 레이 방향
+    _vec3 vRayPos, vRayDir;
+
+    vRayPos = _vec3(0.f, 0.f, 0.f); //레이 시작 : 화면 중점
+    vRayDir = vMousePos - vRayPos; //레이 방향 : 마우스 클릭위치
+
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+    //월드 -> 로컬
+    //사유 : 버텍스 정보는 로컬정보니까.
+    _mat matWorld;
+    memcpy(&matWorld, pTransform->Get_TransformDescription().matWorld, sizeof(_mat));
+    D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+
+    //Coord : 위치 / Normal : 방향
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+
+    const LPD3DXMESH* meshData = pMesh->Get_VertrxInfo();
+
+    LPDIRECT3DVERTEXBUFFER9 pVTXBuffer;
+    LPDIRECT3DINDEXBUFFER9 pIndexBuffer;
+
+
+    _uint iIndexNumber = (*meshData)->GetNumFaces();
+    (*meshData)->GetVertexBuffer(&pVTXBuffer);
+    (*meshData)->GetIndexBuffer(&pIndexBuffer);
+
+    WORD* pIndices;
+    D3DVERTEX* pVertices;
+
+    pIndexBuffer->Lock(0, 0, (void**)&pIndices, 0);
+    pVTXBuffer->Lock(0, 0, (void**)&pVertices, 0);
+
+    for (_uint i = 0; i < iIndexNumber; i++)
+    {
+        _vec3 v0 = pVertices[pIndices[3 * i + 0]].p;
+        _vec3 v1 = pVertices[pIndices[3 * i + 1]].p;
+        _vec3 v2 = pVertices[pIndices[3 * i + 2]].p;
+
+        _float fU, fV, fDist;
+        if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &fU, &fV, &fDist))
+        {
+            vResult = _vec3(v0 + (v1 - v0) * fU + (v2 - v0) * fV);
+            bResult = true;
+            break;
+        }
+    }
+    pVTXBuffer->Unlock();
+    pIndexBuffer->Unlock();
+
+    Safe_Release(pVTXBuffer);
+    Safe_Release(pIndexBuffer);
+
+
+
+    return vResult;
 }
 
 

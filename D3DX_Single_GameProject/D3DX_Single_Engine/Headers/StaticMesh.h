@@ -19,6 +19,9 @@ public:
 	void Render_Meshes();
 
 public:
+	const LPD3DXMESH* Get_VertrxInfo() const;
+
+public:
 	static CStaticMesh* Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pFilePath, const _tchar* pFileName);
 	virtual CComponent* Clone(void* pArg = nullptr) override;
 	virtual void		Free(void);

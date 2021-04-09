@@ -139,6 +139,11 @@ void CTransform::Set_Pos(_vec3 vPos)
 
 }
 
+void CTransform::Add_Pos(_vec3 vPos)
+{
+	m_TransformDesc.m_vInfo[(_uint)TRANSFORM_INFO::INFO_POS] += vPos;
+}
+
 //void CTransform::Go_Side(_float fDeltaTime)
 //{
 //	D3DXVECTOR3 vRight;
