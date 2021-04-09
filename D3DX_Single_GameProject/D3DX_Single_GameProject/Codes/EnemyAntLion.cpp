@@ -33,7 +33,7 @@ CEnemyAntLion::CEnemyAntLion(const CEnemyAntLion& other)
 	, m_ePatton(other.m_ePatton)
 {
 	m_eAction = eAntLionAction::DigDie;
-	m_ePrevAction = m_ePrevAction;
+	m_ePrevAction = m_eAction;
 }
 
 HRESULT CEnemyAntLion::Ready_GameObject(_uint iTexNumber)

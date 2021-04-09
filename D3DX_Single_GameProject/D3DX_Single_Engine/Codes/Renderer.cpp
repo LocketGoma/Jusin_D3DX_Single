@@ -222,7 +222,7 @@ HRESULT CRenderer::Render_NoAlpha()
 
 HRESULT CRenderer::Render_HalfAlpha()
 {
-    if (m_GameObjects[(_uint)RENDERID::RENDER_PRIORITY_ALPHA].empty() == true)
+    if (m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA].empty() == true)
     {
         return S_OK;
     }
@@ -242,8 +242,13 @@ HRESULT CRenderer::Render_HalfAlpha()
     {
         return E_FAIL;
     }
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCCOLOR)))
+    {
+        return E_FAIL;
+    }
 
-    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_HALFALPHA])
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_ALPHA])
     {
         if (FAILED(pGameObject->Render_GameObject()))
             return E_FAIL;
@@ -372,21 +377,6 @@ HRESULT CRenderer::Render_Effect()
     {
         return E_FAIL;
     }
-    //if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
-    //{
-    //    return E_FAIL;
-    //}
-
-    //if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAREF, 128)))         //알파값 조절시 얘 바꾸면 됨
-    //{
-    //    return E_FAIL;
-    //}
-
-    //if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER)))
-    //{
-    //    return E_FAIL;
-    //}
-
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE)))
     {
@@ -408,12 +398,6 @@ HRESULT CRenderer::Render_Effect()
     }
 
     m_GameObjects[(_uint)RENDERID::RENDER_EFFECT].clear();
-
-
-    //if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
-    //{
-    //    return E_FAIL;
-    //}
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE)))
 {

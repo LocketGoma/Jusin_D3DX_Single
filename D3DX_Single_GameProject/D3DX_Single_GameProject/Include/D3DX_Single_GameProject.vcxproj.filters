@@ -172,12 +172,6 @@
     <Filter Include="01.Object\12.Projectile\03.Grenade">
       <UniqueIdentifier>{7105e7b7-0d49-40a0-a009-6a79dce614cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07.AI&amp;Algorithm\02.BossHunter">
-      <UniqueIdentifier>{b2af29f6-15e6-4f6b-9e82-79ae274d581f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="07.AI&amp;Algorithm\03.BossStrider">
-      <UniqueIdentifier>{bd46f2a4-98da-470a-b9db-4e52d35a96e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99.Default\리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -190,6 +184,18 @@
     </Filter>
     <Filter Include="01.Object\10.Effect\01.AR2Muzzle">
       <UniqueIdentifier>{2eca22c4-e589-4845-801e-bd81278753ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\03.DynamicObject\00.Enemy\03.Manhack">
+      <UniqueIdentifier>{396f291c-153a-4c10-a319-b3cf282a04ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.AI&amp;Algorithm\02.BaseFlyer">
+      <UniqueIdentifier>{619d6c24-9836-413f-b66d-9979205648fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.AI&amp;Algorithm\11.BossHunter">
+      <UniqueIdentifier>{b2af29f6-15e6-4f6b-9e82-79ae274d581f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.AI&amp;Algorithm\12.BossStrider">
+      <UniqueIdentifier>{bd46f2a4-98da-470a-b9db-4e52d35a96e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -332,7 +338,7 @@
       <Filter>07.AI&amp;Algorithm\01.BaseShooter</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\BossAI_Hunter.h">
-      <Filter>07.AI&amp;Algorithm\02.BossHunter</Filter>
+      <Filter>07.AI&amp;Algorithm\11.BossHunter</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\BaseEffect.h">
       <Filter>01.Object\10.Effect</Filter>
@@ -347,7 +353,13 @@
       <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\BossAI_Strider.h">
-      <Filter>07.AI&amp;Algorithm\03.BossStrider</Filter>
+      <Filter>07.AI&amp;Algorithm\12.BossStrider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\EnemyManhack.h">
+      <Filter>01.Object\03.DynamicObject\00.Enemy\03.Manhack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BaseAI_Flyer.h">
+      <Filter>07.AI&amp;Algorithm\02.BaseFlyer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -485,7 +497,7 @@
       <Filter>07.AI&amp;Algorithm\01.BaseShooter</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\BossAI_Hunter.cpp">
-      <Filter>07.AI&amp;Algorithm\02.BossHunter</Filter>
+      <Filter>07.AI&amp;Algorithm\11.BossHunter</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\BaseEffect.cpp">
       <Filter>01.Object\10.Effect</Filter>
@@ -500,7 +512,13 @@
       <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\BossAI_Strider.cpp">
-      <Filter>07.AI&amp;Algorithm\03.BossStrider</Filter>
+      <Filter>07.AI&amp;Algorithm\12.BossStrider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\EnemyManhack.cpp">
+      <Filter>01.Object\03.DynamicObject\00.Enemy\03.Manhack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseAI_Flyer.cpp">
+      <Filter>07.AI&amp;Algorithm\02.BaseFlyer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,14 +1,14 @@
 #include "framework.h"
-#include "BaseAI_Attacker.h"
+#include "BaseAI_Flyer.h"
 
 #include "Transform.h"
 
-CBaseAI_Attacker::CBaseAI_Attacker(_Device pDevice)
+CBaseAI_Flyer::CBaseAI_Flyer(_Device pDevice)
 	: CBaseAI(pDevice)
 {
 	m_fDodgeTime = 0.f;
 	m_fInvinTime = 2.f;
-	m_fDodgeCoolTime = 7.5f;
+	m_fDodgeCoolTime = 60.f;
 	m_fDodgeCountTime = 0.f;
 
 	m_bDodgeLock = false;
@@ -16,86 +16,92 @@ CBaseAI_Attacker::CBaseAI_Attacker(_Device pDevice)
 	m_iHPState = INT_MAX;
 }
 
-CBaseAI_Attacker::CBaseAI_Attacker(const CBaseAI_Attacker& other)
+CBaseAI_Flyer::CBaseAI_Flyer(const CBaseAI_Flyer& other)
 	: CBaseAI(other)
-
 {
 	m_bDodgeLock = false;
 
 	m_iHPState = INT_MAX;
 }
 
-HRESULT CBaseAI_Attacker::Ready_GameObject()
+HRESULT CBaseAI_Flyer::Ready_GameObject()
 {
 	return S_OK;
 }
 
-HRESULT CBaseAI_Attacker::Ready_GameObject_Clone(void* pArg)
+HRESULT CBaseAI_Flyer::Ready_GameObject_Clone(void* pArg)
 {
 	return S_OK;
 }
 
-_int CBaseAI_Attacker::Update_GameObject(const _float& fDeltaTime)
+_int CBaseAI_Flyer::Update_GameObject(const _float& fDeltaTime)
 {
+	//주그면 콰ㅇ
 	if (m_pControlUnit->Hit_Attack(0))
 	{
 		m_pControlUnit->Set_Dead();
 		m_bDead = true;
 	}
 
-	_vec3 vRange = (m_pTargetUnit->Get_Position()) - (m_pControlUnit->Get_Position());
+	_vec3 vUnitPos = m_pControlUnit->Get_Position();
+	_vec3 vTargetPos = m_pTargetUnit->Get_Position();
+
+	_vec3 vRange = (vTargetPos - vUnitPos);
 	m_fRangeToTarget = D3DXVec3Length(&vRange);
 
+	_float fPosY = vUnitPos.y - vTargetPos.y;
+
+	if (fabs(fPosY) < 2.45f)
+	{
+		m_eHeightState = eAlignHeight::Horizontal;
+	}
+	else if (fPosY > 0.f)
+	{
+		m_eHeightState = eAlignHeight::toDown;
+	}
+	else
+	{
+		m_eHeightState = eAlignHeight::toUp;
+	}
 	if (m_bAppear == false)
 	{
 		Do_Appear(fDeltaTime);
 	}
 	Do_Idle(fDeltaTime);
-	if (m_bSpawn == false && m_bAppear == true && m_bDodge == false)
+	if (m_bSpawn == false && m_bAppear == true)
 	{
 		Do_Movement(fDeltaTime);
 		Do_Attack(fDeltaTime);
 	}
-	if (m_bDodge == true)
-	{
-		m_bAttack = false;
-		m_fDodgeTime += fDeltaTime;
-	}
 
 	return NO_EVENT;
+
 }
 
-_int CBaseAI_Attacker::LateUpdate_GameObject(const _float& fDeltaTime)
+_int CBaseAI_Flyer::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-
-
-
 	return NO_EVENT;
 }
 
-HRESULT CBaseAI_Attacker::Render_GameObject(void)
+HRESULT CBaseAI_Flyer::Render_GameObject(void)
 {
 	return S_OK;
 }
-
 //필요시 사용
-HRESULT CBaseAI_Attacker::Do_Spawn(const _float& fDeltaTime)
+HRESULT CBaseAI_Flyer::Do_Spawn(const _float& fDeltaTime)
 {
 	m_bReady = true;
 
 	return S_OK;
 }
 
-//등장씬
-HRESULT CBaseAI_Attacker::Do_Appear(const _float& fDeltaTime)
+HRESULT CBaseAI_Flyer::Do_Appear(const _float& fDeltaTime)
 {
-
 	if ((PLAYER_BASE_HITBOX + m_pControlUnit->Get_RecogRange()) >= m_fRangeToTarget)
 	{
 		m_pControlUnit->Do_Spawn(fDeltaTime);
 		m_bSpawn = true;
 	}
-
 	if (m_bSpawn == true && m_pControlUnit->End_Animation_State_Force() == true)
 	{
 		m_bSpawn = false;
@@ -105,9 +111,10 @@ HRESULT CBaseAI_Attacker::Do_Appear(const _float& fDeltaTime)
 
 	return S_OK;
 }
-//기본 대기상태
-HRESULT CBaseAI_Attacker::Do_Idle(const _float& fDeltaTime)
+
+HRESULT CBaseAI_Flyer::Do_Idle(const _float& fDeltaTime)
 {
+	//수평 회전
 	if (m_bAppear == true)
 	{
 		_vec3 vTargetPos;
@@ -130,39 +137,30 @@ HRESULT CBaseAI_Attacker::Do_Idle(const _float& fDeltaTime)
 
 		if (D3DXVec3Length(&vCross) > 0.01f)
 		{
-			//이게 최선인 것인가?
 			if (vCross.y > 0)
 				m_pControlUnit->Do_Rotate(fDeltaTime, eAlign::RIGHT);
 			else
 				m_pControlUnit->Do_Rotate(fDeltaTime, eAlign::LEFT);
 		}
-	}
-	if (Check_HP_Change() && m_bDodgeLock == false)
-	{
-		m_pControlUnit->Go_Side(fDeltaTime, (eAlign)(rand() % 2));
-		m_bDodge = true;
-		m_bDodgeLock = true;
-	}
-	else if (m_fDodgeTime >= m_fInvinTime || m_pControlUnit->Do_Dodge(fDeltaTime) == true)
-	{
-		m_bDodge = false;
-		m_fDodgeTime = 0.f;
-	}
 
-	if (m_bDodgeLock == true)
-	{
-		m_fDodgeCountTime += fDeltaTime;
+		//????
+		if (m_eHeightState == eAlignHeight::toUp)
+		{
+			m_pControlUnit->Do_Rotate(fDeltaTime, eAlign::DOWN);
+		}
+		else if (m_eHeightState == eAlignHeight::toDown)
+		{
+			m_pControlUnit->Do_Rotate(fDeltaTime, eAlign::UP);
+		}
+		else if (m_eHeightState == eAlignHeight::Horizontal) 
+		{
+			m_pControlUnit->Do_Rotate(fDeltaTime, eAlign::IDLE);
+		}
 	}
-	if (m_fDodgeCountTime >= m_fDodgeCoolTime)
-	{
-		m_bDodgeLock = false;
-		m_fDodgeCountTime = 0.f;
-	}
-
 	return S_OK;
 }
-//기본 움직임
-HRESULT CBaseAI_Attacker::Do_Movement(const _float& fDeltaTime)
+
+HRESULT CBaseAI_Flyer::Do_Movement(const _float& fDeltaTime)
 {
 	if (m_bAttack == true)
 	{
@@ -188,9 +186,9 @@ HRESULT CBaseAI_Attacker::Do_Movement(const _float& fDeltaTime)
 	return S_OK;
 }
 
-HRESULT CBaseAI_Attacker::Do_Attack(const _float& fDeltaTime)
+HRESULT CBaseAI_Flyer::Do_Attack(const _float& fDeltaTime)
 {
-
+	//필요시 작성
 	if (m_fRangeToTarget <= PLAYER_BASE_HITBOX + m_pControlUnit->Get_AttackRange())
 	{
 		m_bAttack = true;
@@ -205,6 +203,7 @@ HRESULT CBaseAI_Attacker::Do_Attack(const _float& fDeltaTime)
 		m_pControlUnit->Do_Idle(fDeltaTime);
 	}
 
+
 	if (m_bAttack == true)
 	{
 		if (m_fRangeToTarget <= PLAYER_BASE_HITBOX * 3)
@@ -215,15 +214,15 @@ HRESULT CBaseAI_Attacker::Do_Attack(const _float& fDeltaTime)
 		{
 			m_eBasePatton = (eBasePatton)(rand() % 2 + 3);
 		}
-			m_pControlUnit->Do_Attack(fDeltaTime, (_uint)m_eBasePatton);
+		m_pControlUnit->Do_Attack(fDeltaTime, (_uint)m_eBasePatton);
 	}
 
 	return S_OK;
 }
 
-CBaseAI_Attacker* CBaseAI_Attacker::Create(_Device pDevice)
+CBaseAI_Flyer* CBaseAI_Flyer::Create(_Device pDevice)
 {
-	CBaseAI_Attacker* pInstance = new CBaseAI_Attacker(pDevice);
+	CBaseAI_Flyer* pInstance = new CBaseAI_Flyer(pDevice);
 
 	if (FAILED(pInstance->Ready_GameObject()))
 	{
@@ -233,12 +232,12 @@ CBaseAI_Attacker* CBaseAI_Attacker::Create(_Device pDevice)
 	return pInstance;
 }
 
-Engine::CGameObject* CBaseAI_Attacker::Clone(void* pArg)
+Engine::CGameObject* CBaseAI_Flyer::Clone(void* pArg)
 {
-	CBaseAI_Attacker* pClone = new CBaseAI_Attacker(*this);
+	CBaseAI_Flyer* pClone = new CBaseAI_Flyer(*this);
 	if (pClone == nullptr)
 	{
-		PRINT_LOG(L"Error", L"Failed To Clone CBaseAI_Attacker");
+		PRINT_LOG(L"Error", L"Failed To Clone CBaseAI_Flyer");
 	}
 
 	if (FAILED(pClone->Ready_GameObject_Clone(pArg)))
@@ -249,7 +248,7 @@ Engine::CGameObject* CBaseAI_Attacker::Clone(void* pArg)
 	return pClone;
 }
 
-void CBaseAI_Attacker::Free()
+void CBaseAI_Flyer::Free()
 {
 	CGameObject::Free();
 }

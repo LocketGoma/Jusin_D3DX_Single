@@ -15,7 +15,7 @@ END_NAMESPACE
 
 enum class eAlign
 {
-	LEFT, RIGHT,  END
+	LEFT, RIGHT, DOWN, UP, IDLE, END
 };
 
 enum class eBasePatton

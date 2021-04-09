@@ -32,6 +32,8 @@
 
 #include "BossStrider.h"
 
+#include "EnemyManhack.h"
+
 
 //무기류
 #include "PlayerWeapon.h"
@@ -295,6 +297,8 @@ HRESULT CLoadingScene::Load_Base_Resource()
     //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Strider", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Strider/", L"Strider_Final.x");
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Strider", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Strider/", L"Strider_Test.x");
 
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Manhack", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Manhack/", L"Manhack_Final.x");
+
 
     //플레이어 (무기)
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Crowbar", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Weapon/Crowbar/", L"Crowbar_Final.x");
@@ -365,6 +369,10 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"BossStrider", pGameObject);
 
+    //적 (기타)
+    pGameObject = CEnemyManhack::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"EnemyManhack", pGameObject);
 
 
     //플레이어 기본
