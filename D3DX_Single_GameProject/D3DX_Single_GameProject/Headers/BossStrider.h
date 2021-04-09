@@ -104,7 +104,7 @@ private:
 	_float m_fPattonACooltime;		//패턴 A 진행시간
 
 
-
+	//패턴 C
 	//3연발용
 	_float m_fTripleShootInterval;	//3연속 사격 쿨타임 - 3연발 내 간격
 	_float m_fTripleShootCooldownInterval;	//3연속 사격 쿨타임 - 3연발 간 간격	
@@ -115,6 +115,14 @@ private:
 
 	_bool m_bShootLock;				//연속 사격 쿨타임	- 3연발 간 간격
 	_bool m_bTripleShootLock;		//3연속 사격 쿨타임 - 3연발 내 간격
+
+
+
+	//패턴 D
+	_bool m_bCheckOperationPattonD;	//패턴D 사용했는가
+	_float m_fSummonCooltime;		//소환 쿨타임 - 현재 진행중
+	_float m_fSummonInterval;		//소환 쿨타임
+	_uint m_iSummonCount;			//소환 카운트
 
 	static	_uint m_iPattonBShoot;		//기관총
 	static	_uint m_iPattonCShoot;		//플레쉐트

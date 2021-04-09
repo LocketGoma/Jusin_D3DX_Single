@@ -361,6 +361,12 @@
     <ClInclude Include="..\Headers\BaseAI_Flyer.h">
       <Filter>07.AI&amp;Algorithm\02.BaseFlyer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\MainStageC.h">
+      <Filter>02.Scene\07.MainStageC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MainMapC.h">
+      <Filter>01.Object\06.Map\03.MainC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -519,6 +525,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\BaseAI_Flyer.cpp">
       <Filter>07.AI&amp;Algorithm\02.BaseFlyer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MainStageC.cpp">
+      <Filter>02.Scene\07.MainStageC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MainMapC.cpp">
+      <Filter>01.Object\06.Map\03.MainC</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

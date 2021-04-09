@@ -9,12 +9,16 @@
 #include "ProjFlechette.h"
 #include "ProjPulseAmmo.h"
 
+#include "EnemyManhack.h"
+#include "BaseAI_Flyer.h"
+
 CBossStrider::CBossStrider(_Device pDevice)
 	: CDynamicObject(pDevice)	
+	, m_bCheckOperationPattonD(false)
 {
-	m_fRecognizeRange = 75.f;
-	m_fMoveRange = 55.f;
-	m_fAttackRange = 35.f;
+	m_fRecognizeRange = 105.f;
+	m_fMoveRange = 75.f;
+	m_fAttackRange = 55.f;
 	
 	m_fHitboxSize = 10.0;
 
@@ -48,6 +52,12 @@ CBossStrider::CBossStrider(_Device pDevice)
 
 	m_bShootLock = false;
 	m_bTripleShootLock = false;
+
+
+	m_iSummonCount = 0;
+	m_fSummonCooltime = 0.f;
+	m_fSummonInterval = 2.f;
+
 }
 
 CBossStrider::CBossStrider(const CBossStrider& other)
@@ -69,6 +79,10 @@ CBossStrider::CBossStrider(const CBossStrider& other)
 	, m_fTripleShootTime(other.m_fTripleShootTime)
 	, m_bShootLock(other.m_bShootLock)
 	, m_bTripleShootLock(other.m_bTripleShootLock)
+	, m_bCheckOperationPattonD(false)
+	, m_iSummonCount(other.m_iSummonCount)
+	, m_fSummonCooltime(other.m_fSummonCooltime)
+	, m_fSummonInterval(other.m_fSummonInterval)
 {
 	//m_vCalibrationPos = _vec3(0.f, 28.f, 20.f);
 	m_vCalibrationPos = _vec3(0.f,28.f,0.f);
@@ -236,11 +250,15 @@ void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 		{
 			m_ePatton = eStriderPatton::PattonB;
 			PattonB();
+
+			m_bCheckOperationPattonD = false;
 		}
 		else if ((eStriderPatton)iPatton == eStriderPatton::PattonC)
 		{
 			m_ePatton = eStriderPatton::PattonC;
 			PattonC();
+
+			m_bCheckOperationPattonD = false;
 		}
 		else if ((eStriderPatton)iPatton == eStriderPatton::PattonD)
 		{
@@ -576,8 +594,111 @@ void CBossStrider::PattonC()
 
 void CBossStrider::PattonD()
 {
-	m_bAttackLock = false;
-	m_bPattonLock = true;
+	//패턴D가 잠겨있으면 (가장 마지막에 사용한 패턴이 D라면)
+	if (m_bCheckOperationPattonD == true)
+	{
+		m_bAttackLock = false;
+		m_bPattonLock = true;
+
+		return;
+	}
+	
+	
+	//패턴 D 시작
+	if (m_fNowAttackTime <= 0.f)
+	{
+		if (m_bStand == true)
+		{
+			m_eAction = eStriderAction::Crouch;
+		}
+		if (m_eAction == eStriderAction::Crouch && End_Animation_State_Force())
+		{
+			m_bStand = false;
+
+			m_eAction = eStriderAction::idle_low;
+		}
+		if (m_bStand == false)
+		{
+			m_fNowAttackTime += m_fTime;
+			m_eAction = eStriderAction::idle_low;
+		}
+	}
+	else
+	{
+		m_bShootLock = false;
+	}
+
+	if (m_bStand == false)
+	{
+		m_ePatton = eStriderPatton::PattonD;
+		m_eAction = eStriderAction::idle_low;
+
+		if (m_bShootLock == false)
+		{
+			m_bShootLock = true;
+
+
+			if (m_fSummonCooltime <= 0.f)
+			{
+				auto pManagement = Engine::CManagement::Get_Instance();
+				if (pManagement == nullptr)
+				{
+					return;
+				}
+
+				//맨핵 소환 파트
+				Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"EnemyManhack");
+				NULL_CHECK(pObject);
+
+				TCHAR tObjName[128] = L"";
+				TCHAR tObjAIName[128] = L"";
+				TCHAR tObjData[] = L"Manhack %d";
+				TCHAR tObjAIData[] = L"ManhackAI %d";
+				swprintf_s(tObjName, tObjData, m_iPattonDShoot);
+				swprintf_s(tObjAIName, tObjAIData, m_iPattonDShoot);
+
+				pObject->Set_Position(m_vCorePos + _vec3(0.f, 5.f, 0.f));
+
+				if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"EnemyLayer")->Add_GameObject(tObjName, pObject)))
+				{
+					Engine::CGameObject* pAIObject = CBaseAI_Flyer::Create(m_pDevice);
+					NULL_CHECK(pAIObject);
+					dynamic_cast<CBaseAI_Flyer*>(pAIObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pObject));
+					dynamic_cast<CBaseAI_Flyer*>(pAIObject)->Set_Target(pManagement->Get_NowScene()->Get_Layer(L"PlayerLayer")->Find_GameObject(L"Player"));
+
+					if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"AILayer")->Add_GameObject(tObjAIName, pAIObject)))
+					{
+						m_iPattonDShoot++;
+						m_iSummonCount++;
+					}
+					else
+					{
+						Safe_Release(pObject);
+						Safe_Release(pAIObject);
+					}
+				}
+				else
+				{
+					Safe_Release(pObject);
+				}
+			}
+			m_fSummonCooltime += m_fTime;
+
+			if (m_fSummonCooltime >= m_fSummonInterval)
+			{
+				m_fSummonCooltime = 0.f;
+			}
+		}
+	}
+	if (m_iSummonCount >= 4)
+	{
+		m_iSummonCount = 0;
+		m_bCheckOperationPattonD = true;
+	}
+	//패턴 D 끝
+
+
+		
 }
 
 void CBossStrider::PattonE()

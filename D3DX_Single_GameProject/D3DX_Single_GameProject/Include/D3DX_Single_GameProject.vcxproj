@@ -177,7 +177,9 @@
     <ClInclude Include="..\Headers\MainCamera.h" />
     <ClInclude Include="..\Headers\MainGame.h" />
     <ClInclude Include="..\Headers\MainMapA.h" />
+    <ClInclude Include="..\Headers\MainMapC.h" />
     <ClInclude Include="..\Headers\MainStageA.h" />
+    <ClInclude Include="..\Headers\MainStageC.h" />
     <ClInclude Include="..\Headers\MapObject.h" />
     <ClInclude Include="..\Headers\NaviMeshController.h" />
     <ClInclude Include="..\Headers\Player.h" />
@@ -229,7 +231,9 @@
     <ClCompile Include="..\Codes\MainCamera.cpp" />
     <ClCompile Include="..\Codes\MainGame.cpp" />
     <ClCompile Include="..\Codes\MainMapA.cpp" />
+    <ClCompile Include="..\Codes\MainMapC.cpp" />
     <ClCompile Include="..\Codes\MainStageA.cpp" />
+    <ClCompile Include="..\Codes\MainStageC.cpp" />
     <ClCompile Include="..\Codes\MapObject.cpp" />
     <ClCompile Include="..\Codes\NaviMeshController.cpp" />
     <ClCompile Include="..\Codes\Player.cpp" />
