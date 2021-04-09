@@ -148,6 +148,16 @@ _bool CCell::Compare_Point(const _vec3* pFirst, const _vec3* pSecond, CCell* pCe
 	return false;
 }
 
+HRESULT CCell::Edit_Cell(_vec3& p1, _vec3& p2, _vec3& p3)
+{
+	m_vPoint[(_uint)NAVIPOINT::POINT_A] = p1;
+	m_vPoint[(_uint)NAVIPOINT::POINT_B] = p2;
+	m_vPoint[(_uint)NAVIPOINT::POINT_C] = p3;
+
+
+	return S_OK;
+}
+
 void CCell::Render_Cell(void)
 {
 #ifdef _DEBUG

@@ -35,6 +35,9 @@ public:
 	vector<CCell*>*		Get_NaviMesh();									//세이브용
 	HRESULT				Set_NaviMesh(std::vector<CCell*>* vCellList);	//로드용
 
+	HRESULT				Edit_NaviMesh(_uint iIndex, _vec3& p1, _vec3& p2, _vec3& p3);
+	HRESULT				Delete_NaviMesh(_uint iIndex);
+
 	HRESULT				Clear_NaviMesh();								//네비매시 초기화
 
 private:

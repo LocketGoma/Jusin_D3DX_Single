@@ -167,7 +167,7 @@ void CStaticMesh::Free(void)
 
 	for (_uint i = 0; i < m_dwSubsetCnt; ++i)
 	{
-		if (m_ppTextures[i] != nullptr)
+		if (m_ppTextures != nullptr && m_ppTextures[i] != nullptr)
 		{
 			m_ppTextures[i]->Release();
 			m_ppTextures[i] = nullptr;

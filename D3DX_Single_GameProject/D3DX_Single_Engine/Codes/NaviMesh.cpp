@@ -161,6 +161,39 @@ HRESULT CNaviMesh::Set_NaviMesh(std::vector<CCell*>* vCellList)
 	return S_OK;
 }
 
+HRESULT CNaviMesh::Edit_NaviMesh(_uint iIndex, _vec3& p1, _vec3& p2, _vec3& p3)
+{
+	if (iIndex > m_vecCell.size())
+	{
+		return E_FAIL;
+	}
+	
+	m_vecCell[iIndex]->Edit_Cell(p1, p2, p3);
+
+	return S_OK;
+}
+
+HRESULT CNaviMesh::Delete_NaviMesh(_uint iIndex)
+{
+	if (iIndex > m_vecCell.size())
+	{
+		return E_FAIL;
+	}
+	auto iter = m_vecCell.begin();
+
+	for (int i = 0; i < m_vecCell.size(); i++)
+	{
+		if (i == iIndex)
+		{
+			Safe_Release(m_vecCell[i]);
+			m_vecCell.erase(iter);
+			break;
+		}
+		iter++;
+	}
+	return S_OK;
+}
+
 HRESULT CNaviMesh::Clear_NaviMesh()
 {
 	for (auto& object : m_vecCell)

@@ -33,6 +33,7 @@ public:
 public:
 	HRESULT		Ready_Cell(const _ulong& dwCellIndex, const _vec3* pPointA, const _vec3* pPointB, const _vec3* pPointC);
 	_bool		Compare_Point(const _vec3* pFirst, const _vec3* pSecond, CCell* pCell);
+	HRESULT		Edit_Cell(_vec3& p1, _vec3& p2, _vec3& p3);
 	void		Render_Cell(void);
 	_float		Get_Height_At_Cell(const _vec3* pVPos);
 
