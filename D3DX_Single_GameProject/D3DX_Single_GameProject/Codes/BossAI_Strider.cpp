@@ -153,7 +153,7 @@ HRESULT CBossAI_Strider::Do_Attack(const _float& fDeltaTime)
 
 	if (m_bAttack == true)
 	{
-		if (m_fRangeToTarget <= PLAYER_BASE_HITBOX * 2.5)
+		if (m_fRangeToTarget <= PLAYER_BASE_HITBOX * 4.f)
 		{
 			m_eBasePatton = eBasePatton::PattonA;
 		}

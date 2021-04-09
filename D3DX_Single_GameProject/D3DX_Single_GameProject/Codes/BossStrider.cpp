@@ -232,21 +232,21 @@ void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 	}
 	else if (m_fPattonCooltime <= 0.f)
 	{
-		//if ((eStriderPatton)iPatton == eStriderPatton::PattonB)
-		//{
-		//	m_ePatton = eStriderPatton::PattonB;
-		//	PattonB();
-		//}
-		//else if ((eStriderPatton)iPatton == eStriderPatton::PattonC)
-		//{
+		if ((eStriderPatton)iPatton == eStriderPatton::PattonB)
+		{
+			m_ePatton = eStriderPatton::PattonB;
+			PattonB();
+		}
+		else if ((eStriderPatton)iPatton == eStriderPatton::PattonC)
+		{
 			m_ePatton = eStriderPatton::PattonC;
 			PattonC();
-		//}
-		//else if ((eStriderPatton)iPatton == eStriderPatton::PattonD)
-		//{
-		//	m_ePatton = eStriderPatton::PattonD;
-		//	PattonD();
-		//}
+		}
+		else if ((eStriderPatton)iPatton == eStriderPatton::PattonD)
+		{
+			m_ePatton = eStriderPatton::PattonD;
+			PattonD();
+		}
 	}
 
 	if (m_bPattonLock)
@@ -470,8 +470,10 @@ void CBossStrider::PattonC()
 		}
 		if (m_bStand == false)
 		{
+			m_fNowAttackTime += m_fTime;
 			m_eAction = eStriderAction::idle_low;
-		}
+		}	
+
 	}
 	else 
 	{
@@ -517,9 +519,12 @@ void CBossStrider::PattonC()
 				swprintf_s(tObjName, tObjData, m_iPattonBShoot++);
 
 				if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
-				{
-					m_bAttackHitEnable = true;
+				{					
 					m_iTripleShootCount++;
+				}
+				else
+				{
+					Safe_Release(pObject);
 				}
 				//Shoot ³¡
 			}
