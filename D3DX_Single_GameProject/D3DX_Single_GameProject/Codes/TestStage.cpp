@@ -40,7 +40,7 @@ HRESULT CTestStage::Ready_Scene(void)
     Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
-    //Add_Enemy_Layer(L"EnemyLayer");
+    Add_Enemy_Layer(L"EnemyLayer");
     Add_Weapon_Layer(L"WeaponLayer");    
     //Add_Enemy_Control_Layer(L"EnemyControlLayer");
 

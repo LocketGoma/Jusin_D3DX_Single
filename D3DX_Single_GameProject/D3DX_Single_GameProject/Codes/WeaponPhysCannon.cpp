@@ -3,6 +3,7 @@
 
 #include "StaticObject.h"
 #include "DynamicObject.h"
+#include "BaseProjectile.h"
 
 CWeaponPhysCannon::CWeaponPhysCannon(_Device pDevice)
 	: CPlayerWeapon(pDevice)
@@ -105,7 +106,7 @@ void CWeaponPhysCannon::Shoot_Weapon()
 
 		m_pTarget = nullptr;
 	}
-	else
+	else if (m_pLookTarget != nullptr)
 	{
 		m_pLookTarget->Set_Direction(m_vDir);
 		m_pLookTarget->Set_Speed(5.f);
@@ -116,10 +117,17 @@ void CWeaponPhysCannon::Shoot_Weapon()
 void CWeaponPhysCannon::AltShoot_Weapon()
 {
 	//집고있는게 없을때 (잡기)
-	if (m_pTarget == nullptr)
+	if (m_pTarget == nullptr && m_pLookTarget!=nullptr)
 	{
-		m_pTarget = m_pLookTarget;
+		CBaseProjectile* pProj = dynamic_cast<CBaseProjectile*>(m_pLookTarget);
+		if (pProj != nullptr)
+		{
+			pProj->Set_TargetState(eTargetState::ToEnemy);
+		}
 
+
+		m_pTarget = m_pLookTarget;
+		m_pTarget->Set_Speed(0.f);
 		m_eAction = ePhysAction::Hold_Idle;
 
 	}

@@ -174,7 +174,7 @@ _bool CPlayer::Get_Pick_Object(CBaseObject* pObject, _float fRange)
 	}
 
 	//중력건은 상호작용 거리 2배
-	if (m_pWeaponType == eWeaponType::WEAPON_PHYCANNON && fRange <= m_fInteractionRange * 2)
+	if (m_pWeaponType == eWeaponType::WEAPON_PHYCANNON && fRange <= m_fInteractionRange * 3)
 	{
 		dynamic_cast<CWeaponPhysCannon*>(m_pWeapon[(_uint)m_pWeaponType])->Set_TargetObject(pObject);
 	}
@@ -443,11 +443,6 @@ _bool CPlayer::Jump_Action(const _float& fDeltaTime)
 _bool CPlayer::Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius)
 {
 	_bool bReturn = m_pSupportCom->Collision_Sphere(&(this->Get_Position()), this->m_fHitboxSize, pSourcePos, fSourceRadius);
-
-	if (bReturn == true)
-	{
-		;
-	}
 
 	bReturn == true ? eType = Engine::COLIDETYPE::COL_TRUE : eType = Engine::COLIDETYPE::COL_FALSE;
 

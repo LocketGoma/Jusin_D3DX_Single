@@ -30,10 +30,10 @@ CProjFlechette::CProjFlechette(_Device pDevice)
 	: CBaseProjectile(pDevice)
 {
 	m_iWeight = 0;
-	m_fLifeTime = 3.f;
+	m_fLifeTime = 30.f;
 	m_fSpeed = 30.f;
-	m_eForceType = eForceType::NONE;
-	m_fHitboxSize = 5.f;		//테스트용. 실제로는 좀 더 작게
+	m_eForceType = eForceType::PULL;
+	m_fHitboxSize = 2.5f;		//테스트용. 실제로는 좀 더 작게
 	
 	m_iDamage = 10;
 	m_fSplashRadius = 15.f;
