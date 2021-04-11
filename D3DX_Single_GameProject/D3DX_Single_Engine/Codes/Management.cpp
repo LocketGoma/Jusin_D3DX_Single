@@ -347,41 +347,46 @@ void CManagement::Free()
 
 void CManagement::Release_Engine()
 {
-	/* 항상 CManagement의 Destroy부터 호출해라! */
-	if (CManagement::Destroy_Instance())
-		PRINT_LOG(L"Warning", L"Failed To Release CManagement");
+	try {
+		/* 항상 CManagement의 Destroy부터 호출해라! */
+		if (CManagement::Destroy_Instance())
+			PRINT_LOG(L"Warning", L"Failed To Release CManagement");
 
-	//if (CSoundManager::Destroy_Instance())
-	//	PRINT_LOG(L"Waring", L"Failed To Release CSoundManager (Management.cpp)");
+		//if (CSoundManager::Destroy_Instance())
+		//	PRINT_LOG(L"Waring", L"Failed To Release CSoundManager (Management.cpp)");
 
-	if (CTimeManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CTime_Manager (Management.cpp)");
+		if (CTimeManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CTime_Manager (Management.cpp)");
 
-	if (CFontManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CFontManager (Management.cpp)");
+		if (CFontManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CFontManager (Management.cpp)");
 
-	if (CSceneManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CSceneManager (Management.cpp)");
+		if (CSceneManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CSceneManager (Management.cpp)");
 
-	if (CGameObjectManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGameObjectManager (Management.cpp)");
+		if (CGameObjectManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGameObjectManager (Management.cpp)");
 
-	if (CKeyManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CKeyManager (Management.cpp)");
+		if (CKeyManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CKeyManager (Management.cpp)");
 
-	if (CGraphicResourceManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGraphicResourceManager (Management.cpp)");
+		if (CGraphicResourceManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGraphicResourceManager (Management.cpp)");
 
-	if (CPrototypeManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CProtoTypeManager (Management.cpp)");
+		if (CPrototypeManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CProtoTypeManager (Management.cpp)");
 
-	if (CRenderTargetManager::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderTargetManager");
+		if (CRenderTargetManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderTargetManager");
 
-	if (CRenderer::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderer");
+		if (CRenderer::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderer");
 
-	if (CGraphicDevice::Destroy_Instance())
-		PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGraphicDevice");
-
+		if (CGraphicDevice::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGraphicDevice");
+	}
+	catch (...)
+	{
+		PRINT_LOG(L"FATAL ERROR", L"Failed To Releasew When Release Engine");
+	}
 }

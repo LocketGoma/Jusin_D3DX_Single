@@ -17,8 +17,12 @@
 #include "BaseAI_Attacker.h"
 #include "BaseAI_Flyer.h"
 #include "BossAI_Strider.h"
-#include "DynamicObject.h"
 #include "BaseProjectile.h"
+
+#include "BaseObject.h"
+#include "StaticObject.h"
+#include "DynamicObject.h"
+#include "ControlSupport.h"
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -33,10 +37,10 @@ HRESULT CTestStage::Ready_Scene(void)
 
     //Add_Test_Layer(L"TestLayer");
     Add_Player_Layer(L"PlayerLayer");
-    //Add_Object_Layer(L"ObjectLayer");
+    Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
-    Add_Enemy_Layer(L"EnemyLayer");
+    //Add_Enemy_Layer(L"EnemyLayer");
     Add_Weapon_Layer(L"WeaponLayer");    
     //Add_Enemy_Control_Layer(L"EnemyControlLayer");
 
@@ -49,6 +53,7 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 {
     CScene::Update_Scene(fDeltaTime);
 
+    //이동 판정
     m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
   //  m_pNaviController->Compare_Navi_MeshMove(Get_Layer(L"EnemyLayer"));
 
@@ -78,19 +83,78 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
         return E_FAIL;
     }
 
-    CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));    
+    CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));
+    ///중력건 포착용 상호작용 판정부
+    //플레이어 - 오브젝트 상호작용 판정
+    Engine::CLayer* targetLayer = Get_Layer(L"ObjectLayer");
+    if (targetLayer != nullptr)
+    {
+        _bool bPick = false;
+        _float fBestRange = 9999.f;
+        for (auto& iter : *targetLayer->Get_ObjectLayer())
+        {
+            CBaseObject* pObject = dynamic_cast<CBaseObject*>(iter.second);
+            if (pObject != nullptr && pObject->Get_ObjectType() != eForceType::NONE)
+            {
+                if (pObject->Check_RayCollision_By_CollisionSphere())                //충돌했으면
+                {
+                    if (fBestRange >= pObject->Get_SupportUnit()->Get_Distance())   //물체 거리 재고
+                    {
+                        fBestRange = pObject->Get_SupportUnit()->Get_Distance();    //더 가까우면 갱신
+                        pPlayer->Get_Pick_Object(pObject, fBestRange);
+                        bPick = true;
+                    }
+                }
+            }        
+        }
+        if (bPick == false)
+        {
+            pPlayer->Get_Pick_Object(nullptr, -1.f);
+        }
+    }
+
+    //플레이어 - 총알 상호작용 판정
+    targetLayer = Get_Layer(L"WeaponLayer");
+    if (targetLayer != nullptr)
+    {
+        _bool bPick = false;
+        _float fBestRange = 9999.f;
+        for (auto& iter : *targetLayer->Get_ObjectLayer())
+        {
+            CBaseObject* pObject = dynamic_cast<CBaseObject*>(iter.second);
+            if (pObject != nullptr && pObject->Get_ObjectType() != eForceType::NONE)
+            {
+                if (pObject->Check_RayCollision_By_CollisionSphere())                //충돌했으면
+                {
+                    if (fBestRange >= pObject->Get_SupportUnit()->Get_Distance())   //물체 거리 재고
+                    {
+                        fBestRange = pObject->Get_SupportUnit()->Get_Distance();    //더 가까우면 갱신
+                        pPlayer->Get_Pick_Object(pObject, fBestRange);
+                        bPick = true;
+                    }
+                }
+            }
+        }
+        if (bPick == false)
+        {
+            pPlayer->Get_Pick_Object(nullptr, -1.f);
+        }
+    }
+
+    //플레이어 - 몬스터 상호작용 판정 (일부에만 해당)
+
+    //상호작용 판정부 끝
+
 
     //플레이어 - 몬스터 충돌판정
-    auto* targetLayer = Get_Layer(L"EnemyLayer");
+    targetLayer = Get_Layer(L"EnemyLayer");
     if (targetLayer != nullptr)
     for (auto& iter : *targetLayer->Get_ObjectLayer())
     {
         CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
         if (pObject != nullptr)
         {
-            //pObject->Force_Update_Animation();
             pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
-
             
             if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
             {
@@ -101,6 +165,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 
     //플레이어 - 총알 충돌판정
     targetLayer = Get_Layer(L"WeaponLayer");
+    if (targetLayer != nullptr)
     for (auto& iter : *targetLayer->Get_ObjectLayer())
     {
         CBaseProjectile* pObject = dynamic_cast<CBaseProjectile*>(iter.second);
@@ -193,16 +258,15 @@ HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-
     auto pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
     }
 
-    pGameObject = pManagement->Clone_GameObject(L"TestObject");    
+    pGameObject = pManagement->Clone_GameObject(L"BaseObject");    
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pLayer->Add_GameObject(L"TestObject", pGameObject);
+    pLayer->Add_GameObject(L"BaseObject", pGameObject);
     
     m_mapLayer.emplace(pLayerTag, pLayer);
 
@@ -254,7 +318,7 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"SkyBoxA", pGameObject);
 
-    //pGameObject = pManagement->Clone_GameObject(L"MapA");
+    //pGameObject = pManagement->Clone_GameObject(L"MapC");
     //NULL_CHECK_RETURN(pGameObject, E_FAIL);
     //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
@@ -263,7 +327,7 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestNavi", pGameObject), E_FAIL);
 
     m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/testfile.json");
-    //m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map1.json");
+   // m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map3.json");
 
 
     m_mapLayer.emplace(pLayerTag, pLayer);

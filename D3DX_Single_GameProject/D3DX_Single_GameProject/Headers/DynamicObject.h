@@ -4,13 +4,10 @@
 #ifndef __DYNAMIC_OBJECT_H__
 #define __DYNAMIC_OBJECT_H__
 
-#include "GameObject.h"
+#include "BaseObject.h"
 
 BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
-class CTransform;
-class CControlSupportUnit;
-class CSphereCollider;
 END_NAMESPACE
 
 enum class eAlign
@@ -23,28 +20,17 @@ enum class eBasePatton
 	Idle, Dodge, PattonA, PattonB, PattonC, PattonD, PattonE, END
 };
 
-class CDynamicObject abstract : public Engine::CGameObject
+class CDynamicObject abstract : public CBaseObject
 {
 protected:
 	explicit CDynamicObject(_Device pDevice);
 	explicit CDynamicObject(const CDynamicObject& other);
 	virtual ~CDynamicObject() = default;
 
-public:
-	// CGameObject을(를) 통해 상속됨
-	virtual HRESULT Ready_GameObject(_uint iTexNumber = 0) PURE;
-	virtual HRESULT Ready_GameObject_Clone(void* pArg) PURE;
-	virtual _int Update_GameObject(const _float& fDeltaTime) PURE;
-	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) PURE;
-	virtual HRESULT Render_GameObject(void) PURE;
 
 public:
-	virtual void Set_Position(_vec3 vPos);
-	virtual void Set_Size(_vec3 vSize);
-			_vec3 Calc_Position_At_Mesh();
-	virtual _vec3 Get_Position();
-	virtual _vec3 Get_Size();
-			_vec3 Get_Position_At_Mesh();
+	_vec3 Calc_Position_At_Mesh();
+	_vec3 Get_Position_At_Mesh();
 
 //기본 액션들 - AI에서 쓸것
 public:
@@ -83,7 +69,9 @@ public:
 	const _float Get_AttackRange();
 	const _float Get_CollideRange();
 	const _vec3 Get_CorePos();
-	const Engine::CTransform* Get_Transform();
+
+	virtual _bool Check_RayCollision() override;
+	virtual _bool Check_RayCollision_By_CollisionSphere() override;
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
@@ -112,17 +100,15 @@ protected:
 	_float m_fRecognizeRange;	//인식 범위 (인식 시 방향을 틈 or 리젠)
 	_float m_fMoveRange;		//이동 범위 (공격을 위해 다가오는 거리)
 	_float m_fAttackRange;		//공격 범위 (공격 사거리)
-	_float m_fHitboxSize;
 
 	_float m_fTime;				//델타 타임 보관용
 
 //컴포넌트들
 protected:
-	Engine::COLIDETYPE eType;
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;
-	Engine::CTransform* m_pTransformCom = nullptr;
-	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
-	Engine::CSphereCollider* m_pColliderCom = nullptr;
+	//Engine::CTransform* m_pTransformCom = nullptr;
+	//Engine::CControlSupportUnit* m_pSupportCom = nullptr;
+	//Engine::CSphereCollider* m_pColliderCom = nullptr;
 	//Engine::CSphereCollider* m_pAttackColliderCom = nullptr;
 
 };

@@ -71,7 +71,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if (Safe_Release(pMainGame)) 
     {
         PRINT_LOG(L"Warning", L"Failed To Release MainApp");
-    }
+    }    
 
     Engine::CManagement::Release_Engine();
 

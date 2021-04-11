@@ -48,7 +48,19 @@ HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _float fRadius)
 		D3DLOCKED_RECT LockRect;
 		m_pTexture[i]->LockRect(0, &LockRect, NULL, 0);
 
-		*((_ulong*)LockRect.pBits) = D3DXCOLOR(1.f * i, 1.f * (1 - i), 0.f, 1.f);
+		if (i == (_uint)COLIDETYPE::COL_FALSE)
+		{
+			*((_ulong*)LockRect.pBits) = D3DXCOLOR(0.f, 1.f, 0.f, 1.f);
+		}
+		if (i == (_uint)COLIDETYPE::COL_TRUE)
+		{
+			*((_ulong*)LockRect.pBits) = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+
+		}
+		if (i == (_uint)COLIDETYPE::COL_INRANGE)
+		{
+			*((_ulong*)LockRect.pBits) = D3DXCOLOR(0.f, 0.f, 1.f, 1.f);
+		}
 
 		m_pTexture[i]->UnlockRect(0);
 	}
@@ -99,6 +111,11 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos)
 
 }
 
+const LPD3DXMESH* CSphereCollider::Get_Mesh() const
+{
+	return &m_pMesh;
+}
+
 CSphereCollider* CSphereCollider::Create(_Device pDevice, const _vec3* pPos, const _float fRadius)
 {
 	CSphereCollider* pInstance = new CSphereCollider(pDevice);
@@ -116,14 +133,10 @@ CComponent* CSphereCollider::Clone(void* pArg)
 
 void CSphereCollider::Free(void)
 {
-#ifdef _DEBUG
 	Safe_Release(m_pMesh);
 
 	for (_ulong i = 0; i < (_uint)COLIDETYPE::COL_END; ++i)
 		Safe_Release(m_pTexture[i]);
 
 	Safe_Release(m_pDevice);
-#endif // _DEBUG
-
-
 }

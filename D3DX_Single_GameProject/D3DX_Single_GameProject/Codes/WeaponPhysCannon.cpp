@@ -1,13 +1,24 @@
 #include "framework.h"
 #include "WeaponPhysCannon.h"
 
+#include "StaticObject.h"
+#include "DynamicObject.h"
+
 CWeaponPhysCannon::CWeaponPhysCannon(_Device pDevice)
 	: CPlayerWeapon(pDevice)
+	, m_pTarget(nullptr)
+	, m_pLookTarget(nullptr)
+	, m_fGrapGap(5.5f)
+	, m_eAction(ePhysAction::Idle)
 {
 }
 
 CWeaponPhysCannon::CWeaponPhysCannon(const CWeaponPhysCannon& other)
 	: CPlayerWeapon(other)
+	, m_pTarget(nullptr)
+	, m_pLookTarget(nullptr)
+	, m_fGrapGap(other.m_fGrapGap)
+	, m_eAction(ePhysAction::Idle)
 {
 }
 
@@ -28,6 +39,20 @@ HRESULT CWeaponPhysCannon::Ready_GameObject_Clone(void* pArg)
 _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+
+	if (m_pTarget != nullptr)
+	{
+		_mat matView, matPos, matScale;
+		m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+		D3DXMatrixInverse(&matView, 0, &matView);
+		_vec3 vPos = _vec3(0.f,0.f,0.f);
+		memcpy(&m_vDir, matView.m[(_uint)Engine::TRANSFORM_INFO::INFO_LOOK], sizeof(_vec3));
+		D3DXVec3TransformCoord(&vPos, &vPos, &matView);
+		vPos += m_vDir * m_fGrapGap;
+
+		m_pTarget->Set_Position(vPos);
+	}
+
 
 	return NO_EVENT;
 }
@@ -56,6 +81,8 @@ HRESULT CWeaponPhysCannon::Render_GameObject(void)
 	matView = matScale * matPos * matView;
 	m_pDevice->SetTransform(D3DTS_WORLD, &matView);
 
+	m_pMeshCom->Set_AnimationSet((_uint)m_eAction);
+
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
@@ -71,10 +98,41 @@ void CWeaponPhysCannon::Draw_Weapon()
 
 void CWeaponPhysCannon::Shoot_Weapon()
 {
+	if (m_pTarget != nullptr)
+	{
+		m_pTarget->Set_Direction(m_vDir);
+		m_pTarget->Set_Speed(15.f);
+
+		m_pTarget = nullptr;
+	}
+	else
+	{
+		m_pLookTarget->Set_Direction(m_vDir);
+		m_pLookTarget->Set_Speed(5.f);
+	}
+
 }
 
 void CWeaponPhysCannon::AltShoot_Weapon()
 {
+	//집고있는게 없을때 (잡기)
+	if (m_pTarget == nullptr)
+	{
+		m_pTarget = m_pLookTarget;
+
+		m_eAction = ePhysAction::Hold_Idle;
+
+	}
+	//뭔가 집고 있을때 (놓기)
+	else if (m_pTarget != nullptr)
+	{
+		m_pTarget->Set_Direction(_vec3(0.f, 0.f, 0.f));
+		m_pTarget->Set_Speed(0.f);
+
+		m_pTarget = nullptr;
+		m_eAction = ePhysAction::Idle;
+	}
+
 }
 
 bool CWeaponPhysCannon::Reload_Weapon()
@@ -89,6 +147,12 @@ void CWeaponPhysCannon::Release_Weapon()
 
 void CWeaponPhysCannon::Holster_Weapon()
 {
+}
+
+void CWeaponPhysCannon::Change_Weapon()
+{
+	m_pLookTarget = nullptr;
+	m_pTarget = nullptr;
 }
 
 HRESULT CWeaponPhysCannon::Add_Component(void)
@@ -134,6 +198,21 @@ Engine::CGameObject* CWeaponPhysCannon::Clone(void* pArg)
 	}
 
 	return pClone;
+}
+
+void CWeaponPhysCannon::Set_TargetObject(CBaseObject* pTarget)
+{	
+	m_pLookTarget = pTarget;
+}
+
+CBaseObject* CWeaponPhysCannon::Get_TargetObject()
+{
+	return m_pTarget;
+}
+
+CBaseObject* CWeaponPhysCannon::Get_LookTargetObject()
+{
+	return m_pLookTarget;
 }
 
 void CWeaponPhysCannon::Free()

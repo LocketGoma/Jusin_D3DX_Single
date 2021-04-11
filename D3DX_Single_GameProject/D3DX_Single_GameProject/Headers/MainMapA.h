@@ -20,13 +20,14 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
-	HRESULT Add_Component();
 
 public:
 	static CMainMapA* Create(_Device pDevice, const _tchar* pMapName);
 	virtual CGameObject* Clone(void* pArg) override;
 
 private:
+	HRESULT Add_Component();
+
 	virtual void Free();
 };
 

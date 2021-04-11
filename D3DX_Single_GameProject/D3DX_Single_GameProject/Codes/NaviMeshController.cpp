@@ -220,8 +220,6 @@ _bool CNaviMeshController::Stand_NaviMesh(Engine::CGameObject* pObject)
 
 	if (vCalPos.y > pObject->Get_Position().y)
 	{
-//		pObject->Set_Position(vCalPos);
-
 		return true;
 	}
 	return false;

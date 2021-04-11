@@ -231,6 +231,11 @@ void CWeaponShotgun::Holster_Weapon()
 	m_bReloading = false;
 }
 
+void CWeaponShotgun::Change_Weapon()
+{
+	;
+}
+
 
 HRESULT CWeaponShotgun::Add_Component(void)
 {

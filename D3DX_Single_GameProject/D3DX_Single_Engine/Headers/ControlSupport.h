@@ -15,6 +15,7 @@ class CVTXTerrain;
 class CStaticMesh;
 class CDynamicMesh;
 class CCollider;
+class CSphereCollider;
 
 class ENGINE_DLL CControlSupportUnit : public CComponent
 {
@@ -41,6 +42,7 @@ public:
 	_float Calculate_HeightOnTerrain(const _vec3* pPos, const _vec3* pTerrainVTX, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVTXInterval = 1);	
 	_bool Picking_Object_Static(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform);
 	_bool Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh* pMesh, const CTransform* pTransform);
+	_bool Picking_Object_Collider(HWND hWnd, const CSphereCollider* pMesh, const CTransform* pTransform);
 	_vec3 Picking_Object(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform);
 	_vec3 Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer, const CTransform* pTransform);	
 
@@ -49,6 +51,10 @@ public:
 	_bool Collision_OBB(const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld, const _vec3* pSourceMin, const _vec3* pSourceMax, const _mat* pSourceWorld);
 
 	_bool Collision_Sphere(const _vec3* pDestPos, const _float fDestRadius, const _vec3* pSourcePos, const _float fSourceRadius);
+
+//결과물 리턴하는곳
+public:
+	_float Get_Distance();
 	
 private:
 	void		Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax);
@@ -56,6 +62,8 @@ private:
 
 private:
 	_Device m_pDevice;
+	
+	_float m_fDistance;		//거리
 
 public:
 	static CControlSupportUnit* Create(_Device pDevice);

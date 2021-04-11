@@ -95,7 +95,7 @@ _int CProjFlechette::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_ALPHA, this);
 
-	return _int();
+	return NO_EVENT;
 }
 
 HRESULT CProjFlechette::Render_GameObject(void)
@@ -107,7 +107,7 @@ HRESULT CProjFlechette::Render_GameObject(void)
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	m_pColliderCom->Render_Collider(Engine::COLIDETYPE::COL_FALSE, &matWorld);
+	m_pColliderCom->Render_Collider(eType, &matWorld);
 
 	return S_OK;
 }

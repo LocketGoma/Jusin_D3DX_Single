@@ -5,6 +5,8 @@
 
 #include "PlayerWeapon.h"
 
+class CProjRocket;
+
 //Holster가 없었나??
 enum class eRPGAction
 {
@@ -34,6 +36,7 @@ public:
 	virtual bool Reload_Weapon() override;
 	virtual void Release_Weapon() override;
 	virtual void Holster_Weapon() override;
+	virtual void Change_Weapon() override;
 	
 private:
 	HRESULT			Add_Component(void);
@@ -43,6 +46,8 @@ public:
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:
+	CProjRocket* m_pRocket;			//현재 발사중인 로켓
+
 	virtual void Free() override;
 };
 

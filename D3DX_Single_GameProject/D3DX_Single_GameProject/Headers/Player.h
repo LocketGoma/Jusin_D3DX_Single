@@ -13,6 +13,8 @@ class CSphereCollider;
 END_NAMESPACE
 
 class CPlayerWeapon;
+class CBaseObject;
+
 
 enum class eWeaponType
 {
@@ -38,6 +40,8 @@ public:
 	virtual void Set_Size(_vec3 vSize) override;
 	virtual _vec3 Get_Position() override;
 	virtual _vec3 Get_Size() override;
+
+	_bool Get_Pick_Object(CBaseObject* pObject, _float fRange);
 
 	static void MouseProc(UINT message, WPARAM wParam);
 	static float g_zDelta;
@@ -76,6 +80,10 @@ private:
 	int m_iHP;
 	_uint m_iFullHP;
 	_float m_fHitboxSize;
+
+//상호작용
+private:
+	_float m_fInteractionRange;
 
 //무기 컨트롤용
 private:

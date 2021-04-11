@@ -19,6 +19,7 @@
 
 ///진짜배기들
 #include "MainMapA.h"
+#include "MainMapC.h"
 
 #include "StaticObject.h"
 #include "DynamicObject.h"
@@ -45,6 +46,10 @@
 #include "WeaponPhysCannon.h"
 #include "WeaponRPG.h"
 
+//기본 오브젝트
+#include "StaticNormalObject.h"
+
+ 
 //탄약류
 #include "ProjFlechette.h"
 #include "ProjCoreBall.h"
@@ -53,6 +58,7 @@
 //이펙트
 #include "EffectMuzzle.h"
 #include "EffectA2Muzzle.h"
+
 
 //로드 데이터 끝
 
@@ -271,23 +277,18 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     pManagement->Ready_Prototype(L"Camera_Comp", Engine::CCameraComponent::Create(m_pDevice));
 
-
-
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_SkyboxA", Engine::TEXTYPE::TEX_CUBE, L"../../Resource/Image/Skybox/SkyboxA.dds", 1);
 
-
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Navi", Engine::MESHTYPE::MESH_NAVI, L"", L"");
-
 
     ///아래부터 진짜배기 메쉬들
 
     //맵
-    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapA_Mesh", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map01/", L"Map01_Final.x");
+    //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapA_Mesh", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map01/", L"Map01_Final.x");
 
    // pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapB_Mesh", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map02/", L"Map02_Edited.x");
 
-    //얘 좀 이상함
-    //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapC_Mesh", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map03/", L"Map03_test.x");
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"MapC_Mesh", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Map/Map03/", L"Map03_Final.x");
 
     //적
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Antlion", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Antlion/", L"Antlion_Final.x");
@@ -347,6 +348,10 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CMainMapA::Create(m_pDevice, L"MapA");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"MapA", pGameObject);
+
+    pGameObject = CMainMapC::Create(m_pDevice, L"MapC");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"MapC", pGameObject);
 
     //스카이박스
     pGameObject = CSkyBox::Create(m_pDevice);
@@ -413,6 +418,11 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CWeaponRPG::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"WeaponRPG", pGameObject);
+
+    //기본 오브젝트
+    pGameObject = CStaticNormalObject::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"BaseObject", pGameObject);
 
 
     //탄약

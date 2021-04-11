@@ -96,16 +96,16 @@ _vec3 CNaviMesh::Move_OnNaviMesh(const _vec3* pTargetPos, const _vec3* pTargetDi
 
 _vec3 CNaviMesh::Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos)
 {
-	if (COMPAREMOVE::MOVE == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
+ 	if (COMPAREMOVE::MOVE == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
 	{
-		return Caculate_OnNaviMesh(pNewPos);
+		return Caculate_OnNaviMesh(pNewPos);		
 	}
 	else if (COMPAREMOVE::STOP == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
 	{
-		return *pOldPos;
+		return Caculate_OnNaviMesh(pOldPos);
 	}
 
-	return *pOldPos;
+	return Caculate_OnNaviMesh(pOldPos);
 }
 
 //1. 검사할 pos값이 넘어간 경우 -> 보정된 pos 값 리턴
@@ -124,7 +124,9 @@ _vec3 CNaviMesh::Compare_OnNaviMesh_for_Mesh(const _vec3* pOldPos, const _vec3* 
 
 _vec3 CNaviMesh::Caculate_OnNaviMesh(const _vec3* pTargetPos)
 {
-	return _vec3(pTargetPos->x, m_vecCell[m_dwCellIndex]->Get_Height_At_Cell(pTargetPos),pTargetPos->z);
+	_float fFieldPos = m_vecCell[m_dwCellIndex]->Get_Height_At_Cell(pTargetPos);
+
+	return _vec3(pTargetPos->x, pTargetPos->y-0.5f <= fFieldPos ? fFieldPos:pTargetPos->y,pTargetPos->z);
 }
 
 HRESULT CNaviMesh::Add_NaviCell(_vec3& p1, _vec3& p2, _vec3& p3)
@@ -276,6 +278,4 @@ void CNaviMesh::Free(void)
 
 	//for_each(m_vecCell.begin(), m_vecCell.end(), CDeleteMap());
 	Clear_NaviMesh();
-
-
 }

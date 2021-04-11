@@ -33,6 +33,7 @@ public:
 	virtual bool Reload_Weapon();			//재장전
 	virtual void Release_Weapon() PURE;		//사격종료
 	virtual void Holster_Weapon() PURE;		//무기 집어넣기
+	virtual void Change_Weapon() PURE;		//무기 교체
 
 	_uint Get_Damage_Primary();
 	_uint Get_Damage_Secondery();

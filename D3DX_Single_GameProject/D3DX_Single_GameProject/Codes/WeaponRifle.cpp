@@ -132,6 +132,7 @@ HRESULT CWeaponRifle::Render_GameObject(void)
 
 void CWeaponRifle::Draw_Weapon()
 {
+	Set_Animation((_uint)eRifleAction::Draw);
 }
 
 void CWeaponRifle::Shoot_Weapon()
@@ -248,6 +249,11 @@ bool CWeaponRifle::Reload_Weapon()
 void CWeaponRifle::Release_Weapon()
 {
 	Set_Animation((_uint)eRifleAction::Idle);
+}
+
+void CWeaponRifle::Change_Weapon()
+{
+	;
 }
 
 void CWeaponRifle::Holster_Weapon()

@@ -3,6 +3,7 @@
 
 CWeaponRPG::CWeaponRPG(_Device pDevice)
 	: CPlayerWeapon(pDevice)
+	, m_pRocket(nullptr)
 {
 	m_iMaxAmmo = 10;
 	m_iMainAmmo = m_iMaxAmmo;
@@ -12,6 +13,7 @@ CWeaponRPG::CWeaponRPG(_Device pDevice)
 
 CWeaponRPG::CWeaponRPG(const CWeaponRPG& other)
 	: CPlayerWeapon(other)
+	, m_pRocket(nullptr)
 {
 }
 
@@ -103,6 +105,12 @@ void CWeaponRPG::Release_Weapon()
 
 void CWeaponRPG::Holster_Weapon()
 {
+}
+
+void CWeaponRPG::Change_Weapon()
+{
+	//·ÎÄÏ ¶ô ²÷À½
+	
 }
 
 HRESULT CWeaponRPG::Add_Component(void)

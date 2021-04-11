@@ -21,16 +21,16 @@ public:
 	void Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix);
 	void Render_Collider(COLIDETYPE eType, const _vec3* vPos);
 
+	const LPD3DXMESH* Get_Mesh() const;
+
 private:
 	_float m_fRadius;
 	_vec3 m_vCore;
 	_mat m_matColMatrix;
 
-#ifdef _DEBUG
 	_Device			m_pDevice;
 	LPD3DXMESH		m_pMesh;
-	LPDIRECT3DTEXTURE9			m_pTexture[(_uint)COLIDETYPE::COL_END];
-#endif
+	LPDIRECT3DTEXTURE9	m_pTexture[(_uint)COLIDETYPE::COL_END];
 
 public:
 	static CSphereCollider* Create(_Device pDevice, const _vec3* pPos, const _float fRadius);

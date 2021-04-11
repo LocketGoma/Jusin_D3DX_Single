@@ -108,7 +108,7 @@ HRESULT CProjCoreBall::Render_GameObject(void)
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	m_pColliderCom->Render_Collider(Engine::COLIDETYPE::COL_FALSE, &matWorld);
+	m_pColliderCom->Render_Collider(eType, &matWorld);
 
 	return S_OK;
 }

@@ -55,8 +55,6 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 	*((_ulong*)LockRect.pBits) = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	m_pSampleTexture->UnlockRect(0);
 
-
-
 	_tchar	szFullPath[256] = L"";
 	lstrcpy(szFullPath, pFilePath);
 	lstrcat(szFullPath, pFileName);
@@ -99,6 +97,7 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 		if (m_pMtrl[i].pTextureFilename == nullptr)
 		{
 			m_ppTextures[i] = m_pSampleTexture;
+			m_ppTextures[i]->AddRef();
 			continue;
 		}
 		

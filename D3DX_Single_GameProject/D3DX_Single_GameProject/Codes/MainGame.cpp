@@ -136,9 +136,9 @@ CMainGame* CMainGame::Create()
 void CMainGame::Free()
 {
     Safe_Release(pScene);
-
     Safe_Release(m_pDevice);
     Safe_Release(m_pManagement);
+
 }
 
 void CMainGame::MouseProc(UINT message, WPARAM wParam)

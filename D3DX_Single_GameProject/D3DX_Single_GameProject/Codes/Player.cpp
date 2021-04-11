@@ -9,10 +9,13 @@
 
 #include "SphereCollider.h"
 
-//무기
+//오브젝트 상호작용
+#include "BaseObject.h"
 
+//무기
 #include "PlayerWeapon.h"
 #include "WeaponCrowBar.h"
+#include "WeaponPhysCannon.h"
 
 float CPlayer::g_zDelta = 0.f;
 
@@ -21,14 +24,15 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_pWeaponType(eWeaponType::WEAPON_CROWBAR)
 	, m_fWeaponTimer(0.f)
 	, m_bShootState(false)
+	, m_fInteractionRange(15.f)
 	, m_iFullHP(100)
 	, m_fHitboxSize(7.5f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(10.f)
 	, m_fRunSpeed(20.f)
-	, m_fJumpPower(16.5f)
+	, m_fJumpPower(7.55f)
 	, m_fNowJumpPos(0.f)
-	, m_fGravition(29.40f)
+	, m_fGravition(49.0f)
 	, m_bJump(false)
 	, m_bJumpStart(false)
 	
@@ -43,6 +47,7 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_pWeaponType(other.m_pWeaponType)
 	, m_fWeaponTimer(0.f)
 	, m_bShootState(false)
+	, m_fInteractionRange(other.m_fInteractionRange)
 	, m_iFullHP(other.m_iFullHP)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
@@ -159,6 +164,25 @@ _vec3 CPlayer::Get_Position()
 _vec3 CPlayer::Get_Size()
 {
 	return m_pTransformCom->Get_TransformDescription().vScale;
+}
+_bool CPlayer::Get_Pick_Object(CBaseObject* pObject, _float fRange)
+{
+	//타겟 오브젝트가 없을때 & 너무 멀때
+	if (pObject == nullptr)
+	{
+		return false;
+	}
+
+	//중력건은 상호작용 거리 2배
+	if (m_pWeaponType == eWeaponType::WEAPON_PHYCANNON && fRange <= m_fInteractionRange * 2)
+	{
+		dynamic_cast<CWeaponPhysCannon*>(m_pWeapon[(_uint)m_pWeaponType])->Set_TargetObject(pObject);
+	}
+	else if (fRange <= m_fInteractionRange)
+	{
+		;
+	}
+	return true;
 }
 //휠 조작용
 void CPlayer::MouseProc(UINT message, WPARAM wParam)
@@ -347,6 +371,8 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 
 	if (g_zDelta > 0.1f)
 	{
+		m_pWeapon[(_uint)m_pWeaponType]->Change_Weapon();
+
 		m_pWeaponType = (eWeaponType)((_uint)m_pWeaponType+1);
 		
 		if (m_pWeaponType == eWeaponType::WEAPON_END)		//최종적으론 END
@@ -357,6 +383,8 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	}
 	else if (g_zDelta < -0.1f)
 	{
+		m_pWeapon[(_uint)m_pWeaponType]->Change_Weapon();
+
 		if (m_pWeaponType == eWeaponType::WEAPON_CROWBAR)
 		{
 			m_pWeaponType = eWeaponType::WEAPON_RPG;		//최종적으로는 마지막무기
@@ -373,16 +401,13 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	{
 		m_fWeaponTimer += fDeltaTime;
 	}
-
-	
-
 }
 
 _bool CPlayer::Jump_Action(const _float& fDeltaTime)
 {
 	if (m_bJump == true && m_bJumpStart == false)
 	{		
-		m_bJumpStart = false;
+		m_bJumpStart = true;
 
 		m_fStartPos = Get_Position().y;
 	}
@@ -395,13 +420,24 @@ _bool CPlayer::Jump_Action(const _float& fDeltaTime)
 		_vec3 vNowPos = _vec3(0.f, 0.f, 0.f);
 		vNowPos.y = m_fNowJumpPos;
 		m_pTransformCom->Add_Pos(vNowPos);
+	}
+	
+	_vec3 vPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+
+	if (m_fStartPos > vPos.y)
+	{
+		vPos.y = m_fStartPos;
+		m_pTransformCom->Set_Pos(vPos);
 
 
+		m_fJumpTime = 0.f;
+		m_bJump = false;
+		m_bJumpStart = false;
+		return false;
 	}
 
 
-
-	return _bool();
+	return true;
 }
 
 _bool CPlayer::Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius)

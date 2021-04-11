@@ -164,6 +164,11 @@ void CWeaponPistol::Holster_Weapon()
 {
 }
 
+void CWeaponPistol::Change_Weapon()
+{
+	;
+}
+
 HRESULT CWeaponPistol::Add_Component(void)
 {
 	auto pManagement = Engine::CManagement::Get_Instance();

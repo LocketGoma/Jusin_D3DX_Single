@@ -227,7 +227,7 @@ _float CCell::Get_Height_At_Cell(const _vec3* pVPos)
 	D3DXPLANE pPlane;
 	D3DXPlaneFromPoints(&pPlane, &vPosA, &vPosB, &vPosC);
 
-	return -(pPlane.a * pVPos->x + pPlane.c * pVPos->z + pPlane.d) / pPlane.b;;
+	return -(pPlane.a * pVPos->x + pPlane.c * pVPos->z + pPlane.d) / pPlane.b;
 }
 
 COMPAREMOVE CCell::Compare(const _vec3* pEndPos, _ulong* pCellIndex)
@@ -236,7 +236,7 @@ COMPAREMOVE CCell::Compare(const _vec3* pEndPos, _ulong* pCellIndex)
 	{
 		if (COMPARE::COMPARE_LEFT == m_pLine[i]->Compare(&_vec2(pEndPos->x, pEndPos->z)))
 		{
-			if (nullptr == m_pNeighbor[i])
+ 			if (nullptr == m_pNeighbor[i])
 				return COMPAREMOVE::STOP;
 
 			else

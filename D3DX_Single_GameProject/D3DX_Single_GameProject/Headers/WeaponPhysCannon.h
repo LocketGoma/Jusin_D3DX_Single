@@ -5,6 +5,22 @@
 
 #include "PlayerWeapon.h"
 
+/// <summary>
+/// 필요한것
+/// 
+/// 1. 타겟이 어떤것인지
+/// 2. 타겟간 거리는 어떻게 되는지
+/// 3. 그냥 놓기 / 발사하기
+/// </summary>
+/// 
+
+class CBaseObject;
+
+enum class ePhysTargetType
+{
+	Static, Dynamic, None, END
+};
+
 enum class ePhysAction
 {
 	Idle, Holster, Hold_Idle, Fire, Draw, AltFire, END
@@ -33,6 +49,7 @@ public:
 	virtual bool Reload_Weapon() override;			//없음
 	virtual void Release_Weapon() override;
 	virtual void Holster_Weapon() override;
+	virtual void Change_Weapon() override;
 
 private:
 	HRESULT			Add_Component(void);
@@ -41,8 +58,23 @@ public:
 	static CWeaponPhysCannon* Create(_Device pDevice);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
+	void Set_TargetObject(CBaseObject* pTarget);
+	CBaseObject* Get_TargetObject();
+	CBaseObject* Get_LookTargetObject();
+
 private:
 	virtual void Free() override;
+
+
+	//내가 무슨 물체를 갖고있는지 중력건이 알필요가 없죠?
+	//Engine::CGameObject* m_pTarget;
+	CBaseObject* m_pTarget;
+	CBaseObject* m_pLookTarget;
+
+	ePhysAction m_eAction;
+	_vec3 m_vDir;			//바라보는 방향 = 발사하는 방향
+
+	_float m_fGrapGap;
 
 };
 

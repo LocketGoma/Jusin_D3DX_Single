@@ -157,6 +157,7 @@
     <ClInclude Include="..\Headers\BaseAI_Shooter.h" />
     <ClInclude Include="..\Headers\BaseEffect.h" />
     <ClInclude Include="..\Headers\BaseLogoScene.h" />
+    <ClInclude Include="..\Headers\BaseObject.h" />
     <ClInclude Include="..\Headers\BaseProjectile.h" />
     <ClInclude Include="..\Headers\BossAI_Hunter.h" />
     <ClInclude Include="..\Headers\BossAI_Strider.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="..\Headers\EffectA2Muzzle.h" />
     <ClInclude Include="..\Headers\EffectMuzzle.h" />
     <ClInclude Include="..\Headers\EnemyAntLion.h" />
+    <ClInclude Include="..\Headers\EnemyHeadCrap.h" />
     <ClInclude Include="..\Headers\EnemyHunter.h" />
     <ClInclude Include="..\Headers\EnemyManhack.h" />
     <ClInclude Include="..\Headers\framework.h" />
@@ -187,7 +189,9 @@
     <ClInclude Include="..\Headers\ProjCoreBall.h" />
     <ClInclude Include="..\Headers\ProjFlechette.h" />
     <ClInclude Include="..\Headers\ProjPulseAmmo.h" />
+    <ClInclude Include="..\Headers\ProjRocket.h" />
     <ClInclude Include="..\Headers\StageALight.h" />
+    <ClInclude Include="..\Headers\StaticNormalObject.h" />
     <ClInclude Include="..\Headers\TestPlayer.h" />
     <ClInclude Include="..\Headers\SkyBox.h" />
     <ClInclude Include="..\Headers\StaticObject.h" />
@@ -215,6 +219,7 @@
     <ClCompile Include="..\Codes\BaseAI_Shooter.cpp" />
     <ClCompile Include="..\Codes\BaseEffect.cpp" />
     <ClCompile Include="..\Codes\BaseLogoScene.cpp" />
+    <ClCompile Include="..\Codes\BaseObject.cpp" />
     <ClCompile Include="..\Codes\BaseProjectile.cpp" />
     <ClCompile Include="..\Codes\BossAI_Hunter.cpp" />
     <ClCompile Include="..\Codes\BossAI_Strider.cpp" />
@@ -224,6 +229,7 @@
     <ClCompile Include="..\Codes\EffectA2Muzzle.cpp" />
     <ClCompile Include="..\Codes\EffectMuzzle.cpp" />
     <ClCompile Include="..\Codes\EnemyAntLion.cpp" />
+    <ClCompile Include="..\Codes\EnemyHeadCrap.cpp" />
     <ClCompile Include="..\Codes\EnemyHunter.cpp" />
     <ClCompile Include="..\Codes\EnemyManhack.cpp" />
     <ClCompile Include="..\Codes\LoadingScene.cpp" />
@@ -241,7 +247,9 @@
     <ClCompile Include="..\Codes\ProjCoreBall.cpp" />
     <ClCompile Include="..\Codes\ProjFlechette.cpp" />
     <ClCompile Include="..\Codes\ProjPulseAmmo.cpp" />
+    <ClCompile Include="..\Codes\ProjRocket.cpp" />
     <ClCompile Include="..\Codes\StageALight.cpp" />
+    <ClCompile Include="..\Codes\StaticNormalObject.cpp" />
     <ClCompile Include="..\Codes\TestPlayer.cpp" />
     <ClCompile Include="..\Codes\SkyBox.cpp" />
     <ClCompile Include="..\Codes\StaticObject.cpp" />

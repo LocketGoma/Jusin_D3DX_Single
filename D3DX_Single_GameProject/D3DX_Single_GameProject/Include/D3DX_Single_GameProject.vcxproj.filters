@@ -197,6 +197,12 @@
     <Filter Include="07.AI&amp;Algorithm\12.BossStrider">
       <UniqueIdentifier>{bd46f2a4-98da-470a-b9db-4e52d35a96e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\02.StaticObject\00.NormalObject">
+      <UniqueIdentifier>{47287c34-818f-4c25-b464-0cc5481316a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\12.Projectile\05.Rocket">
+      <UniqueIdentifier>{9e482f80-e9cc-46c3-8d87-2d4766ec829b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -367,6 +373,16 @@
     <ClInclude Include="..\Headers\MainMapC.h">
       <Filter>01.Object\06.Map\03.MainC</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\EnemyHeadCrap.h">
+      <Filter>01.Object\03.DynamicObject\00.Enemy\02.HeadCrap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\StaticNormalObject.h">
+      <Filter>01.Object\02.StaticObject\00.NormalObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BaseObject.h">
+      <Filter>01.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ProjRocket.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -532,5 +548,15 @@
     <ClCompile Include="..\Codes\MainMapC.cpp">
       <Filter>01.Object\06.Map\03.MainC</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\EnemyHeadCrap.cpp">
+      <Filter>01.Object\03.DynamicObject\00.Enemy\02.HeadCrap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\StaticNormalObject.cpp">
+      <Filter>01.Object\02.StaticObject\00.NormalObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseObject.cpp">
+      <Filter>01.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ProjRocket.cpp" />
   </ItemGroup>
 </Project>

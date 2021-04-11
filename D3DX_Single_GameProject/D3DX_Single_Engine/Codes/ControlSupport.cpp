@@ -4,6 +4,7 @@
 #include "Transform.h"
 
 #include "Collider.h"
+#include "SphereCollider.h"
 
 #include "Mesh.h"
 #include "StaticMesh.h"
@@ -13,10 +14,9 @@ USING(Engine)
 
 CControlSupportUnit::CControlSupportUnit(_Device pDevice)
     : m_pDevice(pDevice)
+    , m_fDistance(-1.f)
 {
-    m_bIsPrototype = true;
-
-    
+    m_bIsPrototype = true;    
 
     Safe_AddReference(m_pDevice);
 }
@@ -24,10 +24,9 @@ CControlSupportUnit::CControlSupportUnit(_Device pDevice)
 CControlSupportUnit::CControlSupportUnit(const CControlSupportUnit& other)
     : CComponent(other)
     , m_pDevice(other.m_pDevice)
+    , m_fDistance(other.m_fDistance)
 {
-    m_bIsPrototype = false;
-
-    
+    m_bIsPrototype = false;    
 
     Safe_AddReference(m_pDevice);
 }
@@ -73,7 +72,100 @@ _float CControlSupportUnit::Calculate_HeightOnTerrain(const _vec3* pPos, const _
 
 _bool CControlSupportUnit::Picking_Object_Static(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform)
 {
-    return _vec3();
+    _bool bResult = false;
+    m_fDistance = -1.f;
+
+    POINT ptMouse{};
+
+    GetCursorPos(&ptMouse);
+    ScreenToClient(hWnd, &ptMouse);
+
+    _vec3 vMousePos;
+
+    //뷰포트 획득
+    D3DVIEWPORT9 pViewPort;
+    ZeroMemory(&pViewPort, sizeof(_D3DVIEWPORT9));
+    m_pDevice->GetViewport(&pViewPort);
+
+    //윈도우 좌표 -> 투영 좌표
+    vMousePos.x = ptMouse.x / (pViewPort.Width * 0.5f) - 1.f;
+    vMousePos.y = ptMouse.y / -(pViewPort.Height * 0.5f) + 1.f;
+    vMousePos.z = 0.f;
+
+    //투영 좌표 -> 뷰 좌표
+    _mat matProj;
+    m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+    D3DXMatrixInverse(&matProj, NULL, &matProj);
+    D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+    //이 시점에 마우스 좌표는 뷰에 있음.
+
+    //뷰 좌표 -> 월드 좌표
+    _mat matView;
+    m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixInverse(&matView, NULL, &matView);
+
+
+    //RayPos : 레이 스타트 / RayDir : 레이 방향
+    _vec3 vRayPos, vRayDir;
+
+    vRayPos = _vec3(0.f, 0.f, 0.f); //레이 시작 : 화면 중점
+    vRayDir = vMousePos - vRayPos; //레이 방향 : 마우스 클릭위치
+
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+    //월드 -> 로컬
+    //사유 : 버텍스 정보는 로컬정보니까.
+    _mat matWorld;
+    memcpy(&matWorld, pTransform->Get_TransformDescription().matWorld, sizeof(_mat));
+    D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+
+    //Coord : 위치 / Normal : 방향
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+
+    const LPD3DXMESH* meshData = pMesh->Get_VertrxInfo();
+
+    LPDIRECT3DVERTEXBUFFER9 pVTXBuffer;
+    LPDIRECT3DINDEXBUFFER9 pIndexBuffer;
+
+
+    _uint iIndexNumber = (*meshData)->GetNumFaces();
+    (*meshData)->GetVertexBuffer(&pVTXBuffer);
+    (*meshData)->GetIndexBuffer(&pIndexBuffer);
+
+    WORD* pIndices;
+    D3DVERTEX* pVertices;
+
+    pIndexBuffer->Lock(0, 0, (void**)&pIndices, 0);
+    pVTXBuffer->Lock(0, 0, (void**)&pVertices, 0);
+
+    for (_uint i = 0; i < iIndexNumber; i++)
+    {
+        _vec3 v0 = pVertices[pIndices[3 * i + 0]].p;
+        _vec3 v1 = pVertices[pIndices[3 * i + 1]].p;
+        _vec3 v2 = pVertices[pIndices[3 * i + 2]].p;
+
+        _float fU, fV, fDist;
+        if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &fU, &fV, &fDist))
+        {
+            bResult = true;
+            m_fDistance = fDist;
+
+            break;
+        }
+    }
+    pVTXBuffer->Unlock();
+    pIndexBuffer->Unlock();
+
+    Safe_Release(pVTXBuffer);
+    Safe_Release(pIndexBuffer);
+
+
+
+    return bResult;
 }
 
 //1. ColliderBox-레이 피킹 처리
@@ -83,6 +175,7 @@ _bool CControlSupportUnit::Picking_Object_Static(HWND hWnd, const CStaticMesh* p
 _bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh* pMesh, const CTransform* pTransform)
 {
     _bool bResult = false;
+    m_fDistance = -1.f;
 
     POINT ptMouse{};
 
@@ -164,6 +257,8 @@ _bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh*
             _float fU, fV, fDist;
             if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
+                m_fDistance = fDist;
+
                 bResult = true;
                 break;
             }
@@ -177,10 +272,81 @@ _bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh*
     return bResult;
 }
 
+_bool CControlSupportUnit::Picking_Object_Collider(HWND hWnd, const CSphereCollider* pMesh, const CTransform* pTransform)
+{
+    BOOL bResult = false;
+    m_fDistance = -1.f;
+
+    POINT ptMouse{};
+
+    GetCursorPos(&ptMouse);
+    ScreenToClient(hWnd, &ptMouse);
+
+    _vec3 vMousePos;
+
+    //뷰포트 획득
+    D3DVIEWPORT9 pViewPort;
+    ZeroMemory(&pViewPort, sizeof(_D3DVIEWPORT9));
+    m_pDevice->GetViewport(&pViewPort);
+
+    //윈도우 좌표 -> 투영 좌표
+    vMousePos.x = ptMouse.x / (pViewPort.Width * 0.5f) - 1.f;
+    vMousePos.y = ptMouse.y / -(pViewPort.Height * 0.5f) + 1.f;
+    vMousePos.z = 0.f;
+
+    //투영 좌표 -> 뷰 좌표
+    _mat matProj;
+    m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+    D3DXMatrixInverse(&matProj, NULL, &matProj);
+    D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+    //이 시점에 마우스 좌표는 뷰에 있음.
+
+    //뷰 좌표 -> 월드 좌표
+    _mat matView;
+    m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixInverse(&matView, NULL, &matView);
+
+
+    //RayPos : 레이 스타트 / RayDir : 레이 방향
+    _vec3 vRayPos, vRayDir;
+
+    vRayPos = _vec3(0.f, 0.f, 0.f); //레이 시작 : 화면 중점
+    vRayDir = vMousePos - vRayPos; //레이 방향 : 마우스 클릭위치
+
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+    //월드 -> 로컬
+    //사유 : 버텍스 정보는 로컬정보니까.
+    _mat matWorld;
+    memcpy(&matWorld, pTransform->Get_TransformDescription().matWorld, sizeof(_mat));
+    D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+
+    //Coord : 위치 / Normal : 방향
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+
+    LPD3DXMESH* meshData = const_cast<LPD3DXMESH *>(pMesh->Get_Mesh());   
+
+
+   _float fU, fV, fDist;
+   D3DXIntersect(*meshData, &vRayPos, &vRayDir, &bResult, nullptr, &fU, &fV, &fDist, nullptr, nullptr);
+
+
+   _vec3 vRange = vRayPos - pTransform->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+   m_fDistance = D3DXVec3Length(&vRange);
+   
+
+    return bResult;
+}
+
 _vec3 CControlSupportUnit::Picking_Object(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform)
 {
     _vec3 vResult = _vec3(0.f,0.f,0.f);
     _bool bResult = false;
+    m_fDistance = -1.f;
 
     POINT ptMouse{};
 
@@ -258,6 +424,7 @@ _vec3 CControlSupportUnit::Picking_Object(HWND hWnd, const CStaticMesh* pMesh, c
         _float fU, fV, fDist;
         if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &fU, &fV, &fDist))
         {
+            m_fDistance = fDist;
             vResult = _vec3(v0 + (v1 - v0) * fU + (v2 - v0) * fV);
             bResult = true;
             break;
@@ -351,6 +518,8 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
 
             if (D3DXIntersectTri(&pTerrainVTX[dwVTXIndex[1]], &pTerrainVTX[dwVTXIndex[2]], &pTerrainVTX[dwVTXIndex[0]], &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
+                m_fDistance = fDist;
+
                 vReturnPos = _vec3(pTerrainVTX[dwVTXIndex[1]] + (pTerrainVTX[dwVTXIndex[2]] - pTerrainVTX[dwVTXIndex[1]])*fU + (pTerrainVTX[dwVTXIndex[0]]- pTerrainVTX[dwVTXIndex[1]])*fV);
 
                 break;
@@ -364,6 +533,7 @@ _vec3 CControlSupportUnit::Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer
             if (D3DXIntersectTri(&pTerrainVTX[dwVTXIndex[2]], &pTerrainVTX[dwVTXIndex[0]], &pTerrainVTX[dwVTXIndex[1]], &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
                 // = v0 + (u*(v1-v0))+(v*(v2-v0));
+                m_fDistance = fDist;
 
                 vReturnPos = _vec3(pTerrainVTX[dwVTXIndex[2]] + (pTerrainVTX[dwVTXIndex[0]] - pTerrainVTX[dwVTXIndex[2]]) * fU + (pTerrainVTX[dwVTXIndex[1]] - pTerrainVTX[dwVTXIndex[2]]) * fV);
 
@@ -509,6 +679,11 @@ _bool CControlSupportUnit::Collision_Sphere(const _vec3* pDestPos, const _float 
     _float fSphereRange = D3DXVec3Length(&vRangePos);
     
     return fRadiusRange >= fSphereRange;
+}
+
+_float CControlSupportUnit::Get_Distance()
+{
+    return m_fDistance;
 }
 
 void CControlSupportUnit::Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax)

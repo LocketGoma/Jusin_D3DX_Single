@@ -186,6 +186,11 @@ void CWeaponSMG::Holster_Weapon()
 {
 }
 
+void CWeaponSMG::Change_Weapon()
+{
+	;
+}
+
 HRESULT CWeaponSMG::Add_Component(void)
 {
 	auto pManagement = Engine::CManagement::Get_Instance();

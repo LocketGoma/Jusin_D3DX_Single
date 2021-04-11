@@ -130,6 +130,11 @@ void CWeaponCrowbar::Holster_Weapon()
 	m_bZoom = false;
 }
 
+void CWeaponCrowbar::Change_Weapon()
+{
+	;
+}
+
 HRESULT CWeaponCrowbar::Add_Component(void)
 {
 	auto pManagement = Engine::CManagement::Get_Instance();
