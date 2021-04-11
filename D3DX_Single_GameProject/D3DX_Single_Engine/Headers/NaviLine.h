@@ -20,7 +20,7 @@ public:
 	COMPARE		Compare(const _vec2* pEndPos);
 
 private:
-	_vec2				m_vPoint[(_uint)NAVIPOINT::POINT_END];
+	_vec2				m_vPoint[(_uint)POINTTRACK::POINT_END];
 	_vec2				m_vDirection;
 	_vec2				m_vNormal;
 
