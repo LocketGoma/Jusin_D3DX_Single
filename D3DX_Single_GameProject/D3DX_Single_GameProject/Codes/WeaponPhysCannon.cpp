@@ -11,6 +11,7 @@ CWeaponPhysCannon::CWeaponPhysCannon(_Device pDevice)
 	, m_pLookTarget(nullptr)
 	, m_fGrapGap(5.5f)
 	, m_eAction(ePhysAction::Idle)
+	, m_bShootLock(true)
 {
 }
 
@@ -20,6 +21,7 @@ CWeaponPhysCannon::CWeaponPhysCannon(const CWeaponPhysCannon& other)
 	, m_pLookTarget(nullptr)
 	, m_fGrapGap(other.m_fGrapGap)
 	, m_eAction(ePhysAction::Idle)
+	, m_bShootLock(true)
 {
 }
 
@@ -40,6 +42,8 @@ HRESULT CWeaponPhysCannon::Ready_GameObject_Clone(void* pArg)
 _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+
+
 
 	if (m_pTarget != nullptr)
 	{
@@ -99,20 +103,25 @@ void CWeaponPhysCannon::Draw_Weapon()
 
 void CWeaponPhysCannon::Shoot_Weapon()
 {
-	if (m_pTarget != nullptr)
+	if (m_bShootLock == true)
 	{
-		m_pTarget->Set_Direction(m_vDir);
-		m_pTarget->Set_Speed(15.f);
+		if (m_pTarget != nullptr)
+		{
+			m_pTarget->Set_Direction(m_vDir);
+			m_pTarget->Set_Speed(15.f);
 
-		m_pTarget = nullptr;
+			m_pTarget = nullptr;
+		}
+		else if (m_pLookTarget != nullptr)
+		{
+			m_pLookTarget->Set_Direction(m_vDir);
+			m_pLookTarget->Set_Speed(5.f);
+		}
+		m_bShootLock = false;
 	}
-	else if (m_pLookTarget != nullptr)
-	{
-		m_pLookTarget->Set_Direction(m_vDir);
-		m_pLookTarget->Set_Speed(5.f);
-	}
-
 }
+
+
 
 void CWeaponPhysCannon::AltShoot_Weapon()
 {
@@ -137,10 +146,10 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 		m_pTarget->Set_Direction(_vec3(0.f, 0.f, 0.f));
 		m_pTarget->Set_Speed(0.f);
 
-		m_pTarget = nullptr;
+		m_pTarget = nullptr;		
 		m_eAction = ePhysAction::Idle;
 	}
-
+	m_pLookTarget = nullptr;
 }
 
 bool CWeaponPhysCannon::Reload_Weapon()
@@ -150,6 +159,7 @@ bool CWeaponPhysCannon::Reload_Weapon()
 
 void CWeaponPhysCannon::Release_Weapon()
 {
+	m_bShootLock = true;
 	Set_Animation((_uint)ePhysAction::Idle);
 }
 
@@ -210,7 +220,14 @@ Engine::CGameObject* CWeaponPhysCannon::Clone(void* pArg)
 
 void CWeaponPhysCannon::Set_TargetObject(CBaseObject* pTarget)
 {	
-	m_pLookTarget = pTarget;
+	if (m_bShootLock == true)
+	{
+		m_pLookTarget = pTarget;
+	}
+	else
+	{
+		m_pLookTarget = nullptr;
+	}
 }
 
 CBaseObject* CWeaponPhysCannon::Get_TargetObject()

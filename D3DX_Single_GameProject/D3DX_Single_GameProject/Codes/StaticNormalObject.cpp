@@ -9,7 +9,7 @@
 CStaticNormalObject::CStaticNormalObject(_Device pDevice, const _tchar* pMeshName, _float fHitBoxSize, _uint iWeight)
 	: CStaticObject(pDevice)
 {
-	m_pMeshName = L"";
+	
 	if (pMeshName!=nullptr)
 		lstrcpy(m_pMeshName, pMeshName);
 
@@ -27,8 +27,6 @@ CStaticNormalObject::CStaticNormalObject(_Device pDevice, const _tchar* pMeshNam
 CStaticNormalObject::CStaticNormalObject(const CStaticNormalObject& other)
 	: CStaticObject(other)
 {
-	m_pMeshName = L"";
-
 	if (m_pMeshName != nullptr && lstrlen(other.m_pMeshName)>2)
 		lstrcpy(m_pMeshName, other.m_pMeshName);
 
@@ -51,6 +49,8 @@ HRESULT CStaticNormalObject::Ready_GameObject_Clone(void* pArg)
 _int CStaticNormalObject::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+	m_pTransformCom->Set_Scale(_vec3(1.0f, 1.0f, 1.0f));
+	m_pTransformCom->Update_Component();
 
 	return NO_EVENT;
 }
@@ -64,8 +64,8 @@ _int CStaticNormalObject::LateUpdate_GameObject(const _float& fDeltaTime)
 	}
 	m_pTransformCom->Move_Pos(&m_vDirection, m_fSpeed, fDeltaTime);
 
-	m_pTransformCom->Update_Component();
 
+	m_pTransformCom->Update_Component();
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
@@ -74,12 +74,16 @@ _int CStaticNormalObject::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CStaticNormalObject::Render_GameObject(void)
 {
-	m_pTransformCom->LateUpdate_Component(0.f);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
+
+	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
+	m_pTransformCom->Update_Component();
+	m_pTransformCom->LateUpdate_Component(0.f);
+
 
 	if (m_pMeshCom != nullptr)
 	{

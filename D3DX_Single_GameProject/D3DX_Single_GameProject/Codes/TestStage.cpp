@@ -85,11 +85,12 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 
     CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));
     ///중력건 포착용 상호작용 판정부
+
+    _bool bPick = false;
     //플레이어 - 오브젝트 상호작용 판정
     Engine::CLayer* targetLayer = Get_Layer(L"ObjectLayer");
     if (targetLayer != nullptr)
     {
-        _bool bPick = false;
         _float fBestRange = 9999.f;
         for (auto& iter : *targetLayer->Get_ObjectLayer())
         {
@@ -107,17 +108,12 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
                 }
             }        
         }
-        if (bPick == false)
-        {
-            pPlayer->Get_Pick_Object(nullptr, -1.f);
-        }
     }
 
     //플레이어 - 총알 상호작용 판정
     targetLayer = Get_Layer(L"WeaponLayer");
     if (targetLayer != nullptr)
     {
-        _bool bPick = false;
         _float fBestRange = 9999.f;
         for (auto& iter : *targetLayer->Get_ObjectLayer())
         {
@@ -135,14 +131,16 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
                 }
             }
         }
-        if (bPick == false)
-        {
-            pPlayer->Get_Pick_Object(nullptr, -1.f);
-        }
     }
 
     //플레이어 - 몬스터 상호작용 판정 (일부에만 해당)
 
+
+    //최종 picking 판정
+    if (bPick == false)
+    {
+        pPlayer->Get_Pick_Object(nullptr, -1.f);
+    }
     //상호작용 판정부 끝
 
 
@@ -264,7 +262,7 @@ HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
         return E_FAIL;
     }
 
-    pGameObject = pManagement->Clone_GameObject(L"BaseObject");    
+    pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");    
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"BaseObject", pGameObject);
     

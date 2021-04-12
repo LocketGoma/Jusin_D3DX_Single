@@ -170,6 +170,11 @@ _bool CPlayer::Get_Pick_Object(CBaseObject* pObject, _float fRange)
 	//타겟 오브젝트가 없을때 & 너무 멀때
 	if (pObject == nullptr)
 	{
+		if (m_pWeaponType == eWeaponType::WEAPON_PHYCANNON)
+		{
+			dynamic_cast<CWeaponPhysCannon*>(m_pWeapon[(_uint)m_pWeaponType])->Set_TargetObject(nullptr);
+		}
+
 		return false;
 	}
 
@@ -348,8 +353,11 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->Shoot_Weapon();
 		m_bShootState = true;
-
 	}	
+	else
+	{
+		m_bShootState = false;
+	}
 	if (pManagement->Key_Down(VK_RBUTTON))
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->AltShoot_Weapon();

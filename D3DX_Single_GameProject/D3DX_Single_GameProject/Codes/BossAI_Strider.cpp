@@ -159,7 +159,8 @@ HRESULT CBossAI_Strider::Do_Attack(const _float& fDeltaTime)
 		}
 		else if((eBasePatton)m_pControlUnit->Get_Patton() != eBasePatton::PattonB && (eBasePatton)m_pControlUnit->Get_Patton() != eBasePatton::PattonC && (eBasePatton)m_pControlUnit->Get_Patton() != eBasePatton::PattonD)
 		{
-			m_eBasePatton = (eBasePatton)(rand() % 3 + 3);
+			m_eBasePatton = eBasePatton::PattonB;
+			//m_eBasePatton = (eBasePatton)(rand() % 3 + 3);
 		}
 		m_pControlUnit->Do_Attack(fDeltaTime, (_uint)m_eBasePatton);
 	}

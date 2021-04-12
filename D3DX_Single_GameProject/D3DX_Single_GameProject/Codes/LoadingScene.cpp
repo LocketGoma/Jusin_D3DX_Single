@@ -316,6 +316,12 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"RocketLauncher", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Weapon/RocketLauncher/", L"RocketLauncher_Final.x");
 
+    //¹«±â °ü·Ã
+
+
+//Àâ ¿ÀºêÁ§Æ®
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Drum", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Objects/Drum/",L"Drum.x");
+
 
     /// ÀÌÆåÆ®µé
     // ÃÑ±â ¸ÓÁñ ÀÌÆåÆ®
@@ -324,6 +330,8 @@ HRESULT CLoadingScene::Load_Base_Resource()
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Ar2_Muzzle", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ar2Muzzle/combinemuzzle%d.tga", 2);
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Tracer_Pulse", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ammo/gunshiptracer.tga", 1);
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Tracer_PHYS", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ammo/tracer_middle%d.tga", 2);
+
+
 
 
     return S_OK;
@@ -424,8 +432,15 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"BaseObject", pGameObject);
 
+    pGameObject = CStaticNormalObject::Create(m_pDevice,L"Mesh_Drum");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"BaseObject_Drum", pGameObject);
 
-    //Åº¾à
+
+
+
+
+    //Åõ»çÃ¼
     pGameObject = CProjFlechette::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Projectile_Flechette", pGameObject);

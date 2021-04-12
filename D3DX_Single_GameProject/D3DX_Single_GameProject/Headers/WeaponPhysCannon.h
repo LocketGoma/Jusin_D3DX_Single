@@ -76,6 +76,7 @@ private:
 
 	_float m_fGrapGap;
 
+	_bool m_bShootLock;
 };
 
 

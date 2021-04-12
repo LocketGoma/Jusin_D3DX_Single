@@ -27,7 +27,7 @@ public:
 
 private:
 	virtual void Free();
-	_tchar* m_pMeshName;		//메시 이름
+	_tchar m_pMeshName[128];		//메시 이름
 
 };
 
