@@ -187,6 +187,7 @@
     <ClInclude Include="..\Headers\NaviMeshController.h" />
     <ClInclude Include="..\Headers\Player.h" />
     <ClInclude Include="..\Headers\PlayerWeapon.h" />
+    <ClInclude Include="..\Headers\ProjBasicAmmo.h" />
     <ClInclude Include="..\Headers\ProjCoreBall.h" />
     <ClInclude Include="..\Headers\ProjFlechette.h" />
     <ClInclude Include="..\Headers\ProjPulseAmmo.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="..\Codes\NaviMeshController.cpp" />
     <ClCompile Include="..\Codes\Player.cpp" />
     <ClCompile Include="..\Codes\PlayerWeapon.cpp" />
+    <ClCompile Include="..\Codes\ProjBasicAmmo.cpp" />
     <ClCompile Include="..\Codes\ProjCoreBall.cpp" />
     <ClCompile Include="..\Codes\ProjFlechette.cpp" />
     <ClCompile Include="..\Codes\ProjPulseAmmo.cpp" />

@@ -5,8 +5,6 @@
 
 #include "BaseProjectile.h"
 
-
-
 class CProjPulseAmmo : public CBaseProjectile
 {
 private:
