@@ -103,7 +103,7 @@ HRESULT CMainGame::Setup_DefaultSetting()
         return E_FAIL;
 
     // Font
-    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_BASE", L"¹ÙÅÁ", 15, 15, FW_HEAVY), E_FAIL);
+    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_BASE", L"µ¸¿ò", 15, 15, FW_HEAVY), E_FAIL);
 
     return S_OK;
 }
