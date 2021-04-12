@@ -1,12 +1,9 @@
 #include "framework.h"
 #include "MainStageC.h"
 
-#include "MainMapC.h"
 #include "SkyBox.h"
 
 #include "NaviMeshController.h"
-
-#include "Transform.h"
 
 #include "Player.h"
 #include "BaseAI.h"
@@ -20,6 +17,8 @@
 #include "DynamicObject.h"
 #include "ControlSupport.h"
 
+#include "Transform.h"
+
 CMainStageC::CMainStageC(_Device pDevice)
 	: Engine::CScene(pDevice)
 {
@@ -31,7 +30,7 @@ HRESULT CMainStageC::Ready_Scene(void)
 
 	SetWindowText(g_hWnd, L"Stage C");
 
-	//Add_Player_Layer(L"PlayerLayer");
+	Add_Player_Layer(L"PlayerLayer");
 	//Add_Boss_Layer(L"BossLayer");
 	//Add_Object_Layer(L"ObjectLayer");
 	//Add_Enemy_Layer(L"EnemyLayer");
@@ -178,6 +177,9 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
 
 void CMainStageC::Render_Scene(void)
 {
+    //라이트 세팅
+// 
+   //CScene::Render_Scene();
 }
 
 HRESULT CMainStageC::Ready_Resource(_Device& pDevice)
@@ -328,7 +330,7 @@ HRESULT CMainStageC::Add_Environment_Layer(const _tchar* pLayerTag)
 
     return S_OK;
 }
-
+//탄들이 들어갈 레이어 * 피아구별 없음 *
 HRESULT CMainStageC::Add_Weapon_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();

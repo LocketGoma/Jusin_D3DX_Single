@@ -69,10 +69,13 @@ HRESULT CNaviMesh::Load_NaviMesh(const _tchar* pFileName)
 	return S_OK;
 }
 
-void CNaviMesh::Render_NaviMesh(void)
+void CNaviMesh::Render_NaviMesh(_bool bState)
 {
-	for (auto& iter : m_vecCell)
-		iter->Render_Cell();
+	if (bState == true)
+	{
+		for (auto& iter : m_vecCell)
+			iter->Render_Cell();
+	}
 }
 
 _vec3 CNaviMesh::Move_OnNaviMesh(const _vec3* pTargetPos, const _vec3* pTargetDir)

@@ -88,7 +88,7 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _matrix* pCollider
 #endif
 }
 
-void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos)
+void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool bState)
 {
 	m_vCore = *vPos;
 
@@ -98,15 +98,19 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos)
 
 	matWorld *= matPos;
 
+	
 #ifdef _DEBUG
-	m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	if (bState == true)
+	{
+		m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	m_pDevice->SetTexture(0, m_pTexture[(_uint)eType]);
+		m_pDevice->SetTexture(0, m_pTexture[(_uint)eType]);
 
-	m_pMesh->DrawSubset(0);
+		m_pMesh->DrawSubset(0);
 
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
 #endif
 
 }

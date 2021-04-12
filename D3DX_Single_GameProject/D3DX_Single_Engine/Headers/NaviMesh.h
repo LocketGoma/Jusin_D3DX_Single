@@ -22,7 +22,7 @@ public:
 
 	HRESULT				Ready_NaviMesh(void);
 	HRESULT				Load_NaviMesh(const _tchar* pFileName);
-	void				Render_NaviMesh(void);
+	void				Render_NaviMesh(_bool bState = true);
 	_vec3				Move_OnNaviMesh(const _vec3* pTargetPos, const _vec3* pTargetDir);
 	_vec3				Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos);
 	_vec3				Compare_OnNaviMesh_for_Mesh(const _vec3* pOldPos, const _vec3* pNewPos, const _vec3* pTargetPos);

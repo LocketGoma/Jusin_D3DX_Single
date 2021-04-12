@@ -15,11 +15,12 @@ class ENGINE_DLL CLightingManager : public CBase
 
 private:
 	explicit CLightingManager();
+	explicit CLightingManager(_Device pDevice);
 	virtual ~CLightingManager() = default;
 
 public:
 	HRESULT Ready_Light(_Device pDevice, const D3DLIGHT9* pLightInfo, const _uint& iIndex);
-	HRESULT Set_Light(const _uint& iIndex, _bool bSetType);
+	HRESULT Set_Light(const _uint& iIndex, const _uint& iLightIndex, _bool bSetType);
 
 private:
 	std::vector<CLight*>	m_LightVector;

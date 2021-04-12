@@ -4,6 +4,7 @@
 
 #include "TestStage.h"
 #include "MainStageA.h"
+#include "MainStageB.h"
 #include "MainStageC.h"
 #include "LoadingScene.h"
 #include "Transform.h"
@@ -54,8 +55,9 @@ _int CBaseLogoScene::Update_Scene(const _float& fDeltaTime)
 
 			Safe_Release(m_pLoading);
 
-			pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_TEST, CTestStage::Create(m_pDevice));
-			//pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE3, CMainStageC::Create(m_pDevice));
+			//pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_TEST, CTestStage::Create(m_pDevice));
+			//pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE2, CMainStageB::Create(m_pDevice));
+			pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE3, CMainStageC::Create(m_pDevice));
 
 			return iExit;
 		}

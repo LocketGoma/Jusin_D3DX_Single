@@ -10,6 +10,9 @@
 
 #include "Player.h"
 
+bool CMainGame::g_bViewCollider = true;
+bool CMainGame::g_bViewNavimesh = true;
+
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
     , pScene(nullptr)
@@ -58,6 +61,16 @@ _int CMainGame::Update_MainGame()
 #ifdef DEBUG_MODE
     fDeltaTime /= DEBUG_TIMESPEED;
 #endif
+
+    if (m_pManagement->Key_Down('O'))
+    {
+        g_bViewCollider = g_bViewCollider == false;
+    }
+    if (m_pManagement->Key_Down('P'))
+    {
+        g_bViewNavimesh = g_bViewNavimesh == false;
+    }
+
     m_pManagement->Update_Engine(fDeltaTime);
     m_pManagement->LateUpdate_Engine(fDeltaTime);
     m_fTime += fDeltaTime;

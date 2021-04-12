@@ -7,6 +7,11 @@ CLightingManager::CLightingManager()
 {
 }
 
+CLightingManager::CLightingManager(_Device pDevice)
+    : m_pDevice(pDevice)
+{
+}
+
 HRESULT CLightingManager::Ready_Light(_Device pDevice, const D3DLIGHT9* pLightInfo, const _uint& iIndex)
 {
     CLight* pLight = CLight::Create(pDevice, pLightInfo, iIndex);
@@ -18,13 +23,13 @@ HRESULT CLightingManager::Ready_Light(_Device pDevice, const D3DLIGHT9* pLightIn
     return S_OK;
 }
 
-HRESULT CLightingManager::Set_Light(const _uint& iIndex, _bool bSetType)
+HRESULT CLightingManager::Set_Light(const _uint& iIndex, const _uint& iLightIndex, _bool bSetType)
 {
     if (iIndex >= m_LightVector.size())
     {
         return E_FAIL;
     }
-
+    m_LightVector[iIndex]->Set_Light_State(iLightIndex, bSetType);
   
     return S_OK;
 }

@@ -181,6 +181,7 @@
     <ClInclude Include="..\Headers\MainMapA.h" />
     <ClInclude Include="..\Headers\MainMapC.h" />
     <ClInclude Include="..\Headers\MainStageA.h" />
+    <ClInclude Include="..\Headers\MainStageB.h" />
     <ClInclude Include="..\Headers\MainStageC.h" />
     <ClInclude Include="..\Headers\MapObject.h" />
     <ClInclude Include="..\Headers\NaviMeshController.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="..\Codes\MainMapA.cpp" />
     <ClCompile Include="..\Codes\MainMapC.cpp" />
     <ClCompile Include="..\Codes\MainStageA.cpp" />
+    <ClCompile Include="..\Codes\MainStageB.cpp" />
     <ClCompile Include="..\Codes\MainStageC.cpp" />
     <ClCompile Include="..\Codes\MapObject.cpp" />
     <ClCompile Include="..\Codes\NaviMeshController.cpp" />

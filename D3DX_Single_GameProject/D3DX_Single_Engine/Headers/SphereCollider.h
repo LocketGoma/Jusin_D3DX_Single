@@ -19,7 +19,7 @@ public:
 public:
 	HRESULT Ready_Collider(const _vec3* pPos, const _float fRadius);
 	void Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix);
-	void Render_Collider(COLIDETYPE eType, const _vec3* vPos);
+	void Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool bState = true);
 
 	const LPD3DXMESH* Get_Mesh() const;
 

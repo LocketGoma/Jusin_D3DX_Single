@@ -30,6 +30,15 @@ HRESULT CLight::Ready_Light(const D3DLIGHT9* pLightInfo, const _uint& iIndex)
 	return S_OK;
 }
 
+HRESULT CLight::Set_Light_State(const _uint& iIndex, _bool bSetType)
+{
+	m_pDevice->SetLight(iIndex, &m_tLightInfo);
+	m_pDevice->LightEnable(iIndex, bSetType);
+
+
+	return S_OK;
+}
+
 CLight* CLight::Create(_Device pDevice, const D3DLIGHT9* pLightInfo, const _uint& iLight)
 {
 	CLight* pInstance = new CLight(pDevice);

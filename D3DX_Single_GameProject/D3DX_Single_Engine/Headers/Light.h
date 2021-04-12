@@ -17,7 +17,7 @@ private:
 
 public:
 	HRESULT Ready_Light(const D3DLIGHT9* pLightInfo, const _uint& iLndex);
-
+	HRESULT Set_Light_State(const _uint& iIndex, _bool bSetType);
 
 	static CLight* Create(_Device pDevice, const D3DLIGHT9* pLightInfo, const _uint& ilight);
 	// CComponent을(를) 통해 상속됨

@@ -73,8 +73,8 @@ HRESULT CStageCLight::Setup_Light()
 	light.Type = D3DLIGHT_DIRECTIONAL;	
 	light.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	light.Specular = D3DXCOLOR(0.6f, 0.6f, 0.6f, 0.6f);
-	light.Ambient = D3DXCOLOR(0.4f, 0.4f, 0.4f, 0.4f);
-	light.Direction = D3DXVECTOR3(1.0f, -10.0f, 0.0f);
+	light.Ambient = D3DXCOLOR(0.7f, 0.7f, 0.7f, 0.7f);
+	light.Direction = D3DXVECTOR3(15.0f, -10.0f, 0.0f);
 	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, (D3DXVECTOR3*)&light.Direction);
 
 	//요걸 제대로 안해줘서 그랬음

@@ -1,14 +1,7 @@
 #include "framework.h"
-#include "TestStage.h"
+#include "MainStageB.h"
 
-#include "TestPlayer.h"
-#include "TestCamera.h"
 #include "SkyBox.h"
-#include "TestTerrain.h"
-
-#include "TestObject.h"
-#include "TestMapObject.h"
-#include "WeaponCrowBar.h"
 
 #include "NaviMeshController.h"
 
@@ -26,21 +19,20 @@
 
 #include "Transform.h"
 
-CTestStage::CTestStage(_Device pDevice)
+CMainStageB::CMainStageB(_Device pDevice)
     : Engine::CScene(pDevice)
 {
 }
 
-HRESULT CTestStage::Ready_Scene(void)
+HRESULT CMainStageB::Ready_Scene(void)
 {
     FAILED_CHECK_RETURN(Ready_Resource(m_pDevice), E_FAIL);
 
     SetWindowText(g_hWnd, L"Test Stage");
 
-    //Add_Test_Layer(L"TestLayer");
+
     Add_Player_Layer(L"PlayerLayer");
     Add_Object_Layer(L"ObjectLayer");
-    Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
     //Add_Enemy_Layer(L"EnemyLayer");
     Add_Weapon_Layer(L"WeaponLayer");    
@@ -51,7 +43,7 @@ HRESULT CTestStage::Ready_Scene(void)
     return S_OK;
 }
 
-_int CTestStage::Update_Scene(const _float& fDeltaTime)
+_int CMainStageB::Update_Scene(const _float& fDeltaTime)
 {
     CScene::Update_Scene(fDeltaTime);
 
@@ -75,7 +67,7 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
     return NO_EVENT;
 }
 
-_int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
+_int CMainStageB::LateUpdate_Scene(const _float& fDeltaTime)
 {
     CScene::LateUpdate_Scene(fDeltaTime);
 
@@ -186,48 +178,19 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
     return NO_EVENT;
 }
 
-void CTestStage::Render_Scene(void)
+void CMainStageB::Render_Scene(void)
 {
  //라이트 세팅
  // 
     //CScene::Render_Scene();
 }
 
-HRESULT CTestStage::Ready_Resource(_Device& m_pDevice)
+HRESULT CMainStageB::Ready_Resource(_Device& m_pDevice)
 {
     return S_OK;
 }
 
-HRESULT CTestStage::Add_Test_Layer(const _tchar* pLayerTag)
-{
-    Engine::CLayer* pLayer = Engine::CLayer::Create();
-
-    Engine::CGameObject* pGameObject = nullptr;
-
-    auto pManagement = Engine::CManagement::Get_Instance();
-    if (pManagement == nullptr)
-    {
-        return E_FAIL;
-    }
-
-    pGameObject = pManagement->Clone_GameObject(L"TestPlayer");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pLayer->Add_GameObject(L"TestPlayer", pGameObject);
-
-    pGameObject = pManagement->Clone_GameObject(L"WeaponCrowbar");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pLayer->Add_GameObject(L"WeaponCrowbar", pGameObject);
-
-    pGameObject = pManagement->Clone_GameObject(L"TestCamera");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pLayer->Add_GameObject(L"TestCamera", pGameObject);
-
-    m_mapLayer.emplace(pLayerTag, pLayer);
-
-    return S_OK;
-}
-
-HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
+HRESULT CMainStageB::Add_Player_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
 
@@ -255,7 +218,7 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
     return S_OK;
 }
 
-HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
+HRESULT CMainStageB::Add_Object_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
 
@@ -276,28 +239,7 @@ HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
     return S_OK;
 }
 
-HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
-{
-    Engine::CLayer* pLayer = Engine::CLayer::Create();
-
-    Engine::CGameObject* pGameObject = nullptr;
-
-    auto pManagement = Engine::CManagement::Get_Instance();
-    if (pManagement == nullptr)
-    {
-        return E_FAIL;
-    }
-
-
-
-
-        
-    m_mapLayer.emplace(pLayerTag, pLayer);
-
-    return S_OK;
-}
-
-HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
+HRESULT CMainStageB::Add_Environment_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
 
@@ -339,7 +281,7 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     return S_OK;
 }
 
-HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
+HRESULT CMainStageB::Add_Enemy_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
     Engine::CLayer* pAILayer = Engine::CLayer::Create();
@@ -436,7 +378,7 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     return S_OK;
 }
 //탄들이 들어갈 레이어 * 피아구별 없음 *
-HRESULT CTestStage::Add_Weapon_Layer(const _tchar* pLayerTag)
+HRESULT CMainStageB::Add_Weapon_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
 
@@ -445,9 +387,9 @@ HRESULT CTestStage::Add_Weapon_Layer(const _tchar* pLayerTag)
     return S_OK;
 }
 
-CTestStage* CTestStage::Create(_Device pDevice)
+CMainStageB* CMainStageB::Create(_Device pDevice)
 {
-    CTestStage* pInstance = new CTestStage(pDevice);
+    CMainStageB* pInstance = new CMainStageB(pDevice);
 
     if (FAILED(pInstance->Ready_Scene()))
        Safe_Release(pInstance);
@@ -455,7 +397,7 @@ CTestStage* CTestStage::Create(_Device pDevice)
     return pInstance;
 }
 
-void CTestStage::Free()
+void CMainStageB::Free()
 {
     Engine::CScene::Free();
 }

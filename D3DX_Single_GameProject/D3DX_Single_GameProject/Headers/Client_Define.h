@@ -3,6 +3,8 @@
 #define __CLINENT_DEFINE_H__
 
 extern HWND g_hWnd;
+extern bool g_bViewCollider;
+extern bool g_bViewNavimesh;
 
 #define WINCX 1280
 #define WINCY 720
