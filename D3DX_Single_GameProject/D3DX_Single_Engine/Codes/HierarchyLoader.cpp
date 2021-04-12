@@ -161,7 +161,6 @@ STDMETHODIMP_(HRESULT __stdcall) CHierarchyLoader::DestroyMeshContainer(LPD3DXME
 	Safe_Delete_Array(pDerivedMeshContainer->pMaterials);
 	Safe_Delete_Array(pDerivedMeshContainer->pAdjacency);
 
-
 	Safe_Release(pDerivedMeshContainer->MeshData.pMesh);
 	Safe_Release(pDerivedMeshContainer->pOriMesh);
 	Safe_Release(pDerivedMeshContainer->pSkinInfo);

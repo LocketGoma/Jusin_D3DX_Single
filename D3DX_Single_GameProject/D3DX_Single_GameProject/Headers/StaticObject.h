@@ -27,8 +27,8 @@ public:
 
 //기본 상호작용 값
 public:
-	const _uint Get_Weight();		//물체 무게
-	void Set_Weight(_uint iWeight);
+	const _float Get_Weight();		//물체 무게
+	void Set_Weight(_float fWeight);
 
 	virtual _bool Check_RayCollision() override;
 	virtual _bool Check_RayCollision_By_CollisionSphere() override;

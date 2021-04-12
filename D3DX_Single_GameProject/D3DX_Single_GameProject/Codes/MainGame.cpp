@@ -10,8 +10,8 @@
 
 #include "Player.h"
 
-bool CMainGame::g_bViewCollider = true;
-bool CMainGame::g_bViewNavimesh = true;
+bool g_bViewCollider = true;
+bool g_bViewNavimesh = true;
 
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())

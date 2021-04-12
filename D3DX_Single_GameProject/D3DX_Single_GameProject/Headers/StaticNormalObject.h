@@ -5,7 +5,7 @@
 class CStaticNormalObject : public CStaticObject
 {
 private:
-	explicit CStaticNormalObject(_Device pDevice, const _tchar* pMeshName, _float fHitBoxSize, _uint iWeight);
+	explicit CStaticNormalObject(_Device pDevice, const _tchar* pMeshName, _float fHitBoxSize, _float iWeight);
 	explicit CStaticNormalObject(const CStaticNormalObject& other);
 	virtual ~CStaticNormalObject() = default;
 
@@ -22,7 +22,7 @@ private:
 	HRESULT Add_Component();
 
 public:
-	static CStaticNormalObject* Create(_Device pDevice, const _tchar* pMeshName = nullptr, _float fHitBoxSize = 2.5f, _uint iWeight = 0);
+	static CStaticNormalObject* Create(_Device pDevice, const _tchar* pMeshName = nullptr, _float fHitBoxSize = 2.5f, _float iWeight = 1.0f);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:

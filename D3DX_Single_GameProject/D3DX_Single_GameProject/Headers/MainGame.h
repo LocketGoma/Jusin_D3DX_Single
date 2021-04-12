@@ -34,9 +34,6 @@ public:
 
 	static void CALLBACK MouseProc(UINT message, WPARAM wParam);
 
-	static bool g_bViewCollider;
-	static bool g_bViewNavimesh;
-
 private:
 	Engine::CManagement* m_pManagement = nullptr;
 

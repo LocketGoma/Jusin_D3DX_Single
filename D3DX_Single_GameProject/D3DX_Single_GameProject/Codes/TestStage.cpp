@@ -83,10 +83,6 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
                 {
                     pObject->Set_ClearGSpeed();
                 }
-                else
-                {
-                    pObject->Set_GravitionDrop();
-                }
             }
         }
     }

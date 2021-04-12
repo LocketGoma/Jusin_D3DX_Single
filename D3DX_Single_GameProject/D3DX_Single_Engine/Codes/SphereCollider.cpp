@@ -4,17 +4,12 @@ USING(Engine);
 
 CSphereCollider::CSphereCollider(_Device pDevice)
 	: m_fRadius(0.f)
-#ifdef _DEBUG
+
 	, m_pDevice(pDevice)
 	 
 {
 	m_pDevice->AddRef();
 }
-#else
-{
-}
-#endif // _DEBUG
-
 const _matrix* CSphereCollider::Get_ColMatrix()
 {
 	return &m_matColMatrix;
@@ -30,9 +25,9 @@ HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _float fRadius)
 	m_vCore = *pPos;
 	m_fRadius = fRadius;
 
-#ifdef _DEBUG
 	D3DXCreateSphere(m_pDevice, m_fRadius, 36, 36, &m_pMesh, nullptr);
 
+#ifdef _DEBUG
 	for (_uint i = 0; i < (_uint)COLIDETYPE::COL_END; ++i)
 	{
 		D3DXCreateTexture(m_pDevice,
@@ -76,8 +71,9 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _matrix* pCollider
 
 	memcpy(&m_vCore, &m_matColMatrix.m[3][0], sizeof(_vec3));
 
-#ifdef _DEBUG
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_matColMatrix);
+
+#ifdef _DEBUG
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	m_pDevice->SetTexture(0, m_pTexture[(_uint)eType]);
@@ -98,11 +94,11 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool
 
 	matWorld *= matPos;
 
+	m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	
 #ifdef _DEBUG
 	if (bState == true)
 	{
-		m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 		m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 		m_pDevice->SetTexture(0, m_pTexture[(_uint)eType]);

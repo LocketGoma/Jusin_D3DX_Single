@@ -110,14 +110,14 @@ void CWeaponPhysCannon::Shoot_Weapon()
 		if (m_pTarget != nullptr)
 		{
 			m_pTarget->Set_Direction(m_vDir);
-			m_pTarget->Set_Speed(15.f);
+			m_pTarget->Set_Speed(30.f);
 
 			m_pTarget = nullptr;
 		}
 		else if (m_pLookTarget != nullptr)
 		{
 			m_pLookTarget->Set_Direction(m_vDir);
-			m_pLookTarget->Set_Speed(5.f);
+			m_pLookTarget->Set_Speed(25.f);
 		}
 		m_bShootLock = false;
 	}

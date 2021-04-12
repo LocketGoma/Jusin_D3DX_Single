@@ -142,7 +142,7 @@ HRESULT CEnemyHunter::Render_GameObject(void)
 	D3DXVec3TransformCoord(&m_vCorePos, &m_vCorePos, &matWorld);
 	//정점계산 끝
 
-	m_pColliderCom->Render_Collider(eType, &m_vCorePos);
+	m_pColliderCom->Render_Collider(eType, &m_vCorePos, g_bViewCollider);
 
 	m_ePrevAction = m_eAction;
 

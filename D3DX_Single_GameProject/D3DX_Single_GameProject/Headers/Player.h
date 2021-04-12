@@ -99,8 +99,8 @@ private:
 	_float m_fStartPos;			//점프 시작 높이
 	_float m_fGravition;		//중력값
 	_float m_fJumpTime;			//점프 시간
-	_bool m_bJump;				//점프중임?
-	_bool m_bJumpStart;			//점프 시작함?
+	_bool  m_bJump;				//점프중임?
+	_bool  m_bJumpStart;		//점프 시작함?
 
 
 

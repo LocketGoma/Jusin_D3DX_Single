@@ -8,7 +8,7 @@
 
 CBaseObject::CBaseObject(_Device pDevice)
 	: CGameObject(pDevice)
-	, m_iWeight(0)
+	, m_fWeight(1.f)
 	, m_fLifeTime(-1.f)
 	, m_fSpeed(0.f)
 	, m_eForceType(eForceType::NONE)
@@ -18,14 +18,13 @@ CBaseObject::CBaseObject(_Device pDevice)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fGravitionPower(9.8f)
 	, m_fGravitionSpeed(0.f)
-	, m_bGravition(false)
 {
 	m_bIsPrototype = true;
 }
 
 CBaseObject::CBaseObject(const CBaseObject& other)
 	: CGameObject(other)
-	, m_iWeight(other.m_iWeight)
+	, m_fWeight(other.m_fWeight)
 	, m_fLifeTime(other.m_fLifeTime)
 	, m_fSpeed(other.m_fSpeed)
 	, m_eForceType(other.m_eForceType)
@@ -35,7 +34,6 @@ CBaseObject::CBaseObject(const CBaseObject& other)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fGravitionPower(other.m_fGravitionPower)
 	, m_fGravitionSpeed(other.m_fGravitionSpeed)
-	, m_bGravition(false)
 {
 	Safe_AddReference(m_pDevice);
 	m_bIsPrototype = false;
@@ -129,13 +127,9 @@ void CBaseObject::Set_ClearGSpeed(_float fClearHeight)
 
 	m_fGravitionSpeed = 0.f;
 
-	m_bGravition = false;
+
 }
 
-void CBaseObject::Set_GravitionDrop()
-{
-	m_bGravition = true;
-}
 
 const Engine::CTransform* CBaseObject::Get_Transform()
 {

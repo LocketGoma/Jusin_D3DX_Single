@@ -6,14 +6,14 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
-CStaticNormalObject::CStaticNormalObject(_Device pDevice, const _tchar* pMeshName, _float fHitBoxSize, _uint iWeight)
+CStaticNormalObject::CStaticNormalObject(_Device pDevice, const _tchar* pMeshName, _float fHitBoxSize, _float fWeight)
 	: CStaticObject(pDevice)
 {
 	
 	if (pMeshName!=nullptr)
 		lstrcpy(m_pMeshName, pMeshName);
 
-	m_iWeight = iWeight;
+	m_fWeight = fWeight;
 	m_fLifeTime = -1.f;
 	m_fSpeed = 0.f;
 	m_eForceType = eForceType::PULL;
@@ -52,16 +52,18 @@ _int CStaticNormalObject::Update_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->Set_Scale(_vec3(1.0f, 1.0f, 1.0f));
 	m_pTransformCom->Update_Component();
 
+
 	m_vDirection = m_vDirection + _vec3(0.f, -0.1f, 0.f);
 	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 	m_fSpeed *= D3DXVec2Length(&_vec2(m_vDirection.x, m_vDirection.z));
+	m_fSpeed /= m_fWeight;
 	m_vDirection = _vec3(m_vDirection.x, 0.f, m_vDirection.z);
 
 	m_fGravitionSpeed += m_fGravitionPower * fDeltaTime;
 
-	m_pTransformCom->Move_Pos(&m_vDirection, m_fSpeed, fDeltaTime);
-	m_pTransformCom->Move_Pos(&_vec3(0.0f,-1.f,0.0f), m_fGravitionSpeed, fDeltaTime);
 
+	
+	
 	return NO_EVENT;
 }
 
@@ -73,6 +75,8 @@ _int CStaticNormalObject::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
+	m_pTransformCom->Move_Pos(&m_vDirection, m_fSpeed, fDeltaTime);
+	m_pTransformCom->Move_Pos(&_vec3(0.0f, -1.f, 0.0f), m_fGravitionSpeed, fDeltaTime);
 
 	m_pTransformCom->Update_Component();
 
@@ -141,9 +145,9 @@ HRESULT CStaticNormalObject::Add_Component()
 	return S_OK;
 }
 
-CStaticNormalObject* CStaticNormalObject::Create(_Device pDevice, const _tchar* pMeshName, _float fHitBoxSize, _uint iWeight)
+CStaticNormalObject* CStaticNormalObject::Create(_Device pDevice, const _tchar* pMeshName, _float fHitBoxSize, _float fWeight)
 {
-	CStaticNormalObject* pInstance = new CStaticNormalObject(pDevice,pMeshName,fHitBoxSize, iWeight);
+	CStaticNormalObject* pInstance = new CStaticNormalObject(pDevice,pMeshName,fHitBoxSize, fWeight);
 
 	if (FAILED(pInstance->Ready_GameObject()))
 	{

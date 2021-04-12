@@ -59,7 +59,7 @@ HRESULT CNaviMeshController::Render_GameObject(void)
 {
 	if (m_bVisuable == true)
 	{
-		m_pNaviMeshCom->Render_NaviMesh();
+		m_pNaviMeshCom->Render_NaviMesh(g_bViewNavimesh);
 	}
 	return S_OK;
 }

@@ -70,17 +70,15 @@ public:
 	//중력 적용 관련
 	void Set_GravitionPower(_float fGravition);
 	void Set_ClearGSpeed(_float fClearHeight = 0.f);
-	void Set_GravitionDrop();
 
 protected:
 	virtual void Free(void);
 
-	_uint m_iWeight;
+	_float m_fWeight;
 	_float m_fLifeTime;
 	_float m_fSpeed;			//비행속도 (or 발사 힘)
 	_float m_fGravitionSpeed;	//중력 영향을 받은 속도
 	_float m_fGravitionPower;	//중력값	
-	_bool m_bGravition;			//중력값 적용 여부
 	_bool m_bSpeedLock;			//속도값 변화 가능 여부
 	eForceType m_eForceType;
 

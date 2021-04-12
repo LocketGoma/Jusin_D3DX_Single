@@ -168,7 +168,7 @@ HRESULT CBossStrider::Render_GameObject(void)
 	//ÃÑ±¸ À§Ä¡
 	
 
-	m_pColliderCom->Render_Collider(eType, &m_vCorePos);
+	m_pColliderCom->Render_Collider(eType, &m_vCorePos, g_bViewCollider);
 
 	m_ePrevAction = m_eAction;
 

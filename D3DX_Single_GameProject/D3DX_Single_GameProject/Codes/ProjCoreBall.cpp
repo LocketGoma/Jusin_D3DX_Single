@@ -8,7 +8,7 @@
 
 ////쓸 수 있는 인자들
 ///from StaticObject:
-//_uint m_iWeight;
+//_uint m_fWeight;
 //_float m_fLifeTime;
 //_float m_fSpeed;
 //eForceType m_eForceType;
@@ -30,7 +30,7 @@
 CProjCoreBall::CProjCoreBall(_Device pDevice)
 	: CBaseProjectile(pDevice)
 {
-	m_iWeight = 0;
+	m_fWeight = 0;
 	m_fLifeTime = 3.f;
 	m_fSpeed = 30.f;
 	m_eForceType = eForceType::NONE;

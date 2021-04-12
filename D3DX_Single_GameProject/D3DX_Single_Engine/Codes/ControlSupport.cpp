@@ -310,12 +310,14 @@ _bool CControlSupportUnit::Picking_Object_Collider(HWND hWnd, const CSphereColli
 
     //RayPos : 레이 스타트 / RayDir : 레이 방향
     _vec3 vRayPos, vRayDir;
+    _vec3 vPos;
 
     vRayPos = _vec3(0.f, 0.f, 0.f); //레이 시작 : 화면 중점
     vRayDir = vMousePos - vRayPos; //레이 방향 : 마우스 클릭위치
 
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+    vPos = vRayPos;
 
     //월드 -> 로컬
     //사유 : 버텍스 정보는 로컬정보니까.
@@ -335,10 +337,9 @@ _bool CControlSupportUnit::Picking_Object_Collider(HWND hWnd, const CSphereColli
    D3DXIntersect(*meshData, &vRayPos, &vRayDir, &bResult, nullptr, &fU, &fV, &fDist, nullptr, nullptr);
 
 
-   _vec3 vRange = vRayPos - pTransform->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+   _vec3 vRange = vPos - pTransform->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
    m_fDistance = D3DXVec3Length(&vRange);
    
-
     return bResult;
 }
 

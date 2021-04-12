@@ -17,14 +17,14 @@ CStaticObject::CStaticObject(const CStaticObject& other)
 {
 }
 
-const _uint CStaticObject::Get_Weight()
+const _float CStaticObject::Get_Weight()
 {
-	return m_iWeight;
+	return m_fWeight;
 }
 
-void CStaticObject::Set_Weight(_uint iWeight)
+void CStaticObject::Set_Weight(_float fWeight)
 {
-	m_iWeight = iWeight;
+	m_fWeight = fWeight;
 }
 
 _bool CStaticObject::Check_RayCollision()
