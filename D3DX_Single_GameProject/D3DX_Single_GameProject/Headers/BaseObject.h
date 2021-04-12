@@ -43,11 +43,13 @@ public:
 	virtual void Set_Position(_vec3 vPos);
 	virtual void Set_Size(_vec3 vSize);
 			void Set_Direction(_vec3 vDir);
-			void Set_ObjectType(eForceType eType);			
+			void Set_ObjectType(eForceType eType);		
+			void Set_SpeedLockState(_bool bLock);
 	virtual _vec3 Get_Position();
 	virtual _vec3 Get_Size();
 			_vec3 Get_Direction();
 			const eForceType Get_ObjectType();
+			_bool Get_SpeedLockState();
 
 //상호작용 2
 public:
@@ -65,12 +67,21 @@ public:
 	const _float Get_Speed();
 	void Set_Speed(_float fSpeed);
 
+	//중력 적용 관련
+	void Set_GravitionPower(_float fGravition);
+	void Set_ClearGSpeed(_float fClearHeight = 0.f);
+	void Set_GravitionDrop();
+
 protected:
 	virtual void Free(void);
 
 	_uint m_iWeight;
 	_float m_fLifeTime;
 	_float m_fSpeed;			//비행속도 (or 발사 힘)
+	_float m_fGravitionSpeed;	//중력 영향을 받은 속도
+	_float m_fGravitionPower;	//중력값	
+	_bool m_bGravition;			//중력값 적용 여부
+	_bool m_bSpeedLock;			//속도값 변화 가능 여부
 	eForceType m_eForceType;
 
 	_vec3 m_vStartPos;

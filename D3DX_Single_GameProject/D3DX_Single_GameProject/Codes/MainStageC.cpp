@@ -31,10 +31,10 @@ HRESULT CMainStageC::Ready_Scene(void)
 	SetWindowText(g_hWnd, L"Stage C");
 
 	Add_Player_Layer(L"PlayerLayer");
-	//Add_Boss_Layer(L"BossLayer");
-	//Add_Object_Layer(L"ObjectLayer");
-	//Add_Enemy_Layer(L"EnemyLayer");
-	//Add_Weapon_Layer(L"WeaponLayer");
+	Add_Boss_Layer(L"BossLayer");
+	Add_Object_Layer(L"ObjectLayer");
+	Add_Enemy_Layer(L"EnemyLayer");
+	Add_Weapon_Layer(L"WeaponLayer");
 	Add_Environment_Layer(L"EnviromentLayer");
 
 	return S_OK;

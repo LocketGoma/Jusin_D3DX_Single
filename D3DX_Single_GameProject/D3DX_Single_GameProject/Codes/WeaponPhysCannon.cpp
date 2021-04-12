@@ -42,11 +42,13 @@ HRESULT CWeaponPhysCannon::Ready_GameObject_Clone(void* pArg)
 _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
-
+	m_pLookTarget = nullptr;
 
 
 	if (m_pTarget != nullptr)
 	{
+		m_pTarget->Set_ClearGSpeed();
+
 		_mat matView, matPos, matScale;
 		m_pDevice->GetTransform(D3DTS_VIEW, &matView);
 		D3DXMatrixInverse(&matView, 0, &matView);
@@ -133,8 +135,6 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 		{
 			pProj->Set_TargetState(eTargetState::ToEnemy);
 		}
-
-
 		m_pTarget = m_pLookTarget;
 		m_pTarget->Set_Speed(0.f);
 		m_eAction = ePhysAction::Hold_Idle;
@@ -147,7 +147,7 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 		m_pTarget->Set_Speed(0.f);
 
 		m_pTarget = nullptr;		
-		m_eAction = ePhysAction::Idle;
+		m_eAction = ePhysAction::Idle;		
 	}
 	m_pLookTarget = nullptr;
 }

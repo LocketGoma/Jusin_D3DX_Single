@@ -209,7 +209,7 @@ HRESULT CNaviMeshController::Compare_Navi_MeshMove(Engine::CLayer* pTargetLayer)
 	return S_OK;
 }
 
-_bool CNaviMeshController::Stand_NaviMesh(Engine::CGameObject* pObject)
+_bool CNaviMeshController::Stand_NaviMesh(Engine::CGameObject* pObject, float* pfCalPos)
 {
 	if (m_pNaviMeshCom == nullptr)
 	{
@@ -225,6 +225,11 @@ _bool CNaviMeshController::Stand_NaviMesh(Engine::CGameObject* pObject)
 
 	if (vCalPos.y > pObject->Get_Position().y)
 	{
+		if (pfCalPos != nullptr)
+		{
+			*pfCalPos = vCalPos.y;
+		}
+
 		return true;
 	}
 	return false;

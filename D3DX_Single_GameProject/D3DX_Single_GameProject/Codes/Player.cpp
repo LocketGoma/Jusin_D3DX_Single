@@ -352,15 +352,12 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 
 	
 	//»ç°Ý
+	m_bShootState = false;
 	if (pManagement->Key_Pressing(VK_LBUTTON))
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->Shoot_Weapon();
 		m_bShootState = true;
 	}	
-	else
-	{
-		m_bShootState = false;
-	}
 	if (pManagement->Key_Down(VK_RBUTTON))
 	{
 		m_pWeapon[(_uint)m_pWeaponType]->AltShoot_Weapon();

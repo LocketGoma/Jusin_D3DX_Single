@@ -16,6 +16,9 @@ CBaseObject::CBaseObject(_Device pDevice)
 	, m_vStartPos(_vec3(0.f, 0.f, 0.f))
 	, m_vDirection(_vec3(0.f, 0.f, 1.f))
 	, eType(Engine::COLIDETYPE::COL_FALSE)
+	, m_fGravitionPower(9.8f)
+	, m_fGravitionSpeed(0.f)
+	, m_bGravition(false)
 {
 	m_bIsPrototype = true;
 }
@@ -30,12 +33,13 @@ CBaseObject::CBaseObject(const CBaseObject& other)
 	, m_vStartPos(other.m_vStartPos)
 	, m_vDirection(other.m_vDirection)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
+	, m_fGravitionPower(other.m_fGravitionPower)
+	, m_fGravitionSpeed(other.m_fGravitionSpeed)
+	, m_bGravition(false)
 {
 	Safe_AddReference(m_pDevice);
 	m_bIsPrototype = false;
 }
-
-
 void CBaseObject::Set_Position(_vec3 vPos)
 {
 	m_pTransformCom->Set_Pos(vPos);
@@ -47,8 +51,7 @@ void CBaseObject::Set_Size(_vec3 vSize)
 }
 
 void CBaseObject::Set_Direction(_vec3 vDir)
-{
-	
+{	
 	m_vDirection = vDir;
 	//m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_LOOK, &vDir);
 }
@@ -56,6 +59,11 @@ void CBaseObject::Set_Direction(_vec3 vDir)
 void CBaseObject::Set_ObjectType(eForceType eType)
 {
 	m_eForceType = eType;
+}
+
+void CBaseObject::Set_SpeedLockState(_bool bLock)
+{
+	m_bSpeedLock = bLock;
 }
 
 _vec3 CBaseObject::Get_Position()
@@ -76,6 +84,11 @@ _vec3 CBaseObject::Get_Direction()
 const eForceType CBaseObject::Get_ObjectType()
 {
 	return m_eForceType;
+}
+
+_bool CBaseObject::Get_SpeedLockState()
+{
+	return m_bSpeedLock;
 }
 
 Engine::CControlSupportUnit* CBaseObject::Get_SupportUnit()
@@ -101,6 +114,27 @@ const _float CBaseObject::Get_Speed()
 void CBaseObject::Set_Speed(_float fSpeed)
 {
 	m_fSpeed = fSpeed;
+}
+
+void CBaseObject::Set_GravitionPower(_float fGravition)
+{
+	m_fGravitionPower = fGravition;
+}
+
+void CBaseObject::Set_ClearGSpeed(_float fClearHeight)
+{
+	_vec3 vPos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
+	vPos.y = fClearHeight;
+	m_pTransformCom->Set_Pos(vPos);
+
+	m_fGravitionSpeed = 0.f;
+
+	m_bGravition = false;
+}
+
+void CBaseObject::Set_GravitionDrop()
+{
+	m_bGravition = true;
 }
 
 const Engine::CTransform* CBaseObject::Get_Transform()
