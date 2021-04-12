@@ -1,0 +1,5 @@
+explode3~5 : 님이 잘 아는 그 하프라이프 폭발음
+battle_loop1~2 : 보스전 용
+gunship_explode2 : 보스 죽을때 용으로 쓰실?
+gman_02~04 + Rise : 오프닝 G맨
+gman_full : 위에거 합친거
