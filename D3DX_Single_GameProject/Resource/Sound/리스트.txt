@@ -3,3 +3,9 @@ battle_loop1~2 : 보스전 용
 gunship_explode2 : 보스 죽을때 용으로 쓰실?
 gman_02~04 + Rise : 오프닝 G맨
 gman_full : 위에거 합친거
+ol02_gman_full_00_01_03 : G맨 등장브금
+crowbar_impact1~2 : 빠루 어택
+ar2_어쩌고 : 딱 보면 보이듯이... 펄스라이플 관련
+mh_어쩌고 : 맨핵 관련
+strider_ : 스트라이더 관련
+ol01_hunter_ : 헌터 관련
