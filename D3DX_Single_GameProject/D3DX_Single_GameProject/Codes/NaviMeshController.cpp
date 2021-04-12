@@ -153,9 +153,14 @@ void CNaviMeshController::Set_NowScene(Engine::CScene* pScene)
 	m_pScene = pScene;
 }
 
+_uint CNaviMeshController::Get_NowIndex(const _vec3* vPos)
+{
+	return m_pNaviMeshCom->Caculate_Index(vPos);
+}
+
 HRESULT CNaviMeshController::Compare_NaviMove(Engine::CLayer* pTargetLayer)
 {
-	if (m_pNaviMeshCom == nullptr)
+	if (m_pNaviMeshCom == nullptr || pTargetLayer == nullptr)
 	{
 		return E_FAIL;
 	}
@@ -196,8 +201,8 @@ HRESULT CNaviMeshController::Compare_Navi_MeshMove(Engine::CLayer* pTargetLayer)
 			continue;
 		}
 		CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(targetObject.second);
-
-		pObject->Set_Position(m_pNaviMeshCom->Compare_OnNaviMesh_for_Mesh(&(pObject->Get_Position()), &(pObject->Calc_Position_At_Mesh()),  &(pObject->Get_Position_At_Mesh())));
+		if (pObject!=nullptr)
+			pObject->Set_Position(m_pNaviMeshCom->Compare_OnNaviMesh_for_Mesh(&(pObject->Get_Position()), &(pObject->Calc_Position_At_Mesh()),  &(pObject->Get_Position_At_Mesh())));
 	}
 
 

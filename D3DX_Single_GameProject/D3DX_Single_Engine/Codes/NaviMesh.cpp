@@ -63,9 +63,6 @@ HRESULT CNaviMesh::Ready_NaviMesh(void)
 
 HRESULT CNaviMesh::Load_NaviMesh(const _tchar* pFileName)
 {
-
-
-
 	if (FAILED(Link_Cell()))
 		return E_FAIL;
 
@@ -130,6 +127,19 @@ _vec3 CNaviMesh::Caculate_OnNaviMesh(const _vec3* pTargetPos)
 
 	//return _vec3(pTargetPos->x, pTargetPos->y <= fFieldPos ? fFieldPos:pTargetPos->y,pTargetPos->z);
 	return _vec3(pTargetPos->x, fFieldPos, pTargetPos->z);
+}
+
+_uint CNaviMesh::Caculate_Index(const _vec3* pTargetPos)
+{
+	for (_uint i = 0; i < m_vecCell.size(); i++)
+	{
+		if (m_vecCell[i]->Get_Stand_At_Cell(pTargetPos))
+		{
+			m_dwCellIndex = i;
+			return i;
+		}
+	}
+	return 0;
 }
 
 HRESULT CNaviMesh::Add_NaviCell(_vec3& p1, _vec3& p2, _vec3& p3)

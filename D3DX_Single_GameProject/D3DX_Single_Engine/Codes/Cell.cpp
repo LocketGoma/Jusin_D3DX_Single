@@ -230,6 +230,15 @@ _float CCell::Get_Height_At_Cell(const _vec3* pVPos)
 	return -(pPlane.a * pVPos->x + pPlane.c * pVPos->z + pPlane.d) / pPlane.b;
 }
 
+_bool CCell::Get_Stand_At_Cell(const _vec3* pVPos)
+{
+	_float3 vPosA = m_vPoint[(_uint)NAVIPOINT::POINT_A];
+	_float3 vPosB = m_vPoint[(_uint)NAVIPOINT::POINT_B];
+	_float3 vPosC = m_vPoint[(_uint)NAVIPOINT::POINT_C];
+
+	return D3DXIntersectTri(&vPosA, &vPosB, &vPosC, pVPos, &_vec3(0.f, -1.f, 0.f), nullptr, nullptr, nullptr);
+}
+
 COMPAREMOVE CCell::Compare(const _vec3* pEndPos, _ulong* pCellIndex)
 {
 	for (_ulong i = 0; i < (_uint)LINE::LINE_END; ++i)

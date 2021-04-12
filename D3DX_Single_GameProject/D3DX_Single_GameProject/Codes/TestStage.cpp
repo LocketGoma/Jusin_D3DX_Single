@@ -5,7 +5,7 @@
 #include "TestCamera.h"
 #include "SkyBox.h"
 #include "TestTerrain.h"
-#include "TestLight.h"
+
 #include "TestObject.h"
 #include "TestMapObject.h"
 #include "WeaponCrowBar.h"
@@ -23,6 +23,8 @@
 #include "StaticObject.h"
 #include "DynamicObject.h"
 #include "ControlSupport.h"
+
+#include "Transform.h"
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -62,15 +64,15 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
     {
         return E_FAIL;
     }
+    m_pNaviController->Get_NowIndex(&pPlayer->Get_Position());
 
     if (m_pNaviController->Stand_NaviMesh(pPlayer))
     {
         pPlayer->Jump_Cancel();
-    }
-    
+    }   
 
 
-    return _int();
+    return NO_EVENT;
 }
 
 _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
@@ -238,8 +240,9 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"Player", pGameObject);
   // pGameObject->Set_Position(_vec3(155.f, 14.f, -240.f));
-  // pGameObject->Set_Position(_vec3(-60.f, 1.f, -15.f));
-   pGameObject->Set_Position(_vec3(45.f, 0.f, 10.f));
+    pGameObject->Set_Position(_vec3(-66.f, 1.f, -3.f));
+   //pGameObject->Set_Position(_vec3(45.f, 0.f, 10.f));
+    //dynamic_cast<Engine::CTransform*>(pGameObject->Get_Component(L"Com_Transform", Engine::COMPONENT_ID::ID_DYNAMIC))->Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(90));
 
     pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -310,7 +313,7 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"TestTerrain", pGameObject);
 
-    pGameObject = pManagement->Clone_GameObject(L"TestLight");
+    pGameObject = pManagement->Clone_GameObject(L"StageCLight");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 

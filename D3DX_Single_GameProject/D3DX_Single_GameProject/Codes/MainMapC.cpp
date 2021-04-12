@@ -57,10 +57,11 @@ _int CMainMapC::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CMainMapC::Render_GameObject(void)
 {
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	m_pTransformCom->LateUpdate_Component();
 	m_pMeshCom->Render_Meshes();
+
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;

@@ -191,6 +191,7 @@
     <ClInclude Include="..\Headers\ProjPulseAmmo.h" />
     <ClInclude Include="..\Headers\ProjRocket.h" />
     <ClInclude Include="..\Headers\StageALight.h" />
+    <ClInclude Include="..\Headers\StageCLight.h" />
     <ClInclude Include="..\Headers\StaticNormalObject.h" />
     <ClInclude Include="..\Headers\TestPlayer.h" />
     <ClInclude Include="..\Headers\SkyBox.h" />
@@ -249,6 +250,7 @@
     <ClCompile Include="..\Codes\ProjPulseAmmo.cpp" />
     <ClCompile Include="..\Codes\ProjRocket.cpp" />
     <ClCompile Include="..\Codes\StageALight.cpp" />
+    <ClCompile Include="..\Codes\StageCLight.cpp" />
     <ClCompile Include="..\Codes\StaticNormalObject.cpp" />
     <ClCompile Include="..\Codes\TestPlayer.cpp" />
     <ClCompile Include="..\Codes\SkyBox.cpp" />

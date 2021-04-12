@@ -21,6 +21,8 @@
 #include "MainMapA.h"
 #include "MainMapC.h"
 
+#include "StageCLight.h"
+
 #include "StaticObject.h"
 #include "DynamicObject.h"
 
@@ -463,6 +465,12 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pManagement->Add_GameObject_Prototype(L"Effect_A2_Muzzle", pGameObject);
 
     
+    //Α¶Έν
+    pGameObject = CStageCLight::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"StageCLight", pGameObject);
+
+
     return S_OK;
 
 }

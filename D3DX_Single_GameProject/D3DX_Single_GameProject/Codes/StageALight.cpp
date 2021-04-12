@@ -65,7 +65,7 @@ HRESULT CStageALight::Add_Component(void)
 
 HRESULT CStageALight::Setup_Light()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 CStageALight* CStageALight::Create(_Device pDevice)

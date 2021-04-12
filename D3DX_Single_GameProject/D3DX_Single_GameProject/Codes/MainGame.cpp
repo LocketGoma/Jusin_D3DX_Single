@@ -43,14 +43,11 @@ HRESULT CMainGame::Ready_MainGame()
     Setup_DefaultSetting();
 
     m_pManagement->Setup_SceneManager(1);
-
-
     
     //Ready_Scene();
 
-
     m_pManagement->Setup_CurrentScene((_uint)ESceneType::STAGE_LOGO, CBaseLogoScene::Create(m_pDevice));
-    //m_pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_TEST, CTestStage::Create(m_pDevice));
+
 
     return S_OK;
 }

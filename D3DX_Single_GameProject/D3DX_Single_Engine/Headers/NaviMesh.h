@@ -28,7 +28,9 @@ public:
 	_vec3				Compare_OnNaviMesh_for_Mesh(const _vec3* pOldPos, const _vec3* pNewPos, const _vec3* pTargetPos);
 	_vec3				Caculate_OnNaviMesh(const _vec3* pTargetPos);						//네비매시 Y값 타게 만들어주는 함수.
 
-	//Get/Set
+	_uint				Caculate_Index(const _vec3* pTargetPos);
+
+	//Get/Set - 네비매시 수정
 public:
 	HRESULT				Add_NaviCell(_vec3& p1, _vec3& p2, _vec3& p3);
 

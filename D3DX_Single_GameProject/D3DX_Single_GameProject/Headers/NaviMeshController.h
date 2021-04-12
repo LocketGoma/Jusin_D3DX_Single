@@ -34,6 +34,7 @@ public:
 	_uint Set_NaviMesh(const _tchar* meshName);				
 	HRESULT Set_NaviMesh_From_File(const _tchar* pFilePath);
 	void Set_NowScene(Engine::CScene* pScene);
+	_uint Get_NowIndex(const _vec3* vPos);
 
 
 //¿¬»ê + IO

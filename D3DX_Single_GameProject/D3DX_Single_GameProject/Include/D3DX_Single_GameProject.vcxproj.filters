@@ -203,6 +203,9 @@
     <Filter Include="01.Object\12.Projectile\05.Rocket">
       <UniqueIdentifier>{9e482f80-e9cc-46c3-8d87-2d4766ec829b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\09.Light\03.StageCLight">
+      <UniqueIdentifier>{c548b738-f978-4ff6-9624-e64938ce5edb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -382,7 +385,12 @@
     <ClInclude Include="..\Headers\BaseObject.h">
       <Filter>01.Object</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\ProjRocket.h" />
+    <ClInclude Include="..\Headers\StageCLight.h">
+      <Filter>01.Object\09.Light\03.StageCLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ProjRocket.h">
+      <Filter>01.Object\12.Projectile\05.Rocket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -557,6 +565,11 @@
     <ClCompile Include="..\Codes\BaseObject.cpp">
       <Filter>01.Object</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\ProjRocket.cpp" />
+    <ClCompile Include="..\Codes\StageCLight.cpp">
+      <Filter>01.Object\09.Light\03.StageCLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ProjRocket.cpp">
+      <Filter>01.Object\12.Projectile\05.Rocket</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

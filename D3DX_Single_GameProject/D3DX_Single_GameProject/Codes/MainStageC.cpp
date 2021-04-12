@@ -3,12 +3,10 @@
 
 #include "MainMapC.h"
 #include "SkyBox.h"
-#include "Light.h"
-#include "LightingManager.h"
 
 #include "NaviMeshController.h"
 
-#include "NaviMeshController.h"
+#include "Transform.h"
 
 #include "Player.h"
 #include "BaseAI.h"
@@ -24,7 +22,6 @@
 
 CMainStageC::CMainStageC(_Device pDevice)
 	: Engine::CScene(pDevice)
-	, m_pNaviController(nullptr)
 {
 }
 
@@ -34,12 +31,12 @@ HRESULT CMainStageC::Ready_Scene(void)
 
 	SetWindowText(g_hWnd, L"Stage C");
 
-	Add_Player_Layer(L"PlayerLayer");
-	Add_Boss_Layer(L"BossLayer");
-	Add_Object_Layer(L"ObjectLayer");
-	Add_Enemy_Layer(L"EnemyLayer");
+	//Add_Player_Layer(L"PlayerLayer");
+	//Add_Boss_Layer(L"BossLayer");
+	//Add_Object_Layer(L"ObjectLayer");
+	//Add_Enemy_Layer(L"EnemyLayer");
+	//Add_Weapon_Layer(L"WeaponLayer");
 	Add_Environment_Layer(L"EnviromentLayer");
-	Add_Weapon_Layer(L"WeaponLayer");
 
 	return S_OK;
 }
@@ -50,14 +47,15 @@ _int CMainStageC::Update_Scene(const _float& fDeltaTime)
 
 	//이동 판정
 	m_pNaviController->Compare_NaviMove(Get_Layer(L"PlayerLayer"));
-	m_pNaviController->Compare_Navi_MeshMove(Get_Layer(L"EnemyLayer"));
-	m_pNaviController->Compare_Navi_MeshMove(Get_Layer(L"BossLayer"));
+	m_pNaviControllerB->Compare_Navi_MeshMove(Get_Layer(L"EnemyLayer"));
+	m_pNaviControllerB->Compare_Navi_MeshMove(Get_Layer(L"BossLayer"));
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(Get_Layer(L"PlayerLayer")->Get_GameObject(L"Player"));
 	if (pPlayer == nullptr)
 	{
 		return E_FAIL;
 	}
+    m_pNaviController->Get_NowIndex(&pPlayer->Get_Position());
 
 	if (m_pNaviController->Stand_NaviMesh(pPlayer))
 	{
@@ -205,7 +203,7 @@ HRESULT CMainStageC::Add_Player_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"PlayerCamera", pGameObject);
-
+    dynamic_cast<Engine::CTransform*>(pGameObject->Get_Component(L"Com_Transform", Engine::COMPONENT_ID::ID_DYNAMIC))->Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(90));
 
 
     m_mapLayer.emplace(pLayerTag, pLayer);
@@ -227,23 +225,61 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     }
     ///적 스폰 파트
     ////헌터
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A1", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(20.f, 0.f, -25.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A1", pGameObject), E_FAIL);
     
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(40.f, 0.f, 15.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(20.f, 0.f, 45.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
 
+    //헌터 AI
+    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A1")));
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI1", pGameObject), E_FAIL);
 
+    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A2")));
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+    m_mapLayer.emplace(L"AILayer", pAILayer);
 
 	return S_OK;
 }
 
 HRESULT CMainStageC::Add_Boss_Layer(const _tchar* pLayerTag)
 {
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    //스트라이더
+    pGameObject = pManagement->Clone_GameObject(L"BossStrider");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(45.f, 0.f, 10.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
+
+    //스트라이더
+    pGameObject = CBossAI_Strider::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Strider")));
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EnemyStriderAI", pGameObject), E_FAIL);
+    
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
 	return S_OK;
 }
 
@@ -264,7 +300,7 @@ HRESULT CMainStageC::Add_Environment_Layer(const _tchar* pLayerTag)
         return E_FAIL;
     }
 
-    pGameObject = pManagement->Clone_GameObject(L"TestLight");
+    pGameObject = pManagement->Clone_GameObject(L"StageCLight");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 
@@ -279,8 +315,13 @@ HRESULT CMainStageC::Add_Environment_Layer(const _tchar* pLayerTag)
     pGameObject = m_pNaviController = CNaviMeshController::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MapCNavi", pGameObject), E_FAIL);
-
-    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map3.json");
+    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map3.json"); 
+    
+    
+    pGameObject = m_pNaviControllerB = CNaviMeshController::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MapCBossNavi", pGameObject), E_FAIL);
+    m_pNaviControllerB->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map3_Boss.json");
 
 
     m_mapLayer.emplace(pLayerTag, pLayer);
@@ -290,7 +331,11 @@ HRESULT CMainStageC::Add_Environment_Layer(const _tchar* pLayerTag)
 
 HRESULT CMainStageC::Add_Weapon_Layer(const _tchar* pLayerTag)
 {
-	return S_OK;
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
 }
 
 CMainStageC* CMainStageC::Create(_Device pDevice)
@@ -305,5 +350,5 @@ CMainStageC* CMainStageC::Create(_Device pDevice)
 
 void CMainStageC::Free()
 {
-	Engine::CScene::Free();
+	Engine::CScene::Free();    
 }

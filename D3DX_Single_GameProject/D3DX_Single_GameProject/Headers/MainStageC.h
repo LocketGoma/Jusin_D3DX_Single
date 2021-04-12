@@ -38,6 +38,7 @@ private:
 	virtual void Free() override;
 
 	CNaviMeshController* m_pNaviController;
+	CNaviMeshController* m_pNaviControllerB;
 
 };
 

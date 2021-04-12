@@ -36,6 +36,7 @@ public:
 	HRESULT		Edit_Cell(_vec3& p1, _vec3& p2, _vec3& p3);
 	void		Render_Cell(void);
 	_float		Get_Height_At_Cell(const _vec3* pVPos);
+	_bool		Get_Stand_At_Cell(const _vec3* pVPos);
 
 	COMPAREMOVE	Compare(const _vec3* pEndPos, _ulong* pCellIndex);
 
