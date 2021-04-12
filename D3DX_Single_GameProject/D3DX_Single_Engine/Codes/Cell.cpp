@@ -236,9 +236,10 @@ COMPAREMOVE CCell::Compare(const _vec3* pEndPos, _ulong* pCellIndex)
 	{
 		if (COMPARE::COMPARE_LEFT == m_pLine[i]->Compare(&_vec2(pEndPos->x, pEndPos->z)))
 		{
- 			if (nullptr == m_pNeighbor[i])
+			if (nullptr == m_pNeighbor[i])
+			{
 				return COMPAREMOVE::STOP;
-
+			}
 			else
 			{
 				*pCellIndex = *m_pNeighbor[i]->Get_CellIndex();

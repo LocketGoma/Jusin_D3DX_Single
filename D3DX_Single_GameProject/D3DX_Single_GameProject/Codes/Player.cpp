@@ -26,13 +26,13 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_bShootState(false)
 	, m_fInteractionRange(15.f)
 	, m_iFullHP(100)
-	, m_fHitboxSize(7.5f)
+	, m_fHitboxSize(15.0f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(10.f)
 	, m_fRunSpeed(20.f)
 	, m_fJumpPower(7.55f)
 	, m_fNowJumpPos(0.f)
-	, m_fGravition(49.0f)
+	, m_fGravition(9.8f)
 	, m_bJump(false)
 	, m_bJumpStart(false)
 	
@@ -285,6 +285,7 @@ HRESULT CPlayer::Print_TestUI()
 	}
 	_tchar m_szHP[256];
 	_tchar m_szAmmo[256];
+	_tchar m_szPos[256];
 
 	if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
 	{
@@ -294,6 +295,10 @@ HRESULT CPlayer::Print_TestUI()
 
 	wsprintf(m_szHP, L"HP : %d", m_iHP);
 	pManagement->Render_Font(L"Font_BASE", m_szHP, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY-60), D3DXCOLOR(0.8f, 0.8f, 0.1f, 1.0f));
+
+	_vec3 vPos = Get_Position();
+	_stprintf_s(m_szPos, L"x : %f \ny :%f \nz : %f", vPos.x,vPos.y,vPos.z);
+	pManagement->Render_Font(L"Font_BASE", m_szPos, &_vec2(0,60), D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 
 
 	return S_OK;

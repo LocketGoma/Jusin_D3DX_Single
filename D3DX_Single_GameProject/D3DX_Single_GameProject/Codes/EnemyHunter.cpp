@@ -16,8 +16,8 @@ CEnemyHunter::CEnemyHunter(_Device pDevice)
 	, m_fPattonCooltime(0.f)
 	, m_fPattonInterval(2.f)
 {
-	m_fRecognizeRange = 75.f;
-	m_fMoveRange = 45.f;
+	m_fRecognizeRange = 155.f;
+	m_fMoveRange = 75.f;
 	m_fAttackRange = 30.f;
 
 	m_fHitboxSize = 6.25;

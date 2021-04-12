@@ -40,7 +40,7 @@ HRESULT CTestStage::Ready_Scene(void)
     Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
-    Add_Enemy_Layer(L"EnemyLayer");
+    //Add_Enemy_Layer(L"EnemyLayer");
     Add_Weapon_Layer(L"WeaponLayer");    
     //Add_Enemy_Control_Layer(L"EnemyControlLayer");
 
@@ -237,7 +237,9 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"Player");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"Player", pGameObject);
-   // pGameObject->Set_Position(_vec3(155.f, 14.f, -240.f));
+  // pGameObject->Set_Position(_vec3(155.f, 14.f, -240.f));
+  // pGameObject->Set_Position(_vec3(-60.f, 1.f, -15.f));
+   pGameObject->Set_Position(_vec3(45.f, 0.f, 10.f));
 
     pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -324,8 +326,9 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestNavi", pGameObject), E_FAIL);
 
-    m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/testfile.json");
-   // m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map3.json");
+    //m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/TestResource/Navi/testfile.json");
+   // m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map1.json");
+   m_pNaviController->Set_NaviMesh_From_File(L"../../Resource/Meshes/Navi/map3.json");
 
 
     m_mapLayer.emplace(pLayerTag, pLayer);
@@ -358,15 +361,15 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
     ////헌터
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A1", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(20.f, 0.f, 15.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A1", pGameObject), E_FAIL);
 
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(40.f, 0.f, 15.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(40.f, 0.f, 15.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
 
     //스트라이더
     pGameObject = pManagement->Clone_GameObject(L"BossStrider");
@@ -396,17 +399,17 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
 
     ////헌터
-    //pGameObject = CBaseAI_Attacker::Create(m_pDevice);
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A1")));
-    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI1", pGameObject), E_FAIL);
+    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A1")));
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI1", pGameObject), E_FAIL);
 
-    //pGameObject = CBaseAI_Attacker::Create(m_pDevice);
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A2")));
-    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
+    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A2")));
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
 
     //스트라이더
     pGameObject = CBossAI_Strider::Create(m_pDevice);
