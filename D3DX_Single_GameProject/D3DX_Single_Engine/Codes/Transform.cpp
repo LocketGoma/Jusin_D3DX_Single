@@ -55,7 +55,8 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	{
 		memcpy(&m_TransformDesc.m_vInfo[i], &m_TransformDesc.matWorld.m[i][0], sizeof(_vec3));
 	}
-
+	m_TransformDesc.vScale = _vec3(m_TransformDesc.matWorld.m[0][0], m_TransformDesc.matWorld.m[1][1], m_TransformDesc.matWorld.m[2][2]);
+	
 	return _int();
 }
 
@@ -74,6 +75,7 @@ _int CTransform::Update_Component(_vec3 vAxis, _float fRotate, const _float& fDe
 	{
 		memcpy(&m_TransformDesc.m_vInfo[i], &m_TransformDesc.matWorld.m[i][0], sizeof(_vec3));
 	}
+	m_TransformDesc.vScale = _vec3(m_TransformDesc.matWorld.m[0][0], m_TransformDesc.matWorld.m[1][1], m_TransformDesc.matWorld.m[2][2]);
 
 	return _int();
 }

@@ -221,7 +221,7 @@ void CWeaponSMG::Release_Weapon()
 }
 
 void CWeaponSMG::Holster_Weapon()
-{
+{	
 }
 
 void CWeaponSMG::Change_Weapon()

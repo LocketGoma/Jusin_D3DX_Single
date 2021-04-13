@@ -96,7 +96,7 @@ Engine::CControlSupportUnit* CBaseObject::Get_SupportUnit()
 
 const _float CBaseObject::Get_LifeTime()
 {
-	return _float();
+	return m_fLifeTime;
 }
 
 void CBaseObject::Set_LifeTime(_float fTime)

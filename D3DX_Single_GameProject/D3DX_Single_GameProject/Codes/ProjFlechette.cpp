@@ -55,9 +55,7 @@ HRESULT CProjFlechette::Ready_GameObject(_uint iTexNumber)
 
 HRESULT CProjFlechette::Ready_GameObject_Clone(void* pArg)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_LOOK,&m_vDirection);
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);	
 
 	return S_OK;
 }
@@ -90,7 +88,10 @@ _int CProjFlechette::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pTransformCom->Move_Pos(&m_vDirection, m_fSpeed, fDeltaTime);
 
-	m_pTransformCom->Update_Component(m_vDirection,m_fRotate,fDeltaTime);
+
+	m_pTransformCom->Update_Component(fDeltaTime);
+
+	//m_pTransformCom->Update_Component(m_vDirection,m_fRotate,fDeltaTime);
 
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_ALPHA, this);

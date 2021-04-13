@@ -258,7 +258,7 @@ void CWeaponRifle::Release_Weapon()
 
 void CWeaponRifle::Change_Weapon()
 {
-	;
+
 }
 
 void CWeaponRifle::Holster_Weapon()

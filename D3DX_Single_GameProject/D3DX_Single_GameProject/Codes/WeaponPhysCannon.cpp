@@ -46,6 +46,12 @@ _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 
 	if (m_pTarget != nullptr)
 	{
+		if (m_pTarget->Get_LifeTime() < 0.1f)
+		{
+			m_pTarget = nullptr;
+			return NO_EVENT;
+		}
+		
 		m_pTarget->Set_ClearGSpeed();
 		m_pTarget->Add_LifeTime(fDeltaTime);
 
