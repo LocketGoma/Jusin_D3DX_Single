@@ -26,9 +26,9 @@ CTransform::CTransform(const CTransform& other)
 
 HRESULT CTransform::Ready_Transform()
 {
-	m_TransformDesc.m_vInfo[0] = _vec3(0.f, 0.f, 0.f);
-	m_TransformDesc.m_vInfo[1] = _vec3(0.f, 0.f, 0.f);
-	m_TransformDesc.m_vInfo[2] = _vec3(0.f, 0.f, 0.f);
+	m_TransformDesc.m_vInfo[0] = _vec3(1.f, 0.f, 0.f);
+	m_TransformDesc.m_vInfo[1] = _vec3(0.f, 1.f, 0.f);
+	m_TransformDesc.m_vInfo[2] = _vec3(0.f, 0.f, 1.f);
 	m_TransformDesc.m_vInfo[3] = _vec3(0.f, 0.f, 0.f);
 	m_TransformDesc.vScale = _float3(1.f, 1.f, 1.f);
 	m_TransformDesc.vRotate = _float3(0.f, 0.f, 0.f);

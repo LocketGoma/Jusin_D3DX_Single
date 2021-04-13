@@ -66,11 +66,8 @@ _int CProjBasicAmmo::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		return MANAGER_OUT;
 	}
-	m_fRotate += (fDeltaTime * 10.f);
 
 	m_pTransformCom->Move_Pos(&m_vDirection, m_fSpeed, fDeltaTime);
-
-	//m_pTransformCom->Rotation(Engine::ROTATION::ROT_Z, m_fRotate);
 
 	m_pTransformCom->Update_Component();
 
@@ -105,27 +102,32 @@ HRESULT CProjBasicAmmo::Render_GameObject(void)
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, D3DXToRadian(90.f));
 	m_pTransformCom->Update_Component();
 	m_pTransformCom->LateUpdate_Component(0.f);
-	/*if (FAILED(m_pBufferCom[(_uint)eEffectAxis::AXIS_X]->Render_Buffer()))
+	if (FAILED(m_pBufferCom[(_uint)eEffectAxis::AXIS_X]->Render_Buffer()))
 	{
 		return E_FAIL;
-	}*/
+	}
 
+	_mat matAWorld, matScale, matRotate, matRotateX, matRotateY, matTrans;
+	_vec3 vPivot = _vec3(m_vDirection.x, 0.f, m_vDirection.z);
 
-	_vec2 vCalivZ = _vec2(m_vDirection.x, m_vDirection.y);
-	_vec2 vLookZ = _vec2(vLookO.x, vLookO.y);
-	_float fCZ = D3DXVec2Dot(&vCalivZ, &vLookZ) / (D3DXVec2Length(&vCalivZ) * D3DXVec2Length(&vLookZ));
+	D3DXMatrixScaling(&matScale, m_vAmmoSize.x, m_vAmmoSize.y, m_vAmmoSize.z);
+	D3DXMatrixRotationX(&matRotateX, D3DXToRadian(90.f));
+	D3DXMatrixRotationY(&matRotateY, acos(fCY));
+	D3DXMatrixRotationAxis(&matRotate, &vPivot, D3DXToRadian(90.f));
+	D3DXMatrixTranslation(&matTrans, Get_Position().x, Get_Position().y, Get_Position().z);
 
-	m_pTransformCom->Reset_Rotation();
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, acos(fCY));
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, D3DXToRadian(90.f));
-	//m_pTransformCom->Rotation(Engine::ROTATION::ROT_Z, acos(fCZ));
-	m_pTransformCom->Update_Component();
-	m_pTransformCom->LateUpdate_Component(0.f);
+	matAWorld = matScale * matRotateX * matRotateY * matRotate * matTrans;
 
+	m_pDevice->SetTransform(D3DTS_WORLD, &matAWorld);
+	
 	if (FAILED(m_pBufferCom[(_uint)eEffectAxis::AXIS_Z]->Render_Buffer()))
 	{
 		return E_FAIL;
 	}
+
+
+
+
 
 	m_pTransformCom->Reset_Rotation();
 	m_pTransformCom->Set_Scale(RESET_VECTOR);
