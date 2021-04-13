@@ -104,7 +104,7 @@ HRESULT CStaticNormalObject::Render_GameObject(void)
 	}
 
 
-	m_pColliderCom->Render_Collider(eType, &matWorld);
+	m_pColliderCom->Render_Collider(eType, &matWorld, g_bViewCollider);
 
 	return S_OK;
 }

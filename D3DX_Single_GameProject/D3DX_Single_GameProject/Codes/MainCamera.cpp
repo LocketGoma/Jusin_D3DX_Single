@@ -141,18 +141,12 @@ HRESULT CMainCamera::Add_Component(void)
 	m_pCameradesc.fAspect = _float(WINCX) / WINCY;
 	m_pCameradesc.fFovY = D3DXToRadian(60.f);
 	m_pCameradesc.fZNear = 0.1f;
-	m_pCameradesc.fZFar = 1000.f;
+	m_pCameradesc.fZFar = 500.f;
 
 	D3DXMatrixLookAtLH(&m_pCameradesc.matView, &m_pCameradesc.vEye, &m_pCameradesc.vAt, &m_pCameradesc.vUp);
 	D3DXMatrixPerspectiveFovLH(&m_pCameradesc.matProj, m_pCameradesc.fFovY, m_pCameradesc.fAspect, m_pCameradesc.fZNear, m_pCameradesc.fZFar);
 
 	m_pCameraCom->Set_CameraDesc(m_pCameradesc);
-
-
-
-
-
-
 
 	return S_OK;
 }

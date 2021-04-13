@@ -30,6 +30,9 @@ public:
 private:
 	virtual void Free();
 
+	Engine::CTexture* m_pTexture;
+	LPD3DXMESH m_pMesh;
+
 	//숨겨진 (사용가능한) 함수들
 	// public:
 	//	const _uint Get_Damage();

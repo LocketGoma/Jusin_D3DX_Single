@@ -107,7 +107,7 @@ HRESULT CProjFlechette::Render_GameObject(void)
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	m_pColliderCom->Render_Collider(eType, &matWorld);
+	m_pColliderCom->Render_Collider(eType, &matWorld, g_bViewCollider);
 
 	return S_OK;
 }

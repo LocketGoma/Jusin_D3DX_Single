@@ -4,7 +4,7 @@
 #define __PROJECTILE_PULSE_AMMO_H__
 
 #include "BaseProjectile.h"
-
+//펄스건 전부
 class CProjPulseAmmo : public CBaseProjectile
 {
 private:

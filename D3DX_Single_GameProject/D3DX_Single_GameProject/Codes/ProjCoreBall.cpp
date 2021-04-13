@@ -108,7 +108,7 @@ HRESULT CProjCoreBall::Render_GameObject(void)
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	m_pColliderCom->Render_Collider(eType, &matWorld);
+	m_pColliderCom->Render_Collider(eType, &matWorld, g_bViewCollider);
 
 	return S_OK;
 }
@@ -136,6 +136,10 @@ HRESULT CProjCoreBall::Add_Component()
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+
+	D3DXCreateSphere(m_pDevice, 0.65f, 12, 12, &m_pMesh, nullptr);
+
 
 	return S_OK;
 }
@@ -171,4 +175,7 @@ Engine::CGameObject* CProjCoreBall::Clone(void* pArg = nullptr)
 void CProjCoreBall::Free()
 {
 	CBaseProjectile::Free();
+	
+	if (m_bIsPrototype == false)
+	Safe_Release(m_pMesh);
 }

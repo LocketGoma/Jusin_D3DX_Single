@@ -394,7 +394,9 @@
     <ClInclude Include="..\Headers\MainStageB.h">
       <Filter>02.Scene\06.MainStageB</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\ProjBasicAmmo.h" />
+    <ClInclude Include="..\Headers\ProjBasicAmmo.h">
+      <Filter>01.Object\12.Projectile\00.BasicAmmo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -578,6 +580,8 @@
     <ClCompile Include="..\Codes\MainStageB.cpp">
       <Filter>02.Scene\06.MainStageB</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\ProjBasicAmmo.cpp" />
+    <ClCompile Include="..\Codes\ProjBasicAmmo.cpp">
+      <Filter>01.Object\12.Projectile\00.BasicAmmo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

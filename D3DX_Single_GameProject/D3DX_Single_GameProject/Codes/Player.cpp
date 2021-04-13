@@ -132,7 +132,7 @@ HRESULT CPlayer::Render_GameObject(void)
 
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	//m_pColliderCom->Render_Collider(eType, &m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS));
+	//m_pColliderCom->Render_Collider(eType, &m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS,g_bViewCollider));
 
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 

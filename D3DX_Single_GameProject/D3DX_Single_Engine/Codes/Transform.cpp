@@ -161,7 +161,13 @@ void CTransform::Set_Scale(_vec3 vScale)
 }
 void CTransform::Set_Info(TRANSFORM_INFO eType, _vec3* pvInfo)
 {
+	m_TransformDesc.m_vInfo[(_uint)eType] = *pvInfo;	
+}
+void CTransform::Set_Info_Force(TRANSFORM_INFO eType, _vec3* pvInfo)
+{
 	m_TransformDesc.m_vInfo[(_uint)eType] = *pvInfo;
+	memcpy(m_TransformDesc.m_vInfo[(_uint)eType], &m_TransformDesc.matWorld.m[(_uint)eType][0], sizeof(_vec3));
+
 }
 void CTransform::Set_WorldMatrix(_mat pWorld)
 {

@@ -8,8 +8,11 @@ CLayer::CLayer()
 
 HRESULT CLayer::Add_GameObject(const std::wstring& pObjectTag, CGameObject* pGameObject)
 {
-	if (pGameObject == nullptr)
+	if (pObjectTag.length() < 2 || pGameObject == nullptr)
 		return E_FAIL;
+	if (m_mapObject.find(pObjectTag) != m_mapObject.end())
+		return E_FAIL;
+	
 
 	m_mapObject.emplace(pObjectTag, pGameObject);
 

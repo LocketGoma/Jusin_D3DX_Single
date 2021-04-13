@@ -4,6 +4,7 @@
 #include "Transform.h"
 
 #include "EffectMuzzle.h"
+#include "ProjBasicAmmo.h"
 
 CWeaponPistol::CWeaponPistol(_Device pDevice)
 	: CPlayerWeapon(pDevice)	
@@ -118,10 +119,44 @@ void CWeaponPistol::Shoot_Weapon()
 
 		if (m_iMagAmmo != 0)
 		{
-			m_iMagAmmo--;
-			Set_Animation(rand() % 4 + (_uint)ePistolAction::Fire3);
+			//-------------------총알 발사파트
+			auto pManagement = Engine::CManagement::Get_Instance();
+			if (pManagement == nullptr)
+			{
+				return;
+			}
 
-			m_pEffect->Set_Visible(true);
+			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_BasicAmmo");
+			NULL_CHECK(pObject);
+
+			_vec3 vPos, vDir;
+			_mat matWorld;
+			m_pDevice->GetTransform(D3DTS_VIEW, &matWorld);
+			D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+			memcpy(&vDir, &matWorld.m[2][0], sizeof(_vec3));
+			memcpy(&vPos, &matWorld.m[3][0], sizeof(_vec3));
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Position(vPos + (vDir * 0.5f));
+			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Direction(vDir);
+			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_TargetState(eTargetState::ToEnemy);
+
+			TCHAR tObjName[128] = L"";
+			TCHAR tObjData[] = L"PistolAmmo %d";
+			swprintf_s(tObjName, tObjData, m_iMagAmmo + m_iMainAmmo);
+
+
+			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
+			{
+				m_iMagAmmo--;
+				
+				Set_Animation(rand() % 4 + (_uint)ePistolAction::Fire3);
+				m_pEffect->Set_Visible(true);
+			}
+			else
+			{
+				Safe_Release(pObject);
+			}
 		}
 		else
 		{
