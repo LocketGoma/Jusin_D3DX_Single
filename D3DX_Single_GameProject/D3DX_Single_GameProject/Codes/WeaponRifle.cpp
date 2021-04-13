@@ -242,10 +242,11 @@ bool CWeaponRifle::Reload_Weapon()
 		return false;
 
 	if (CPlayerWeapon::Reload_Weapon() == true)
-	{
+	{		
+		m_iMainAmmo--;
 		m_iMagAmmo++;
+		Set_Animation((_uint)eRifleAction::Reload);
 	}
-	Set_Animation((_uint)eRifleAction::Reload);
 
 	return true;
 }

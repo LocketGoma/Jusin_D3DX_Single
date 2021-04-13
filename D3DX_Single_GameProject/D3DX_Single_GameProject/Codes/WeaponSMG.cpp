@@ -206,9 +206,10 @@ bool CWeaponSMG::Reload_Weapon()
 
 	if (CPlayerWeapon::Reload_Weapon() == true)
 	{
+		m_iMainAmmo--;
 		m_iMagAmmo++;
+		Set_Animation((_uint)eSMGAction::Reload);
 	}
-	Set_Animation((_uint)eSMGAction::Reload);
 
 	return true;
 
