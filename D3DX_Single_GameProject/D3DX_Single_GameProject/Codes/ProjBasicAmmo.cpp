@@ -38,7 +38,7 @@ HRESULT CProjBasicAmmo::Ready_GameObject_Clone(void* pArg)
 
 	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_LOOK, &m_vDirection);
 
-	m_vAmmoSize = _vec3(0.2f, 0.2f, 1.f);
+	m_vAmmoSize = _vec3(0.4f, 0.8f, 1.f);
 
 	return S_OK;
 }
@@ -48,6 +48,8 @@ _int CProjBasicAmmo::Update_GameObject(const _float& fDeltaTime)
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
 	m_fLifeTime -= fDeltaTime;
+
+	m_fRotate += fDeltaTime * 720.f;
 
 	if (m_fLifeTime < 0.f)
 	{
@@ -97,9 +99,16 @@ HRESULT CProjBasicAmmo::Render_GameObject(void)
 	_vec2 vLookY = _vec2(vLookO.x, vLookO.z);
 	_float fCY = D3DXVec2Dot(&vCalivY, &vLookY) / (D3DXVec2Length(&vCalivY) * D3DXVec2Length(&vLookY));
 
+	_float fXRad = D3DXToRadian(90.f);
+	//ÁÂÃøÀÌ¸é
+	if (m_vDirection.x < 0.f )
+	{
+		fCY *= -1;	
+		fXRad *= -1;
+	}
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, acos(fCY));
-
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, D3DXToRadian(90.f));
+	
+	m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, fXRad);
 	m_pTransformCom->Update_Component();
 	m_pTransformCom->LateUpdate_Component(0.f);
 	if (FAILED(m_pBufferCom[(_uint)eEffectAxis::AXIS_X]->Render_Buffer()))
@@ -111,9 +120,9 @@ HRESULT CProjBasicAmmo::Render_GameObject(void)
 	_vec3 vPivot = _vec3(m_vDirection.x, 0.f, m_vDirection.z);
 
 	D3DXMatrixScaling(&matScale, m_vAmmoSize.x, m_vAmmoSize.y, m_vAmmoSize.z);
-	D3DXMatrixRotationX(&matRotateX, D3DXToRadian(90.f));
+	D3DXMatrixRotationX(&matRotateX, fXRad);
 	D3DXMatrixRotationY(&matRotateY, acos(fCY));
-	D3DXMatrixRotationAxis(&matRotate, &vPivot, D3DXToRadian(90.f));
+	D3DXMatrixRotationAxis(&matRotate, &vPivot, D3DXToRadian(90.f + m_fRotate));
 	D3DXMatrixTranslation(&matTrans, Get_Position().x, Get_Position().y, Get_Position().z);
 
 	matAWorld = matScale * matRotateX * matRotateY * matRotate * matTrans;
@@ -124,10 +133,6 @@ HRESULT CProjBasicAmmo::Render_GameObject(void)
 	{
 		return E_FAIL;
 	}
-
-
-
-
 
 	m_pTransformCom->Reset_Rotation();
 	m_pTransformCom->Set_Scale(RESET_VECTOR);

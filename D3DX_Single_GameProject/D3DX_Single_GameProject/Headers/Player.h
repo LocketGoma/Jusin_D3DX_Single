@@ -14,6 +14,7 @@ END_NAMESPACE
 
 class CPlayerWeapon;
 class CBaseObject;
+class CStatusUI;
 
 
 enum class eWeaponType
@@ -55,6 +56,11 @@ public:
 
 	bool Hit_Attack(_uint iDamage);
 
+public:
+	_uint Get_HP();
+	_uint Get_ShieldHP();
+	_bool HurtState();
+
 private:
 	HRESULT			Add_Component(void);
 	HRESULT			Print_TestUI();
@@ -74,11 +80,17 @@ private:
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	Engine::CSphereCollider* m_pColliderCom = nullptr;
 	eWeaponType m_pWeaponType;
+
+	CStatusUI* m_pStatusUI;
 	
 //기본 변수들
 private:
 	int m_iHP;
+	int m_ibHP;
+	int m_iShieldHP;
+	int m_ibShieldHP;
 	_uint m_iFullHP;
+	_uint m_iShieldFullHP;
 	_float m_fHitboxSize;
 
 //상호작용

@@ -34,6 +34,8 @@ public:
 	HRESULT Set_ControlUnit(CDynamicObject* pUnit);
 	HRESULT Set_Target(Engine::CGameObject* pTarget);
 
+	void Set_StartSpawn();
+
 //내부 판단 함수들
 protected:
 	virtual HRESULT Do_Spawn(const _float& fDeltaTime) PURE;
@@ -55,6 +57,7 @@ protected:
 
 //플레이어 사거리는 일단 5.f 로 계산해서 사용할것.
 protected:
+	_bool m_bStartSpawn;	//등장 트리거 (이거 전까지는 아무것도 안함) <- Ready 기능 아냐?
 	_bool m_bReady;			//대기모드 여부
 	_bool m_bSpawn;			//등장했는가
 	_bool m_bAppear;		//움직이는가

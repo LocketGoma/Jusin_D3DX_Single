@@ -40,6 +40,14 @@ private:
 	void			Mouse_Movement();
 	void			Picking_Mouse();
 
+//잡 기능
+private:
+	_float			m_fLoopAngle;		//카메라 쉐이크용
+	_bool			m_bShaking;			//이미 쉐이크중인가 아닌가 (중복발생 방지)
+	_vec3			m_vShake;			//쉐이킹 벡터
+	_uint			m_iShakePatton;		//쉐이크 패턴
+	HRESULT			Shake_Camera(const _float& fDeltaTime);
+
 	//마우스 감도 관련
 public:
 	void Set_MouseSpeedX(_float fAxisX);

@@ -444,6 +444,10 @@ void CBossStrider::PattonB()
 				{
 					m_bAttackHitEnable = true;
 				}
+				else
+				{
+					Safe_Release(pObject);
+				}
 			}
 		}
 

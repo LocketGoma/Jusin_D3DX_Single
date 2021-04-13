@@ -359,6 +359,10 @@ void CEnemyHunter::PattonB()
 		{
 			m_bAttackHitEnable = true;
 		}
+		else
+		{
+			Safe_Release(pObject);
+		}
 
 	}
 	m_ePatton = eHunterPatton::PattonB;
@@ -406,12 +410,16 @@ void CEnemyHunter::PattonC()
 			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_TargetState(eTargetState::ToPlayer);
 
 			TCHAR tObjName[128] = L"";
-			TCHAR tObjData[] = L"HunterPulsetAmmo %d";
+			TCHAR tObjData[] = L"HunterPulseAmmo %d";
 			swprintf_s(tObjName, tObjData, m_iPattonBShoot++);
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
 				m_bAttackHitEnable = true;
+			}
+			else
+			{
+				Safe_Release(pObject);
 			}
 		}
 	}

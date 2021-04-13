@@ -43,8 +43,15 @@ _int CBaseAI_Attacker::Update_GameObject(const _float& fDeltaTime)
 		m_bDead = true;
 	}
 
+
 	_vec3 vRange = (m_pTargetUnit->Get_Position()) - (m_pControlUnit->Get_Position());
 	m_fRangeToTarget = D3DXVec3Length(&vRange);
+
+	if (m_bReady == false)
+	{
+		Do_Spawn(fDeltaTime);
+		return READY_EVENT;
+	}
 
 	if (m_bAppear == false)
 	{
@@ -81,7 +88,10 @@ HRESULT CBaseAI_Attacker::Render_GameObject(void)
 //필요시 사용
 HRESULT CBaseAI_Attacker::Do_Spawn(const _float& fDeltaTime)
 {
-	m_bReady = true;
+	if ((PLAYER_BASE_HITBOX + m_pControlUnit->Get_RecogRange()) >= m_fRangeToTarget)
+	{
+		m_bReady = true;
+	}
 
 	return S_OK;
 }
@@ -100,6 +110,7 @@ HRESULT CBaseAI_Attacker::Do_Appear(const _float& fDeltaTime)
 	{
 		m_bSpawn = false;
 		m_bAppear = true;
+		m_pControlUnit->Do_Idle(fDeltaTime);
 	}
 
 

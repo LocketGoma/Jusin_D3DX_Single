@@ -40,9 +40,9 @@ private:
 
 	//_bool m_bReady;			//대기모드 여부
 	//_bool m_bSpawn;			//등장했는가
-	//_bool m_bAppear;		//움직이는가
+	//_bool m_bAppear;			//움직이는가
 	//_bool m_bTrack;			//추적중인가
-	//_bool m_bAttack;		//공격중인가
+	//_bool m_bAttack;			//공격중인가
 	//_bool m_bDodge;			//회피중인가
 
 	//_float m_fRangeToTarget;	//타겟까지의 거리

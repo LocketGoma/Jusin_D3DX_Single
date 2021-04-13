@@ -64,6 +64,7 @@ public:
 
 //인식 범위 관련
 public:
+	void Set_StartMove();
 	const _float Get_RecogRange();
 	const _float Get_MoveRange();
 	const _float Get_AttackRange();
@@ -80,6 +81,8 @@ public:
 
 protected:
 	//움직임
+	_bool m_bStartMove;			//움직이기 시작하는지 (스폰했는지 여부)
+
 	_float m_fMoveSpeed;
 	_float m_fAnimationSpeed;
 	_float m_fRotate;

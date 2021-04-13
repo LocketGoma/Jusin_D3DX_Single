@@ -111,6 +111,11 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
     if (FAILED(Render_UI()))
     {
         return E_FAIL;
+    } 
+
+    if (FAILED(Render_UI_AlphaBlend()))
+    {
+        return E_FAIL;
     }
 
     if (FAILED(Render_Scene()))
@@ -400,9 +405,9 @@ HRESULT CRenderer::Render_Effect()
     m_GameObjects[(_uint)RENDERID::RENDER_EFFECT].clear();
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE)))
-{
-    return E_FAIL;
-}
+    {
+        return E_FAIL;
+    }
 
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE)))
@@ -478,23 +483,18 @@ HRESULT CRenderer::Render_UI()
     {
         return E_FAIL;
     }
-
-
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
     {
         return E_FAIL;
     }
-
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAREF, 128)))         //알파값 조절시 얘 바꾸면 됨
     {
         return E_FAIL;
     }
-
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER)))
     {
         return E_FAIL;
     }
-
     for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_UI])
     {
         if (FAILED(pGameObject->Render_GameObject()))
@@ -511,6 +511,46 @@ HRESULT CRenderer::Render_UI()
     }
 
     if (FAILED(m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+
+    return S_OK;
+}
+HRESULT CRenderer::Render_UI_AlphaBlend()
+{
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE)))
+    {
+        return E_FAIL;
+    }
+
+    ////알파블랜딩 먹임
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+    m_pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    m_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_UI_ALPHA])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+        {
+            return E_FAIL;
+        }
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_UI_ALPHA].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE)))
     {
         return E_FAIL;
     }

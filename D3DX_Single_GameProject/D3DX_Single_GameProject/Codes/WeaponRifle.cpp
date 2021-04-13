@@ -227,7 +227,11 @@ void CWeaponRifle::AltShoot_Weapon()
 				m_iAltAmmo--;
 				Set_Animation((_uint)eRifleAction::AltFire);
 				m_pAltEffect->Set_Visible(true);
-			}			
+			}		
+			else
+			{
+				Safe_Release(pObject);
+			}
 		}		
 	}
 }

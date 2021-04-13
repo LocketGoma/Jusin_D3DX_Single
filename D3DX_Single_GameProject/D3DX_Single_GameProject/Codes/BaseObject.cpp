@@ -104,6 +104,11 @@ void CBaseObject::Set_LifeTime(_float fTime)
 	m_fLifeTime = fTime;
 }
 
+void CBaseObject::Add_LifeTime(_float fTime)
+{
+	m_fLifeTime += fTime;
+}
+
 const _float CBaseObject::Get_Speed()
 {
 	return m_fSpeed;

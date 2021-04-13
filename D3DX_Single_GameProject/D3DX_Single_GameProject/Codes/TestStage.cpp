@@ -13,6 +13,7 @@
 #include "NaviMeshController.h"
 
 #include "Player.h"
+#include "MainCamera.h"
 #include "BaseAI.h"
 #include "BaseAI_Attacker.h"
 #include "BaseAI_Flyer.h"
@@ -35,6 +36,7 @@ HRESULT CTestStage::Ready_Scene(void)
 {
     FAILED_CHECK_RETURN(Ready_Resource(m_pDevice), E_FAIL);
 
+    //ShowCursor(false);
     SetWindowText(g_hWnd, L"Test Stage");
 
     //Add_Test_Layer(L"TestLayer");
@@ -42,7 +44,7 @@ HRESULT CTestStage::Ready_Scene(void)
     Add_Object_Layer(L"ObjectLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
-    Add_Enemy_Layer(L"EnemyLayer");
+    //Add_Enemy_Layer(L"EnemyLayer");
     Add_Weapon_Layer(L"WeaponLayer");    
     //Add_Enemy_Control_Layer(L"EnemyControlLayer");    
 
@@ -258,10 +260,13 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
     //dynamic_cast<Engine::CTransform*>(pGameObject->Get_Component(L"Com_Transform", Engine::COMPONENT_ID::ID_DYNAMIC))->Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(90));
 
     pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
+    dynamic_cast<CMainCamera*>(pGameObject)->Set_Player(dynamic_cast<CPlayer*>(pLayer->Get_GameObject(L"Player")));
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"PlayerCamera", pGameObject);
 
-
+    //pGameObject = pManagement->Clone_GameObject(L"StatusUI");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pLayer->Add_GameObject(L"PlayerStatusUI", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 

@@ -62,6 +62,9 @@
 #include "EffectMuzzle.h"
 #include "EffectA2Muzzle.h"
 
+//UI 컴포넌트 (체력, 탄약, 무기, 크로스헤어)
+#include "StatusUI.h"
+
 
 //로드 데이터 끝
 
@@ -334,6 +337,8 @@ HRESULT CLoadingScene::Load_Base_Resource()
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Tracer_Pulse", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ammo/gunshiptracer.tga", 1);
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Tracer_PHYS", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ammo/tracer_middle%d.tga", 2);
 
+    //UI 컴포넌트 (라고 해봤자 몇개없음)
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_UI_BOX", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/UIBox%d.png", 2);
 
     return S_OK;
 }
@@ -474,6 +479,10 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"StageCLight", pGameObject);
 
+    //UI
+    pGameObject = CStatusUI::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"StatusUI", pGameObject);
 
     return S_OK;
 

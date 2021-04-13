@@ -17,6 +17,8 @@
 #include "WeaponCrowBar.h"
 #include "WeaponPhysCannon.h"
 
+#include "StatusUI.h"
+
 float CPlayer::g_zDelta = 0.f;
 
 CPlayer::CPlayer(_Device pDevice)
@@ -26,6 +28,7 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_bShootState(false)
 	, m_fInteractionRange(15.f)
 	, m_iFullHP(100)
+	, m_iShieldFullHP(100)
 	, m_fHitboxSize(15.0f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(10.f)
@@ -40,6 +43,10 @@ CPlayer::CPlayer(_Device pDevice)
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 
 	m_iHP = m_iFullHP;
+	m_ibHP = m_iHP;
+
+	m_iShieldHP = m_iShieldFullHP;
+	m_ibShieldHP = m_iShieldHP;
 }
 
 CPlayer::CPlayer(const CPlayer& other)
@@ -49,6 +56,7 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_bShootState(false)
 	, m_fInteractionRange(other.m_fInteractionRange)
 	, m_iFullHP(other.m_iFullHP)
+	, m_iShieldFullHP(100)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(other.m_fWalkSpeed)
@@ -62,6 +70,10 @@ CPlayer::CPlayer(const CPlayer& other)
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 
 	m_iHP = m_iFullHP;
+	m_ibHP = m_iHP;
+
+	m_iShieldHP = m_iShieldFullHP;
+	m_ibShieldHP = m_iShieldHP;
 
 	m_fNowMoveSpeed = m_fWalkSpeed;
 }
@@ -119,6 +131,26 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
+	if (m_pStatusUI != nullptr)
+	{
+		m_pStatusUI->Set_HP(m_iHP);
+		m_pStatusUI->Set_SuitHP(m_iShieldHP);
+
+		if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON)
+		{
+			m_pStatusUI->Set_MagAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo());
+			m_pStatusUI->Set_Ammo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAmmo());
+			m_pStatusUI->Set_AltAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAltAmmo());
+			m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, true);
+		}
+		else
+		{
+			m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, false);
+		}
+		m_pStatusUI->LateUpdate_GameObject(fDeltaTime);
+	}
+
+
 	return NO_EVENT;
 }
 
@@ -139,9 +171,9 @@ HRESULT CPlayer::Render_GameObject(void)
 
 
 
-	return Print_TestUI();
+	//return Print_TestUI();
 
-	//return S_OK;
+	return S_OK;
 }
 
 void CPlayer::Set_Position(_vec3 vPos)
@@ -221,12 +253,45 @@ _uint CPlayer::Get_WeaponDamage()
 
 bool CPlayer::Hit_Attack(_uint iDamage)
 {
-	m_iHP -= iDamage;
+	if (m_iShieldHP > 0)
+	{
+		m_iShieldHP -= iDamage/2;
+	}
+	else
+	{
+		m_iShieldHP = 0;
+		m_iHP -= iDamage;
+	}
 
 	if (m_iHP <= 0)
 	{
+		m_iHP = 0;
 		return true;
 	}
+	return false;
+}
+
+_uint CPlayer::Get_HP()
+{
+	return m_iHP;
+}
+
+_uint CPlayer::Get_ShieldHP()
+{
+	return m_iShieldHP;
+}
+
+_bool CPlayer::HurtState()
+{
+	if (m_ibHP > m_iHP || m_ibShieldHP > m_iShieldHP)
+	{
+		m_ibHP = m_iHP;
+		m_ibShieldHP = m_iShieldHP;
+
+		return true;
+	}
+
+
 	return false;
 }
 
@@ -254,6 +319,8 @@ HRESULT CPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
 
+
+	m_pStatusUI = dynamic_cast<CStatusUI*>(pManagement->Clone_GameObject(L"StatusUI"));
 
 	//아래는 위치 옮겨둘것
 
@@ -504,6 +571,8 @@ void CPlayer::Free()
 		m_pWeapon[(_uint)eWeaponType::WEAPON_SHOTGUN]->Release();
 		m_pWeapon[(_uint)eWeaponType::WEAPON_PHYCANNON]->Release();
 		m_pWeapon[(_uint)eWeaponType::WEAPON_RPG]->Release();
+
+		m_pStatusUI->Release();
 	}
 
 

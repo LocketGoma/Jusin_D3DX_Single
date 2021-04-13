@@ -7,6 +7,7 @@ CBaseAI::CBaseAI(_Device pDevice)
 	: CGameObject(pDevice)
 	, m_pControlUnit(nullptr)
 	, m_pTargetUnit(nullptr)
+	, m_bStartSpawn(false)
 	, m_bReady(false)
 	, m_bSpawn(false)
 	, m_bAppear(false)
@@ -27,6 +28,7 @@ CBaseAI::CBaseAI(const CBaseAI& other)
 	: CGameObject(other)
 	, m_pControlUnit(other.m_pControlUnit)
 	, m_pTargetUnit(other.m_pTargetUnit)
+	, m_bStartSpawn(false)
 	, m_bReady(false)
 	, m_bSpawn(false)
 	, m_bAppear(false)
@@ -74,6 +76,11 @@ HRESULT CBaseAI::Set_Target(Engine::CGameObject* pTarget)
 	m_pTargetUnit = pTarget;
 
 	return S_OK;
+}
+
+void CBaseAI::Set_StartSpawn()
+{
+	m_bStartSpawn = true;
 }
 
 _bool CBaseAI::Check_HP_Change()

@@ -44,10 +44,10 @@ _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 	m_pLookTarget = nullptr;
 
-
 	if (m_pTarget != nullptr)
 	{
 		m_pTarget->Set_ClearGSpeed();
+		m_pTarget->Add_LifeTime(fDeltaTime);
 
 		_mat matView, matPos, matScale;
 		m_pDevice->GetTransform(D3DTS_VIEW, &matView);
@@ -59,7 +59,6 @@ _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 
 		m_pTarget->Set_Position(vPos);
 	}
-
 
 	return NO_EVENT;
 }

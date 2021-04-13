@@ -39,6 +39,7 @@ private:
 	HRESULT Render_NO_ZEnable_NoAlpha();
 	HRESULT Render_Terminal_NoAlpha();
 	HRESULT Render_UI();
+	HRESULT Render_UI_AlphaBlend();
 	HRESULT Render_Scene();
 
 public:

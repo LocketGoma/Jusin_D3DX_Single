@@ -62,6 +62,7 @@ public:
 	//무게 0짜리 발사 시 소멸타임
 	const _float Get_LifeTime();	//0 이하 : 무제한
 	void Set_LifeTime(_float fTime);
+	void Add_LifeTime(_float fTime);
 
 	//발사 시 속도
 	const _float Get_Speed();

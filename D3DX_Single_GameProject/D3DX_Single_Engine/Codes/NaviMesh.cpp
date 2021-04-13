@@ -199,7 +199,7 @@ HRESULT CNaviMesh::Delete_NaviMesh(_uint iIndex)
 	}
 	auto iter = m_vecCell.begin();
 
-	for (int i = 0; i < m_vecCell.size(); i++)
+	for (_uint i = 0; i < m_vecCell.size(); i++)
 	{
 		if (i == iIndex)
 		{

@@ -30,10 +30,10 @@ CProjPulseAmmo::CProjPulseAmmo(_Device pDevice)
 	: CBaseProjectile(pDevice)
 {
 	m_fWeight = 0;
-	m_fLifeTime = 0.5f;
+	m_fLifeTime = 2.5f;
 	m_fSpeed = 50.f;
 	m_eForceType = eForceType::NONE;
-	m_fHitboxSize = 2.5f;		//테스트용. 실제로는 좀 더 작게
+	m_fHitboxSize = 0.5f;		//테스트용. 실제로는 좀 더 작게
 
 	m_iDamage = 2;
 	m_fSplashRadius = m_fHitboxSize;
@@ -60,7 +60,7 @@ HRESULT CProjPulseAmmo::Ready_GameObject_Clone(void* pArg)
 
 	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_LOOK, &m_vDirection);
 
-	m_vAmmoSize = _vec3(0.2f, 0.4f, 1.f);
+	m_vAmmoSize = _vec3(0.4f, 0.8f, 1.f);
 
 	return S_OK;
 }
@@ -89,11 +89,9 @@ _int CProjPulseAmmo::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	m_fRotate += (fDeltaTime * 10.f);
+	m_fRotate += (fDeltaTime * 100.f);
 
 	m_pTransformCom->Move_Pos(&m_vDirection, m_fSpeed, fDeltaTime);
-
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Z, m_fRotate);
 
 	m_pTransformCom->Update_Component();
 
@@ -120,8 +118,24 @@ HRESULT CProjPulseAmmo::Render_GameObject(void)
 	}
 
 	m_pTransformCom->Set_Scale(m_vAmmoSize);
+	_vec2 vCalivY = _vec2(m_vDirection.x, m_vDirection.z);
+	_vec3 vLookO = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
+	_vec2 vLookY = _vec2(vLookO.x, vLookO.z);
+	_float fCY = D3DXVec2Dot(&vCalivY, &vLookY) / (D3DXVec2Length(&vCalivY) * D3DXVec2Length(&vLookY));
 
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, D3DXToRadian(-90.f));
+
+	_float fXRad = D3DXToRadian(-90.f);
+	//좌측이면
+	if (m_vDirection.x < 0.f)
+	{
+		fCY *= -1;
+		fXRad *= -1;
+	}
+
+
+	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, acos(fCY));
+
+	m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, fXRad);
 	m_pTransformCom->Update_Component();
 	m_pTransformCom->LateUpdate_Component(0.f);
 	if (FAILED(m_pBufferCom[(_uint)eEffectAxis::AXIS_X]->Render_Buffer()))
@@ -129,9 +143,18 @@ HRESULT CProjPulseAmmo::Render_GameObject(void)
 		return E_FAIL;
 	}
 
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Z, D3DXToRadian(90.f));
-	m_pTransformCom->Update_Component();
-	m_pTransformCom->LateUpdate_Component(0.f);
+	_mat matAWorld, matScale, matRotate, matRotateX, matRotateY, matTrans;
+	_vec3 vPivot = _vec3(m_vDirection.x, 0.f, m_vDirection.z);
+
+	D3DXMatrixScaling(&matScale, m_vAmmoSize.x, m_vAmmoSize.y, m_vAmmoSize.z);
+	D3DXMatrixRotationX(&matRotateX, fXRad);
+	D3DXMatrixRotationY(&matRotateY, acos(fCY));
+	D3DXMatrixRotationAxis(&matRotate, &vPivot, D3DXToRadian(90.f + m_fRotate));
+	D3DXMatrixTranslation(&matTrans, Get_Position().x, Get_Position().y, Get_Position().z);
+
+	matAWorld = matScale * matRotateX * matRotateY * matRotate * matTrans;
+
+	m_pDevice->SetTransform(D3DTS_WORLD, &matAWorld);
 
 	if (FAILED(m_pBufferCom[(_uint)eEffectAxis::AXIS_Z]->Render_Buffer()))
 	{

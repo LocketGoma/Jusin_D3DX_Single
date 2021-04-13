@@ -6,6 +6,7 @@
 #include "NaviMeshController.h"
 
 #include "Player.h"
+#include "MainCamera.h"
 #include "BaseAI.h"
 #include "BaseAI_Attacker.h"
 #include "BaseAI_Flyer.h"
@@ -204,6 +205,7 @@ HRESULT CMainStageC::Add_Player_Layer(const _tchar* pLayerTag)
 
     pGameObject = pManagement->Clone_GameObject(L"PlayerCamera");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CMainCamera*>(pGameObject)->Set_Player(dynamic_cast<CPlayer*>(pLayer->Get_GameObject(L"Player")));
     pLayer->Add_GameObject(L"PlayerCamera", pGameObject);
     dynamic_cast<Engine::CTransform*>(pGameObject->Get_Component(L"Com_Transform", Engine::COMPONENT_ID::ID_DYNAMIC))->Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(90));
 

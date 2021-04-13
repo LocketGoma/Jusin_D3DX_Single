@@ -179,12 +179,6 @@
     <Filter Include="01.Object\10.Effect">
       <UniqueIdentifier>{814dc325-0214-4fc6-9a1d-d976aa69712e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Object\10.Effect\00.Muzzle">
-      <UniqueIdentifier>{378230e8-0944-4f27-b37b-42b4ed4073ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Object\10.Effect\01.AR2Muzzle">
-      <UniqueIdentifier>{2eca22c4-e589-4845-801e-bd81278753ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Object\03.DynamicObject\00.Enemy\03.Manhack">
       <UniqueIdentifier>{396f291c-153a-4c10-a319-b3cf282a04ab}</UniqueIdentifier>
     </Filter>
@@ -205,6 +199,21 @@
     </Filter>
     <Filter Include="01.Object\09.Light\03.StageCLight">
       <UniqueIdentifier>{c548b738-f978-4ff6-9624-e64938ce5edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\00.UI">
+      <UniqueIdentifier>{b5778514-95af-45db-bc90-3b63f3ef2075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\01.Muzzle">
+      <UniqueIdentifier>{378230e8-0944-4f27-b37b-42b4ed4073ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\02.AR2Muzzle">
+      <UniqueIdentifier>{2eca22c4-e589-4845-801e-bd81278753ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\00.UI\00.StatusUI">
+      <UniqueIdentifier>{27128cba-e241-4493-b158-a4a2f83fdc09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\00.UI\01.CrosshairUI">
+      <UniqueIdentifier>{d2931720-ab8a-423e-bd8b-b2cd768c29fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -353,10 +362,10 @@
       <Filter>01.Object\10.Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\EffectMuzzle.h">
-      <Filter>01.Object\10.Effect\00.Muzzle</Filter>
+      <Filter>01.Object\10.Effect\01.Muzzle</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\EffectA2Muzzle.h">
-      <Filter>01.Object\10.Effect\01.AR2Muzzle</Filter>
+      <Filter>01.Object\10.Effect\02.AR2Muzzle</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\ProjPulseAmmo.h">
       <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
@@ -396,6 +405,9 @@
     </ClInclude>
     <ClInclude Include="..\Headers\ProjBasicAmmo.h">
       <Filter>01.Object\12.Projectile\00.BasicAmmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\StatusUI.h">
+      <Filter>01.Object\10.Effect\00.UI\00.StatusUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -539,10 +551,10 @@
       <Filter>01.Object\10.Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\EffectMuzzle.cpp">
-      <Filter>01.Object\10.Effect\00.Muzzle</Filter>
+      <Filter>01.Object\10.Effect\01.Muzzle</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\EffectA2Muzzle.cpp">
-      <Filter>01.Object\10.Effect\01.AR2Muzzle</Filter>
+      <Filter>01.Object\10.Effect\02.AR2Muzzle</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\ProjPulseAmmo.cpp">
       <Filter>01.Object\12.Projectile\01.PulseAmmo</Filter>
@@ -582,6 +594,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\ProjBasicAmmo.cpp">
       <Filter>01.Object\12.Projectile\00.BasicAmmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\StatusUI.cpp">
+      <Filter>01.Object\10.Effect\00.UI\00.StatusUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

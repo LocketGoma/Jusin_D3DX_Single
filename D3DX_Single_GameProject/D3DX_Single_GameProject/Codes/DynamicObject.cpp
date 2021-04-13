@@ -19,6 +19,7 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_fAttackRange(10.f)
 	, m_fRotateSpeed(1.0f)
 	, m_bEndChecker(false)
+	, m_bStartMove(false)
 	, m_vCorePos(_vec3(0.f,0.f,0.f))
 {
 	m_iHP = m_iMaxHP;
@@ -40,6 +41,7 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_fNowAttackTime(0.f)
 	, m_fRotateSpeed(other.m_fRotateSpeed)
 	, m_bEndChecker(false)
+	, m_bStartMove(false)
 	, m_vCorePos(other.m_vCorePos)
 {
 }
@@ -85,6 +87,11 @@ bool CDynamicObject::Hit_Attack(_uint iDamage)
 		return true;
 	}
 	return false;
+}
+
+void CDynamicObject::Set_StartMove()
+{
+	m_bStartMove = true;
 }
 
 const _float CDynamicObject::Get_RecogRange()

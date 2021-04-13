@@ -12,6 +12,10 @@ CMainCamera::CMainCamera(_Device pDevice)
 	, m_fAxisXSpeed(100.f)
 	, m_fAxisYSpeed(100.f)
 	, m_bMouseLock(true)
+	, m_fLoopAngle(0.f)
+	, m_bShaking(false)
+	, m_vShake(ZERO_VECTOR)
+	, m_iShakePatton(0)
 {
 }
 
@@ -21,6 +25,10 @@ CMainCamera::CMainCamera(const CMainCamera& other)
 	, m_fAxisXSpeed(other.m_fAxisXSpeed)
 	, m_fAxisYSpeed(other.m_fAxisYSpeed)
 	, m_bMouseLock(true)
+	, m_fLoopAngle(0.f)
+	, m_bShaking(false)
+	, m_vShake(ZERO_VECTOR)
+	, m_iShakePatton(0)
 {
 }
 
@@ -65,10 +73,20 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 	Base_Movement(fDeltaTime);
 	m_pTransformCom->Update_Component(fDeltaTime);
 
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return 0;
+	}
 
+
+	if (m_pPlayer->HurtState() || m_bShaking == true)
+	{
+		Shake_Camera(fDeltaTime);
+	}
 
 	//수정해줘야됨
-	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
+	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS)+ m_vShake, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
 	
 
 	return m_pCameraCom->LateUpdate_Component(fDeltaTime);
@@ -156,7 +174,7 @@ HRESULT CMainCamera::Base_Movement(const _float& fDeltatime)
 	auto pManagement = Engine::CManagement::Get_Instance();
 	NULL_CHECK_RETURN(pManagement, E_FAIL);
 
-	Engine::CTransform* pPlayerTransform = static_cast<Engine::CTransform *>(pManagement->Get_Component_From_Layer(L"PlayerLayer",L"Player",L"Com_Transform",Engine::COMPONENT_ID::ID_DYNAMIC));
+	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform *>(m_pPlayer->Get_Component(L"Com_Transform",Engine::COMPONENT_ID::ID_DYNAMIC));
 	if (pPlayerTransform == nullptr)
 	{
 		return S_OK;
@@ -220,6 +238,59 @@ void CMainCamera::Picking_Mouse()
 {
 }
 
+HRESULT CMainCamera::Shake_Camera(const _float& fDeltaTime)
+{
+	if (m_fLoopAngle >= 360.f)
+	{
+		m_bShaking = false;
+		m_fLoopAngle = 0.f;
+		m_vShake = ZERO_VECTOR;
+		return S_OK;
+	}
+	if (m_bShaking == false) 
+	{		
+		m_bShaking = true;
+		m_iShakePatton = rand() % 4;
+	}
+	switch (m_iShakePatton)
+	{
+		case 0 :
+		{
+			m_vShake.x = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			m_vShake.y = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			break;
+		}
+		case 1:
+		{
+			m_vShake.x = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			m_vShake.y = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			break;
+		}
+		case 2:
+		{
+			m_vShake.x = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			m_vShake.y = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			break;
+		}
+		case 3:
+		{
+			m_vShake.x = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			m_vShake.y = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			break;
+		}
+		default:
+		{	m_vShake.x = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+		m_vShake.y = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+		break;
+		}
+	}
+
+
+
+	m_fLoopAngle += fDeltaTime * 720.f;
+	return S_OK;
+}
+
 void CMainCamera::Set_MouseSpeedX(_float fAxisX)
 {
 	m_fAxisXSpeed = fAxisX;
@@ -274,7 +345,7 @@ void CMainCamera::Free()
 {
 	//m_pPlayer에다 safe_release를 해야하는가?
 
-	Safe_Release(m_pPlayer);
+	//Safe_Release(m_pPlayer);
 
 	Engine::CGameObject::Free();
 }

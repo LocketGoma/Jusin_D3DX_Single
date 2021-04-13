@@ -195,6 +195,7 @@
     <ClInclude Include="..\Headers\StageALight.h" />
     <ClInclude Include="..\Headers\StageCLight.h" />
     <ClInclude Include="..\Headers\StaticNormalObject.h" />
+    <ClInclude Include="..\Headers\StatusUI.h" />
     <ClInclude Include="..\Headers\TestPlayer.h" />
     <ClInclude Include="..\Headers\SkyBox.h" />
     <ClInclude Include="..\Headers\StaticObject.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="..\Codes\StageALight.cpp" />
     <ClCompile Include="..\Codes\StageCLight.cpp" />
     <ClCompile Include="..\Codes\StaticNormalObject.cpp" />
+    <ClCompile Include="..\Codes\StatusUI.cpp" />
     <ClCompile Include="..\Codes\TestPlayer.cpp" />
     <ClCompile Include="..\Codes\SkyBox.cpp" />
     <ClCompile Include="..\Codes\StaticObject.cpp" />
