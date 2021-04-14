@@ -18,12 +18,15 @@
 #include "WeaponPhysCannon.h"
 
 #include "StatusUI.h"
+#include "CrossHairUI.h"
+#include "WeaponUI.h"
 
 float CPlayer::g_zDelta = 0.f;
 
 CPlayer::CPlayer(_Device pDevice)
 	: Engine::CGameObject(pDevice)
 	, m_pWeaponType(eWeaponType::WEAPON_CROWBAR)
+	, m_pPrevWeaponType(eWeaponType::WEAPON_CROWBAR)
 	, m_fWeaponTimer(0.f)
 	, m_bShootState(false)
 	, m_fInteractionRange(15.f)
@@ -52,6 +55,7 @@ CPlayer::CPlayer(_Device pDevice)
 CPlayer::CPlayer(const CPlayer& other)
 	: Engine::CGameObject(other)
 	, m_pWeaponType(other.m_pWeaponType)
+	, m_pPrevWeaponType(other.m_pPrevWeaponType)
 	, m_fWeaponTimer(0.f)
 	, m_bShootState(false)
 	, m_fInteractionRange(other.m_fInteractionRange)
@@ -131,24 +135,50 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
-	//if (m_pStatusUI != nullptr)
-	//{
-	//	m_pStatusUI->Set_HP(m_iHP);
-	//	m_pStatusUI->Set_SuitHP(m_iShieldHP);
+	if (m_pStatusUI != nullptr)
+	{
+		m_pStatusUI->Set_HP(m_iHP);
+		m_pStatusUI->Set_SuitHP(m_iShieldHP);
 
-	//	if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON)
-	//	{
-	//		m_pStatusUI->Set_MagAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo());
-	//		m_pStatusUI->Set_Ammo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAmmo());
-	//		m_pStatusUI->Set_AltAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAltAmmo());
-	//		m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, true);
-	//	}
-	//	else
-	//	{
-	//		m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, false);
-	//	}
-	//	m_pStatusUI->LateUpdate_GameObject(fDeltaTime);
-	//}
+		if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON)
+		{
+			m_pStatusUI->Set_MagAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo());
+			m_pStatusUI->Set_Ammo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAmmo());
+			m_pStatusUI->Set_AltAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAltAmmo());
+			m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, true);
+		}
+		else
+		{
+			m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, false);
+		}
+		m_pStatusUI->LateUpdate_GameObject(fDeltaTime);
+	}
+	if (m_pCrossHairUI != nullptr)
+	{
+		m_pCrossHairUI->Set_HP(m_iHP);
+		
+		if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON)
+		{
+			m_pCrossHairUI->Set_MagAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo());
+			m_pCrossHairUI->Set_MagFullAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_MaxMagAmmo());
+		}
+		else
+		{
+			m_pCrossHairUI->Set_MagAmmo(-1);
+			m_pCrossHairUI->Set_MagFullAmmo(-1);
+		}
+		m_pCrossHairUI->LateUpdate_GameObject(fDeltaTime);
+	}
+	if (m_pWeaponUI != nullptr)
+	{
+		if (m_pPrevWeaponType != m_pWeaponType)
+		{
+			m_pWeaponUI->Select_Weapon((_uint)m_pWeaponType);
+		}
+		m_pWeaponUI->LateUpdate_GameObject(fDeltaTime);
+	}
+
+	m_pPrevWeaponType = m_pWeaponType;
 
 
 	return NO_EVENT;
@@ -163,8 +193,6 @@ HRESULT CPlayer::Render_GameObject(void)
 		return E_FAIL;
 
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	//m_pColliderCom->Render_Collider(eType, &m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS,g_bViewCollider));
 
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -321,6 +349,11 @@ HRESULT CPlayer::Add_Component(void)
 
 
 	m_pStatusUI = dynamic_cast<CStatusUI*>(pManagement->Clone_GameObject(L"StatusUI"));
+	
+	m_pCrossHairUI = dynamic_cast<CCrossHairUI*>(pManagement->Clone_GameObject(L"CrossHairUI"));
+	
+	m_pWeaponUI = dynamic_cast<CWeaponUI*>(pManagement->Clone_GameObject(L"WeaponUI"));
+
 
 	//아래는 위치 옮겨둘것
 
@@ -573,6 +606,8 @@ void CPlayer::Free()
 		m_pWeapon[(_uint)eWeaponType::WEAPON_RPG]->Release();
 
 		m_pStatusUI->Release();
+		m_pCrossHairUI->Release();
+		m_pWeaponUI->Release();
 	}
 
 

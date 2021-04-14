@@ -118,6 +118,11 @@ void CManagement::Render_Font(const _tchar* pFontTag, const _tchar* pString, con
 	m_pFontManager->Render_Font(pFontTag, pString, pPos, Color);
 }
 
+void CManagement::Render_Font_Bottom(const _tchar* pFontTag, const _tchar* pString, const _vec2* pPos, const _vec2* pSize, D3DXCOLOR Color)
+{
+	m_pFontManager->Render_Font_Bottom(pFontTag, pString, pPos, pSize, Color);
+}
+
 HRESULT CManagement::Setup_SceneManager(_int iMaxSceneIndex)
 {
 	return m_pSceneManager->Setup_SceneManager(iMaxSceneIndex);

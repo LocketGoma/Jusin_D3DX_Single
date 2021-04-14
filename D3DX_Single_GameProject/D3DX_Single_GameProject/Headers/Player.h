@@ -15,12 +15,13 @@ END_NAMESPACE
 class CPlayerWeapon;
 class CBaseObject;
 class CStatusUI;
+class CCrossHairUI;
+class CWeaponUI;
 
-
-enum class eWeaponType
-{
-	WEAPON_CROWBAR, WEAPON_PISTOL, WEAPON_SMG, WEAPON_RIFLE, WEAPON_SHOTGUN, WEAPON_PHYCANNON, WEAPON_RPG, WEAPON_END
-};
+//enum class eWeaponType
+//{
+//	WEAPON_CROWBAR, WEAPON_PISTOL, WEAPON_SMG, WEAPON_RIFLE, WEAPON_SHOTGUN, WEAPON_PHYCANNON, WEAPON_RPG, WEAPON_END
+//};
 
 class CPlayer : public Engine::CGameObject
 {
@@ -80,8 +81,11 @@ private:
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	Engine::CSphereCollider* m_pColliderCom = nullptr;
 	eWeaponType m_pWeaponType;
+	eWeaponType m_pPrevWeaponType;
 
 	CStatusUI* m_pStatusUI;
+	CCrossHairUI* m_pCrossHairUI;
+	CWeaponUI* m_pWeaponUI;
 	
 //기본 변수들
 private:
@@ -113,8 +117,6 @@ private:
 	_float m_fJumpTime;			//점프 시간
 	_bool  m_bJump;				//점프중임?
 	_bool  m_bJumpStart;		//점프 시작함?
-
-
 
 	_float m_fNowMoveSpeed;		//현재 이동속도
 	_float m_fWalkSpeed;		//걷는 속도

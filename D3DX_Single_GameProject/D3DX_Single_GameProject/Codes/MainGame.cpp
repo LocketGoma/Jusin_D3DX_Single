@@ -116,8 +116,10 @@ HRESULT CMainGame::Setup_DefaultSetting()
     FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_BASE", L"µ¸¿ò", 15, 15, FW_HEAVY), E_FAIL);
     FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_Status_MSG", L"±¼¸²Ã¼", 10, 10, FW_BOLD), E_FAIL);
     FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_Status_Gauge", L"µ¸¿ò", 25, 25, FW_HEAVY), E_FAIL);
-//    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_UI_Weapon", L"halflife2", 25, 25, FW_HEAVY,true), E_FAIL);
-//    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_UI_Cross", L"hl2crosshairs", 25, 25, FW_HEAVY,true), E_FAIL);
+    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_UI_Weapon", L"halflife2", 75, 75, FW_ULTRALIGHT, true), E_FAIL);
+    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_UI_Cross", L"halflife2", 150, 150, FW_ULTRALIGHT, true), E_FAIL);
+    FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_UI_Cross_Core", L"halflife2", 80, 100, FW_ULTRALIGHT, true), E_FAIL);
+    //FAILED_CHECK_RETURN(m_pManagement->Ready_Font((m_pDevice), L"Font_UI_Cross", L"hl2crosshairs", 30, 30, FW_HEAVY, true), E_FAIL);
 
 
     return S_OK;

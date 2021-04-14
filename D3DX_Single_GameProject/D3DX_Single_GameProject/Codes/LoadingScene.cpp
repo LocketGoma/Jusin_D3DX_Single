@@ -64,6 +64,8 @@
 
 //UI 컴포넌트 (체력, 탄약, 무기, 크로스헤어)
 #include "StatusUI.h"
+#include "CrossHairUI.h"
+#include "WeaponUI.h"
 
 
 //로드 데이터 끝
@@ -483,6 +485,15 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CStatusUI::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"StatusUI", pGameObject);
+
+    pGameObject = CCrossHairUI::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"CrossHairUI", pGameObject);
+
+    pGameObject = CWeaponUI::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"WeaponUI", pGameObject);
+
 
     return S_OK;
 

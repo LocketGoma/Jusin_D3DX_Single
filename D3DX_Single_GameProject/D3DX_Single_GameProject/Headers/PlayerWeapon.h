@@ -42,6 +42,7 @@ public:
 public:
 	_uint Get_RemainAmmo();				//ÇöÀç ³²Àº ÅºÈ¯
 	_uint Get_MagAmmo();				//ÅºÃ¢¿¡ ³²Àº ÅºÈ¯
+	_uint Get_MaxMagAmmo();				//ÅºÃ¢ ÃÖ´ë ÅºÈ¯
 	_uint Get_RemainAltAmmo();			//ÇöÀç ³²Àº 2Â÷ ÅºÈ¯
 	void Add_Ammo(_uint _iAmmo);		//ÅºÈ¯ Ãß°¡
 	void Add_AltAmmo(_uint _iAmmo);		//2Â÷ ÅºÈ¯ Ãß°¡

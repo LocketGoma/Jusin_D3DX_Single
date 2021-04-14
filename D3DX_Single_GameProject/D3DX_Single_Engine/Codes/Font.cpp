@@ -74,6 +74,19 @@ void CFont::Render_Font(const _tchar* pString, const _vec2* pPos, D3DXCOLOR Colo
 	m_pSprite->End();
 }
 
+void CFont::Render_Font_Bottom(const _tchar* pString, const _vec2* pPos, const _vec2* vSize, D3DXCOLOR Color)
+{
+	RECT	rc{ _long(pPos->x), _long(pPos->y)-_long(vSize->y), _long(pPos->x)+_long(vSize->x), _long(pPos->y) };
+
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+	m_pFont->DrawTextW(m_pSprite, pString, lstrlen(pString), &rc, DT_BOTTOM, Color);
+
+	m_pSprite->End();
+
+
+}
+
 CFont* CFont::Create(_Device pDevice, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight, _bool bType)
 {
 	CFont* pInstance = new CFont(pDevice);

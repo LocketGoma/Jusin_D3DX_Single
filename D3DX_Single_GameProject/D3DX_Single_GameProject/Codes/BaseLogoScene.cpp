@@ -51,6 +51,8 @@ _int CBaseLogoScene::Update_Scene(const _float& fDeltaTime)
 	{
 		if (pManagement->Key_Down(VK_RETURN))
 		{
+			ShowCursor(false);
+
 			m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 			Safe_Release(m_pLoading);

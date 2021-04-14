@@ -250,7 +250,7 @@ HRESULT CMainCamera::Shake_Camera(const _float& fDeltaTime)
 	if (m_bShaking == false) 
 	{		
 		m_bShaking = true;
-		m_iShakePatton = rand() % 4;
+		m_iShakePatton = rand() % 3;
 	}
 	switch (m_iShakePatton)
 	{
@@ -262,25 +262,18 @@ HRESULT CMainCamera::Shake_Camera(const _float& fDeltaTime)
 		}
 		case 1:
 		{
-			m_vShake.x = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
 			m_vShake.y = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
 			break;
 		}
 		case 2:
 		{
 			m_vShake.x = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
-			m_vShake.y = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
-			break;
-		}
-		case 3:
-		{
-			m_vShake.x = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
-			m_vShake.y = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+			m_vShake.y = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
 			break;
 		}
 		default:
-		{	m_vShake.x = -sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
-		m_vShake.y = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
+		{	
+			m_vShake.y = sin(D3DXToRadian(m_fLoopAngle)) * 0.75f;
 		break;
 		}
 	}

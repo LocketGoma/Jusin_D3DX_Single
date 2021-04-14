@@ -155,6 +155,11 @@ _uint CPlayerWeapon::Get_MagAmmo()
 	return m_iMagAmmo;
 }
 
+_uint CPlayerWeapon::Get_MaxMagAmmo()
+{
+	return m_iMaxMagAmmo;
+}
+
 void CPlayerWeapon::Add_Ammo(_uint _iAmmo)
 {
 	m_iMainAmmo += _iAmmo;
