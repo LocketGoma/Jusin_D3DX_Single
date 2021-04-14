@@ -35,6 +35,9 @@
 #include "Engine_Enum.h"
 #include "Engine_Struct.h"
 
+#include <io.h>
+#include "fmod.h"
+#pragma comment (lib, "fmodex_vc.lib")
 
 ////Debug
 //#ifdef _DEBUG
