@@ -26,6 +26,7 @@ public:
 	void		Render_Font(const _tchar* pString,
 		const _vec2* pPos,
 		D3DXCOLOR Color);
+	void		Render_Font_Bottom(const _tchar* pString, const _vec2* pPos, const _vec2* vSize, D3DXCOLOR Color);
 
 private:
 	_Device					m_pDevice;

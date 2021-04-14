@@ -24,6 +24,7 @@ public:
 
 
 	void	Render_Font(const _tchar* pFontTag,	const _tchar* pString, const _vec2* pPos,	D3DXCOLOR Color);
+	void	Render_Font_Bottom(const _tchar* pFontTag,	const _tchar* pString, const _vec2* pPos, const _vec2* pSize, D3DXCOLOR Color);
 
 private:
 	CFont* Find_Font(const _tchar* pFontTag);
