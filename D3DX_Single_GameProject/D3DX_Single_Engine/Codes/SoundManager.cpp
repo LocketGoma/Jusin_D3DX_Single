@@ -8,14 +8,16 @@ CSoundManager::CSoundManager()
 	m_pSystem = nullptr;
 }
 
-void CSoundManager::Initialize()
+HRESULT CSoundManager::Initialize()
 {
 	FMOD_System_Create(&m_pSystem);
 
 	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
-	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
-
-	LoadSoundFile();
+	if (FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL) != FMOD_OK)
+	{
+		return E_FAIL;
+	}
+	return S_OK;
 }
 
 void CSoundManager::PlaySound(TCHAR* pSoundKey, SOUND_CHANNELID eID)
@@ -66,18 +68,18 @@ void CSoundManager::StopAll()
 		FMOD_Channel_Stop(m_pChannelArr[i]);
 }
 
-void CSoundManager::LoadSoundFiles()
+HRESULT CSoundManager::LoadSoundFiles()
 {
 	_finddata_t fd;
 
-	long handle = _findfirst("../../Resources/Sound/*.*", &fd);
+	long handle = _findfirst("../../Resource/Sound/*.*", &fd);
 
 	if (handle == 0)
-		return;
+		return E_FAIL;
 
 	int iResult = 0;
 
-	char szCurPath[256] = "../../Resources/Sound/";
+	char szCurPath[256] = "../../Resource/Sound/";
 	char szFullPath[256] = "";
 
 	while (iResult != -1)
@@ -99,12 +101,16 @@ void CSoundManager::LoadSoundFiles()
 			m_mapSound.emplace(pSoundKey, pSound);
 		}
 		iResult = _findnext(handle, &fd);
+
 	}
+	
 	FMOD_System_Update(m_pSystem);
 	_findclose(handle);
+
+	return S_OK;
 }
 
-void CSoundManager::LoadSoundFile(char* szFilePath, char* szFileName)
+HRESULT CSoundManager::LoadSoundFile(char* szFilePath, char* szFileName)
 {
 
 	char szFullPath[256] = "";
@@ -113,7 +119,7 @@ void CSoundManager::LoadSoundFile(char* szFilePath, char* szFileName)
 
 	FMOD_SOUND* pSound = nullptr;
 
-	FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFileName, FMOD_HARDWARE, 0, &pSound);
+	FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_HARDWARE, 0, &pSound);
 
 	if (eRes == FMOD_OK)
 	{
@@ -125,9 +131,15 @@ void CSoundManager::LoadSoundFile(char* szFilePath, char* szFileName)
 
 		m_mapSound.emplace(pSoundKey, pSound);
 	}
+	else
+	{
+		return E_FAIL;
+	}
 
 
 FMOD_System_Update(m_pSystem);
+
+return S_OK;
 
 }
 

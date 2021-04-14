@@ -49,8 +49,11 @@ HRESULT CMainGame::Ready_MainGame()
     
     //Ready_Scene();
 
+    m_pManagement->Load_Sound("../../Resource/","gman_full.wav");
+
     m_pManagement->Setup_CurrentScene((_uint)ESceneType::STAGE_LOGO, CBaseLogoScene::Create(m_pDevice));
 
+    m_pManagement->Play_Sound(L"gman_full.wav", Engine::SOUND_CHANNELID::BGM);
 
     return S_OK;
 }

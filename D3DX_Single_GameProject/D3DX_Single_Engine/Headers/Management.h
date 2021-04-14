@@ -17,6 +17,7 @@
 #include "PrototypeManager.h"
 #include "GraphicResourceManager.h"
 #include "FontManager.h"
+#include "SoundManager.h"
 
 BEGIN_NAMESPACE(Engine)
 //마스터 클래스
@@ -113,6 +114,15 @@ public:
 	HRESULT Add_GameObject_Prototype(const std::wstring & PrototypeTag, class CGameObject* pPrototype);
 	CGameObject* Clone_GameObject(const std::wstring & PrototypeTag, void* pArg = nullptr);
 
+//사운드 매니저
+public:
+	HRESULT Load_Sound(char* szFilePath, char* szFileName);
+	HRESULT Load_Sounds();
+	HRESULT Play_Sound(TCHAR * FileName, SOUND_CHANNELID ChannelID);
+	HRESULT Stop_Sound(SOUND_CHANNELID ChannelID);
+	HRESULT Play_BGM(TCHAR * FileName);
+	HRESULT Stop_AllSound();
+
 
 
 
@@ -127,6 +137,7 @@ private:
 	CKeyManager*			 m_pKeyManager		  = nullptr;
 	CFontManager*			 m_pFontManager		  = nullptr;
 	CTimeManager*			 m_pTimeManager		  = nullptr;
+	CSoundManager*			 m_pSoundManager	  = nullptr;
 	CSceneManager*			 m_pSceneManager	  = nullptr;
 	CGameObjectManager*		 m_pGameObjectManager = nullptr;
 	CPrototypeManager*		 m_pPrototypeManager  = nullptr;	//구 ComponentManager 역할

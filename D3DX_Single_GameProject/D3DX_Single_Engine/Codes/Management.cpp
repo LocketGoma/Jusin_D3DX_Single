@@ -15,7 +15,7 @@ CManagement::CManagement()
 	, m_pGameObjectManager(CGameObjectManager::Get_Instance())
 	, m_pTimeManager(CTimeManager::Get_Instance())
 	, m_pFontManager(CFontManager::Get_Instance())
-	//, m_pSound_Manager(CSoundManager::Get_Instance())
+	, m_pSoundManager(CSoundManager::Get_Instance())
 
 {
 	Safe_AddReference(m_pDeviceManager);
@@ -28,7 +28,7 @@ CManagement::CManagement()
 	Safe_AddReference(m_pGameObjectManager);
 	Safe_AddReference(m_pTimeManager);
 	Safe_AddReference(m_pFontManager);
-	//Safe_AddReference(m_pSound_Manager);
+	Safe_AddReference(m_pSoundManager);
 }
 
 
@@ -59,9 +59,14 @@ HRESULT CManagement::Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDi
 
 	if (FAILED(m_pTimeManager->Ready_TimeManager()))
 	{
-		PRINT_LOG(L"Error", L"Filed to Set Timer");
+		PRINT_LOG(L"Error", L"Failed to Set Timer");
 		return E_FAIL;
 		//뜰 일이 없는 에러
+	}
+	if (FAILED(m_pSoundManager->Initialize()))
+	{
+		PRINT_LOG(L"Error", L"Failed to Set SoundManager");
+		return E_FAIL;
 	}
 
 
@@ -335,9 +340,62 @@ CGameObject* CManagement::Clone_GameObject(const std::wstring& PrototypeTag, voi
 	return m_pGameObjectManager->Clone_GameObject(PrototypeTag, pArg);
 }
 
+HRESULT CManagement::Load_Sound(char* szFilePath, char* szFileName)
+{
+	return m_pSoundManager->LoadSoundFile(szFilePath,szFileName);
+}
+
+HRESULT CManagement::Load_Sounds()
+{
+	return m_pSoundManager->LoadSoundFiles();
+}
+
+HRESULT CManagement::Play_Sound(TCHAR* FileName, SOUND_CHANNELID ChannelID)
+{
+	if (m_pSoundManager == nullptr)
+	{
+		return E_FAIL;
+	}
+	m_pSoundManager->PlaySoundW(FileName, ChannelID);
+
+	return S_OK;
+}
+
+HRESULT CManagement::Stop_Sound(SOUND_CHANNELID ChannelID)
+{
+	if (m_pSoundManager == nullptr)
+	{
+		return E_FAIL;
+	}
+	m_pSoundManager->StopSound(ChannelID);
+
+	return S_OK;
+}
+
+HRESULT CManagement::Play_BGM(TCHAR* FileName)
+{
+	if (m_pSoundManager == nullptr)
+	{
+		return E_FAIL;
+	}
+	m_pSoundManager->PlayBGM(FileName);
+
+	return S_OK;
+}
+
+HRESULT CManagement::Stop_AllSound()
+{
+	if (m_pSoundManager == nullptr)
+	{
+		return E_FAIL;
+	}
+	m_pSoundManager->StopAll();
+	return S_OK;
+}
+
 void CManagement::Free()
 {
-	//Safe_Release(m_pSoundManager);
+	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pTimeManager);
 	Safe_Release(m_pKeyManager);
 	Safe_Release(m_pFontManager);
@@ -357,8 +415,8 @@ void CManagement::Release_Engine()
 		if (CManagement::Destroy_Instance())
 			PRINT_LOG(L"Warning", L"Failed To Release CManagement");
 
-		//if (CSoundManager::Destroy_Instance())
-		//	PRINT_LOG(L"Waring", L"Failed To Release CSoundManager (Management.cpp)");
+		if (CSoundManager::Destroy_Instance())
+			PRINT_LOG(L"Waring", L"Failed To Release CSoundManager (Management.cpp)");
 
 		if (CTimeManager::Destroy_Instance())
 			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CTime_Manager (Management.cpp)");

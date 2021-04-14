@@ -27,7 +27,7 @@ private:
 	virtual ~CSoundManager() = default;
 
 public:
-	void Initialize();
+	HRESULT Initialize();
 
 public:
 	void PlaySound(TCHAR* pSoundKey, SOUND_CHANNELID eID);
@@ -37,9 +37,9 @@ public:
 
 	virtual void Free() override;
 
-private:
-	void LoadSoundFiles();
-	void LoadSoundFile(char* szFilePath, char* szFileName);
+public:
+	HRESULT LoadSoundFiles();
+	HRESULT LoadSoundFile(char* szFilePath, char* szFileName);
 
 
 private:
@@ -51,5 +51,6 @@ private:
 
 };
 
+END_NAMESPACE
 
 #endif // !__SOUND_MANAGER_H__
