@@ -385,14 +385,14 @@ HRESULT CPlayer::Print_TestUI()
 	_tchar m_szAmmo[256];
 	_tchar m_szPos[256];
 
-	if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
-	{
-		wsprintf(m_szAmmo, L"%d / %d", m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo(), m_pWeapon[(_uint)(_uint)m_pWeaponType]->Get_RemainAmmo());
-		pManagement->Render_Font(L"Font_BASE", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - 20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
-	}
+	//if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
+	//{
+	//	wsprintf(m_szAmmo, L"%d / %d", m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo(), m_pWeapon[(_uint)(_uint)m_pWeaponType]->Get_RemainAmmo());
+	//	pManagement->Render_Font(L"Font_BASE", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - 20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
+	//}
 
-	wsprintf(m_szHP, L"HP : %d", m_iHP);
-	pManagement->Render_Font(L"Font_BASE", m_szHP, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY-60), D3DXCOLOR(0.8f, 0.8f, 0.1f, 1.0f));
+	//wsprintf(m_szHP, L"HP : %d", m_iHP);
+	//pManagement->Render_Font(L"Font_BASE", m_szHP, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY-60), D3DXCOLOR(0.8f, 0.8f, 0.1f, 1.0f));
 
 	_vec3 vPos = Get_Position();
 	_stprintf_s(m_szPos, L"x : %f \ny :%f \nz : %f", vPos.x,vPos.y,vPos.z);

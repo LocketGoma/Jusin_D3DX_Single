@@ -234,10 +234,10 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     pGameObject->Set_Position(_vec3(20.f, 0.f, -25.f));
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A1", pGameObject), E_FAIL);
     
-    pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(20.f, 0.f, 45.f));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
+    //pGameObject = pManagement->Clone_GameObject(L"EnemyHunter");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pGameObject->Set_Position(_vec3(20.f, 0.f, 45.f));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
 
     //วๅลอ AI
     pGameObject = CBaseAI_Attacker::Create(m_pDevice);
@@ -246,11 +246,11 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
     FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI1", pGameObject), E_FAIL);
 
-    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A2")));
-    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
+    //pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A2")));
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
     m_mapLayer.emplace(L"AILayer", pAILayer);

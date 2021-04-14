@@ -35,7 +35,7 @@ _bool CDynamicMesh::End_AnimationSet()
 
 _bool CDynamicMesh::End_Animation_Sequence()
 {
-	return m_pAniControl->End_Animation_Sequence();;
+	return m_pAniControl->End_Animation_Sequence();
 }
 
 //메쉬 로더

@@ -57,7 +57,10 @@ _int CBaseAI_Attacker::Update_GameObject(const _float& fDeltaTime)
 	{
 		Do_Appear(fDeltaTime);
 	}
-	Do_Idle(fDeltaTime);
+	else
+	{
+		Do_Idle(fDeltaTime);
+	}
 	if (m_bSpawn == false && m_bAppear == true && m_bDodge == false)
 	{
 		Do_Movement(fDeltaTime);
@@ -74,7 +77,10 @@ _int CBaseAI_Attacker::Update_GameObject(const _float& fDeltaTime)
 
 _int CBaseAI_Attacker::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-
+	//if (m_bAttack == true)
+	//{
+	//	__debugbreak();
+	//}
 
 
 	return NO_EVENT;
@@ -100,7 +106,7 @@ HRESULT CBaseAI_Attacker::Do_Spawn(const _float& fDeltaTime)
 HRESULT CBaseAI_Attacker::Do_Appear(const _float& fDeltaTime)
 {
 
-	if ((PLAYER_BASE_HITBOX + m_pControlUnit->Get_RecogRange()) >= m_fRangeToTarget)
+	if ((PLAYER_BASE_HITBOX + m_pControlUnit->Get_RecogRange()) >= m_fRangeToTarget && m_bSpawn == false)
 	{
 		m_pControlUnit->Do_Spawn(fDeltaTime);
 		m_bSpawn = true;
@@ -123,6 +129,7 @@ HRESULT CBaseAI_Attacker::Do_Idle(const _float& fDeltaTime)
 	{
 		_vec3 vTargetPos;
 		_vec3 vTargetLook;
+		_vec3 vControlPos;
 		_vec3 vControlLook;
 		_vec3 vCross;
 
@@ -130,16 +137,13 @@ HRESULT CBaseAI_Attacker::Do_Idle(const _float& fDeltaTime)
 
 		vTargetPos = m_pTargetUnit->Get_Position();
 		vTargetLook = vTargetPos - m_pControlUnit->Get_Transform()->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+		vControlPos = m_pControlUnit->Get_Position();
 		vControlLook = m_pControlUnit->Get_Transform()->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
 		D3DXVec3Normalize(&vTargetLook, &vTargetLook);
 		D3DXVec3Normalize(&vControlLook, &vControlLook);
 		D3DXVec3Cross(&vCross, &vControlLook, &vTargetLook);
 
-		_float _fRotation = D3DXVec3Dot(&vTargetLook, &vControlLook);
-		_float fDebug = D3DXToDegree(acos(_fRotation));
-		_float fDebugB = D3DXVec3Length(&vCross);
-
-		if (D3DXVec3Length(&vCross) > 0.01f)
+		if (D3DXVec3Length(&vCross) > 1/D3DXVec3Length(&(vTargetPos- vControlPos)) * 6.f)
 		{
 			//이게 최선인 것인가?
 			if (vCross.y > 0)

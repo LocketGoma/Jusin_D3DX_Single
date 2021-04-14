@@ -96,8 +96,11 @@ HRESULT CStatusUI::Render_GameObject(void)
 		m_pDevice->SetTransform(D3DTS_PROJECTION, &matOrtho);
 
 
-		wsprintf(m_szAmmo, L"%d / %d", m_iMagAmmo, m_iAmmo);
-		pManagement->Render_Font(L"Font_Status_Gauge", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - (WINCY >> 3)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
+		wsprintf(m_szAmmo, L"%d", m_iMagAmmo);
+		pManagement->Render_Font(L"Font_Status_Gauge", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - (WINCY >> 2) + (WINCY >> 4)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
+
+		wsprintf(m_szAmmo, L"%d", m_iAmmo);
+		pManagement->Render_Font(L"Font_Status_Gauge_Mini", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2)+(WINCX>>4), WINCY - (WINCY >> 2) + (WINCY>>5) + (WINCY >> 4)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
 
 		pManagement->Render_Font(L"Font_Status_MSG", m_szAmmoMsg, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - (WINCY >> 3) + (WINCY >> 5)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
 
@@ -118,7 +121,7 @@ HRESULT CStatusUI::Render_GameObject(void)
 
 
 	wsprintf(m_szHP, L"%d", m_iHP);
-	pManagement->Render_Font(L"Font_Status_Gauge", m_szHP, &_vec2((WINCX >> 4)+(WINCX>>5), WINCY - (WINCY >> 3)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
+	pManagement->Render_Font(L"Font_Status_Gauge", m_szHP, &_vec2((WINCX >> 4)+(WINCX>>5), WINCY - (WINCY >> 2) + (WINCY >> 4)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
 	pManagement->Render_Font(L"Font_Status_MSG", m_szHPmsg, &_vec2((WINCX >> 4) + (WINCX >> 5), WINCY - (WINCY >> 3) + (WINCY >> 5)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
 	if (FAILED(m_pBufferCom_HP->Render_Buffer()))
 	{
@@ -135,7 +138,7 @@ HRESULT CStatusUI::Render_GameObject(void)
 
 
 	wsprintf(m_szSuitHP, L"%d", m_iSuitHP);
-	pManagement->Render_Font(L"Font_Status_Gauge", m_szSuitHP, &_vec2((WINCX >> 2) + (WINCX >> 5), WINCY - (WINCY >> 3)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
+	pManagement->Render_Font(L"Font_Status_Gauge", m_szSuitHP, &_vec2((WINCX >> 2) + (WINCX >> 5), WINCY - (WINCY >> 2)+ (WINCY >> 4)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
 	pManagement->Render_Font(L"Font_Status_MSG", m_szSuitMsg, &_vec2((WINCX >> 2) + (WINCX >> 5), WINCY - (WINCY >> 3) + (WINCY >> 5)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
 
 	if (FAILED(m_pBufferCom_SUIT->Render_Buffer()))

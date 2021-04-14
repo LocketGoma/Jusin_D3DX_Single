@@ -17,7 +17,7 @@ CEnemyHunter::CEnemyHunter(_Device pDevice)
 	, m_fPattonInterval(2.f)
 {
 	m_fRecognizeRange = 155.f;
-	m_fMoveRange = 75.f;
+	m_fMoveRange = 95.f;
 	m_fAttackRange = 30.f;
 
 	m_fHitboxSize = 6.25;
@@ -92,7 +92,6 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	eHunterAction eActon = (eHunterAction)m_pMeshCom->Get_NowAnimationNumber();
 
-
 	if ((m_pMeshCom->Get_NowAnimationNumber() == (_uint)eHunterAction::Walk_N)
 		&& m_pMeshCom->End_Animation_Sequence())
 	{
@@ -101,13 +100,14 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 		m_vCorePos.y = m_vOriPos.y;
 		m_pTransformCom->Set_Pos(m_vCorePos);
 
+		m_eAction = eHunterAction::Walk_N;
 		m_pMeshCom->Force_Change_AnimationSet((_uint)m_eAction);
+
 	}
 	else if (m_eAction != m_ePrevAction && m_ePrevAction == eHunterAction::Walk_N)
 	{
 		m_pMeshCom->Force_Change_AnimationSet((_uint)m_eAction);
 	} 
-
 
 	m_pTransformCom->Update_Component();
 
@@ -120,8 +120,11 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CEnemyHunter::Render_GameObject(void)
 {
-	m_pMeshCom->Set_AnimationSet((_uint)m_eAction);
+	eHunterAction eAction = (eHunterAction)m_pMeshCom->Get_NowAnimationNumber();
 
+	if ((_uint)m_eAction != m_pMeshCom->Get_NowAnimationNumber())
+		m_pMeshCom->Set_AnimationSet((_uint)m_eAction);
+	
 	m_pTransformCom->LateUpdate_Component(0.f);
 
 	m_pMeshCom->Play_AnimationSet(m_fTime * m_fAnimationSpeed);

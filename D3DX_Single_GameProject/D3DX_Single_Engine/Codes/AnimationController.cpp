@@ -57,7 +57,7 @@ _bool CAnimationController::End_Animation_Sequence()
 	m_pAniControl->GetTrackDesc(m_iCurrentTrack, &TrackInfo);
 
 	//현재 프레임이 실제 재생시간을 (아주 살짝이라도) 넘어가면
-	if (TrackInfo.Position >= m_dPeriod - 0.015)
+	if (TrackInfo.Position >= m_dPeriod - 0.05)
 	{
 		m_pAniControl->KeyTrackPosition(m_iCurrentTrack, 0.f, m_dPeriod);
 
@@ -171,7 +171,7 @@ void CAnimationController::Force_Change_AnimationSet(const _uint& iIndex)
 	m_pAniControl->KeyTrackSpeed(m_iCurrentTrack, 1.f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 
 	// 트랙이 해제되는 시간동안 현재 애니메이션 셋은 어떤 가중치를 갖게 할 지(속도의 상수 값은 각자 1)
-	m_pAniControl->KeyTrackWeight(m_iCurrentTrack, 0.5f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniControl->KeyTrackWeight(m_iCurrentTrack, 0.0f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 
 	m_fAccTime = 0.0f;
 
@@ -180,7 +180,7 @@ void CAnimationController::Force_Change_AnimationSet(const _uint& iIndex)
 	// 트랙이 시작하는 시간동안 현재 애니메이션 셋은 어떤 속도로 움직일지 결정(속도의 상수 값은 각자 1)
 	m_pAniControl->KeyTrackSpeed(m_iNewTrack, 1.f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 	// 트랙이 시작하는 시간동안 현재 애니메이션 셋은 어떤 가중치를 갖게 할 지(속도의 상수 값은 각자 1)
-	m_pAniControl->KeyTrackWeight(m_iNewTrack, 0.5f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
+	m_pAniControl->KeyTrackWeight(m_iNewTrack, 1.0f, m_fAccTime, 0.25, D3DXTRANSITION_LINEAR);
 
 
 	m_pAniControl->ResetTime(); // 애니메이션이 재생되던 시간을 다시 세팅(advanced함수 호출 시 내부적으로 누적되던 시간 리셋)
