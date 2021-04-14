@@ -212,9 +212,11 @@
     <ClInclude Include="..\Headers\WeaponRPG.h" />
     <ClInclude Include="..\Headers\WeaponShotgun.h" />
     <ClInclude Include="..\Headers\WeaponSMG.h" />
+    <ClInclude Include="CrossHairUI.h" />
     <ClInclude Include="D3DX_Single_GameProject.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WeaponUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\BaseAI_Attacker.cpp" />
@@ -274,6 +276,8 @@
     <ClCompile Include="..\Codes\WeaponRPG.cpp" />
     <ClCompile Include="..\Codes\WeaponShotgun.cpp" />
     <ClCompile Include="..\Codes\WeaponSMG.cpp" />
+    <ClCompile Include="CrossHairUI.cpp" />
+    <ClCompile Include="WeaponUI.cpp" />
     <ClCompile Include="D3DX_Single_GameProject.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,10 @@ public:
 		const _uint& iWidth,
 		const _uint& iHeight,
 		const _uint& iWeight);
+	HRESULT		Ready_Font_Extra(const _tchar* pFontType,
+		const _uint& iWidth,
+		const _uint& iHeight,
+		const _uint& iWeight);
 
 	void		Render_Font(const _tchar* pString,
 		const _vec2* pPos,
@@ -33,7 +37,8 @@ public:
 		const _tchar* pFontType,
 		const _uint& iWidth,
 		const _uint& iHeight,
-		const _uint& iWeight);
+		const _uint& iWeight
+	, _bool bType = false);
 
 private:
 	virtual void Free(void);

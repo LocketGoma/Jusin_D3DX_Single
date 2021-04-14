@@ -131,24 +131,24 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pWeapon[(_uint)m_pWeaponType]->LateUpdate_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
-	if (m_pStatusUI != nullptr)
-	{
-		m_pStatusUI->Set_HP(m_iHP);
-		m_pStatusUI->Set_SuitHP(m_iShieldHP);
+	//if (m_pStatusUI != nullptr)
+	//{
+	//	m_pStatusUI->Set_HP(m_iHP);
+	//	m_pStatusUI->Set_SuitHP(m_iShieldHP);
 
-		if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON)
-		{
-			m_pStatusUI->Set_MagAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo());
-			m_pStatusUI->Set_Ammo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAmmo());
-			m_pStatusUI->Set_AltAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAltAmmo());
-			m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, true);
-		}
-		else
-		{
-			m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, false);
-		}
-		m_pStatusUI->LateUpdate_GameObject(fDeltaTime);
-	}
+	//	if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON)
+	//	{
+	//		m_pStatusUI->Set_MagAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo());
+	//		m_pStatusUI->Set_Ammo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAmmo());
+	//		m_pStatusUI->Set_AltAmmo(m_pWeapon[(_uint)m_pWeaponType]->Get_RemainAltAmmo());
+	//		m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, true);
+	//	}
+	//	else
+	//	{
+	//		m_pStatusUI->Set_EffectVisualble(eStatusType::AMMO, false);
+	//	}
+	//	m_pStatusUI->LateUpdate_GameObject(fDeltaTime);
+	//}
 
 
 	return NO_EVENT;
@@ -171,9 +171,9 @@ HRESULT CPlayer::Render_GameObject(void)
 
 
 
-	//return Print_TestUI();
+	return Print_TestUI();
 
-	return S_OK;
+	//return S_OK;
 }
 
 void CPlayer::Set_Position(_vec3 vPos)

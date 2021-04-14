@@ -108,9 +108,9 @@ _float CManagement::Get_DeltaTime()
 }
 
 //이거 좀 바꿔도 될듯...?
-HRESULT CManagement::Ready_Font(_Device pDevice, const _tchar* pFontTag, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight)
+HRESULT CManagement::Ready_Font(_Device pDevice, const _tchar* pFontTag, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight, _bool bExtra)
 {
-	return m_pFontManager->Ready_Font(pDevice,pFontTag,pFontType,iWidth,iHeight,iWeight);
+	return m_pFontManager->Ready_Font(pDevice,pFontTag,pFontType,iWidth,iHeight,iWeight,bExtra);
 }
 
 void CManagement::Render_Font(const _tchar* pFontTag, const _tchar* pString, const _vec2* pPos, D3DXCOLOR Color)

@@ -66,6 +66,7 @@ _int CStatusUI::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CStatusUI::Render_GameObject(void)
 {
+
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
@@ -84,6 +85,11 @@ HRESULT CStatusUI::Render_GameObject(void)
 	{
 		return E_FAIL;
 	}
+	//_tchar* szUITest = L"{} () []";
+	//pManagement->Render_Font(L"Font_UI_Weapon", szUITest, &_vec2((WINCX >> 1),(WINCY >> 1)), D3DXCOLOR(1.0f, 1.0f, 0.3f, 1.0f));
+
+
+
 	//Åº¾à
 	if (m_bStatus[(_uint)eStatusType::AMMO] == true)
 	{

@@ -215,6 +215,12 @@
     <Filter Include="01.Object\10.Effect\00.UI\01.CrosshairUI">
       <UniqueIdentifier>{d2931720-ab8a-423e-bd8b-b2cd768c29fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\10.Effect\00.UI\02.WeaponUI">
+      <UniqueIdentifier>{5b249550-97e6-4b69-9505-16781decbe9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\00.UI\03.ItemEquipUI">
+      <UniqueIdentifier>{04753a68-c611-455b-87ac-16907b48ca71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -409,6 +415,12 @@
     <ClInclude Include="..\Headers\StatusUI.h">
       <Filter>01.Object\10.Effect\00.UI\00.StatusUI</Filter>
     </ClInclude>
+    <ClInclude Include="CrossHairUI.h">
+      <Filter>01.Object\10.Effect\00.UI\01.CrosshairUI</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponUI.h">
+      <Filter>01.Object\10.Effect\00.UI\02.WeaponUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -597,6 +609,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\StatusUI.cpp">
       <Filter>01.Object\10.Effect\00.UI\00.StatusUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossHairUI.cpp">
+      <Filter>01.Object\10.Effect\00.UI\01.CrosshairUI</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponUI.cpp">
+      <Filter>01.Object\10.Effect\00.UI\02.WeaponUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

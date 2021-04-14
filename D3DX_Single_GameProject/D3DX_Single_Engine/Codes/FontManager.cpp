@@ -9,7 +9,7 @@ CFontManager::CFontManager()
 {
 }
 
-HRESULT CFontManager::Ready_Font(_Device pDevice, const _tchar* pFontTag, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight)
+HRESULT CFontManager::Ready_Font(_Device pDevice, const _tchar* pFontTag, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight, _bool bExtra)
 {
 	CFont* pFont = nullptr;
 
@@ -17,13 +17,14 @@ HRESULT CFontManager::Ready_Font(_Device pDevice, const _tchar* pFontTag, const 
 	if (nullptr != pFont)
 		return E_FAIL;
 
-	pFont = CFont::Create(pDevice, pFontType, iWidth, iHeight, iWeight);
+	pFont = CFont::Create(pDevice, pFontType, iWidth, iHeight, iWeight, bExtra);
 	NULL_CHECK_RETURN(pFont, E_FAIL);
 
 	m_mapFont.emplace(pFontTag, pFont);
 
 	return S_OK;
 }
+
 
 void CFontManager::Render_Font(const _tchar* pFontTag, const _tchar* pString, const _vec2* pPos, D3DXCOLOR Color)
 {
