@@ -49,7 +49,7 @@ HRESULT CStaticNormalObject::Ready_GameObject_Clone(void* pArg)
 _int CStaticNormalObject::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
-	m_pTransformCom->Set_Scale(_vec3(1.0f, 1.0f, 1.0f));
+	m_pTransformCom->Set_Scale(RESET_VECTOR);
 	m_pTransformCom->Update_Component();
 
 

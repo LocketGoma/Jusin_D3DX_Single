@@ -169,7 +169,7 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
     case LOADINGID::LOADING_STAGE2:
         break;
 
-    case LOADINGID::LOADING_BOSS:
+    case LOADINGID::LOADING_STAGE3:
         break;
 
     default:
@@ -325,10 +325,23 @@ HRESULT CLoadingScene::Load_Base_Resource()
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"RocketLauncher", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Weapon/RocketLauncher/", L"RocketLauncher_Final.x");
 
     //무기 관련
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Throwable_Flechette", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Tools/flechette/", L"flechette.x");
+
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Throwable_Missile", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Weapon/Missile/", L"Missile.x");
 
 
-//잡 오브젝트
+
+    //배치 오브젝트
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"ItemBox_Rocket", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Items/RocketBox/", L"AmmoRocket_NoAnim.x");
+    
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Mesh_Drum", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Objects/Drum/",L"Drum.x");
+    
+    //아이템
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Item_Battery", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Items/Battery/", L"Battery.x");
+    
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Item_HealthKit", Engine::MESHTYPE::MESH_STATIC, L"../../Resource/Meshes/Static/Items/HealthKit/", L"HealthKit.x");
+    
+
 
 
     /// 이펙트들
@@ -443,8 +456,6 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CStaticNormalObject::Create(m_pDevice,L"Mesh_Drum");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"BaseObject_Drum", pGameObject);
-
-
 
 
 

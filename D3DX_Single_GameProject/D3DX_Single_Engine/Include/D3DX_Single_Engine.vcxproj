@@ -243,6 +243,7 @@
     <ClInclude Include="..\Headers\RenderTargetManager.h" />
     <ClInclude Include="..\Headers\Scene.h" />
     <ClInclude Include="..\Headers\SceneManager.h" />
+    <ClInclude Include="..\Headers\SoundManager.h" />
     <ClInclude Include="..\Headers\SphereCollider.h" />
     <ClInclude Include="..\Headers\StaticMesh.h" />
     <ClInclude Include="..\Headers\Texture.h" />
@@ -291,6 +292,7 @@
     <ClCompile Include="..\Codes\RenderTargetManager.cpp" />
     <ClCompile Include="..\Codes\Scene.cpp" />
     <ClCompile Include="..\Codes\SceneManager.cpp" />
+    <ClCompile Include="..\Codes\SoundManager.cpp" />
     <ClCompile Include="..\Codes\SphereCollider.cpp" />
     <ClCompile Include="..\Codes\StaticMesh.cpp" />
     <ClCompile Include="..\Codes\Texture.cpp" />

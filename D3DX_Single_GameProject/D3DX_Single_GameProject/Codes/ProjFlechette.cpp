@@ -63,6 +63,8 @@ HRESULT CProjFlechette::Ready_GameObject_Clone(void* pArg)
 _int CProjFlechette::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+	m_pTransformCom->Set_Scale(RESET_VECTOR);
+	m_pTransformCom->Update_Component();
 
 	m_fLifeTime -= fDeltaTime;
 
@@ -94,19 +96,24 @@ _int CProjFlechette::LateUpdate_GameObject(const _float& fDeltaTime)
 	//m_pTransformCom->Update_Component(m_vDirection,m_fRotate,fDeltaTime);
 
 
-	pManagement->Add_RenderList(Engine::RENDERID::RENDER_ALPHA, this);
+	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
 	return NO_EVENT;
 }
 
 HRESULT CProjFlechette::Render_GameObject(void)
 {
-	m_pTransformCom->LateUpdate_Component(0.f);
-
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
+
+	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
+	m_pTransformCom->Update_Component();
+	m_pTransformCom->LateUpdate_Component(0.f);
+
+	m_pMeshCom->Render_Meshes();
+
 
 	m_pColliderCom->Render_Collider(eType, &matWorld, g_bViewCollider);
 
@@ -126,6 +133,10 @@ HRESULT CProjFlechette::Add_Component()
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
+
+	pComponent = m_pMeshCom = dynamic_cast<Engine::CStaticMesh*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_MESH, L"Throwable_Flechette"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Mesh", pComponent);
 
 	//서포트 컴포넌트
 	pComponent = m_pSupportCom = Engine::CControlSupportUnit::Create(m_pDevice);
