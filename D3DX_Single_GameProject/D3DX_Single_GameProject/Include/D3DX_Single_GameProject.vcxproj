@@ -206,6 +206,7 @@
     <ClInclude Include="..\Headers\TestObject.h" />
     <ClInclude Include="..\Headers\TestStage.h" />
     <ClInclude Include="..\Headers\TestTerrain.h" />
+    <ClInclude Include="..\Headers\TriggerBox.h" />
     <ClInclude Include="..\Headers\WeaponCrowBar.h" />
     <ClInclude Include="..\Headers\WeaponPhysCannon.h" />
     <ClInclude Include="..\Headers\WeaponPistol.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="..\Codes\TestObject.cpp" />
     <ClCompile Include="..\Codes\TestStage.cpp" />
     <ClCompile Include="..\Codes\TestTerrain.cpp" />
+    <ClCompile Include="..\Codes\TriggerBox.cpp" />
     <ClCompile Include="..\Codes\WeaponCrowBar.cpp" />
     <ClCompile Include="..\Codes\WeaponPhysCannon.cpp" />
     <ClCompile Include="..\Codes\WeaponPistol.cpp" />

@@ -22,7 +22,8 @@ public:
 public:
 	HRESULT Ready_Collider(const _vec3* pPos, const _ulong& dwVTXCount, const _ulong& dwStride);
 	HRESULT Ready_Collider(const _vec3* pPos, const _vec3* vMin, const _vec3* vMax);
-	void Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix);
+	void Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix, _bool bIsVisualble);
+	void Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool bIsVisualble);
 
 private:
 	_vec3 m_vMin, m_vMax;

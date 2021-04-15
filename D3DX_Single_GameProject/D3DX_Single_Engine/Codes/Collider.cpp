@@ -298,11 +298,44 @@ HRESULT CCollider::Ready_Collider(const _vec3* pPos, const _vec3* vMin, const _v
 	return S_OK;
 }
 
-void CCollider::Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix)
+void CCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool bIsVisualble)
+{
+	if (bIsVisualble == false)
+	{
+		return;
+	}
+	_mat matPos;
+	D3DXMatrixIdentity(&m_matColMatrix);
+	D3DXMatrixTranslation(&matPos, vPos->x, vPos->y,vPos->z);
+
+	m_matColMatrix *= matPos;
+
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_matColMatrix);
+
+#ifdef _DEBUG
+	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+	m_pDevice->SetTexture(0, m_pTexture[(_uint)eType]);
+
+	m_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VTXCUBE));
+	m_pDevice->SetFVF(FVF_CUBE);
+	m_pDevice->SetIndices(m_pIB);
+	m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+
+	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+#endif
+}
+
+void CCollider::Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix, _bool bIsVisualble)
 {
 	m_matColMatrix = *pColliderMatrix;
 
+	if (bIsVisualble == false)
+	{
+		return;
+	}
 #ifdef _DEBUG
+	
 	m_pDevice->SetTransform(D3DTS_WORLD, pColliderMatrix);
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 

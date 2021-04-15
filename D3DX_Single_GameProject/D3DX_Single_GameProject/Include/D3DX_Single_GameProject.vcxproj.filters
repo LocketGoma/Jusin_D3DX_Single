@@ -224,6 +224,9 @@
     <Filter Include="01.Object\10.Effect\03.Explosion">
       <UniqueIdentifier>{49c1774f-b3f2-4e50-a7de-a07f86b962fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\13.TriggerBox">
+      <UniqueIdentifier>{e7a44cca-211d-4739-8120-84e79d978e1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -427,6 +430,9 @@
     <ClInclude Include="..\Headers\ExplosionEffect.h">
       <Filter>01.Object\10.Effect\03.Explosion</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\TriggerBox.h">
+      <Filter>01.Object\13.TriggerBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -624,6 +630,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\ExplosionEffect.cpp">
       <Filter>01.Object\10.Effect\03.Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\TriggerBox.cpp">
+      <Filter>01.Object\13.TriggerBox</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
