@@ -38,6 +38,14 @@ HRESULT CMainStageC::Ready_Scene(void)
 	Add_Weapon_Layer(L"WeaponLayer");
 	Add_Environment_Layer(L"EnviromentLayer");
 
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+    pManagement->Play_BGM(L"battle_loop1.wav");
+
+
 	return S_OK;
 }
 

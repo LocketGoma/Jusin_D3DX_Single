@@ -256,6 +256,14 @@ void CEnemyHunter::Do_Attack(_float fDeltaTime, _uint iPatton)
 	}
 	else if (m_eAction != eHunterAction::Hunter_Angry && m_bPattonLock)
 	{
+		auto pManagement = Engine::CManagement::Get_Instance();
+		if (pManagement == nullptr)
+		{
+			return;
+		}
+		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::ENEMY);
+		pManagement->Play_Sound(L"ol01_hunter_preattackvx.wav", Engine::SOUND_CHANNELID::ENEMY);
+
 		m_eAction = eHunterAction::Hunter_Angry;
 		m_ePatton = eHunterPatton::Idle;
 	}
@@ -274,6 +282,14 @@ void CEnemyHunter::Do_Attack(_float fDeltaTime, _uint iPatton)
 
 void CEnemyHunter::Do_Idle(_float fDeltaTime)
 {
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return;
+	}
+	pManagement->Play_Sound(L"ol01_hunter_preattackvx02.wav", Engine::SOUND_CHANNELID::ENEMY);
+
+
 	m_eAction = eHunterAction::Idle;
 	m_ePatton = eHunterPatton::Idle;
 }
@@ -418,6 +434,9 @@ void CEnemyHunter::PattonC()
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
+				pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTB);
+				pManagement->Play_Sound(L"ar2_fire1.wav", Engine::SOUND_CHANNELID::EFFECTB);
+
 				m_bAttackHitEnable = true;
 			}
 			else

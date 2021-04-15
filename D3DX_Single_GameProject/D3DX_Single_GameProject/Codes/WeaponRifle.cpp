@@ -172,6 +172,9 @@ void CWeaponRifle::Shoot_Weapon()
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
+				pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+				pManagement->Play_Sound(L"ar2_fire1.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
 				m_iMagAmmo--;
 
 				Set_Animation((_uint)eRifleAction::Fire);
@@ -224,6 +227,9 @@ void CWeaponRifle::AltShoot_Weapon()
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
+				pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+				pManagement->Play_Sound(L"ar2_altfire.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
 				m_iAltAmmo--;
 				Set_Animation((_uint)eRifleAction::AltFire);
 				m_pAltEffect->Set_Visible(true);
@@ -238,6 +244,12 @@ void CWeaponRifle::AltShoot_Weapon()
 
 bool CWeaponRifle::Reload_Weapon()
 {
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return false;
+	}
+
 	if (m_iMainAmmo == 0)
 		return false;
 
@@ -245,8 +257,10 @@ bool CWeaponRifle::Reload_Weapon()
 	{		
 		m_iMainAmmo--;
 		m_iMagAmmo++;
-		Set_Animation((_uint)eRifleAction::Reload);
 	}
+	pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+	pManagement->Play_Sound(L"ar2_reload.wav", Engine::SOUND_CHANNELID::EFFECTA);
+	Set_Animation((_uint)eRifleAction::Reload);
 
 	return true;
 }

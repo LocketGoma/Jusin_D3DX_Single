@@ -77,7 +77,7 @@ HRESULT CSoundManager::LoadSoundFiles()
 	if (handle == 0)
 		return E_FAIL;
 
-	int iResult = 0;
+	int iResult = 0;																		
 
 	char szCurPath[256] = "../../Resource/Sound/";
 	char szFullPath[256] = "";

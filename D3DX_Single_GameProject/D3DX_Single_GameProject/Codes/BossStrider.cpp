@@ -442,6 +442,9 @@ void CBossStrider::PattonB()
 
 				if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 				{
+					pManagement->Stop_Sound(Engine::SOUND_CHANNELID::BOSS);
+					pManagement->Play_Sound(L"strider_fire.wav", Engine::SOUND_CHANNELID::BOSS);
+
 					m_bAttackHitEnable = true;
 				}
 				else
@@ -542,6 +545,9 @@ void CBossStrider::PattonC()
 
 				if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 				{					
+					pManagement->Stop_Sound(Engine::SOUND_CHANNELID::BOSS);
+					pManagement->Play_Sound(L"strider_minigun.wav", Engine::SOUND_CHANNELID::BOSS);
+
 					m_iTripleShootCount++;
 				}
 				else
