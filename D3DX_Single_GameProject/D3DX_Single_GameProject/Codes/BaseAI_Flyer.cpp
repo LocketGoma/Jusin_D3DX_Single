@@ -39,6 +39,8 @@ _int CBaseAI_Flyer::Update_GameObject(const _float& fDeltaTime)
 	//ÁÖ±×¸é Äâ¤·
 	if (m_pControlUnit->Hit_Attack(0))
 	{
+		m_eState = eAIStatus::DEAD;
+		m_pControlUnit->Do_Dead(fDeltaTime);
 		m_pControlUnit->Set_Dead();
 		m_bDead = true;
 	}

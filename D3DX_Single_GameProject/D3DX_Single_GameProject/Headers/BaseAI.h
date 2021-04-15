@@ -9,6 +9,21 @@
 #include "GameObject.h"
 #include "DynamicObject.h"
 
+//Nospawn : 미등장
+//Spawn : 등장
+//Ready : 준비상태 (컷씬용. 다른 AI 기능 작동안시킴)
+//Idle : 등장 모션 후 대기
+//Recog : 적 포착
+//Track : 적 추적
+//Attack : 적 공격
+//Dodge : 회피
+//Dead : 주금
+//Disappear : 사라짐 (주금 이후)
+enum class eAIStatus
+{
+	NOSPAWN,SPAWN, READY,IDLE, RECOG, TRACK, ATTACK, DODGE, DEAD,DISAPPEAR, END
+};
+
 class CBaseAI : public Engine::CGameObject
 {
 protected:
@@ -29,6 +44,10 @@ public:
 	virtual void Set_Size(_vec3 vSize) override;
 	virtual _vec3 Get_Position() override;
 	virtual _vec3 Get_Size() override;
+
+public:
+	eAIStatus Get_State();
+	void Set_State(eAIStatus eState);
 
 public:
 	HRESULT Set_ControlUnit(CDynamicObject* pUnit);
@@ -75,7 +94,7 @@ protected:
 	int m_iHPState;				//이전 HP상태 (상태비교용)
 
 	eBasePatton m_eBasePatton;	//패턴 검사용
-
+	eAIStatus	m_eState;		//AI 현재 상태 검사 (리스폰 등에 사용)
 
 };
 

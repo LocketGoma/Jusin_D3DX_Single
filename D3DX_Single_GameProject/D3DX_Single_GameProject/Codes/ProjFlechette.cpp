@@ -108,7 +108,7 @@ HRESULT CProjFlechette::Render_GameObject(void)
 
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
+	m_pTransformCom->Set_Scale(ITEM_REDUCION_VECTOR);
 	m_pTransformCom->Update_Component();
 	m_pTransformCom->LateUpdate_Component(0.f);
 

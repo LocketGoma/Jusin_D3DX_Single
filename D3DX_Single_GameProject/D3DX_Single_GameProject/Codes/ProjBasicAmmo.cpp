@@ -10,8 +10,8 @@ CProjBasicAmmo::CProjBasicAmmo(_Device pDevice)
 	: CBaseProjectile(pDevice)
 {
 	m_fWeight = 0;
-	m_fLifeTime = 255.5f;
-	m_fSpeed = 0.50f;
+	m_fLifeTime = 1.5f;
+	m_fSpeed = 150.f;
 	m_eForceType = eForceType::NONE;
 	m_fHitboxSize = 1.5f;		//테스트용. 실제로는 좀 더 작게
 

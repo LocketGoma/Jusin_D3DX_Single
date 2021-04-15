@@ -42,7 +42,7 @@ public:
 	virtual void Do_Attack(_float fDeltaTime, _uint iPatton = 0) PURE;				//공격
 	virtual void Do_Idle(_float fDeltaTime) PURE;				//대기 + 멈춤
 	virtual void Do_Spawn(_float fDeltaTime) PURE;				//등장 (생략 가능)
-	virtual void Do_Dead(_float fDeltaTime) PURE;				//사망
+	virtual void Do_Dead(_float fDeltaTime);				//사망
 	virtual _bool Do_Dodge(_float fDeltatime)PURE;				//회피
 	void Do_Anichange(_uint iAnimation);
 	void Check_Hit(_bool bForce, _uint iDamage);				//일단 어택 콜라이더 빼고 작업...

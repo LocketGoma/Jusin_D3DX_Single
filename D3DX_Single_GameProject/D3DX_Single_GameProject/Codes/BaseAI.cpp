@@ -20,6 +20,7 @@ CBaseAI::CBaseAI(_Device pDevice)
 	, m_fInvinTime(1.25f)
 	, m_fDodgeCoolTime(0.f)
 	, m_fDodgeCountTime(0.f)
+	, m_eState(eAIStatus::NOSPAWN)
 {
 	m_iHPState = INT_MAX;
 }
@@ -41,6 +42,7 @@ CBaseAI::CBaseAI(const CBaseAI& other)
 	, m_fInvinTime(other.m_fInvinTime)
 	, m_fDodgeCoolTime(other.m_fDodgeCoolTime)
 	, m_fDodgeCountTime(other.m_fDodgeCountTime)
+	, m_eState(other.m_eState)
 {
 	m_iHPState = INT_MAX;
 }
@@ -58,6 +60,16 @@ _vec3 CBaseAI::Get_Position()
 _vec3 CBaseAI::Get_Size()
 {
 	return _vec3();
+}
+
+eAIStatus CBaseAI::Get_State()
+{
+	return m_eState;
+}
+
+void CBaseAI::Set_State(eAIStatus eState)
+{
+	m_eState = eState;
 }
 
 HRESULT CBaseAI::Set_ControlUnit(CDynamicObject* pUnit)

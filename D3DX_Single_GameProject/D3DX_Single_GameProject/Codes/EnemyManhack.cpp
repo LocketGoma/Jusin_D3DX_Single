@@ -54,6 +54,7 @@ _int CEnemyManhack::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
+
 	m_fNowAttackTime += fDeltaTime;
 
 	//if (m_pSupportCom->Collision_Picking(g_hWnd, m_pColliderCom, m_pTransformCom))
@@ -112,6 +113,24 @@ void CEnemyManhack::Go_Stright(_float fDeltaTime)
 	{
 		m_eAction = (eManhackAction)(rand() % 3 + (_uint)eManhackAction::Fly1);
 	}
+
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return;
+	}
+
+	_uint iSelect = rand() % 2;
+	switch (iSelect)
+	{
+	case 0:
+		pManagement->Play_Sound(L"mh_engine_loop1.wav", Engine::SOUND_CHANNELID::ENEMYA);
+		break;
+	case 1:
+		pManagement->Play_Sound(L"mh_engine_loop2.wav", Engine::SOUND_CHANNELID::ENEMYB);
+		break;
+	}
+
 }
 
 //필요한가?
@@ -166,6 +185,36 @@ void CEnemyManhack::Do_Attack(_float fDeltaTime, _uint iPatton)
 	//얘 공격도 그냥 처박는거라서...
 	m_ePatton = eManhackPatton::PattonA;
 	Go_Stright(fDeltaTime);
+
+
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return;
+	}
+
+	_uint iSelect = rand() % 5;
+	switch (iSelect)
+	{
+	case 0:
+		pManagement->Play_Sound(L"mh_grind1.wav", Engine::SOUND_CHANNELID::ENEMYA);
+		break;
+	case 1:
+		pManagement->Play_Sound(L"mh_grind2.wav", Engine::SOUND_CHANNELID::ENEMYB);
+		break;
+	case 2:
+		pManagement->Play_Sound(L"mh_grind3.wav", Engine::SOUND_CHANNELID::ENEMYC);
+		break;
+	case 3:
+		pManagement->Play_Sound(L"mh_grind4.wav", Engine::SOUND_CHANNELID::ENEMYB);
+		break;
+	case 4:
+		pManagement->Play_Sound(L"mh_grind5.wav", Engine::SOUND_CHANNELID::ENEMYA);
+		break;
+	default:
+		break;
+	}
+
 }
 
 void CEnemyManhack::Do_Idle(_float fDeltaTime)
@@ -187,7 +236,31 @@ void CEnemyManhack::Do_Spawn(_float fDeltaTime)
 
 void CEnemyManhack::Do_Dead(_float fDeltaTime)
 {
-	//콰ㅓㅇ
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return;
+	}
+	_uint iSelect = rand() % 3;
+	pManagement->Play_Sound(L"mh_gib.wav", Engine::SOUND_CHANNELID::ENEMYDEAD);
+	switch (iSelect)
+	{
+	case 0:
+		pManagement->Play_Sound(L"explode3.wav", Engine::SOUND_CHANNELID::EFFECTD);
+		break;
+	case 1:
+		pManagement->Play_Sound(L"explode4.wav", Engine::SOUND_CHANNELID::EFFECTD);
+		break;
+	case 2:
+		pManagement->Play_Sound(L"explode5.wav", Engine::SOUND_CHANNELID::EFFECTD);
+		break;
+	default:
+		break;
+	}
+	
+
+
+	CDynamicObject::Do_Dead(fDeltaTime);	
 }
 
 //상남자에게 회피란 없다

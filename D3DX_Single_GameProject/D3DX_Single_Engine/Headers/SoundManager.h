@@ -7,16 +7,18 @@
 
 BEGIN_NAMESPACE(Engine)
 
+
 //BGM : 배경음
 //PLAYER : 플레이어 피격음 / 환경음 (삐익 등)
 //ENEMY : 몬스터 (키에엑 소리)
+//ENEMYA,B,C,D,E : 몬스터 (키에엑 소리) (환경음 추가용)
 //BOSS : 보스 (키에엑 소리)
 //ENEMYDEAD : 몬스터 죽을때 소리
 //EFFECTA : 총알 발사 소리 + 무기 작동 소리
 //EFFECTB : 총알 소리
 //EFFECTC : 피격 / 폭발소리
 //UI : UI 전환 사운드
-enum class SOUND_CHANNELID { BGM, PLAYER, ENEMY, BOSS, ENEMYDEAD, EFFECTA, EFFECTB, EFFECTC, UI, MAXCHANNEL };
+enum class SOUND_CHANNELID { BGM, PLAYER, ENEMY, ENEMYA, ENEMYB, ENEMYC, ENEMYD, ENEMYE, BOSS, ENEMYDEAD, EFFECTA, EFFECTB, EFFECTC, EFFECTD, EFFECTE, UI, MAXCHANNEL };
 
 class ENGINE_DLL CSoundManager : public CBase
 {

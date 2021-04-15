@@ -27,6 +27,7 @@ public:
 
 private:
 	HRESULT Add_Component();
+	HRESULT SetUp_Material();
 
 	virtual void Free();
 };

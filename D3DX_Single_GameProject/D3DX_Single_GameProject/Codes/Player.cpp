@@ -32,7 +32,7 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_fInteractionRange(15.f)
 	, m_iFullHP(100)
 	, m_iShieldFullHP(100)
-	, m_fHitboxSize(15.0f)
+	, m_fHitboxSize(5.0f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(10.f)
 	, m_fRunSpeed(20.f)
@@ -381,8 +381,8 @@ HRESULT CPlayer::Print_TestUI()
 	{
 		return E_FAIL;
 	}
-	_tchar m_szHP[256];
-	_tchar m_szAmmo[256];
+	//_tchar m_szHP[256];
+	//_tchar m_szAmmo[256];
 	_tchar m_szPos[256];
 
 	//if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
@@ -476,6 +476,37 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	}
 
 
+	//무기 전환
+
+	if (pManagement->Key_Down('1'))
+	{
+		m_pWeaponType = eWeaponType::WEAPON_CROWBAR;
+	}
+	if (pManagement->Key_Down('2'))
+	{
+		m_pWeaponType = eWeaponType::WEAPON_PISTOL;
+	}
+	if (pManagement->Key_Down('3'))
+	{
+		m_pWeaponType = eWeaponType::WEAPON_SMG;
+	}
+	if (pManagement->Key_Down('4'))
+	{
+		m_pWeaponType = eWeaponType::WEAPON_RIFLE;
+	}
+	if (pManagement->Key_Down('5'))
+	{
+		m_pWeaponType = eWeaponType::WEAPON_SHOTGUN;
+	}
+	if (pManagement->Key_Down('6'))
+	{
+		m_pWeaponType = eWeaponType::WEAPON_PHYCANNON;
+	}
+	if (pManagement->Key_Down('7'))
+	{
+		m_pWeaponType = eWeaponType::WEAPON_RPG;
+	}
+
 
 	if (g_zDelta > 0.1f)
 	{
@@ -530,19 +561,19 @@ _bool CPlayer::Jump_Action(const _float& fDeltaTime)
 		m_pTransformCom->Add_Pos(vNowPos);
 	}
 	
-	_vec3 vPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+	//_vec3 vPos = m_pTransformCom->Get_Info_RawData(Engine::TRANSFORM_INFO::INFO_POS);
 
-	if (m_fStartPos > vPos.y)
-	{
-		vPos.y = m_fStartPos;
-		m_pTransformCom->Set_Pos(vPos);
+	//if (m_fStartPos > vPos.y)
+	//{
+	//	vPos.y = m_fStartPos;
+	//	m_pTransformCom->Set_Pos(vPos);
 
 
-		m_fJumpTime = 0.f;
-		m_bJump = false;
-		m_bJumpStart = false;
-		return false;
-	}
+	//	m_fJumpTime = 0.f;
+	//	m_bJump = false;
+	//	m_bJumpStart = false;
+	//	return false;
+	//}
 
 
 	return true;

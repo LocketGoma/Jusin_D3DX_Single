@@ -173,6 +173,7 @@
     <ClInclude Include="..\Headers\EnemyHeadCrap.h" />
     <ClInclude Include="..\Headers\EnemyHunter.h" />
     <ClInclude Include="..\Headers\EnemyManhack.h" />
+    <ClInclude Include="..\Headers\ExplosionEffect.h" />
     <ClInclude Include="..\Headers\framework.h" />
     <ClInclude Include="..\Headers\LoadingScene.h" />
     <ClInclude Include="..\Headers\LogoImage.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="..\Codes\EnemyHeadCrap.cpp" />
     <ClCompile Include="..\Codes\EnemyHunter.cpp" />
     <ClCompile Include="..\Codes\EnemyManhack.cpp" />
+    <ClCompile Include="..\Codes\ExplosionEffect.cpp" />
     <ClCompile Include="..\Codes\LoadingScene.cpp" />
     <ClCompile Include="..\Codes\LogoImage.cpp" />
     <ClCompile Include="..\Codes\MainCamera.cpp" />

@@ -70,7 +70,7 @@ _int CMainStageC::Update_Scene(const _float& fDeltaTime)
 		pPlayer->Jump_Cancel();
 	}
 
-	return _int();
+	return NO_EVENT;
 }
 
 _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)

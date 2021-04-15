@@ -145,6 +145,13 @@ void CDynamicObject::Free(void)
 	CBaseObject::Free();
 }
 
+void CDynamicObject::Do_Dead(_float fDeltaTime)
+{
+
+
+	this->Set_Dead();
+}
+
 void CDynamicObject::Do_Anichange(_uint iAnimation)
 {
 	m_pMeshCom->Set_AnimationSet(iAnimation);

@@ -9,6 +9,8 @@
 #include "LoadingScene.h"
 #include "Transform.h"
 
+#include "Management.h"
+
 CBaseLogoScene::CBaseLogoScene(_Device pDevice)
 	: Engine::CScene(pDevice)
 	, m_pLoading(nullptr)

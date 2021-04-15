@@ -57,11 +57,12 @@ _int CMainMapA::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CMainMapA::Render_GameObject(void)
 {
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	m_pTransformCom->LateUpdate_Component();
+	FAILED_CHECK_RETURN(SetUp_Material(), E_FAIL);
 	m_pMeshCom->Render_Meshes();
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
 }
@@ -84,6 +85,23 @@ HRESULT CMainMapA::Add_Component()
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
+
+	return S_OK;
+}
+
+HRESULT CMainMapA::SetUp_Material()
+{
+	D3DMATERIAL9			tMtrlInfo;
+	ZeroMemory(&tMtrlInfo, sizeof(tMtrlInfo));
+
+
+	tMtrlInfo.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrlInfo.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
+	tMtrlInfo.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrlInfo.Emissive = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+	tMtrlInfo.Power = 0.f;
+
+	m_pDevice->SetMaterial(&tMtrlInfo);
 
 	return S_OK;
 }

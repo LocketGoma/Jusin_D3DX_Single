@@ -222,6 +222,7 @@ _bool CNaviMeshController::Stand_NaviMesh(Engine::CGameObject* pObject, float* p
 	}
 
 	_vec3 vCalPos = m_pNaviMeshCom->Caculate_OnNaviMesh(&(pObject->Get_Position()));
+	_float fY = pObject->Get_Position().y;
 
 	if (vCalPos.y > pObject->Get_Position().y)
 	{

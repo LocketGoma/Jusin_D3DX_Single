@@ -283,6 +283,8 @@ void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 {
 	m_eAction = eAntLionAction::RagDoll;
+
+	CDynamicObject::Do_Dead(fDeltaTime);
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 

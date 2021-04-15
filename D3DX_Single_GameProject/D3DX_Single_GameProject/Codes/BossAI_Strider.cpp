@@ -106,6 +106,7 @@ HRESULT CBossAI_Strider::Do_Idle(const _float& fDeltaTime)
 	{
 		_vec3 vTargetPos;
 		_vec3 vTargetLook;
+		_vec3 vControlPos;
 		_vec3 vControlLook;
 		_vec3 vCross;
 
@@ -113,14 +114,13 @@ HRESULT CBossAI_Strider::Do_Idle(const _float& fDeltaTime)
 
 		vTargetPos = m_pTargetUnit->Get_Position();
 		vTargetLook = vTargetPos - m_pControlUnit->Get_Transform()->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+		vControlPos = m_pControlUnit->Get_Position();
 		vControlLook = m_pControlUnit->Get_Transform()->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
 		D3DXVec3Normalize(&vTargetLook, &vTargetLook);
 		D3DXVec3Normalize(&vControlLook, &vControlLook);
 		D3DXVec3Cross(&vCross, &vControlLook, &vTargetLook);
 
-		_float _fRotation = D3DXVec3Dot(&vTargetLook, &vControlLook);
-
-		if (D3DXVec3Length(&vCross) > 0.01f)
+		if (D3DXVec3Length(&vCross) > 1 / D3DXVec3Length(&(vTargetPos - vControlPos)) * 25.f)
 		{
 			//이게 최선인 것인가?
 			if (vCross.y > 0)
