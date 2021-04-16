@@ -223,13 +223,10 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
                 {
                     bChangeScene = true;
                     break;
-
-                    //pObject->Set_PassType(ePassType::COL_CLOSED);
-                    //pPlayer->Set_Position(*(pObject->Check_Passed(&vPlayerPos)));
-
                 }
             }
         }
+
     if (bChangeScene == true) 
     {
         Change_Scene(ESceneType::SCENE_STAGE1);
