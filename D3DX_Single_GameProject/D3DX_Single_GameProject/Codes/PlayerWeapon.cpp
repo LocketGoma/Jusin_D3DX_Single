@@ -20,6 +20,7 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	, m_fAltFireInterval(0.f)
 	, m_iPriDamage(0)
 	, m_iSecDamage(0)
+	, m_fRecoilPower(0.025f)
 {
 	m_bIsPrototype = true;
 }
@@ -41,6 +42,7 @@ CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 	, m_fAltFireInterval(other.m_fAltFireInterval)
 	, m_iPriDamage(other.m_iPriDamage)
 	, m_iSecDamage(other.m_iSecDamage)
+	, m_fRecoilPower(other.m_fRecoilPower)
 {
 
 	m_bIsPrototype = false;
@@ -144,6 +146,11 @@ _uint CPlayerWeapon::Get_Damage_Primary()
 _uint CPlayerWeapon::Get_Damage_Secondery()
 {
 	return m_iSecDamage;
+}
+
+_float CPlayerWeapon::Get_Recoil_Power()
+{
+	return m_fRecoilPower;
 }
 
 _uint CPlayerWeapon::Get_RemainAmmo()

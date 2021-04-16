@@ -46,7 +46,16 @@ private:
 	_bool			m_bShaking;			//이미 쉐이크중인가 아닌가 (중복발생 방지)
 	_vec3			m_vShake;			//쉐이킹 벡터
 	_uint			m_iShakePatton;		//쉐이크 패턴
+
+	_float			m_fLoopRecoilAngle;	//카메라 반동처리용
+	_float			m_fLoopRecoilTimer;	//카메라 반동처리용 - 시간 누적
+	_bool			m_bRecoilShaking;	//반동 처리용
+	_vec3			m_vRecoilShake;		//반동 처리 벡터
+	_vec3			m_vRecoilShakeLoop;	//반동 처리 벡터
+	_vec3			m_vRecoilShakeAdd;	//반동 처리 벡터
 	HRESULT			Shake_Camera(const _float& fDeltaTime);
+	HRESULT			Recoil_Weapon_Camera(const _float& fDeltaTime);
+	void			Set_Recoil_Weapon_Power(_float fPower);
 
 	//마우스 감도 관련
 public:
@@ -71,6 +80,8 @@ private:
 	_bool m_bMouseLock;			//마우스 락 언락
 
 	_float m_fRotate;
+
+	_float m_fRecoilPower;		
 
 };
 

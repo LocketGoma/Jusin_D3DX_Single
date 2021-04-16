@@ -15,7 +15,13 @@ CMainCamera::CMainCamera(_Device pDevice)
 	, m_fLoopAngle(0.f)
 	, m_bShaking(false)
 	, m_vShake(ZERO_VECTOR)
+	, m_vRecoilShake(ZERO_VECTOR)
+	, m_vRecoilShakeAdd(ZERO_VECTOR)
+	, m_vRecoilShakeLoop(ZERO_VECTOR)
 	, m_iShakePatton(0)
+	, m_fRecoilPower(0.f)
+	, m_fLoopRecoilAngle(90.f)
+	, m_fLoopRecoilTimer(0.f)
 {
 }
 
@@ -28,7 +34,13 @@ CMainCamera::CMainCamera(const CMainCamera& other)
 	, m_fLoopAngle(0.f)
 	, m_bShaking(false)
 	, m_vShake(ZERO_VECTOR)
+	, m_vRecoilShake(ZERO_VECTOR)
+	, m_vRecoilShakeAdd(ZERO_VECTOR)
+	, m_vRecoilShakeLoop(ZERO_VECTOR)
 	, m_iShakePatton(0)
+	, m_fRecoilPower(other.m_fRecoilPower)
+	, m_fLoopRecoilAngle(90.f)
+	, m_fLoopRecoilTimer(0.f)
 {
 }
 
@@ -60,6 +72,11 @@ _int CMainCamera::Update_GameObject(const _float& fDeltaTime)
 
 	Key_Input(fDeltaTime);
 
+	if (m_bRecoilShaking == true)
+	{		
+		m_pTransformCom->Single_Rotation(Engine::ROTATION::ROT_X, -m_vRecoilShake.y);
+	}
+
 	if (m_bMouseLock == true)
 	{
 		Mouse_Movement();
@@ -71,7 +88,7 @@ _int CMainCamera::Update_GameObject(const _float& fDeltaTime)
 _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 {
 	Base_Movement(fDeltaTime);
-	m_pTransformCom->Update_Component(fDeltaTime);
+
 
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
@@ -79,16 +96,27 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 		return 0;
 	}
 
-
 	if (m_pPlayer->HurtState() || m_bShaking == true)
 	{
 		Shake_Camera(fDeltaTime);
 	}
+	if (m_pPlayer->Get_Recoil())
+	{
+		Set_Recoil_Weapon_Power(m_pPlayer->Get_RecoilPower());
+		m_bRecoilShaking = false;
+		Recoil_Weapon_Camera(fDeltaTime);
+	}
+	else if (m_bRecoilShaking == true)
+	{
+		Recoil_Weapon_Camera(fDeltaTime);
+	}
+
+
+	m_pTransformCom->Update_Component(fDeltaTime);
 
 	//¼öÁ¤ÇØÁà¾ßµÊ
 	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS)+ m_vShake, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
 	
-
 	return m_pCameraCom->LateUpdate_Component(fDeltaTime);
 }
 
@@ -278,10 +306,51 @@ HRESULT CMainCamera::Shake_Camera(const _float& fDeltaTime)
 		}
 	}
 
-
-
 	m_fLoopAngle += fDeltaTime * 720.f;
 	return S_OK;
+}
+
+HRESULT CMainCamera::Recoil_Weapon_Camera(const _float& fDeltaTime)
+{
+	if (m_fLoopRecoilTimer >= 180.f)
+	{
+		m_fLoopRecoilTimer = 0.f;
+		m_bRecoilShaking = false;
+
+		m_vRecoilShake = ZERO_VECTOR;
+		m_vRecoilShakeAdd = ZERO_VECTOR;
+		m_vRecoilShakeLoop = ZERO_VECTOR;
+		return S_OK;
+	}
+
+	m_vRecoilShakeLoop.y = sin(D3DXToRadian(m_fLoopRecoilTimer*0.75f)) * fabs(m_fRecoilPower);
+	//m_vRecoilShakeLoop.x = sin(D3DXToRadian(m_fLoopRecoilTimer*0.75f)) * (m_fRecoilPower/(20+fabs(m_vRecoilShake.y)));
+
+	if (m_bRecoilShaking == false)
+	{
+		_vec3 pPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+
+		m_fLoopRecoilTimer = 0.f;
+		m_vRecoilShakeAdd += m_vRecoilShakeLoop;
+		m_bRecoilShaking = true;
+	}
+
+	if (m_vRecoilShake.y > 1)
+	{
+		m_vRecoilShake.y = 1;
+	}
+	else
+	{
+		m_vRecoilShake = m_vRecoilShakeAdd + m_vRecoilShakeLoop;
+	}
+
+	m_fLoopRecoilTimer += fDeltaTime * 360.f;
+	return S_OK;
+}
+
+void CMainCamera::Set_Recoil_Weapon_Power(_float fPower)
+{
+	m_fRecoilPower = fPower;
 }
 
 void CMainCamera::Set_MouseSpeedX(_float fAxisX)

@@ -113,6 +113,8 @@ void CTransform::Rotation(_vec3 vAxis, const _float& fAngle)
 {
 	_mat matRotate;
 	D3DXMatrixRotationAxis(&matRotate, &vAxis, fAngle);
+	
+	_vec3 vRotateX, vRotateY, vRotateZ;
 
 	memcpy(&m_TransformDesc.vRotate.x, &matRotate.m[0][0], sizeof(_vec3));
 	memcpy(&m_TransformDesc.vRotate.y, &matRotate.m[1][0], sizeof(_vec3));

@@ -321,6 +321,16 @@ _bool CPlayer::HurtState()
 	return false;
 }
 
+_bool CPlayer::Get_Recoil()
+{
+	return m_bShootState;
+}
+
+_float CPlayer::Get_RecoilPower()
+{
+	return m_pWeapon[(_uint)m_pWeaponType]->Get_Recoil_Power();
+}
+
 HRESULT CPlayer::Add_Component(void)
 {
 	auto pManagement = Engine::CManagement::Get_Instance();

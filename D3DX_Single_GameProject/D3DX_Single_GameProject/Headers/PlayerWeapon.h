@@ -37,6 +37,7 @@ public:
 
 	_uint Get_Damage_Primary();
 	_uint Get_Damage_Secondery();
+	_float Get_Recoil_Power();
 
 //≈∫ Get/Set
 public:
@@ -79,6 +80,8 @@ protected:
 	_bool m_bAltFire;
 
 	_float m_fTime;				//µ®≈∏≈∏¿” ∫∏∞¸øÎ
+
+	_float m_fRecoilPower;		//π›µø »˚
 
 	CEffectMuzzle* m_pEffect = nullptr;		//∏ﬁ¿Œ¿Ã∆Â∆Æ
 	CEffectMuzzle* m_pAltEffect = nullptr;	//¿Ã∆Â∆Æ

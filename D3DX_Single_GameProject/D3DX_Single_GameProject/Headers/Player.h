@@ -62,6 +62,9 @@ public:
 	_uint Get_ShieldHP();
 	_bool HurtState();
 
+	_bool Get_Recoil();
+	_float Get_RecoilPower();
+
 private:
 	HRESULT			Add_Component(void);
 	HRESULT			Print_TestUI();
