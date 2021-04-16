@@ -50,9 +50,11 @@ private:
 	_float			m_fLoopRecoilAngle;	//카메라 반동처리용
 	_float			m_fLoopRecoilTimer;	//카메라 반동처리용 - 시간 누적
 	_bool			m_bRecoilShaking;	//반동 처리용
+	_bool			m_bRecoilShake;		//반동 처리용
 	_vec3			m_vRecoilShake;		//반동 처리 벡터
 	_vec3			m_vRecoilShakeLoop;	//반동 처리 벡터
 	_vec3			m_vRecoilShakeAdd;	//반동 처리 벡터
+	_float			m_fStartRecoil;		//반동 처리시 시작 값
 	HRESULT			Shake_Camera(const _float& fDeltaTime);
 	HRESULT			Recoil_Weapon_Camera(const _float& fDeltaTime);
 	void			Set_Recoil_Weapon_Power(_float fPower);

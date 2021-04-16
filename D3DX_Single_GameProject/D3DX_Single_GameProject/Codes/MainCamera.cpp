@@ -14,6 +14,7 @@ CMainCamera::CMainCamera(_Device pDevice)
 	, m_bMouseLock(true)
 	, m_fLoopAngle(0.f)
 	, m_bShaking(false)
+	, m_bRecoilShake(false)
 	, m_vShake(ZERO_VECTOR)
 	, m_vRecoilShake(ZERO_VECTOR)
 	, m_vRecoilShakeAdd(ZERO_VECTOR)
@@ -33,6 +34,7 @@ CMainCamera::CMainCamera(const CMainCamera& other)
 	, m_bMouseLock(true)
 	, m_fLoopAngle(0.f)
 	, m_bShaking(false)
+	, m_bRecoilShake(false)
 	, m_vShake(ZERO_VECTOR)
 	, m_vRecoilShake(ZERO_VECTOR)
 	, m_vRecoilShakeAdd(ZERO_VECTOR)
@@ -74,7 +76,8 @@ _int CMainCamera::Update_GameObject(const _float& fDeltaTime)
 
 	if (m_bRecoilShaking == true)
 	{		
-		m_pTransformCom->Single_Rotation(Engine::ROTATION::ROT_X, -m_vRecoilShake.y);
+		m_pTransformCom->Single_Rotation(Engine::ROTATION::ROT_X,m_fStartRecoil);
+		m_pTransformCom->Rotation(Engine::ROTATION::ROT_X, -m_vRecoilShake.y);
 	}
 
 	if (m_bMouseLock == true)
@@ -100,8 +103,13 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		Shake_Camera(fDeltaTime);
 	}
+	if (m_bRecoilShake == false)
+	{
+		m_fStartRecoil = m_pTransformCom->Get_Rotate(Engine::ROTATION::ROT_X);
+	}
 	if (m_pPlayer->Get_Recoil())
 	{
+		m_bRecoilShake = true;
 		Set_Recoil_Weapon_Power(m_pPlayer->Get_RecoilPower());
 		m_bRecoilShaking = false;
 		Recoil_Weapon_Camera(fDeltaTime);
@@ -316,14 +324,14 @@ HRESULT CMainCamera::Recoil_Weapon_Camera(const _float& fDeltaTime)
 	{
 		m_fLoopRecoilTimer = 0.f;
 		m_bRecoilShaking = false;
-
+		m_bRecoilShake = false;
 		m_vRecoilShake = ZERO_VECTOR;
 		m_vRecoilShakeAdd = ZERO_VECTOR;
 		m_vRecoilShakeLoop = ZERO_VECTOR;
 		return S_OK;
 	}
 
-	m_vRecoilShakeLoop.y = sin(D3DXToRadian(m_fLoopRecoilTimer*0.75f)) * fabs(m_fRecoilPower);
+	m_vRecoilShakeLoop.y = sin(D3DXToRadian(m_fLoopRecoilTimer)) * fabs(m_fRecoilPower);
 	//m_vRecoilShakeLoop.x = sin(D3DXToRadian(m_fLoopRecoilTimer*0.75f)) * (m_fRecoilPower/(20+fabs(m_vRecoilShake.y)));
 
 	if (m_bRecoilShaking == false)
@@ -344,7 +352,7 @@ HRESULT CMainCamera::Recoil_Weapon_Camera(const _float& fDeltaTime)
 		m_vRecoilShake = m_vRecoilShakeAdd + m_vRecoilShakeLoop;
 	}
 
-	m_fLoopRecoilTimer += fDeltaTime * 360.f;
+	m_fLoopRecoilTimer += fDeltaTime * 720.f;
 	return S_OK;
 }
 

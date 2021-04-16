@@ -206,6 +206,11 @@ _vec3 CTransform::Get_Info_RawData(TRANSFORM_INFO eType) const
 	return m_TransformDesc.m_vInfo[(_uint)eType];
 }
 
+_float CTransform::Get_Rotate(ROTATION eType)
+{
+	return *(((_float*)&m_TransformDesc.vRotate) + (_uint)(eType));
+}
+
 
 CTransform* CTransform::Create(_Device pDevice)
 {

@@ -20,7 +20,7 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	, m_fAltFireInterval(0.f)
 	, m_iPriDamage(0)
 	, m_iSecDamage(0)
-	, m_fRecoilPower(0.025f)
+	, m_fRecoilPower(0.045f)
 {
 	m_bIsPrototype = true;
 }

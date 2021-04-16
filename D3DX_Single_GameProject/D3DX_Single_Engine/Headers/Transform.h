@@ -52,6 +52,7 @@ public :
 	void Get_Info(TRANSFORM_INFO eType, _vec3* pvInfo) const;
 	_vec3 Get_Info(TRANSFORM_INFO eType) const;
 	_vec3 Get_Info_RawData(TRANSFORM_INFO eType) const;
+	_float Get_Rotate(ROTATION eType);
 
 
 //make & clone
