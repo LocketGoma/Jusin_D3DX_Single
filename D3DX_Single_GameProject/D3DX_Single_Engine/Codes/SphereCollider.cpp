@@ -65,11 +65,67 @@ HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _float fRadius)
 
 	return S_OK;
 }
+HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _vec3 pScale, const _ulong& dwVTXCount, const _ulong& dwStride, const _float fRadius)
+{
+	_vec3 vMin, vMax;
+	_vec3 vCorePos;
+	D3DXComputeBoundingBox(pPos, dwVTXCount, sizeof(_vec3), &vMin, &vMax);
+
+	m_vCore = (vMax + vMin) / 4;		//<-- 요주의
+	m_vCore.x *= pScale.x;
+	m_vCore.y *= pScale.y;
+	m_vCore.z *= pScale.z;
+	m_fRadius = fRadius;
+
+	D3DXCreateSphere(m_pDevice, m_fRadius, 36, 36, &m_pMesh, nullptr);
+
+#ifdef _DEBUG
+	for (_uint i = 0; i < (_uint)COLIDETYPE::COL_END; ++i)
+	{
+		D3DXCreateTexture(m_pDevice,
+			1,
+			1,
+			1, // miplevel
+			0,	// 텍스처의 용도
+			D3DFMT_A8R8G8B8,
+			D3DPOOL_MANAGED,
+			&m_pTexture[i]);
+
+
+		D3DLOCKED_RECT LockRect;
+		m_pTexture[i]->LockRect(0, &LockRect, NULL, 0);
+
+		if (i == (_uint)COLIDETYPE::COL_FALSE)
+		{
+			*((_ulong*)LockRect.pBits) = D3DXCOLOR(0.f, 1.f, 0.f, 1.f);
+		}
+		if (i == (_uint)COLIDETYPE::COL_TRUE)
+		{
+			*((_ulong*)LockRect.pBits) = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+
+		}
+		if (i == (_uint)COLIDETYPE::COL_INRANGE)
+		{
+			*((_ulong*)LockRect.pBits) = D3DXCOLOR(0.f, 0.f, 1.f, 1.f);
+		}
+
+		m_pTexture[i]->UnlockRect(0);
+	}
+
+#endif // !_DEBUG
+
+	return S_OK;
+
+
+}
 void CSphereCollider::Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix, _bool bState)
 {
 	m_matColMatrix = *pColliderMatrix;
 
-	memcpy(&m_vCore, &m_matColMatrix.m[3][0], sizeof(_vec3));
+	//memcpy(&m_vCore, &m_matColMatrix.m[3][0], sizeof(_vec3));
+	_mat matPos;
+	D3DXMatrixTranslation(&matPos, m_vCore.x, m_vCore.y, m_vCore.z);
+	m_matColMatrix *= matPos;
 
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_matColMatrix);
 
@@ -117,6 +173,21 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool
 const LPD3DXMESH* CSphereCollider::Get_Mesh() const
 {
 	return &m_pMesh;
+}
+
+const _mat& CSphereCollider::Get_ColiderMatrix() const
+{
+	return m_matColMatrix;
+}
+
+CSphereCollider* CSphereCollider::Create(_Device pDevice, const _vec3* pPos, const _vec3 pScale, const _ulong& dwVtxCnt, const _ulong& dwStride, const _float fRadius)
+{
+	CSphereCollider* pInstance = new CSphereCollider(pDevice);
+
+	if (FAILED(pInstance->Ready_Collider(pPos, pScale, dwVtxCnt, dwStride, fRadius)))
+		Safe_Release(pInstance);
+
+	return pInstance;
 }
 
 CSphereCollider* CSphereCollider::Create(_Device pDevice, const _vec3* pPos, const _float fRadius)

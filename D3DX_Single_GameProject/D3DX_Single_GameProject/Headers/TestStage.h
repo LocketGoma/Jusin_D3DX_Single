@@ -26,6 +26,7 @@ private:
 	HRESULT Add_Player_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Test_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Object_Layer(const _tchar* pLayerTag);
+	HRESULT Add_ColiderBox_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Camera_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Environment_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Enemy_Layer(const _tchar* pLayerTag);
@@ -35,12 +36,16 @@ public :
 	static CTestStage* Create(_Device pDevice);
 
 private :
+	void Change_Scene(ESceneType eType);
+
 	virtual void Free() override;
 
 	CNaviMeshController* m_pNaviController;
 	//테스트용
 	_matrix	m_matWorld, m_matView, m_matProj;
 
+
+	_bool bChangeScene = false;
 };
 
 

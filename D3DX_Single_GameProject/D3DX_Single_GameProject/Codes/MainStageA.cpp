@@ -22,6 +22,8 @@
 
 #include "Transform.h"
 
+#include "MainStageC.h"
+
 
 CMainStageA::CMainStageA(_Device pDevice)
 	: Engine::CScene(pDevice)
@@ -336,6 +338,18 @@ HRESULT CMainStageA::Add_Weapon_Layer(const _tchar* pLayerTag)
 	m_mapLayer.emplace(pLayerTag, pLayer);
 
 	return S_OK;
+}
+
+void CMainStageA::Change_Scene(ESceneType eSceneType)
+{
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return;
+	}
+
+	pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_TEST, CMainStageC::Create(m_pDevice));
+
 }
 
 CMainStageA* CMainStageA::Create(_Device pDevice)

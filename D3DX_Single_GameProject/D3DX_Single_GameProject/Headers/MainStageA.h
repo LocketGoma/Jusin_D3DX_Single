@@ -31,6 +31,7 @@ private:
 	HRESULT Add_Environment_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Weapon_Layer(const _tchar* pLayerTag);
 
+	void Change_Scene(ESceneType eSceneType);
 
 public:
 	static CMainStageA* Create(_Device pDevice);

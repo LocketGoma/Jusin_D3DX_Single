@@ -34,7 +34,7 @@ _bool CStaticObject::Check_RayCollision()
 
 _bool CStaticObject::Check_RayCollision_By_CollisionSphere()
 {
-	if (m_pSupportCom->Picking_Object_Collider(g_hWnd, m_pColliderCom, m_pTransformCom))
+	if (m_pSupportCom->Picking_Object_Collider(g_hWnd, m_pColliderCom))
 	{
 		eType = Engine::COLIDETYPE::COL_INRANGE;
 		return true;

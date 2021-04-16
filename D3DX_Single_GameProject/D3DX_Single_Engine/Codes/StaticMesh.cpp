@@ -91,6 +91,41 @@ HRESULT CStaticMesh::Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileNa
 		m_pOriMesh->CloneMeshFVF(m_pOriMesh->GetOptions(), dwFVF, m_pDevice, &m_pMesh);
 	}
 
+	// 메쉬 사이즈에 맞는 바운딩박스 생성을 위한 작업
+	void* pVertex = NULL;
+
+	m_dwVtxCnt = m_pMesh->GetNumVertices();
+	m_pVtxPos = new _vec3[m_dwVtxCnt];
+
+	m_pMesh->LockVertexBuffer(0, &pVertex);
+
+	D3DVERTEXELEMENT9		Decl[MAX_FVF_DECL_SIZE];
+	ZeroMemory(Decl, sizeof(D3DVERTEXELEMENT9) * MAX_FVF_DECL_SIZE);
+
+	m_pMesh->GetDeclaration(Decl);
+
+	WORD		byOffSet = 0;
+
+	for (_ulong i = 0; i < MAX_FVF_DECL_SIZE; ++i)
+	{
+		if (Decl[i].Usage == D3DDECLUSAGE_POSITION)
+		{
+			byOffSet = Decl[i].Offset;
+			break;
+		}
+	}
+
+	// 정점이 지닌 fvf정보를 기준으로 정점의 크기를 계산하자
+	m_dwStride = D3DXGetFVFVertexSize(dwFVF);
+
+	for (_ulong i = 0; i < m_dwVtxCnt; ++i)
+	{
+		m_pVtxPos[i] = *((_vec3*)(((_ubyte*)pVertex) + (i * m_dwStride + byOffSet)));
+	}
+
+	m_pMesh->UnlockVertexBuffer();
+
+
 
 	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
 	{
@@ -137,6 +172,21 @@ const LPD3DXMESH* CStaticMesh::Get_VertrxInfo() const
 	return &m_pMesh;
 }
 
+const _vec3* CStaticMesh::Get_VtxPos(void) const
+{
+	return m_pVtxPos;
+}
+
+_ulong CStaticMesh::Get_VtxCnt(void) const
+{
+	return m_dwVtxCnt;
+}
+
+_ulong CStaticMesh::Get_Stride(void) const
+{
+	return m_dwStride;
+}
+
 CStaticMesh* CStaticMesh::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pFilePath, const _tchar* pFileName)
 {
 	CStaticMesh* pInstance = new CStaticMesh(pGraphicDev);
@@ -175,7 +225,9 @@ void CStaticMesh::Free(void)
 	}
 	Safe_Delete_Array(m_ppTextures);
 	Safe_Release(m_pSampleTexture);
-	Safe_Delete_Array(m_pVtxPos);
+
+	if (m_bIsPrototype == true)
+		Safe_Delete_Array(m_pVtxPos);
 
 	CMesh::Free();
 }

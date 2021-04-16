@@ -197,8 +197,6 @@ HRESULT CPlayer::Render_GameObject(void)
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 
-
-
 	return Print_TestUI();
 
 	//return S_OK;

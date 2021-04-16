@@ -20,6 +20,10 @@ public:
 
 public:
 	const LPD3DXMESH* Get_VertrxInfo() const;
+	const _vec3* Get_VtxPos(void) const;
+	_ulong		Get_VtxCnt(void) const; 
+	_ulong		Get_Stride(void) const; 
+
 
 public:
 	static CStaticMesh* Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pFilePath, const _tchar* pFileName);

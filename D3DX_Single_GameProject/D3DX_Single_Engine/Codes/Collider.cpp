@@ -161,7 +161,7 @@ HRESULT CCollider::Ready_Collider(const _vec3* pPos, const _ulong& dwVTXCount, c
 	return S_OK;
 }
 
-HRESULT CCollider::Ready_Collider(const _vec3* pPos, const _vec3* vMin, const _vec3* vMax)
+HRESULT CCollider::Ready_Collider(const _vec3* vMin, const _vec3* vMax)
 {
 	m_vMin = *vMin;
 	m_vMax = *vMax;
@@ -360,11 +360,11 @@ CCollider* CCollider::Create(_Device pDevice, const _vec3* pPos, const _ulong& d
 	return pInstance;
 }
 
-CCollider* CCollider::Create(_Device pDevice, const _vec3* pPos, const _vec3* vMin, const _vec3* vMax)
+CCollider* CCollider::Create(_Device pDevice, const _vec3* vMin, const _vec3* vMax)
 {
 	CCollider* pInstance = new CCollider(pDevice);
 
-	if (FAILED(pInstance->Ready_Collider(pPos, vMin, vMax)))
+	if (FAILED(pInstance->Ready_Collider(vMin, vMax)))
 		Safe_Release(pInstance);
 
 	return pInstance;

@@ -23,9 +23,11 @@
 #include "BaseObject.h"
 #include "StaticObject.h"
 #include "DynamicObject.h"
+#include "TriggerBox.h"
 #include "ControlSupport.h"
 
 #include "Transform.h"
+#include <MainStageA.h>
 
 CTestStage::CTestStage(_Device pDevice)
     : Engine::CScene(pDevice)
@@ -42,6 +44,7 @@ HRESULT CTestStage::Ready_Scene(void)
     //Add_Test_Layer(L"TestLayer");
     Add_Player_Layer(L"PlayerLayer");
     Add_Object_Layer(L"ObjectLayer");
+    Add_ColiderBox_Layer(L"ColliderLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
     //Add_Enemy_Layer(L"EnemyLayer");
@@ -53,6 +56,11 @@ HRESULT CTestStage::Ready_Scene(void)
 
 _int CTestStage::Update_Scene(const _float& fDeltaTime)
 {
+    if (bChangeScene == true)
+    {
+        return CHANGE_SCENE;
+    }
+
     CScene::Update_Scene(fDeltaTime);
 
     //이동 판정
@@ -92,6 +100,11 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
 _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 {
+    if (bChangeScene == true)
+    {
+        return CHANGE_SCENE;
+    }
+
     CScene::LateUpdate_Scene(fDeltaTime);
 
     auto pManagement = Engine::CManagement::Get_Instance();
@@ -197,7 +210,30 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
         }
     }
 
+    //플레이어 - 트리거박스 충돌 판정
+    targetLayer = Get_Layer(L"ColliderLayer");
+    if (targetLayer != nullptr)
+        for (auto& iter : *targetLayer->Get_ObjectLayer())
+        {
+            CTriggerBox* pObject = dynamic_cast<CTriggerBox*>(iter.second);
+            if (pObject != nullptr)
+            {
+                _vec3 vPlayerPos = pPlayer->Get_Position();
+                if (pObject->Check_Collision(&vPlayerPos, PLAYER_BASE_HITBOX))
+                {
+                    bChangeScene = true;
+                    break;
 
+                    //pObject->Set_PassType(ePassType::COL_CLOSED);
+                    //pPlayer->Set_Position(*(pObject->Check_Passed(&vPlayerPos)));
+
+                }
+            }
+        }
+    if (bChangeScene == true) 
+    {
+        Change_Scene(ESceneType::SCENE_STAGE1);
+    }
     return NO_EVENT;
 }
 
@@ -289,6 +325,28 @@ HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pLayer->Add_GameObject(L"BaseObject", pGameObject);
     
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CTestStage::Add_ColiderBox_Layer(const _tchar* pLayerTag)
+{
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    auto pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    pGameObject = CTriggerBox::Create(m_pDevice, _vec3(-1.f, -2.f, -1.f), _vec3(1.f, 2.f, 1.f));
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(10.f, 0.f, 10.f));
+    pLayer->Add_GameObject(L"TriggerBoxA", pGameObject);
+
     m_mapLayer.emplace(pLayerTag, pLayer);
 
     return S_OK;
@@ -473,7 +531,22 @@ CTestStage* CTestStage::Create(_Device pDevice)
     return pInstance;
 }
 
+void CTestStage::Change_Scene(ESceneType eType)
+{
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return;
+    }
+
+    pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE1, CMainStageA::Create(m_pDevice));
+
+
+
+}
+
 void CTestStage::Free()
 {
+
     Engine::CScene::Free();
 }

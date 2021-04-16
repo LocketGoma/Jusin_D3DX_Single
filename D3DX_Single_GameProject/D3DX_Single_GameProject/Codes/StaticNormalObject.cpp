@@ -14,7 +14,7 @@ CStaticNormalObject::CStaticNormalObject(_Device pDevice, const _tchar* pMeshNam
 		lstrcpy(m_pMeshName, pMeshName);
 
 	m_fWeight = fWeight;
-	m_fLifeTime = -1.f;
+	m_fLifeTime = 1.f;
 	m_fSpeed = 0.f;
 	m_eForceType = eForceType::PULL;
 	m_fHitboxSize = fHitBoxSize;
@@ -97,12 +97,10 @@ HRESULT CStaticNormalObject::Render_GameObject(void)
 	m_pTransformCom->Update_Component();
 	m_pTransformCom->LateUpdate_Component(0.f);
 
-
 	if (m_pMeshCom != nullptr)
 	{
 		m_pMeshCom->Render_Meshes();
 	}
-
 
 	m_pColliderCom->Render_Collider(eType, &matWorld, g_bViewCollider);
 
@@ -138,7 +136,7 @@ HRESULT CStaticNormalObject::Add_Component()
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Support", pComponent);
 
 	//콜라이더
-	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
+	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, m_pMeshCom->Get_VtxPos(),ITEM_REDUCION_VECTOR,m_pMeshCom->Get_VtxCnt(), m_pMeshCom->Get_Stride(), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
 
