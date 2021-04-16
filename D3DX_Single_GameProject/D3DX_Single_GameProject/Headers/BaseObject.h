@@ -45,6 +45,8 @@ public:
 			void Set_Direction(_vec3 vDir);
 			void Set_ObjectType(eForceType eType);		
 			void Set_SpeedLockState(_bool bLock);
+			void Set_Rotation(Engine::ROTATION eRotate, float fRadian);
+
 	virtual _vec3 Get_Position();
 	virtual _vec3 Get_Size();
 			_vec3 Get_Direction();

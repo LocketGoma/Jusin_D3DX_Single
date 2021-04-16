@@ -26,6 +26,7 @@ public:
 	CGameObject* Find_GameObject(const std::wstring& pLayerName, const std::wstring& pObjectTag);
 
 protected:
+	_bool									m_bChangeScene;
 	_Device									m_pDevice;
 	std::map<const std::wstring, CLayer*>	m_mapLayer;
 

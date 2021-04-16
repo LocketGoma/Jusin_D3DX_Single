@@ -37,6 +37,11 @@ CBaseObject::CBaseObject(const CBaseObject& other)
 {
 	Safe_AddReference(m_pDevice);
 	m_bIsPrototype = false;
+
+	if (m_fLifeTime < 0.f)
+	{
+		m_fLifeTime = 65535.f;
+	}
 }
 void CBaseObject::Set_Position(_vec3 vPos)
 {
@@ -62,6 +67,11 @@ void CBaseObject::Set_ObjectType(eForceType eType)
 void CBaseObject::Set_SpeedLockState(_bool bLock)
 {
 	m_bSpeedLock = bLock;
+}
+
+void CBaseObject::Set_Rotation(Engine::ROTATION eRotate, float fRadian)
+{
+	m_pTransformCom->Rotation(eRotate, fRadian);
 }
 
 _vec3 CBaseObject::Get_Position()

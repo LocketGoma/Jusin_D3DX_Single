@@ -74,6 +74,8 @@ public:
 	virtual _bool Check_RayCollision() override;
 	virtual _bool Check_RayCollision_By_CollisionSphere() override;
 
+	_bool Get_State();
+
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 
@@ -105,6 +107,8 @@ protected:
 	_float m_fAttackRange;		//공격 범위 (공격 사거리)
 
 	_float m_fTime;				//델타 타임 보관용
+
+	_bool m_bState;
 
 //컴포넌트들
 protected:

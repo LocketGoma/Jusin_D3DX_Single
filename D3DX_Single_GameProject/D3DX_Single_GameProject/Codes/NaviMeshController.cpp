@@ -201,8 +201,16 @@ HRESULT CNaviMeshController::Compare_Navi_MeshMove(Engine::CLayer* pTargetLayer)
 			continue;
 		}
 		CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(targetObject.second);
-		if (pObject!=nullptr)
-			pObject->Set_Position(m_pNaviMeshCom->Compare_OnNaviMesh_for_Mesh(&(pObject->Get_Position()), &(pObject->Calc_Position_At_Mesh()),  &(pObject->Get_Position_At_Mesh())));
+		//스폰중일때는 검사 안함 
+		if (pObject != nullptr && (pObject->Get_State() == true))
+		{
+			pObject->Set_Position(
+				m_pNaviMeshCom->Compare_OnNaviMesh_for_Mesh(
+					&(pObject->Get_Position()), 
+					&(pObject->Calc_Position_At_Mesh()), 
+					&(pObject->Get_Position_At_Mesh()))
+			);
+		}
 	}
 
 

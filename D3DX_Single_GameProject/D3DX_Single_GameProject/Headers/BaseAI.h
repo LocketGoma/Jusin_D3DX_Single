@@ -21,7 +21,7 @@
 //Disappear : 사라짐 (주금 이후)
 enum class eAIStatus
 {
-	NOSPAWN,SPAWN, READY,IDLE, RECOG, TRACK, ATTACK, DODGE, DEAD,DISAPPEAR, END
+	NOSPAWN, SPAWN, READY,IDLE, RECOG, TRACK, ATTACK, DODGE, DEAD,DISAPPEAR, END
 };
 
 class CBaseAI : public Engine::CGameObject

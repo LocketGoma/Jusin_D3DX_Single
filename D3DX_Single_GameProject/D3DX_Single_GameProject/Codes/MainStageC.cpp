@@ -280,7 +280,7 @@ HRESULT CMainStageC::Add_Boss_Layer(const _tchar* pLayerTag)
     //스트라이더
     pGameObject = pManagement->Clone_GameObject(L"BossStrider");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(45.f, 0.f, 10.f));
+    pGameObject->Set_Position(_vec3(55.f, 0.f, 10.f));
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
 
     //스트라이더

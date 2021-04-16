@@ -23,6 +23,7 @@ CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 
 	m_iMaxHP = 20;
 
+	m_bState = false;
 
 	m_iDamage = 3;
 }
@@ -194,6 +195,8 @@ void CEnemyAntLion::Set_Animation(_uint iIndex)
 void CEnemyAntLion::Go_Stright(_float fDeltaTime)
 {
 	//Corepos 이용하기.
+	m_bState = true;
+
 	_vec3 vLook = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
 	D3DXVec3Normalize(&vLook, &vLook);
 
@@ -247,6 +250,7 @@ void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 {
 	m_fNowAttackTime = 0.f;
 	m_bAttackHitEnable = false;
+	m_bState = true;
 
 	m_eAction = eAntLionAction::Idle;
 	m_fAnimationSpeed = 1.0f;
@@ -257,7 +261,6 @@ void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 {
 	vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
-
 	if (m_eAction == eAntLionAction::Idle)
 	{
 		return;
@@ -276,6 +279,7 @@ void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 		m_pMeshCom->Force_Change_AnimationSet((_uint)eAntLionAction::Idle);		
 
 		m_pTransformCom->Set_Pos(vOriPos);
+		m_bState = true;
 		
 	}
 }

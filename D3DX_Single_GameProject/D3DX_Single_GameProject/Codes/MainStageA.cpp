@@ -21,6 +21,7 @@
 #include "ControlSupport.h"
 
 #include "Transform.h"
+#include "TriggerBox.h"
 
 #include "MainStageC.h"
 
@@ -40,6 +41,7 @@ HRESULT CMainStageA::Ready_Scene(void)
 	Add_Player_Layer(L"PlayerLayer");
 	Add_Boss_Layer(L"BossLayer");
 	Add_Object_Layer(L"ObjectLayer");
+	Add_ColiderBox_Layer(L"ColliderLayer");
 	Add_Enemy_Layer(L"EnemyLayer");
 	Add_Weapon_Layer(L"WeaponLayer");
 	Add_Environment_Layer(L"EnviromentLayer");
@@ -49,6 +51,11 @@ HRESULT CMainStageA::Ready_Scene(void)
 
 _int CMainStageA::Update_Scene(const _float& fDeltaTime)
 {
+	if (m_bChangeScene == true)
+	{
+		return CHANGE_SCENE;
+	}
+
 	CScene::Update_Scene(fDeltaTime);
 
 	//이동 판정
@@ -68,13 +75,36 @@ _int CMainStageA::Update_Scene(const _float& fDeltaTime)
 		pPlayer->Jump_Cancel();
 	}
 
+	//물체 중력 적용 관련
+	Engine::CLayer* targetLayer = Get_Layer(L"ObjectLayer");
+	if (targetLayer != nullptr)
+	{
+		for (auto& iter : *targetLayer->Get_ObjectLayer())
+		{
+			CBaseObject* pObject = dynamic_cast<CBaseObject*>(iter.second);
+			if (pObject != nullptr)
+			{
+				_float pfHeight = 0.f;
+				if (m_pNaviController->Stand_NaviMesh(pObject, &pfHeight))
+				{
+					pObject->Set_ClearGSpeed(pfHeight);
+				}
+			}
+		}
+	}
+
+
 	return NO_EVENT;
 }
 
 _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 {
-	CScene::LateUpdate_Scene(fDeltaTime);
+	if (m_bChangeScene == true)
+	{
+		return CHANGE_SCENE;
+	}
 
+	CScene::LateUpdate_Scene(fDeltaTime);
 
 	auto pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
@@ -179,7 +209,27 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 			}
 		}
 
+	//플레이어 - 트리거박스 충돌 판정
+	targetLayer = Get_Layer(L"ColliderLayer");
+	if (targetLayer != nullptr)
+		for (auto& iter : *targetLayer->Get_ObjectLayer())
+		{
+			CTriggerBox* pObject = dynamic_cast<CTriggerBox*>(iter.second);
+			if (pObject != nullptr)
+			{
+				_vec3 vPlayerPos = pPlayer->Get_Position();
+				if (pObject->Check_Collision(&vPlayerPos, PLAYER_BASE_HITBOX))
+				{
+					m_bChangeScene = true;
+					break;
+				}
+			}
+		}
 
+	if (m_bChangeScene == true)
+	{
+		Change_Scene(ESceneType::SCENE_STAGE1);
+	}
 	return NO_EVENT;
 }
 
@@ -236,31 +286,33 @@ HRESULT CMainStageA::Add_Enemy_Layer(const _tchar* pLayerTag)
 		return E_FAIL;
 	}
 
-	///적 스폰 파트
+	//적 스폰 파트
 	//개미귀신
-	//pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->Set_Position(_vec3(10.f, 0.f, 15.f));
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
+	pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->Set_Position(_vec3(116.f, 10.f, -150.f));
+	dynamic_cast<CDynamicObject*>(pGameObject)->Set_Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(180.f));
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion1", pGameObject), E_FAIL);
 	
-	//pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//pGameObject->Set_Position(_vec3(16.f, 0.f, 15.f));
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
+	pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->Set_Position(_vec3(168.f, 10.f, -150.f));
+	dynamic_cast<CDynamicObject*>(pGameObject)->Set_Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(180.f));
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
-	///기본 적 AI파트
+	//기본 적 AI파트
 	//개미귀신
-	//pGameObject = CBaseAI_Attacker::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
-	//dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-	//FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
+	pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion1")));
+	dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+	FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion1AI", pGameObject), E_FAIL);
 
-	//pGameObject = CBaseAI::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//dynamic_cast<CBaseAI*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion2")));
-	//dynamic_cast<CBaseAI*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-	//FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion2AI", pGameObject), E_FAIL);
+	pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Antlion2")));
+	dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+	FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"Antlion1A2", pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(pLayerTag, pLayer);
 	m_mapLayer.emplace(L"AILayer", pAILayer);
@@ -288,7 +340,30 @@ HRESULT CMainStageA::Add_Object_Layer(const _tchar* pLayerTag)
 	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(L"BaseObject", pGameObject);
-	pGameObject->Set_Position(_vec3(150.f, 9.f, -160.f));
+	pGameObject->Set_Position(_vec3(150.f, 15.f, -160.f));
+
+	m_mapLayer.emplace(pLayerTag, pLayer);
+
+	return S_OK;
+}
+
+
+HRESULT CMainStageA::Add_ColiderBox_Layer(const _tchar* pLayerTag)
+{
+	Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	pGameObject = CTriggerBox::Create(m_pDevice, _vec3(-1.f, -2.f, -1.f), _vec3(1.f, 2.f, 1.f));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->Set_Position(_vec3(63.f, 12.f, -111.f));
+	pLayer->Add_GameObject(L"TriggerBoxA", pGameObject);
 
 	m_mapLayer.emplace(pLayerTag, pLayer);
 
@@ -337,6 +412,16 @@ HRESULT CMainStageA::Add_Weapon_Layer(const _tchar* pLayerTag)
 
 	m_mapLayer.emplace(pLayerTag, pLayer);
 
+	return S_OK;
+}
+
+HRESULT CMainStageA::Add_Enemy_Layer_WaveB(const _tchar* pLayerTag)
+{
+	return S_OK;
+}
+
+HRESULT CMainStageA::Add_Enemy_Layer_WaveC(const _tchar* pLayerTag)
+{
 	return S_OK;
 }
 

@@ -45,7 +45,7 @@ private :
 	_matrix	m_matWorld, m_matView, m_matProj;
 
 
-	_bool bChangeScene = false;
+
 };
 
 

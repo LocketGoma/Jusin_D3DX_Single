@@ -21,6 +21,7 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_bEndChecker(false)
 	, m_bStartMove(false)
 	, m_vCorePos(_vec3(0.f,0.f,0.f))
+	, m_bState(true)
 {
 	m_iHP = m_iMaxHP;
 	m_eForceType = eForceType::NONE;
@@ -43,6 +44,7 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_bEndChecker(false)
 	, m_bStartMove(false)
 	, m_vCorePos(other.m_vCorePos)
+	, m_bState(other.m_bState)
 {
 }
 //얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
@@ -136,6 +138,11 @@ _bool CDynamicObject::Check_RayCollision_By_CollisionSphere()
 		eType = Engine::COLIDETYPE::COL_FALSE;
 		return false;
 	}
+}
+
+_bool CDynamicObject::Get_State()
+{
+	return m_bState;
 }
 
 

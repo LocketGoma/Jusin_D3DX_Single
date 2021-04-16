@@ -137,6 +137,12 @@ void CWeaponRifle::Draw_Weapon()
 
 void CWeaponRifle::Shoot_Weapon()
 {
+	auto pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return;
+	}
+
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
 		m_pEffect->Set_Visible(false);
@@ -144,11 +150,7 @@ void CWeaponRifle::Shoot_Weapon()
 		if (m_iMagAmmo != 0)
 		{
 			//-------------------총알 발사파트
-			auto pManagement = Engine::CManagement::Get_Instance();
-			if (pManagement == nullptr)
-			{
-				return;
-			}
+
 
 			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_PulseAmmo");
 			NULL_CHECK(pObject);
@@ -187,9 +189,14 @@ void CWeaponRifle::Shoot_Weapon()
 
 			//-----------------------
 		}
+		else
+		{
+			pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+			pManagement->Play_Sound(L"ar2_empty.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
+		}
 		m_fNowFItime = 0.f;
-	}
-	
+	}	
 }
 
 void CWeaponRifle::AltShoot_Weapon()

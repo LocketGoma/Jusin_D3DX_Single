@@ -104,7 +104,7 @@ bool CPlayerWeapon::Reload_Weapon()
 
 	_bool bReturn = false;
 
-	if (m_iMagAmmo == m_iMaxMagAmmo + 1)
+	if (m_iMagAmmo == m_iMaxMagAmmo + 1 || m_iMainAmmo <= 0)
 	{
 		return false;
 	}
@@ -122,6 +122,7 @@ bool CPlayerWeapon::Reload_Weapon()
 	{
 		m_iMagAmmo = (m_iMainAmmo + m_iMagAmmo);
 		m_iMainAmmo = 0;
+		bReturn = false;
 	}
 
 

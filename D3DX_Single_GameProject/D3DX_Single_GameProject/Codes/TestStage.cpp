@@ -56,7 +56,7 @@ HRESULT CTestStage::Ready_Scene(void)
 
 _int CTestStage::Update_Scene(const _float& fDeltaTime)
 {
-    if (bChangeScene == true)
+    if (m_bChangeScene == true)
     {
         return CHANGE_SCENE;
     }
@@ -100,7 +100,7 @@ _int CTestStage::Update_Scene(const _float& fDeltaTime)
 
 _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 {
-    if (bChangeScene == true)
+    if (m_bChangeScene == true)
     {
         return CHANGE_SCENE;
     }
@@ -221,13 +221,13 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
                 _vec3 vPlayerPos = pPlayer->Get_Position();
                 if (pObject->Check_Collision(&vPlayerPos, PLAYER_BASE_HITBOX))
                 {
-                    bChangeScene = true;
+                    m_bChangeScene = true;
                     break;
                 }
             }
         }
 
-    if (bChangeScene == true) 
+    if (m_bChangeScene == true) 
     {
         Change_Scene(ESceneType::SCENE_STAGE1);
     }

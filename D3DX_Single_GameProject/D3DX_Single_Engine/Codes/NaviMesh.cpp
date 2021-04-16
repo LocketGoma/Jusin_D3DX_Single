@@ -116,11 +116,11 @@ _vec3 CNaviMesh::Compare_OnNaviMesh_for_Mesh(const _vec3* pOldPos, const _vec3* 
 {
 	if (COMPAREMOVE::STOP == m_vecCell[m_dwCellIndex]->Compare(pTargetPos, &m_dwCellIndex))
 	{
-		return *pNewPos;
+		return Caculate_OnNaviMesh(pNewPos);
 	}
 	else
 	{
-		return *pOldPos;
+		return Caculate_OnNaviMesh(pOldPos);
 	}
 }
 

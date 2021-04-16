@@ -28,8 +28,13 @@ private:
 	HRESULT Add_Enemy_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Boss_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Object_Layer(const _tchar* pLayerTag);
+	HRESULT Add_ColiderBox_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Environment_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Weapon_Layer(const _tchar* pLayerTag);
+
+	//개미귀신 2차 스폰, 3차 스폰 용
+	HRESULT Add_Enemy_Layer_WaveB(const _tchar* pLayerTag);
+	HRESULT Add_Enemy_Layer_WaveC(const _tchar* pLayerTag);
 
 	void Change_Scene(ESceneType eSceneType);
 

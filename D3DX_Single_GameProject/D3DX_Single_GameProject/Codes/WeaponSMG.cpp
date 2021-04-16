@@ -208,8 +208,8 @@ bool CWeaponSMG::Reload_Weapon()
 	{
 		m_iMainAmmo--;
 		m_iMagAmmo++;
-		Set_Animation((_uint)eSMGAction::Reload);
 	}
+	Set_Animation((_uint)eSMGAction::Reload);
 
 	return true;
 

@@ -4,6 +4,7 @@ USING(Engine)
 
 CScene::CScene(_Device pDevice)
     : m_pDevice(pDevice)
+    , m_bChangeScene(false)
 {
     m_pDevice->AddRef();
 }
