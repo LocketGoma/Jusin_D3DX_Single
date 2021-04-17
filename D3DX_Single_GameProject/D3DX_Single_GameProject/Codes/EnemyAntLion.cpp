@@ -61,12 +61,35 @@ _int CEnemyAntLion::Update_GameObject(const _float& fDeltaTime)
 
 	//if (m_pSupportCom->Collision_Picking(g_hWnd, m_pColliderCom, m_pTransformCom))
 
+
+	if (m_eAction == eAntLionAction::Idle || m_eAction == eAntLionAction::Run)
+	{
+		switch (rand() % 5)
+		{
+		case 0:
+			m_pManagement->Play_Sound(L"antlion_idle1.wav", m_eChannel);
+			break;
+		case 1:
+			m_pManagement->Play_Sound(L"antlion_idle2.wav", m_eChannel);
+			break;
+		case 2:
+			m_pManagement->Play_Sound(L"antlion_idle3.wav", m_eChannel);
+			break;
+		case 3:
+			m_pManagement->Play_Sound(L"antlion_idle4.wav", m_eChannel);
+			break;
+		case 4:
+			m_pManagement->Play_Sound(L"antlion_idle5.wav", m_eChannel);
+			break;
+		}
+	}
+
 	return NO_EVENT;
 }
 
 _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -202,6 +225,26 @@ void CEnemyAntLion::Go_Stright(_float fDeltaTime)
 
 	m_eAction = eAntLionAction::Run;
 
+
+	switch (rand() % 4)
+	{
+	case 0:
+		m_pManagement->Play_Sound(L"antlion_foot1.wav", m_eChannel);
+		break;
+	case 1:
+		m_pManagement->Play_Sound(L"antlion_foot2.wav", m_eChannel);
+		break;
+	case 2:
+		m_pManagement->Play_Sound(L"antlion_foot3.wav", m_eChannel);
+		break;
+	case 3:
+		m_pManagement->Play_Sound(L"antlion_foot4.wav", m_eChannel);
+		break;
+	}
+	
+
+
+
 }
 
 void CEnemyAntLion::Go_Side(_float fDeltaTime, eAlign pAlign)
@@ -236,6 +279,8 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime, _uint iPatton)
 	{
 		m_fNowAttackTime = 0.f;
 		m_bAttackHitEnable = true;
+
+		m_pManagement->Stop_Sound(m_eChannel);
 	}
 
 	if (m_eAction != eAntLionAction::AttackA && m_eAction != eAntLionAction::AttackB) 
@@ -244,6 +289,24 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime, _uint iPatton)
 		m_eAction = (eAntLionAction)(rand() % 2 + (_uint)eAntLionAction::AttackB);
 		m_fAnimationSpeed = 1.0f;
 	}
+
+	if (m_ePatton == eAntLionPatton::PattonA)
+	{
+		switch (rand() % 3)
+		{
+		case 0:
+			m_pManagement->Play_Sound(L"antlion_attack_single1.wav", m_eChannel);
+			break;
+		case 1:
+			m_pManagement->Play_Sound(L"antlion_attack_single2.wav", m_eChannel);
+			break;
+		case 2:
+			m_pManagement->Play_Sound(L"antlion_attack_single3.wav", m_eChannel);
+			break;
+		}
+	}
+
+
 }
 
 void CEnemyAntLion::Do_Idle(_float fDeltaTime)
@@ -252,26 +315,36 @@ void CEnemyAntLion::Do_Idle(_float fDeltaTime)
 	m_bAttackHitEnable = false;
 	m_bState = true;
 
-	m_eAction = eAntLionAction::Idle;
 	m_fAnimationSpeed = 1.0f;
-
+	
+	m_eAction = eAntLionAction::Idle;
 	m_ePatton = eAntLionPatton::Idle;
+
 }
 
 void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 {
+
+
 	vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
 	if (m_eAction == eAntLionAction::Idle)
 	{
 		return;
 	}
 
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return;
+	}
+
+	pManagement->Play_Sound(L"antlion_digup1.wav", m_eChannel);
+
 	if (m_eAction == eAntLionAction::DigOut)
 	{
 		m_pTransformCom->Set_Pos(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) - (m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 8.5f / BASE_ENEMY_REDUCION_SIZE));
 	}
-	m_eAction = eAntLionAction::DigOut;
-	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::DigOut);
+	m_eAction = eAntLionAction::DigOut;	
 
 	if (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::DigOut && m_pMeshCom->End_AnimationSet())
 	{
@@ -279,6 +352,9 @@ void CEnemyAntLion::Do_Spawn(_float fDeltaTime)
 		m_pMeshCom->Force_Change_AnimationSet((_uint)eAntLionAction::Idle);		
 
 		m_pTransformCom->Set_Pos(vOriPos);
+
+		pManagement->Stop_Sound(m_eChannel);
+
 		m_bState = true;
 		
 	}
@@ -288,13 +364,25 @@ void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 {
 	m_eAction = eAntLionAction::RagDoll;
 
+	m_pManagement->Stop_Sound(m_eChannel);
+
+	switch (rand() % 2)
+	{
+	case 0:
+		m_pManagement->Play_Sound(L"antlion_pain1.wav", m_eChannel);
+		break;
+	case 1:
+		m_pManagement->Play_Sound(L"antlion_pain2.wav", m_eChannel);
+		break;
+	}
+
 	CDynamicObject::Do_Dead(fDeltaTime);
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 
 HRESULT CEnemyAntLion::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -320,6 +408,30 @@ HRESULT CEnemyAntLion::Add_Component(void)
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+
+	switch (rand() % 5)
+	{
+	case 1:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYA;
+		break;
+
+	case 2:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYB;
+		break;
+
+	case 3:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYC;
+		break;
+
+	case 4:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYD;
+		break;
+
+	default:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMY;
+		break;			
+	}
 
 	return S_OK;
 }

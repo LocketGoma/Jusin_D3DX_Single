@@ -81,7 +81,7 @@ _int CEnemyHunter::Update_GameObject(const _float& fDeltaTime)
 
 _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -198,6 +198,7 @@ _bool CEnemyHunter::End_Animation_State_Force()
 
 void CEnemyHunter::Go_Stright(_float fDeltaTime)
 {
+	m_pManagement->Play_Sound(L"ol01_hunterdoublestep.wav", m_eChannel);
 	m_eAction = eHunterAction::Walk_N;
 }
 
@@ -256,13 +257,13 @@ void CEnemyHunter::Do_Attack(_float fDeltaTime, _uint iPatton)
 	}
 	else if (m_eAction != eHunterAction::Hunter_Angry && m_bPattonLock)
 	{
-		auto pManagement = Engine::CManagement::Get_Instance();
+		Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 		if (pManagement == nullptr)
 		{
 			return;
 		}
-		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::ENEMY);
-		pManagement->Play_Sound(L"ol01_hunter_preattackvx.wav", Engine::SOUND_CHANNELID::ENEMY);
+		pManagement->Stop_Sound(m_eChannel);
+		pManagement->Play_Sound(L"ol01_hunter_preattackvx.wav", m_eChannel);
 
 		m_eAction = eHunterAction::Hunter_Angry;
 		m_ePatton = eHunterPatton::Idle;
@@ -282,12 +283,12 @@ void CEnemyHunter::Do_Attack(_float fDeltaTime, _uint iPatton)
 
 void CEnemyHunter::Do_Idle(_float fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return;
 	}
-	pManagement->Play_Sound(L"ol01_hunter_preattackvx02.wav", Engine::SOUND_CHANNELID::ENEMY);
+	pManagement->Play_Sound(L"ol01_hunter_preattackvx02.wav", m_eChannel);
 
 
 	m_eAction = eHunterAction::Idle;
@@ -349,7 +350,7 @@ void CEnemyHunter::PattonB()
 {
 	if (m_fNowAttackTime <= 0.f)
 	{	
-		auto pManagement = Engine::CManagement::Get_Instance();
+		Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 		if (pManagement == nullptr)
 		{
 			return;
@@ -378,6 +379,9 @@ void CEnemyHunter::PattonB()
 
 		if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 		{
+			pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTD);
+			pManagement->Play_Sound(L"ol01_hunter_impacts02.wav", Engine::SOUND_CHANNELID::EFFECTD);
+
 			m_bAttackHitEnable = true;
 		}
 		else
@@ -408,7 +412,7 @@ void CEnemyHunter::PattonC()
 			m_bShootLock = true;
 
 
-			auto pManagement = Engine::CManagement::Get_Instance();
+			Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 			if (pManagement == nullptr)
 			{
 				return;
@@ -436,8 +440,8 @@ void CEnemyHunter::PattonC()
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
-				pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTB);
-				pManagement->Play_Sound(L"ar2_fire1.wav", Engine::SOUND_CHANNELID::EFFECTB);
+				pManagement->Stop_Sound(m_eChannel);
+				pManagement->Play_Sound(L"ar2_fire1.wav", m_eChannel);
 
 				m_bAttackHitEnable = true;
 			}
@@ -466,7 +470,7 @@ void CEnemyHunter::PattonC()
 
 HRESULT CEnemyHunter::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -492,6 +496,29 @@ HRESULT CEnemyHunter::Add_Component()
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+	switch (rand() % 5)
+	{
+	case 1:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYA;
+		break;
+
+	case 2:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYB;
+		break;
+
+	case 3:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYC;
+		break;
+
+	case 4:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYD;
+		break;
+
+	default:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMY;
+		break;
+	}
 
 	return S_OK;
 }

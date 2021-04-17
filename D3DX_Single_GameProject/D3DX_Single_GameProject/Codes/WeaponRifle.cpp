@@ -22,6 +22,8 @@ CWeaponRifle::CWeaponRifle(_Device pDevice)
 	m_fFireInterval = ONEMINUTE / m_iROF;
 	m_fAltFireInterval = 0.6f;
 
+	m_fRecoilPower = 0.015f;
+
 	m_iPriDamage = 3;
 	m_iSecDamage = 100;
 }
@@ -59,7 +61,7 @@ _int CWeaponRifle::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponRifle::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -135,12 +137,13 @@ void CWeaponRifle::Draw_Weapon()
 	Set_Animation((_uint)eRifleAction::Draw);
 }
 
-void CWeaponRifle::Shoot_Weapon()
+_bool CWeaponRifle::Shoot_Weapon()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	_bool bResult = false;
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
-		return;
+		return false;
 	}
 
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
@@ -153,7 +156,7 @@ void CWeaponRifle::Shoot_Weapon()
 
 
 			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_PulseAmmo");
-			NULL_CHECK(pObject);
+			NULL_CHECK_RETURN(pObject,false);
 
 			_vec3 vPos, vDir;
 			_mat matWorld;
@@ -181,6 +184,8 @@ void CWeaponRifle::Shoot_Weapon()
 
 				Set_Animation((_uint)eRifleAction::Fire);
 				m_pEffect->Set_Visible(true);
+
+				bResult = true;
 			}
 			else
 			{
@@ -197,6 +202,7 @@ void CWeaponRifle::Shoot_Weapon()
 		}
 		m_fNowFItime = 0.f;
 	}	
+	return bResult;
 }
 
 void CWeaponRifle::AltShoot_Weapon()
@@ -207,7 +213,7 @@ void CWeaponRifle::AltShoot_Weapon()
 		m_bAltFire = true;
 		if (m_iAltAmmo != 0)
 		{
-			auto pManagement = Engine::CManagement::Get_Instance();
+			Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 			if (pManagement == nullptr)
 			{
 				return;
@@ -251,7 +257,7 @@ void CWeaponRifle::AltShoot_Weapon()
 
 bool CWeaponRifle::Reload_Weapon()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return false;
@@ -289,7 +295,7 @@ void CWeaponRifle::Holster_Weapon()
 
 HRESULT CWeaponRifle::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

@@ -38,7 +38,7 @@ HRESULT CMainStageC::Ready_Scene(void)
 	Add_Weapon_Layer(L"WeaponLayer");
 	Add_Environment_Layer(L"EnviromentLayer");
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -77,7 +77,7 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
 {
     CScene::LateUpdate_Scene(fDeltaTime);
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -97,7 +97,8 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
             CBaseObject* pObject = dynamic_cast<CBaseObject*>(iter.second);
             if (pObject != nullptr && pObject->Get_ObjectType() != eForceType::NONE)
             {
-                if (pObject->Check_RayCollision_By_CollisionSphere())                //충돌했으면
+                if (pObject->
+                    Check_RayCollision_By_CollisionSphere())                //충돌했으면
                 {
                     if (fBestRange >= pObject->Get_SupportUnit()->Get_Distance())   //물체 거리 재고
                     {
@@ -134,7 +135,28 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
     }
 
     //플레이어 - 몬스터 상호작용 판정 (일부에만 해당)
-
+    targetLayer = Get_Layer(L"EnemyLayer");
+    if (targetLayer != nullptr)
+    {
+        _float fBestRange = 9999.f;
+        for (auto& iter : *targetLayer->Get_ObjectLayer())
+        {
+            CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
+            if (pObject != nullptr)
+            {
+                pObject->Force_Update_Animation();
+                if (pObject->Check_RayCollision_By_CollisionSphere() && pObject->Get_ObjectType() != eForceType::NONE)                //충돌했으면
+                {
+                    if (fBestRange >= pObject->Get_SupportUnit()->Get_Distance())   //물체 거리 재고
+                    {
+                        fBestRange = pObject->Get_SupportUnit()->Get_Distance();    //더 가까우면 갱신
+                        pPlayer->Get_Pick_Object(pObject, fBestRange);
+                        bPick = true;
+                    }
+                }
+            }
+        }
+    }
 
     //최종 picking 판정
     if (bPick == false)
@@ -152,6 +174,25 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
             CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
             if (pObject != nullptr)
             {
+                pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
+
+                if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
+                {
+                    pPlayer->Hit_Attack(pObject->Get_Damage());
+                }
+            }
+        }
+
+    //플레이어 - 보스 충돌판정
+    targetLayer = Get_Layer(L"BossLayer");
+    if (targetLayer != nullptr)
+        for (auto& iter : *targetLayer->Get_ObjectLayer())
+        {
+            CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
+            if (pObject != nullptr)
+            {
+                pObject->Force_Update_Animation();
+
                 pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
 
                 if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
@@ -202,7 +243,7 @@ HRESULT CMainStageC::Add_Player_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     NULL_CHECK_RETURN(pManagement, E_FAIL);
 
     pGameObject = pManagement->Clone_GameObject(L"Player");
@@ -230,7 +271,7 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -271,7 +312,7 @@ HRESULT CMainStageC::Add_Boss_Layer(const _tchar* pLayerTag)
     Engine::CLayer* pLayer = Engine::CLayer::Create();
 
     Engine::CGameObject* pGameObject = nullptr;
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -306,7 +347,7 @@ HRESULT CMainStageC::Add_Environment_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;

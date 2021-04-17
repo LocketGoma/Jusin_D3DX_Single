@@ -46,6 +46,14 @@ HRESULT CMainStageA::Ready_Scene(void)
 	Add_Weapon_Layer(L"WeaponLayer");
 	Add_Environment_Layer(L"EnviromentLayer");
 
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return E_FAIL;
+	}
+	pManagement->Stop_AllSound();
+	pManagement->Play_BGM(L"wind_med2.wav");
+
 	return S_OK;
 }
 
@@ -94,6 +102,21 @@ _int CMainStageA::Update_Scene(const _float& fDeltaTime)
 	}
 
 
+	//사운드 관련
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	if (rand() % 200 < 1)
+	{	
+		pManagement->Play_Sound(L"alert1.wav", Engine::SOUND_CHANNELID::EFFECTE);;
+	}
+
+	
+
+
 	return NO_EVENT;
 }
 
@@ -106,7 +129,7 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 
 	CScene::LateUpdate_Scene(fDeltaTime);
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return E_FAIL;
@@ -181,6 +204,7 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 			CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
 			if (pObject != nullptr)
 			{
+				pObject->Force_Update_Animation();
 				pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
 
 				if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
@@ -225,11 +249,19 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 				}
 			}
 		}
-
 	if (m_bChangeScene == true)
 	{
 		Change_Scene(ESceneType::SCENE_STAGE1);
 	}
+
+
+
+
+
+
+
+
+
 	return NO_EVENT;
 }
 
@@ -250,7 +282,7 @@ HRESULT CMainStageA::Add_Player_Layer(const _tchar* pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return E_FAIL;
@@ -280,7 +312,7 @@ HRESULT CMainStageA::Add_Enemy_Layer(const _tchar* pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return E_FAIL;
@@ -331,7 +363,7 @@ HRESULT CMainStageA::Add_Object_Layer(const _tchar* pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return E_FAIL;
@@ -354,7 +386,7 @@ HRESULT CMainStageA::Add_ColiderBox_Layer(const _tchar* pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return E_FAIL;
@@ -376,7 +408,7 @@ HRESULT CMainStageA::Add_Environment_Layer(const _tchar* pLayerTag)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (pManagement == nullptr)
 	{
 		return E_FAIL;

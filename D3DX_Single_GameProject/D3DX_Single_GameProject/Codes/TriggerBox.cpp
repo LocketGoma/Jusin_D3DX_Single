@@ -93,7 +93,7 @@ _int CTriggerBox::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	if (g_bViewCollider == true)
 	{
-		auto pManagement = Engine::CManagement::Get_Instance();
+		Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 		if (nullptr == pManagement)
 		{
 			return MANAGER_OUT;
@@ -175,7 +175,7 @@ Engine::CGameObject* CTriggerBox::Clone(void* pArg)
 
 HRESULT CTriggerBox::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -240,7 +240,7 @@ _bool CTriggerBox::Check_Collision(const _vec3* pSourcePos, const _float fSource
 
 	return bReturn;
 }
-
+//°íÄ¡¼À
 _vec3* CTriggerBox::Check_Passed(_vec3* pSourcePos)
 {
 	if (m_ePassType == ePassType::COL_PASSED)

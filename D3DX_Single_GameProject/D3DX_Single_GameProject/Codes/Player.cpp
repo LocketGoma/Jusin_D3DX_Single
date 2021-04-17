@@ -31,7 +31,7 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_bShootState(false)
 	, m_fInteractionRange(15.f)
 	, m_iFullHP(100)
-	, m_iShieldFullHP(100)
+	, m_iShieldFullHP(6)
 	, m_fHitboxSize(5.0f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(10.f)
@@ -41,6 +41,9 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_fGravition(9.8f)
 	, m_bJump(false)
 	, m_bJumpStart(false)
+	, m_bSprint(false)
+	, m_bLowHP(false)
+
 	
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
@@ -60,7 +63,7 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_bShootState(false)
 	, m_fInteractionRange(other.m_fInteractionRange)
 	, m_iFullHP(other.m_iFullHP)
-	, m_iShieldFullHP(100)
+	, m_iShieldFullHP(other.m_iShieldFullHP)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(other.m_fWalkSpeed)
@@ -70,6 +73,8 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_fGravition(other.m_fGravition)
 	, m_bJump(false)
 	, m_bJumpStart(false)
+	, m_bSprint(false)
+	, m_bLowHP(false)
 {
 	ZeroMemory(&m_pWeapon, sizeof(void*) * (_uint)eWeaponType::WEAPON_END);
 
@@ -98,7 +103,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 {	
 	Engine::CGameObject::Update_GameObject(fDeltaTime* DEBUG_TIMESPEED);
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -114,7 +119,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 {
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -179,6 +184,40 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 	}
 
 	m_pPrevWeaponType = m_pWeaponType;
+
+
+	// 기타 효과음
+	if (m_iShieldHP == 5 && m_bLowShield == false)
+	{
+		m_bLowShield = true;
+		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::PLAYERSUIT);
+		pManagement->Play_Sound(L"hev_0p.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+	}
+	else if (m_iShieldFullHP > 5)
+	{
+		m_bLowShield = false;
+	}
+
+	if (m_bLowHP == true && !pManagement->Check_PlaySound(Engine::SOUND_CHANNELID::PLAYERSUIT))
+	{
+		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::PLAYERSUIT);
+		switch(rand() % 4)
+		{
+			case 0:
+				pManagement->Play_Sound(L"hev_hlth2.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+				break;
+			case 1:
+				pManagement->Play_Sound(L"hev_hlth3.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+				break;
+			case 2:
+				pManagement->Play_Sound(L"hev_hlth5.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+				break;
+			case 3:
+				pManagement->Play_Sound(L"hev_hlth6.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+				break;
+		}
+		m_bLowHP = false;
+	}
 
 
 	return NO_EVENT;
@@ -309,8 +348,52 @@ _uint CPlayer::Get_ShieldHP()
 
 _bool CPlayer::HurtState()
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return false;
+	}
+
 	if (m_ibHP > m_iHP || m_ibShieldHP > m_iShieldHP)
 	{
+		if (m_iShieldHP == 0)
+		{
+			switch (rand() % 3)
+			{
+			case 0:
+				pManagement->Play_Sound(L"hev_dmg2.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+				break;
+			case 1:
+				pManagement->Play_Sound(L"hev_dmg4.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+				break;
+			case 2:
+				pManagement->Play_Sound(L"hev_dmg6.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+				break;
+			}
+
+			if (m_iHP < 45)
+			{
+				m_bLowHP = true;
+			}
+		}
+
+		switch (rand() % 4)
+		{
+		case 0:
+			pManagement->Play_Sound(L"pl_fallpain1.wav", Engine::SOUND_CHANNELID::PLAYER);
+			break;
+		case 1:
+			pManagement->Play_Sound(L"pl_pain5.wav", Engine::SOUND_CHANNELID::PLAYER);
+			break;
+		case 2:
+			pManagement->Play_Sound(L"pl_pain6.wav", Engine::SOUND_CHANNELID::PLAYER);
+			break;
+		case 3:
+			pManagement->Play_Sound(L"pl_pain7.wav", Engine::SOUND_CHANNELID::PLAYER);
+			break;
+		}
+
+
 		m_ibHP = m_iHP;
 		m_ibShieldHP = m_iShieldHP;
 
@@ -333,7 +416,7 @@ _float CPlayer::Get_RecoilPower()
 
 HRESULT CPlayer::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -389,18 +472,8 @@ HRESULT CPlayer::Print_TestUI()
 	{
 		return E_FAIL;
 	}
-	//_tchar m_szHP[256];
-	//_tchar m_szAmmo[256];
+
 	_tchar m_szPos[256];
-
-	//if (m_pWeaponType != eWeaponType::WEAPON_CROWBAR && m_pWeaponType != eWeaponType::WEAPON_PHYCANNON && m_pWeaponType != eWeaponType::WEAPON_END)
-	//{
-	//	wsprintf(m_szAmmo, L"%d / %d", m_pWeapon[(_uint)m_pWeaponType]->Get_MagAmmo(), m_pWeapon[(_uint)(_uint)m_pWeaponType]->Get_RemainAmmo());
-	//	pManagement->Render_Font(L"Font_BASE", m_szAmmo, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY - 20), D3DXCOLOR(1.0f, 1.0f, 1.f, 1.0f));
-	//}
-
-	//wsprintf(m_szHP, L"HP : %d", m_iHP);
-	//pManagement->Render_Font(L"Font_BASE", m_szHP, &_vec2((WINCX >> 1) + (WINCX >> 2), WINCY-60), D3DXCOLOR(0.8f, 0.8f, 0.1f, 1.0f));
 
 	_vec3 vPos = Get_Position();
 	_stprintf_s(m_szPos, L"x : %f \ny :%f \nz : %f", vPos.x,vPos.y,vPos.z);
@@ -440,10 +513,19 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	}
 	if (pManagement->Key_Pressing(VK_LSHIFT))
 	{
+		if (m_bSprint == false)
+		{
+			pManagement->Stop_Sound(Engine::SOUND_CHANNELID::PLAYERSUIT);
+			pManagement->Play_Sound(L"suit_sprint.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+		
+			m_bSprint = true;
+		}
+
 		m_fNowMoveSpeed = m_fRunSpeed;
 	}
 	else
 	{
+		m_bSprint = false;
 		m_fNowMoveSpeed = m_fWalkSpeed;
 	}	
 	if (pManagement->Key_Pressing(VK_SPACE))
@@ -463,8 +545,7 @@ void CPlayer::Key_Input(const _float& fDeltaTime)
 	m_bShootState = false;
 	if (pManagement->Key_Pressing(VK_LBUTTON))
 	{
-		m_pWeapon[(_uint)m_pWeaponType]->Shoot_Weapon();
-		m_bShootState = true;
+		m_bShootState = m_pWeapon[(_uint)m_pWeaponType]->Shoot_Weapon();		
 	}	
 	if (pManagement->Key_Down(VK_RBUTTON))
 	{

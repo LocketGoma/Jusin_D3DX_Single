@@ -16,6 +16,8 @@ CWeaponShotgun::CWeaponShotgun(_Device pDevice)
 	m_fFireInterval = ONEMINUTE / m_iROF;
 	m_fAltFireInterval = 0.8f;
 
+	m_fRecoilPower = 0.075f;
+
 	m_fReloadTime = 0.9f;
 	m_fReloadActionTime = 0.0f;
 
@@ -58,7 +60,7 @@ _int CWeaponShotgun::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponShotgun::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -123,8 +125,10 @@ void CWeaponShotgun::Draw_Weapon()
 {
 }
 
-void CWeaponShotgun::Shoot_Weapon()
+_bool CWeaponShotgun::Shoot_Weapon()
 {
+	_bool bResult = false;
+
 	m_bReloading = false;
 
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
@@ -135,6 +139,7 @@ void CWeaponShotgun::Shoot_Weapon()
 		{
 			m_iMagAmmo--;
 			Set_Animation((_uint)eShotgunAction::Fire);
+			bResult = true;
 		}
 		else
 		{
@@ -142,6 +147,7 @@ void CWeaponShotgun::Shoot_Weapon()
 		}
 		m_fNowFItime = 0.f;
 	}
+	return bResult;
 }
 
 void CWeaponShotgun::AltShoot_Weapon()
@@ -239,7 +245,7 @@ void CWeaponShotgun::Change_Weapon()
 
 HRESULT CWeaponShotgun::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

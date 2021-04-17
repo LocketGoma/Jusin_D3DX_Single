@@ -68,7 +68,7 @@ HRESULT CTestMapObject::Render_GameObject(void)
 
 HRESULT CTestMapObject::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

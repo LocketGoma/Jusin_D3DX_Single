@@ -116,7 +116,7 @@ _int CBossStrider::Update_GameObject(const _float& fDeltaTime)
 
 _int CBossStrider::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -269,6 +269,8 @@ void CBossStrider::Do_Attack(_float fDeltaTime, _uint iPatton)
 
 	if (m_bPattonLock)
 	{
+		m_pManagement->Play_Sound(L"striderx_alert2.wav", Engine::SOUND_CHANNELID::BOSS);
+
 		m_fPattonCooltime += fDeltaTime;
 	}
 
@@ -417,7 +419,7 @@ void CBossStrider::PattonB()
 				m_bShootLock = true;
 
 
-				auto pManagement = Engine::CManagement::Get_Instance();
+				Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 				if (pManagement == nullptr)
 				{
 					return;
@@ -520,7 +522,7 @@ void CBossStrider::PattonC()
 			if (m_fTripleShootTime <= 0.f)
 			{
 				//shoot
-				auto pManagement = Engine::CManagement::Get_Instance();
+				Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 				if (pManagement == nullptr)
 				{
 					return;
@@ -653,7 +655,7 @@ void CBossStrider::PattonD()
 
 			if (m_fSummonCooltime <= 0.f)
 			{
-				auto pManagement = Engine::CManagement::Get_Instance();
+				Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 				if (pManagement == nullptr)
 				{
 					return;
@@ -720,7 +722,7 @@ void CBossStrider::PattonE()
 
 HRESULT CBossStrider::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

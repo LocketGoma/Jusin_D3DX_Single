@@ -69,7 +69,7 @@ _int CStaticNormalObject::Update_GameObject(const _float& fDeltaTime)
 
 _int CStaticNormalObject::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -109,7 +109,7 @@ HRESULT CStaticNormalObject::Render_GameObject(void)
 
 HRESULT CStaticNormalObject::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

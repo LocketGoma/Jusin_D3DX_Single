@@ -34,7 +34,7 @@ _int CCrossHairUI::Update_GameObject(const _float& fDeltaTime)
 
 _int CCrossHairUI::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

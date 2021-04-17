@@ -20,8 +20,8 @@ CPlayerWeapon::CPlayerWeapon(_Device pDevice)
 	, m_fAltFireInterval(0.f)
 	, m_iPriDamage(0)
 	, m_iSecDamage(0)
-	, m_fRecoilPower(0.045f)
-{
+	, m_fRecoilPower(0.025f)
+{        
 	m_bIsPrototype = true;
 }
 
@@ -30,6 +30,7 @@ CPlayerWeapon::CPlayerWeapon(const CPlayerWeapon& other)
 	, m_pMeshCom(other.m_pMeshCom)
 	, m_iMainAmmo(other.m_iMainAmmo)
 	, m_iAltAmmo(other.m_iAltAmmo)
+	, m_iMaxAmmo(other.m_iMaxAmmo)
 	, m_iMaxMagAmmo(other.m_iMaxMagAmmo)
 	, m_iMagAmmo(other.m_iMaxMagAmmo)
 	, m_iMaxAltAmmo(other.m_iMaxAltAmmo)

@@ -58,6 +58,14 @@ void CSoundManager::PlayBGM(TCHAR* pSoundKey)
 	FMOD_System_Update(m_pSystem);
 }
 
+bool CSoundManager::Check_PlaySound(SOUND_CHANNELID eID)
+{
+	FMOD_BOOL bPlay = FALSE;
+	FMOD_Channel_IsPlaying(m_pChannelArr[(_uint)eID], &bPlay);
+
+	return bPlay;
+}
+
 void CSoundManager::StopSound(SOUND_CHANNELID eID)
 {
 	FMOD_Channel_Stop(m_pChannelArr[_uint(eID)]);

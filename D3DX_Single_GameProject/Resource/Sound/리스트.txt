@@ -9,3 +9,22 @@ ar2_어쩌고 : 딱 보면 보이듯이... 펄스라이플 관련
 mh_어쩌고 : 맨핵 관련
 strider_ : 스트라이더 관련
 ol01_hunter_ : 헌터 관련
+dirt1~4 : 발소리...
+suit_sprint : 달리기
+pl_pain5~7 + pl_fallpain1 : 피격음
+hev_0p : HEV 체력 부족시 경고음
+hev_dmg0~6 : HP 피해시 효과음 (0,1 : 열상 (총알 피격시))
+hev_hlth22~6 : HP 피해 심각시 효과음
+wind_med1~2 : 바람소리
+smg1_어쩌고 : 슴지 사운드
+pistol_어쩌고 : 권총 사운드
+attack_single1~3 : 개미귀신 공격사운드
+antlion_Pain1~2 : 개미귀신 피격사운드
+antlion_digup1 : 개미귀신 등장 사운드 (스폰)
+
+
+--중력건--
+energy_disintegrate4,5 : 중력건 발사
+physcannon_drop : 물건 들었다 놓기
+physcannon_dryfire : 잡으려는데 대상 없음
+physcannon_pickup : 물건 집음

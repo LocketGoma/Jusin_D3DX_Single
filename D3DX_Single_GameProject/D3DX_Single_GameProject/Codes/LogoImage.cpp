@@ -28,7 +28,7 @@ _int CLogoImage::Update_GameObject(const _float& fDeltaTime)
 
 _int CLogoImage::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;
@@ -72,7 +72,7 @@ HRESULT CLogoImage::Render_GameObject(void)
 
 HRESULT CLogoImage::Add_Component(void)
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;

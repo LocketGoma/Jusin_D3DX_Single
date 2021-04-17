@@ -54,7 +54,7 @@ _int CWeaponSMG::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponSMG::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -127,8 +127,10 @@ void CWeaponSMG::Draw_Weapon()
 {
 }
 
-void CWeaponSMG::Shoot_Weapon()
+_bool CWeaponSMG::Shoot_Weapon()
 {
+	_bool bResult = false;
+
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
 		m_pEffect->Set_Visible(false);
@@ -136,14 +138,14 @@ void CWeaponSMG::Shoot_Weapon()
 		if (m_iMagAmmo != 0)
 		{
 			//-------------------총알 발사파트
-			auto pManagement = Engine::CManagement::Get_Instance();
+			Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 			if (pManagement == nullptr)
 			{
-				return;
+				return false;
 			}
 
 			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_BasicAmmo");
-			NULL_CHECK(pObject);
+			NULL_CHECK_RETURN(pObject,false);
 
 			_vec3 vPos, vDir;
 			_mat matWorld;
@@ -164,10 +166,15 @@ void CWeaponSMG::Shoot_Weapon()
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
+				pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+				pManagement->Play_Sound(L"smg1_fire1.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
 				m_iMagAmmo--;
 
 				Set_Animation((rand() % 4 + (_uint)eSMGAction::Fire4));
 				m_pEffect->Set_Visible(true);
+
+				bResult = true;
 			}
 			else
 			{
@@ -178,6 +185,7 @@ void CWeaponSMG::Shoot_Weapon()
 		}
 		m_fNowFItime = 0.f;
 	}
+	return bResult;
 }
 
 void CWeaponSMG::AltShoot_Weapon()
@@ -201,6 +209,13 @@ void CWeaponSMG::AltShoot_Weapon()
 
 bool CWeaponSMG::Reload_Weapon()
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return false;
+	}
+
+
 	if (m_iMainAmmo == 0)
 		return false;
 
@@ -209,7 +224,13 @@ bool CWeaponSMG::Reload_Weapon()
 		m_iMainAmmo--;
 		m_iMagAmmo++;
 	}
+	
+	pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+	pManagement->Play_Sound(L"ar2_reload.wav", Engine::SOUND_CHANNELID::EFFECTA);
+	
 	Set_Animation((_uint)eSMGAction::Reload);
+
+
 
 	return true;
 
@@ -231,7 +252,7 @@ void CWeaponSMG::Change_Weapon()
 
 HRESULT CWeaponSMG::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

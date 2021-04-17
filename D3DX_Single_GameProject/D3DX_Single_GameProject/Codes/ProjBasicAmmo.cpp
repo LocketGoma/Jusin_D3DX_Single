@@ -63,7 +63,7 @@ _int CProjBasicAmmo::Update_GameObject(const _float& fDeltaTime)
 
 _int CProjBasicAmmo::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -144,7 +144,7 @@ HRESULT CProjBasicAmmo::Render_GameObject(void)
 
 HRESULT CProjBasicAmmo::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

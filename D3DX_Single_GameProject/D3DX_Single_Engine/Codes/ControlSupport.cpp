@@ -343,6 +343,79 @@ _bool CControlSupportUnit::Picking_Object_Collider(HWND hWnd, const CSphereColli
 
     return bResult;
 }
+_bool CControlSupportUnit::Picking_Object_Collider(HWND hWnd, const CSphereCollider* pMesh, const _vec3& pVPos)
+{
+    BOOL bResult = false;
+    m_fDistance = -1.f;
+
+    POINT ptMouse{};
+
+    GetCursorPos(&ptMouse);
+    ScreenToClient(hWnd, &ptMouse);
+
+    _vec3 vMousePos;
+
+    //뷰포트 획득
+    D3DVIEWPORT9 pViewPort;
+    ZeroMemory(&pViewPort, sizeof(_D3DVIEWPORT9));
+    m_pDevice->GetViewport(&pViewPort);
+
+    //윈도우 좌표 -> 투영 좌표
+    vMousePos.x = ptMouse.x / (pViewPort.Width * 0.5f) - 1.f;
+    vMousePos.y = ptMouse.y / -(pViewPort.Height * 0.5f) + 1.f;
+    vMousePos.z = 0.f;
+
+    //투영 좌표 -> 뷰 좌표
+    _mat matProj;
+    m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+    D3DXMatrixInverse(&matProj, NULL, &matProj);
+    D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+    //이 시점에 마우스 좌표는 뷰에 있음.
+
+    //뷰 좌표 -> 월드 좌표
+    _mat matView;
+    m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixInverse(&matView, NULL, &matView);
+
+
+    //RayPos : 레이 스타트 / RayDir : 레이 방향
+    _vec3 vRayPos, vRayDir;
+    _vec3 vPos;
+
+    vRayPos = _vec3(0.f, 0.f, 0.f); //레이 시작 : 화면 중점
+    vRayDir = vMousePos - vRayPos; //레이 방향 : 마우스 클릭위치
+
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+    vPos = vRayPos;
+
+    //월드 -> 로컬
+    //사유 : 버텍스 정보는 로컬정보니까.
+    _mat matWorld, matPos;
+    D3DXMatrixIdentity(&matWorld);
+    D3DXMatrixTranslation(&matPos, pVPos.x, pVPos.y, pVPos.z);
+    matWorld *= matPos;
+    D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+
+    //Coord : 위치 / Normal : 방향
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+
+    LPD3DXMESH* meshData = const_cast<LPD3DXMESH*>(pMesh->Get_Mesh());
+
+
+    _float fU, fV, fDist;
+    D3DXIntersect(*meshData, &vRayPos, &vRayDir, &bResult, nullptr, &fU, &fV, &fDist, nullptr, nullptr);
+
+
+    _vec3 vRange = vPos - pVPos;
+    m_fDistance = D3DXVec3Length(&vRange);
+
+    return bResult;
+}
+
 
 _bool CControlSupportUnit::Picking_Object_Collider(HWND hWnd, const CSphereCollider* pMesh, const CTransform* pTransform)
 {

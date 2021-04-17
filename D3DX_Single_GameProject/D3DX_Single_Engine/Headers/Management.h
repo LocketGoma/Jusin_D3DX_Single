@@ -86,9 +86,9 @@ public:
 	HRESULT		Ready_MRT(const _tchar * pMRTTag, const _tchar * pTargetTag);
 	HRESULT		Begin_MRT(const _tchar * pMRTTag);
 	HRESULT		End_MRT(const _tchar * pMRTTag);
-	HRESULT			Ready_DebugBuffer(const _tchar * pTargetTag, const _float & fX, const _float & fY, const _float & fSizeX, const _float & fSizeY);
-	void			Render_DebugBuffer(const _tchar * pMRTTag);
-	void			SetUp_OnShader(LPD3DXEFFECT & pEffect, const _tchar * pTargetTag, const char* pConstantTable);
+	HRESULT		Ready_DebugBuffer(const _tchar * pTargetTag, const _float & fX, const _float & fY, const _float & fSizeX, const _float & fSizeY);
+	void		Render_DebugBuffer(const _tchar * pMRTTag);
+	void		SetUp_OnShader(LPD3DXEFFECT & pEffect, const _tchar * pTargetTag, const char* pConstantTable);
 
 
 
@@ -119,6 +119,7 @@ public:
 	HRESULT Load_Sound(char* szFilePath, char* szFileName);
 	HRESULT Load_Sounds();
 	HRESULT Play_Sound(TCHAR * FileName, SOUND_CHANNELID ChannelID);
+	bool Check_PlaySound(SOUND_CHANNELID ChannelID);
 	HRESULT Stop_Sound(SOUND_CHANNELID ChannelID);
 	HRESULT Play_BGM(TCHAR * FileName);
 	HRESULT Stop_AllSound();

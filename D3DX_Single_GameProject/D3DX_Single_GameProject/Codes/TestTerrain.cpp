@@ -97,7 +97,7 @@ _vec3 CTestTerrain::Get_Size()
 
 HRESULT CTestTerrain::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

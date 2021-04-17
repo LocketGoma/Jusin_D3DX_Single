@@ -96,6 +96,9 @@ protected:
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	Engine::CSphereCollider* m_pColliderCom = nullptr;
 
+	Engine::CManagement* m_pManagement = nullptr;
+	
+
 };
 
 

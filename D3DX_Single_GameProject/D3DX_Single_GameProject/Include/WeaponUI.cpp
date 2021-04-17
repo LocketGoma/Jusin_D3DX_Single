@@ -48,7 +48,7 @@ _int CWeaponUI::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponUI::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;
@@ -97,8 +97,8 @@ HRESULT CWeaponUI::Render_GameObject(void)
         if (m_iWeaponNumber == i)
         {
             m_fStartX += m_vOpenSize.x/3;
-            Set_EffectPosition(m_vOpenSize, _vec3(m_fStartX, m_fStartY-m_vOpenSize.y/3.5, 0.f));
-            m_fStartX += m_vOpenSize.x/1.8;
+            Set_EffectPosition(m_vOpenSize, _vec3(m_fStartX, m_fStartY-m_vOpenSize.y/3.5f, 0.f));
+            m_fStartX += m_vOpenSize.x/1.8f;
 
 
         }
@@ -283,7 +283,7 @@ void CWeaponUI::Print_Weapon(_uint iType, _vec2 vPostion)
 
 HRESULT CWeaponUI::Add_Component()
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;

@@ -45,7 +45,7 @@ _int CTestPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pTransformCom->Update_Component(fDeltaTime);
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -97,7 +97,7 @@ _vec3 CTestPlayer::Get_Size()
 
 HRESULT CTestPlayer::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -129,7 +129,7 @@ HRESULT CTestPlayer::Add_Component(void)
 
 void CTestPlayer::Key_Input(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return;

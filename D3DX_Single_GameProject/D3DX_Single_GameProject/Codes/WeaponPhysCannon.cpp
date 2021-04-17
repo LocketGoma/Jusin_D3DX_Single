@@ -12,7 +12,7 @@ CWeaponPhysCannon::CWeaponPhysCannon(_Device pDevice)
 	, m_fGrapGap(5.5f)
 	, m_eAction(ePhysAction::Idle)
 	, m_bShootLock(true)
-{
+{	
 }
 
 CWeaponPhysCannon::CWeaponPhysCannon(const CWeaponPhysCannon& other)
@@ -71,7 +71,7 @@ _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponPhysCannon::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -108,10 +108,29 @@ void CWeaponPhysCannon::Draw_Weapon()
 	Set_Animation((_uint)ePhysAction::Draw);
 }
 
-void CWeaponPhysCannon::Shoot_Weapon()
+_bool CWeaponPhysCannon::Shoot_Weapon()
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return false;
+	}
+
 	if (m_bShootLock == true)
 	{
+		if (m_pTarget != nullptr || m_pLookTarget != nullptr)
+		{
+			pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+			if (rand() % 2 == 0)
+			{
+				pManagement->Play_Sound(L"energy_disintegrate4.wav", Engine::SOUND_CHANNELID::EFFECTA);
+			}
+			else
+			{
+				pManagement->Play_Sound(L"energy_disintegrate4.wav", Engine::SOUND_CHANNELID::EFFECTA);
+			}
+		}
+
 		if (m_pTarget != nullptr)
 		{
 			m_pTarget->Set_Direction(m_vDir);
@@ -125,13 +144,24 @@ void CWeaponPhysCannon::Shoot_Weapon()
 			m_pLookTarget->Set_Speed(25.f);
 		}
 		m_bShootLock = false;
+
+
+
+		return true;
 	}
+	return false;
 }
 
 
 
 void CWeaponPhysCannon::AltShoot_Weapon()
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return;
+	}
+
 	//집고있는게 없을때 (잡기)
 	if (m_pTarget == nullptr && m_pLookTarget!=nullptr)
 	{
@@ -144,6 +174,9 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 		m_pTarget->Set_Speed(0.f);
 		m_eAction = ePhysAction::Hold_Idle;
 
+		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+		pManagement->Play_Sound(L"physcannon_pickup.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
 	}
 	//뭔가 집고 있을때 (놓기)
 	else if (m_pTarget != nullptr)
@@ -153,7 +186,16 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 
 		m_pTarget = nullptr;		
 		m_eAction = ePhysAction::Idle;		
+
+		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+		pManagement->Play_Sound(L"physcannon_drop.wav", Engine::SOUND_CHANNELID::EFFECTA);
 	}
+	else
+	{
+		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+		pManagement->Play_Sound(L"physcannon_dryfire.wav", Engine::SOUND_CHANNELID::EFFECTA);
+	}
+
 	m_pLookTarget = nullptr;
 }
 
@@ -180,7 +222,7 @@ void CWeaponPhysCannon::Change_Weapon()
 
 HRESULT CWeaponPhysCannon::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

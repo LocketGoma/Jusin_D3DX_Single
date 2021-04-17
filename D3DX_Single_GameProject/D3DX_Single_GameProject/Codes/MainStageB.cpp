@@ -71,7 +71,7 @@ _int CMainStageB::LateUpdate_Scene(const _float& fDeltaTime)
 {
     CScene::LateUpdate_Scene(fDeltaTime);
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -196,7 +196,7 @@ HRESULT CMainStageB::Add_Player_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     NULL_CHECK_RETURN(pManagement, E_FAIL);
 
     pGameObject = pManagement->Clone_GameObject(L"Player");
@@ -224,7 +224,7 @@ HRESULT CMainStageB::Add_Object_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -245,7 +245,7 @@ HRESULT CMainStageB::Add_Environment_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -288,7 +288,7 @@ HRESULT CMainStageB::Add_Enemy_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;

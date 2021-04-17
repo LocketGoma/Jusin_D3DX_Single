@@ -361,6 +361,11 @@ HRESULT CManagement::Play_Sound(TCHAR* FileName, SOUND_CHANNELID ChannelID)
 	return S_OK;
 }
 
+bool CManagement::Check_PlaySound(SOUND_CHANNELID ChannelID)
+{
+	return m_pSoundManager->Check_PlaySound(ChannelID);
+}
+
 HRESULT CManagement::Stop_Sound(SOUND_CHANNELID ChannelID)
 {
 	if (m_pSoundManager == nullptr)

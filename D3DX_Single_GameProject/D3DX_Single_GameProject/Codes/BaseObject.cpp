@@ -20,6 +20,8 @@ CBaseObject::CBaseObject(_Device pDevice)
 	, m_fGravitionSpeed(0.f)
 {
 	m_bIsPrototype = true;
+
+	m_pManagement = Engine::CManagement::Get_Instance();
 }
 
 CBaseObject::CBaseObject(const CBaseObject& other)
@@ -34,8 +36,9 @@ CBaseObject::CBaseObject(const CBaseObject& other)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fGravitionPower(other.m_fGravitionPower)
 	, m_fGravitionSpeed(other.m_fGravitionSpeed)
+	, m_pManagement(other.m_pManagement)
 {
-	Safe_AddReference(m_pDevice);
+	Safe_AddReference(m_pDevice);	
 	m_bIsPrototype = false;
 
 	if (m_fLifeTime < 0.f)
@@ -156,7 +159,7 @@ void CBaseObject::Free(void)
 	if (m_bIsPrototype == false)
 	{
 		Safe_Release(m_pDevice);
-	}
+	}	
 
 	Engine::CGameObject::Free();
 }

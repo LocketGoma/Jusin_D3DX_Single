@@ -22,6 +22,7 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_bStartMove(false)
 	, m_vCorePos(_vec3(0.f,0.f,0.f))
 	, m_bState(true)
+	, m_eChannel(Engine::SOUND_CHANNELID::ENEMY)
 {
 	m_iHP = m_iMaxHP;
 	m_eForceType = eForceType::NONE;
@@ -45,6 +46,7 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_bStartMove(false)
 	, m_vCorePos(other.m_vCorePos)
 	, m_bState(other.m_bState)
+	, m_eChannel(other.m_eChannel)
 {
 }
 //얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
@@ -128,7 +130,7 @@ _bool CDynamicObject::Check_RayCollision()
 
 _bool CDynamicObject::Check_RayCollision_By_CollisionSphere()
 {
-	if (m_pSupportCom->Picking_Object_Collider(g_hWnd, m_pColliderCom, m_pTransformCom))
+	if (m_pSupportCom->Picking_Object_Collider(g_hWnd, m_pColliderCom, m_vCorePos))
 	{
 		eType = Engine::COLIDETYPE::COL_INRANGE;
 		return true;
@@ -154,8 +156,6 @@ void CDynamicObject::Free(void)
 
 void CDynamicObject::Do_Dead(_float fDeltaTime)
 {
-
-
 	this->Set_Dead();
 }
 

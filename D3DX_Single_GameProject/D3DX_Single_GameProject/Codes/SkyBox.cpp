@@ -52,7 +52,7 @@ _int CSkyBox::LateUpdate_GameObject(const _float& fDeltaTime)
 {
     m_pTransformCom->Update_Component(fDeltaTime);
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;
@@ -111,7 +111,7 @@ _vec3 CSkyBox::Get_Size()
 
 HRESULT CSkyBox::Add_Component()
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return E_FAIL;

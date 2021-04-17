@@ -10,6 +10,7 @@ BEGIN_NAMESPACE(Engine)
 
 //BGM : 배경음
 //PLAYER : 플레이어 피격음 / 환경음 (삐익 등)
+//PLAYERSUIT : HEV 보호복 효과음
 //ENEMY : 몬스터 (키에엑 소리)
 //ENEMYA,B,C,D,E : 몬스터 (키에엑 소리) (환경음 추가용)
 //BOSS : 보스 (키에엑 소리)
@@ -18,7 +19,7 @@ BEGIN_NAMESPACE(Engine)
 //EFFECTB : 총알 소리
 //EFFECTC : 피격 / 폭발소리
 //UI : UI 전환 사운드
-enum class SOUND_CHANNELID { BGM, PLAYER, ENEMY, ENEMYA, ENEMYB, ENEMYC, ENEMYD, ENEMYE, BOSS, ENEMYDEAD, EFFECTA, EFFECTB, EFFECTC, EFFECTD, EFFECTE, UI, MAXCHANNEL };
+enum class SOUND_CHANNELID { BGM, PLAYER, PLAYERSUIT,ENEMY, ENEMYA, ENEMYB, ENEMYC, ENEMYD, ENEMYE, BOSS, ENEMYDEAD, EFFECTA, EFFECTB, EFFECTC, EFFECTD, EFFECTE, UI, MAXCHANNEL };
 
 class ENGINE_DLL CSoundManager : public CBase
 {
@@ -34,6 +35,7 @@ public:
 public:
 	void PlaySound(TCHAR* pSoundKey, SOUND_CHANNELID eID);
 	void PlayBGM(TCHAR* pSoundKey);
+	bool Check_PlaySound(SOUND_CHANNELID eID);
 	void StopSound(SOUND_CHANNELID eID);
 	void StopAll();
 

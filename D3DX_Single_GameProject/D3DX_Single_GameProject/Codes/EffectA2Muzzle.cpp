@@ -34,7 +34,7 @@ _int CEffectA2Muzzle::Update_GameObject(const _float& fDeltaTime)
 
 _int CEffectA2Muzzle::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;
@@ -76,7 +76,7 @@ HRESULT CEffectA2Muzzle::Render_GameObject(void)
 
 HRESULT CEffectA2Muzzle::Add_Component()
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return MANAGER_OUT;

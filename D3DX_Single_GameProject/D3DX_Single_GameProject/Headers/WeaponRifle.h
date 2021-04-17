@@ -27,7 +27,7 @@ public:
 
 public:
 	virtual void Draw_Weapon() override;
-	virtual void Shoot_Weapon() override;
+	virtual _bool Shoot_Weapon() override;
 	virtual void AltShoot_Weapon() override;
 	virtual bool Reload_Weapon() override;
 	virtual void Release_Weapon() override;

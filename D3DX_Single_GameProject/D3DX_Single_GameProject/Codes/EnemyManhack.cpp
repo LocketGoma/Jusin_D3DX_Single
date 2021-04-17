@@ -22,6 +22,10 @@ CEnemyManhack::CEnemyManhack(_Device pDevice)
 
 	m_iMaxHP = 20;
 
+	m_eForceType = eForceType::PULL;
+
+	m_bState = false;
+
 	m_iDamage = 5;
 }
 
@@ -57,14 +61,14 @@ _int CEnemyManhack::Update_GameObject(const _float& fDeltaTime)
 
 	m_fNowAttackTime += fDeltaTime;
 
-	//if (m_pSupportCom->Collision_Picking(g_hWnd, m_pColliderCom, m_pTransformCom))
+	
 
 	return NO_EVENT;
 }
 
 _int CEnemyManhack::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -114,7 +118,7 @@ void CEnemyManhack::Go_Stright(_float fDeltaTime)
 		m_eAction = (eManhackAction)(rand() % 3 + (_uint)eManhackAction::Fly1);
 	}
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return;
@@ -124,10 +128,10 @@ void CEnemyManhack::Go_Stright(_float fDeltaTime)
 	switch (iSelect)
 	{
 	case 0:
-		pManagement->Play_Sound(L"mh_engine_loop1.wav", Engine::SOUND_CHANNELID::ENEMYA);
+		pManagement->Play_Sound(L"mh_engine_loop1.wav", m_eChannel);
 		break;
 	case 1:
-		pManagement->Play_Sound(L"mh_engine_loop2.wav", Engine::SOUND_CHANNELID::ENEMYB);
+		pManagement->Play_Sound(L"mh_engine_loop2.wav", m_eChannel);
 		break;
 	}
 
@@ -187,7 +191,7 @@ void CEnemyManhack::Do_Attack(_float fDeltaTime, _uint iPatton)
 	Go_Stright(fDeltaTime);
 
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return;
@@ -197,19 +201,19 @@ void CEnemyManhack::Do_Attack(_float fDeltaTime, _uint iPatton)
 	switch (iSelect)
 	{
 	case 0:
-		pManagement->Play_Sound(L"mh_grind1.wav", Engine::SOUND_CHANNELID::ENEMYA);
+		pManagement->Play_Sound(L"mh_grind1.wav", m_eChannel);
 		break;
 	case 1:
-		pManagement->Play_Sound(L"mh_grind2.wav", Engine::SOUND_CHANNELID::ENEMYB);
+		pManagement->Play_Sound(L"mh_grind2.wav", m_eChannel);
 		break;
 	case 2:
-		pManagement->Play_Sound(L"mh_grind3.wav", Engine::SOUND_CHANNELID::ENEMYC);
+		pManagement->Play_Sound(L"mh_grind3.wav", m_eChannel);
 		break;
 	case 3:
-		pManagement->Play_Sound(L"mh_grind4.wav", Engine::SOUND_CHANNELID::ENEMYB);
+		pManagement->Play_Sound(L"mh_grind4.wav", m_eChannel);
 		break;
 	case 4:
-		pManagement->Play_Sound(L"mh_grind5.wav", Engine::SOUND_CHANNELID::ENEMYA);
+		pManagement->Play_Sound(L"mh_grind5.wav", m_eChannel);
 		break;
 	default:
 		break;
@@ -236,7 +240,7 @@ void CEnemyManhack::Do_Spawn(_float fDeltaTime)
 
 void CEnemyManhack::Do_Dead(_float fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return;
@@ -286,7 +290,7 @@ _uint CEnemyManhack::Get_Patton()
 
 HRESULT CEnemyManhack::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -312,6 +316,30 @@ HRESULT CEnemyManhack::Add_Component(void)
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+
+	switch (rand() % 5)
+	{
+	case 1:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYA;
+		break;
+
+	case 2:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYB;
+		break;
+
+	case 3:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYC;
+		break;
+
+	case 4:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMYD;
+		break;
+
+	default:
+		m_eChannel = Engine::SOUND_CHANNELID::ENEMY;
+		break;
+	}
 
 	return S_OK;
 }

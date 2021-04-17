@@ -110,6 +110,8 @@ protected:
 
 	_bool m_bState;
 
+	Engine::SOUND_CHANNELID m_eChannel;	//사운드 채널 (다중 몬스터 처리시)
+
 //컴포넌트들
 protected:
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;

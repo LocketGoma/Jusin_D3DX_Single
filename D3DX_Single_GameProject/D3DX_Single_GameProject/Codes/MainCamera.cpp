@@ -93,7 +93,7 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 	Base_Movement(fDeltaTime);
 
 
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return 0;
@@ -168,7 +168,7 @@ HRESULT CMainCamera::Set_Player(CPlayer* pPlayer)
 
 HRESULT CMainCamera::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return 0;
@@ -207,7 +207,7 @@ HRESULT CMainCamera::Add_Component(void)
 
 HRESULT CMainCamera::Base_Movement(const _float& fDeltatime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	NULL_CHECK_RETURN(pManagement, E_FAIL);
 
 	Engine::CTransform* pPlayerTransform = dynamic_cast<Engine::CTransform *>(m_pPlayer->Get_Component(L"Com_Transform",Engine::COMPONENT_ID::ID_DYNAMIC));
@@ -230,7 +230,7 @@ HRESULT CMainCamera::Base_Movement(const _float& fDeltatime)
 
 void CMainCamera::Key_Input(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return;
@@ -332,12 +332,9 @@ HRESULT CMainCamera::Recoil_Weapon_Camera(const _float& fDeltaTime)
 	}
 
 	m_vRecoilShakeLoop.y = sin(D3DXToRadian(m_fLoopRecoilTimer)) * fabs(m_fRecoilPower);
-	//m_vRecoilShakeLoop.x = sin(D3DXToRadian(m_fLoopRecoilTimer*0.75f)) * (m_fRecoilPower/(20+fabs(m_vRecoilShake.y)));
 
 	if (m_bRecoilShaking == false)
 	{
-		_vec3 pPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
-
 		m_fLoopRecoilTimer = 0.f;
 		m_vRecoilShakeAdd += m_vRecoilShakeLoop;
 		m_bRecoilShaking = true;

@@ -43,7 +43,7 @@ _int CNaviMeshController::LateUpdate_GameObject(const _float& fDeltaTime)
 {
 	if (m_bVisuable == true)
 	{
-		auto pManagement = Engine::CManagement::Get_Instance();
+		Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 		if (nullptr == pManagement)
 		{
 			return MANAGER_OUT;
@@ -66,7 +66,7 @@ HRESULT CNaviMeshController::Render_GameObject(void)
 
 _uint CNaviMeshController::Set_NaviMesh(const _tchar* meshName)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -273,7 +273,7 @@ void CNaviMeshController::Set_Visuable(_bool bState)
 
 HRESULT CNaviMeshController::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

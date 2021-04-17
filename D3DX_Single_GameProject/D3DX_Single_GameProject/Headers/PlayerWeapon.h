@@ -28,7 +28,7 @@ public:
 //공격/장전
 public:
 	virtual void Draw_Weapon() PURE;		//무기 꺼내기
-	virtual void Shoot_Weapon() PURE;		//1차사격
+	virtual _bool Shoot_Weapon() PURE;		//1차사격
 	virtual void AltShoot_Weapon() PURE;	//2차사격
 	virtual bool Reload_Weapon();			//재장전
 	virtual void Release_Weapon() PURE;		//사격종료

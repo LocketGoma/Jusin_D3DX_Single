@@ -58,7 +58,7 @@ _int CProjRocket::Update_GameObject(const _float& fDeltaTime)
 
 _int CProjRocket::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -97,7 +97,7 @@ HRESULT CProjRocket::Render_GameObject(void)
 
 HRESULT CProjRocket::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

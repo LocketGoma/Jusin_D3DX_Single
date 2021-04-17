@@ -8,6 +8,7 @@ CWeaponCrowbar::CWeaponCrowbar(_Device pDevice)
 	m_fFireInterval = ONEMINUTE / m_iROF;
 
 
+	m_fRecoilPower = 0.f;
 
 	m_iPriDamage = 1;
 
@@ -44,7 +45,7 @@ _int CWeaponCrowbar::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponCrowbar::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -97,8 +98,14 @@ void CWeaponCrowbar::Draw_Weapon()
 {
 }
 
-void CWeaponCrowbar::Shoot_Weapon()
+_bool CWeaponCrowbar::Shoot_Weapon()
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return false;
+	}
+
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
 		m_bFire = true;
@@ -107,7 +114,13 @@ void CWeaponCrowbar::Shoot_Weapon()
 		m_bZoom = true;
 
 		m_fNowFItime = 0.f;
+
+		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+		pManagement->Play_Sound(L"crowbar_swing1.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
+		return true;
 	}
+	return false;
 }
 
 void CWeaponCrowbar::AltShoot_Weapon()
@@ -137,7 +150,7 @@ void CWeaponCrowbar::Change_Weapon()
 
 HRESULT CWeaponCrowbar::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

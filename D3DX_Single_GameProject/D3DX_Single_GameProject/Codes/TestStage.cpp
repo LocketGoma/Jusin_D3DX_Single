@@ -107,7 +107,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
 
     CScene::LateUpdate_Scene(fDeltaTime);
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -126,7 +126,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
         {
             CBaseObject* pObject = dynamic_cast<CBaseObject*>(iter.second);
             if (pObject != nullptr && pObject->Get_ObjectType() != eForceType::NONE)
-            {
+            {                
                 if (pObject->Check_RayCollision_By_CollisionSphere())                //충돌했으면
                 {
                     if (fBestRange >= pObject->Get_SupportUnit()->Get_Distance())   //물체 거리 재고
@@ -182,6 +182,7 @@ _int CTestStage::LateUpdate_Scene(const _float& fDeltaTime)
         CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
         if (pObject != nullptr)
         {
+            pObject->Force_Update_Animation();
             pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
             
             if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
@@ -252,7 +253,7 @@ HRESULT CTestStage::Add_Test_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -281,7 +282,7 @@ HRESULT CTestStage::Add_Player_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     NULL_CHECK_RETURN(pManagement, E_FAIL);
 
     pGameObject = pManagement->Clone_GameObject(L"Player");
@@ -312,7 +313,7 @@ HRESULT CTestStage::Add_Object_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -333,7 +334,7 @@ HRESULT CTestStage::Add_ColiderBox_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -355,7 +356,7 @@ HRESULT CTestStage::Add_Camera_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -376,7 +377,7 @@ HRESULT CTestStage::Add_Environment_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;
@@ -419,7 +420,7 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
 
     Engine::CGameObject* pGameObject = nullptr;
 
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (pManagement == nullptr)
     {
         return E_FAIL;

@@ -81,7 +81,7 @@ _int CProjCoreBall::Update_GameObject(const _float& fDeltaTime)
 
 _int CProjCoreBall::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -115,7 +115,7 @@ HRESULT CProjCoreBall::Render_GameObject(void)
 
 HRESULT CProjCoreBall::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

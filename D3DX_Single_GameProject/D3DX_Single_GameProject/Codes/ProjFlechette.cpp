@@ -80,7 +80,7 @@ _int CProjFlechette::Update_GameObject(const _float& fDeltaTime)
 
 _int CProjFlechette::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -122,7 +122,7 @@ HRESULT CProjFlechette::Render_GameObject(void)
 
 HRESULT CProjFlechette::Add_Component()
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

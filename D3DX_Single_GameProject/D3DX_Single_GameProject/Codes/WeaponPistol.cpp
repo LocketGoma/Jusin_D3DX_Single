@@ -17,6 +17,8 @@ CWeaponPistol::CWeaponPistol(_Device pDevice)
 	m_iROF = 240;
 	m_fFireInterval = ONEMINUTE / m_iROF;
 
+	m_fRecoilPower = 0.045f;
+
 	m_iPriDamage = 5;
 
 }
@@ -51,7 +53,7 @@ _int CWeaponPistol::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponPistol::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -110,9 +112,15 @@ void CWeaponPistol::Draw_Weapon()
 {
 }
 
-void CWeaponPistol::Shoot_Weapon()
+_bool CWeaponPistol::Shoot_Weapon()
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return false;
+	}
 
+	_bool bResult = false;
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
 		m_bFire = true;
@@ -120,14 +128,8 @@ void CWeaponPistol::Shoot_Weapon()
 		if (m_iMagAmmo != 0)
 		{
 			//-------------------총알 발사파트
-			auto pManagement = Engine::CManagement::Get_Instance();
-			if (pManagement == nullptr)
-			{
-				return;
-			}
-
 			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_BasicAmmo");
-			NULL_CHECK(pObject);
+			NULL_CHECK_RETURN(pObject,false);
 
 			_vec3 vPos, vDir;
 			_mat matWorld;
@@ -148,10 +150,15 @@ void CWeaponPistol::Shoot_Weapon()
 
 			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(tObjName, pObject)))
 			{
+				pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+				pManagement->Play_Sound(L"pistol_fire2.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
 				m_iMagAmmo--;
 				
 				Set_Animation(rand() % 4 + (_uint)ePistolAction::Fire3);
 				m_pEffect->Set_Visible(true);
+
+				bResult = true;
 			}
 			else
 			{
@@ -160,11 +167,15 @@ void CWeaponPistol::Shoot_Weapon()
 		}
 		else
 		{
+			pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+			pManagement->Play_Sound(L"pistol_empty.wav", Engine::SOUND_CHANNELID::EFFECTA);
 			Set_Animation((_uint)ePistolAction::FireEmpty);
 		}
 
 		m_fNowFItime = 0.f;
 	}
+
+	return bResult;
 }
 
 void CWeaponPistol::AltShoot_Weapon()
@@ -174,6 +185,13 @@ void CWeaponPistol::AltShoot_Weapon()
 
 bool CWeaponPistol::Reload_Weapon()
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (pManagement == nullptr)
+	{
+		return false;
+	}
+
+
 	if (m_iMainAmmo == 0 || m_iMagAmmo == (m_iMaxMagAmmo+1))
 		return false;
 
@@ -182,6 +200,9 @@ bool CWeaponPistol::Reload_Weapon()
 		m_iMainAmmo--;
 		m_iMagAmmo++;
 	}
+	pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
+	pManagement->Play_Sound(L"smg1_reload.wav", Engine::SOUND_CHANNELID::EFFECTA);
+
 	Set_Animation((_uint)ePistolAction::Reload);
 
 	return true;
@@ -206,7 +227,7 @@ void CWeaponPistol::Change_Weapon()
 
 HRESULT CWeaponPistol::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;

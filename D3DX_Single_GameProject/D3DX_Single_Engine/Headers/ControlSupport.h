@@ -43,6 +43,7 @@ public:
 	_bool Picking_Object_Static(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform);
 	_bool Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh* pMesh, const CTransform* pTransform);
 	_bool Picking_Object_Collider(HWND hWnd, const CSphereCollider* pMesh);
+	_bool Picking_Object_Collider(HWND hWnd, const CSphereCollider* pMesh, const _vec3& pVPos);
 	_bool Picking_Object_Collider(HWND hWnd, const CSphereCollider* pMesh, const CTransform* pTransform);
 	_vec3 Picking_Object(HWND hWnd, const CStaticMesh* pMesh, const CTransform* pTransform);
 	_vec3 Picking_Terrain(HWND hWnd, const CVTXTerrain* pBuffer, const CTransform* pTransform);	

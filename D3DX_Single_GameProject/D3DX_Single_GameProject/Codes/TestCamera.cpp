@@ -102,7 +102,7 @@ _vec3 CTestCamera::Get_Size()       //¾È¾¸
 
 HRESULT CTestCamera::Add_Component(void)
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return 0;
@@ -124,7 +124,7 @@ HRESULT CTestCamera::Add_Component(void)
 
 void CTestCamera::Key_Input(const _float& fDeltaTime)
 {
-    auto pManagement = Engine::CManagement::Get_Instance();
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
     if (nullptr == pManagement)
     {
         return;

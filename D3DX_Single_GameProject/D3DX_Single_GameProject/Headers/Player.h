@@ -125,6 +125,11 @@ private:
 	_float m_fWalkSpeed;		//걷는 속도
 	_float m_fRunSpeed;			//달리는 속도
 
+//효과음 처리 관련
+	_bool  m_bSprint;			// 달리는 중 여부
+	_bool m_bLowShield;			//HEV 방호복 체력 부족상태
+	_bool m_bLowHP;			//HEV 방호복 체력 부족상태
+
 public:
 	static CPlayer* Create(_Device pDevice);
 	virtual CGameObject* Clone(void* pArg = nullptr);

@@ -76,6 +76,8 @@ private:
 	eAntLionAction m_eAction;
 	eAntLionAction m_ePrevAction;			//직전에 실행된 애니메이션
 
+	
+
 	eAntLionPatton m_ePatton;
 
 	_vec3 vOriPos;

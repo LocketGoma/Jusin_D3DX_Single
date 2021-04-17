@@ -40,7 +40,7 @@ _int CWeaponRPG::Update_GameObject(const _float& fDeltaTime)
 
 _int CWeaponRPG::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
@@ -76,9 +76,11 @@ void CWeaponRPG::Draw_Weapon()
 	Set_Animation((_uint)eRPGAction::Draw);
 }
 
-void CWeaponRPG::Shoot_Weapon()
+_bool CWeaponRPG::Shoot_Weapon()
 {
 	Set_Animation((_uint)eRPGAction::Fire);
+
+	return true;
 }
 
 void CWeaponRPG::AltShoot_Weapon()
@@ -115,7 +117,7 @@ void CWeaponRPG::Change_Weapon()
 
 HRESULT CWeaponRPG::Add_Component(void)
 {
-	auto pManagement = Engine::CManagement::Get_Instance();
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
 		return MANAGER_OUT;
