@@ -21,7 +21,10 @@ pistol_어쩌고 : 권총 사운드
 attack_single1~3 : 개미귀신 공격사운드
 antlion_Pain1~2 : 개미귀신 피격사운드
 antlion_digup1 : 개미귀신 등장 사운드 (스폰)
-
+warning : (탄약) 부족 경고
+wpn_moveselect : UI 휠 굴리기
+wpn_denyselect, wpn_hudoff, wpn_select : 어따 쓰지?
+Shotgun_어쩌고 : 샷건관련
 
 --중력건--
 energy_disintegrate4,5 : 중력건 발사

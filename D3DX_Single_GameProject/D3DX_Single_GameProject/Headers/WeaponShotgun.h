@@ -35,6 +35,9 @@ public:
 	virtual void Holster_Weapon() override;
 	virtual void Change_Weapon() override;
 
+
+	_bool Shoot_Shell();
+
 private:
 	HRESULT			Add_Component(void);
 
@@ -48,6 +51,7 @@ private:
 private:
 	_bool	m_bReloading;			//장전중인가?
 	_bool	m_bEndReload;			//장전 끝났니?
+	_bool	m_bClearReload;			//약실 비었었니?
 	_float	m_fReloadTime;			//1발 장전에 걸리는 시간
 	_float	m_fReloadActionTime;	//장전중 쿨타임
 

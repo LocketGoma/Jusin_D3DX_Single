@@ -44,6 +44,9 @@ private:
 	_tchar* m_szRight_Ammo_Full = L"]\0";
 	_tchar* m_szCenter_CrossHair = L"Q\0";
 
+
+	_bool m_bLowAmmoAlert;
+
 };
 
 

@@ -205,6 +205,7 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
     //플레이어 - 총알 충돌판정
     targetLayer = Get_Layer(L"WeaponLayer");
     if (targetLayer != nullptr)
+    {
         for (auto& iter : *targetLayer->Get_ObjectLayer())
         {
             CBaseProjectile* pObject = dynamic_cast<CBaseProjectile*>(iter.second);
@@ -217,9 +218,43 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
                         pPlayer->Hit_Attack(pObject->Get_Damage());
                         pObject->Set_Dead();
                     }
+                }                
+            }
+        }
+    }
+
+    //몬스터 - 총알 충돌판정....
+    Engine::CLayer* AmmoLayer = Get_Layer(L"WeaponLayer");
+    targetLayer = Get_Layer(L"EnemyLayer");
+    if (targetLayer != nullptr)
+    {
+        for (auto& iter : *targetLayer->Get_ObjectLayer())
+        {
+            CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
+            //몬스터 판단을 하고...
+            if (pObject != nullptr)
+            {
+                if (AmmoLayer != nullptr)
+                {
+                    for (auto& iter : *AmmoLayer->Get_ObjectLayer())
+                    {
+                        CBaseProjectile* pAObject = dynamic_cast<CBaseProjectile*>(iter.second);
+                        if (pAObject != nullptr)
+                        {
+                            if (pAObject->Get_TargetState() == eTargetState::ToEnemy)
+                            {
+                                if (pObject->Check_Attack_Collide(&(pAObject->Get_Position()), pAObject->Get_Radius()))
+                                {
+                                    pObject->Hit_Attack(pAObject->Get_Damage());
+                                    pAObject->Set_Dead();
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
 
 
     return NO_EVENT;

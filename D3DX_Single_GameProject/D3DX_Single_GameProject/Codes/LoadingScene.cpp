@@ -57,6 +57,8 @@
 #include "ProjCoreBall.h"
 #include "ProjPulseAmmo.h"
 #include "ProjBasicAmmo.h"
+#include "ProjShotgunShell.h"
+#include "ProjShotgunPellet.h"
 
 //¿Ã∆Â∆Æ
 #include "EffectMuzzle.h"
@@ -471,6 +473,14 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CProjBasicAmmo::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Projectile_BasicAmmo", pGameObject);
+
+    pGameObject = CProjShotgunShell::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Projectile_Shell", pGameObject);
+
+        pGameObject = CProjShotgunPellet::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Projectile_Pellet", pGameObject);
 
 
     //¿Ã∆Â∆Æ

@@ -227,6 +227,12 @@
     <Filter Include="01.Object\13.TriggerBox">
       <UniqueIdentifier>{e7a44cca-211d-4739-8120-84e79d978e1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\12.Projectile\06.ShotgunShell">
+      <UniqueIdentifier>{a7bc2c9e-e66d-4fe6-8ef2-22aff9bb4090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\12.Projectile\06.ShotgunShell\00.ShotgunPellet">
+      <UniqueIdentifier>{fbfe18be-8d51-4334-9a1e-ce41340c9909}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -433,6 +439,12 @@
     <ClInclude Include="..\Headers\TriggerBox.h">
       <Filter>01.Object\13.TriggerBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\ProjShotgunShell.h">
+      <Filter>01.Object\12.Projectile\06.ShotgunShell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ProjShotgunPellet.h">
+      <Filter>01.Object\12.Projectile\06.ShotgunShell\00.ShotgunPellet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -633,6 +645,12 @@
     </ClCompile>
     <ClCompile Include="..\Codes\TriggerBox.cpp">
       <Filter>01.Object\13.TriggerBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ProjShotgunShell.cpp">
+      <Filter>01.Object\12.Projectile\06.ShotgunShell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ProjShotgunPellet.cpp">
+      <Filter>01.Object\12.Projectile\06.ShotgunShell\00.ShotgunPellet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

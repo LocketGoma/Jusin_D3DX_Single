@@ -72,6 +72,7 @@ public:
 	const _vec3 Get_CorePos();
 
 	virtual _bool Check_RayCollision() override;
+			_bool Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius);
 	virtual _bool Check_RayCollision_By_CollisionSphere() override;
 
 	_bool Get_State();

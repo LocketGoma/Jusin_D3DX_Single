@@ -193,6 +193,8 @@
     <ClInclude Include="..\Headers\ProjFlechette.h" />
     <ClInclude Include="..\Headers\ProjPulseAmmo.h" />
     <ClInclude Include="..\Headers\ProjRocket.h" />
+    <ClInclude Include="..\Headers\ProjShotgunPellet.h" />
+    <ClInclude Include="..\Headers\ProjShotgunShell.h" />
     <ClInclude Include="..\Headers\StageALight.h" />
     <ClInclude Include="..\Headers\StageCLight.h" />
     <ClInclude Include="..\Headers\StaticNormalObject.h" />
@@ -259,6 +261,8 @@
     <ClCompile Include="..\Codes\ProjFlechette.cpp" />
     <ClCompile Include="..\Codes\ProjPulseAmmo.cpp" />
     <ClCompile Include="..\Codes\ProjRocket.cpp" />
+    <ClCompile Include="..\Codes\ProjShotgunPellet.cpp" />
+    <ClCompile Include="..\Codes\ProjShotgunShell.cpp" />
     <ClCompile Include="..\Codes\StageALight.cpp" />
     <ClCompile Include="..\Codes\StageCLight.cpp" />
     <ClCompile Include="..\Codes\StaticNormalObject.cpp" />

@@ -128,6 +128,15 @@ _bool CDynamicObject::Check_RayCollision()
 	return m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom);
 }
 
+_bool CDynamicObject::Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius)
+{
+	_bool bReturn = m_pSupportCom->Collision_Sphere(&(this->Get_Position()), this->m_fHitboxSize, pSourcePos, fSourceRadius);
+
+	bReturn == true ? eType = Engine::COLIDETYPE::COL_TRUE : eType = Engine::COLIDETYPE::COL_FALSE;
+
+	return bReturn;
+}
+
 _bool CDynamicObject::Check_RayCollision_By_CollisionSphere()
 {
 	if (m_pSupportCom->Picking_Object_Collider(g_hWnd, m_pColliderCom, m_vCorePos))

@@ -193,6 +193,15 @@ void CWeaponUI::Select_Weapon(_uint iWeaponNumber)
     m_bIsVisible = true;
     m_fTimer = 0.f;
 
+
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return;
+    }
+    pManagement->Stop_Sound(Engine::SOUND_CHANNELID::UI);
+    pManagement->Play_Sound(L"wpn_moveselect.wav", Engine::SOUND_CHANNELID::UI);
+
 }
 
 CWeaponUI* CWeaponUI::Create(_Device pDevice)

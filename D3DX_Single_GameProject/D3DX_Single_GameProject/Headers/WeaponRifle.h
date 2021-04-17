@@ -34,6 +34,7 @@ public:
 	virtual void Holster_Weapon() override;
 	virtual void Change_Weapon() override;
 
+
 private:
 	HRESULT			Add_Component(void);
 

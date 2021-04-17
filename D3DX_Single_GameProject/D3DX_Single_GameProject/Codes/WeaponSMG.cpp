@@ -170,7 +170,7 @@ _bool CWeaponSMG::Shoot_Weapon()
 
 			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Position(vMuzzlePos);
 			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Direction(vEndDir);
-			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_TargetState(eTargetState::ToEnemy);
+			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_TargetState(eTargetState::None);
 
 			TCHAR tObjName[128] = L"";
 			TCHAR tObjData[] = L"SMGAmmo %d";

@@ -181,7 +181,7 @@ _bool CWeaponRifle::Shoot_Weapon()
 
 			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Position(vMuzzlePos);
 			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_Direction(vEndDir);
-			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_TargetState(eTargetState::ToEnemy);
+			dynamic_cast<CProjPulseAmmo*>(pObject)->Set_TargetState(eTargetState::None);
 
 			TCHAR tObjName[128] = L"";
 			TCHAR tObjData[] = L"Ar2Ammo %d";
@@ -300,6 +300,7 @@ void CWeaponRifle::Change_Weapon()
 {
 
 }
+
 
 void CWeaponRifle::Holster_Weapon()
 {

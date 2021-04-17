@@ -6,6 +6,7 @@ CCrossHairUI::CCrossHairUI(_Device pDevice)
 	, m_iHP(100)
 	, m_iMagAmmo(1)
 	, m_iMagFullAmmo(1)
+	, m_bLowAmmoAlert(false)
 {
 }
 
@@ -14,6 +15,7 @@ CCrossHairUI::CCrossHairUI(const CCrossHairUI& other)
 	, m_iHP(100)
 	, m_iMagAmmo(1)
 	, m_iMagFullAmmo(1)
+	, m_bLowAmmoAlert(false)
 {
 }
 
@@ -68,7 +70,18 @@ HRESULT CCrossHairUI::Render_GameObject(void)
 	if (((float)m_iMagAmmo / (float)m_iMagFullAmmo) < 0.45f)
 	{
 		pAmmoColor = pRedColor;
+
+		if (m_bLowAmmoAlert == false)
+		{
+			pManagement->Play_Sound(L"warning.wav", Engine::SOUND_CHANNELID::UI);
+			m_bLowAmmoAlert = true;
+		}
 	}
+	else
+	{
+		m_bLowAmmoAlert = false;
+	}
+
 	//연립방정식
 	//20 = Ax0 +b -> b = 20
 	//95 = Ax100 + b -> Ax100 + 20 => Ax100 = 75 => A = 0.75
