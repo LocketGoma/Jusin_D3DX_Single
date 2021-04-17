@@ -147,6 +147,17 @@ _bool CDynamicObject::Get_State()
 	return m_bState;
 }
 
+void CDynamicObject::Set_Speed(_float fSpeed)
+{
+	m_fImForcePower = fSpeed;
+
+}
+
+void CDynamicObject::Set_Direction(_vec3 vDir)
+{
+	m_vImForceDirection = vDir;
+}
+
 
 
 void CDynamicObject::Free(void)

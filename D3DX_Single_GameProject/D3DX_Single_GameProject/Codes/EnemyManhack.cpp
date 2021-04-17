@@ -74,6 +74,15 @@ _int CEnemyManhack::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
+	m_pTransformCom->Move_Pos(&m_vImForceDirection, m_fImForcePower, fDeltaTime);
+	m_fImForcePower -= (m_fImForcePower*fDeltaTime);
+	if (m_fImForcePower < 1.5f)
+	{
+		m_vImForceDirection = ZERO_VECTOR;
+		m_fImForcePower = 0.f;
+	}
+
+
 	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
 	m_pTransformCom->Single_Rotation(Engine::ROTATION::ROT_X, m_fVerticalRotate);
 	m_fRotate = 0.f;

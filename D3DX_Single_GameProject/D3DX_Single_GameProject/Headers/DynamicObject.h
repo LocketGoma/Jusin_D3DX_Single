@@ -76,6 +76,11 @@ public:
 
 	_bool Get_State();
 
+//중력건 관련
+public:
+	virtual void Set_Speed(_float fSpeed) override;
+	virtual void Set_Direction(_vec3 vDir) override;
+
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 

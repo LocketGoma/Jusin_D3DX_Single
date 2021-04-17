@@ -131,7 +131,12 @@ _bool CWeaponPistol::Shoot_Weapon()
 			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_BasicAmmo");
 			NULL_CHECK_RETURN(pObject,false);
 
-			_vec3 vPos, vDir;
+			//1. 현재 방향, 현재 위치 구함
+			//2. 총구 위치 구함
+			//3. 총구 위치 -> (현재 방향 x 현재 위치*속도) 값으로 최종 방향 구함
+			//4. 3번의 방향, 2번의 위치를 적용시킴.
+
+			_vec3 vPos, vDir, vMuzzlePos, vEndDir;
 			_mat matWorld;
 			m_pDevice->GetTransform(D3DTS_VIEW, &matWorld);
 			D3DXMatrixInverse(&matWorld, NULL, &matWorld);
@@ -139,8 +144,16 @@ _bool CWeaponPistol::Shoot_Weapon()
 			memcpy(&vPos, &matWorld.m[3][0], sizeof(_vec3));
 			D3DXVec3Normalize(&vDir, &vDir);
 
-			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Position(vPos + (vDir * 0.5f));
-			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Direction(vDir);
+			vMuzzlePos = _vec3(1.6f, -1.5f, 5.f);
+			D3DXVec3TransformCoord(&vMuzzlePos, &vMuzzlePos, &matWorld);
+			vEndDir = (vPos + vDir * 150.f) - vMuzzlePos;
+
+
+			D3DXVec3Normalize(&vEndDir, &vEndDir);
+
+
+			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Position(vMuzzlePos);
+			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_Direction(vEndDir);
 			dynamic_cast<CProjBasicAmmo*>(pObject)->Set_TargetState(eTargetState::ToEnemy);
 
 			TCHAR tObjName[128] = L"";

@@ -13,11 +13,13 @@ CBaseObject::CBaseObject(_Device pDevice)
 	, m_fSpeed(0.f)
 	, m_eForceType(eForceType::NONE)
 	, m_fHitboxSize(1.f)
-	, m_vStartPos(_vec3(0.f, 0.f, 0.f))
+	, m_vStartPos(ZERO_VECTOR)
 	, m_vDirection(_vec3(0.f, 0.f, 1.f))
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fGravitionPower(9.8f)
 	, m_fGravitionSpeed(0.f)
+	, m_vImForceDirection(ZERO_VECTOR)
+	, m_fImForcePower(0.f)
 {
 	m_bIsPrototype = true;
 
@@ -37,6 +39,8 @@ CBaseObject::CBaseObject(const CBaseObject& other)
 	, m_fGravitionPower(other.m_fGravitionPower)
 	, m_fGravitionSpeed(other.m_fGravitionSpeed)
 	, m_pManagement(other.m_pManagement)
+	, m_vImForceDirection(ZERO_VECTOR)
+	, m_fImForcePower(0.f)
 {
 	Safe_AddReference(m_pDevice);	
 	m_bIsPrototype = false;

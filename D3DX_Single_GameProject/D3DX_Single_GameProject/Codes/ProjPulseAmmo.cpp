@@ -31,7 +31,7 @@ CProjPulseAmmo::CProjPulseAmmo(_Device pDevice)
 {
 	m_fWeight = 0;
 	m_fLifeTime = 1.5f;
-	m_fSpeed = 155.f;
+	m_fSpeed = 300.f;
 	m_eForceType = eForceType::NONE;
 	m_fHitboxSize = 0.5f;		//테스트용. 실제로는 좀 더 작게
 
@@ -60,7 +60,7 @@ HRESULT CProjPulseAmmo::Ready_GameObject_Clone(void* pArg)
 
 	m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_LOOK, &m_vDirection);
 
-	m_vAmmoSize = _vec3(0.4f, 0.8f, 1.f);
+	m_vAmmoSize = _vec3(1.6f, 6.4f, 1.f);
 
 	return S_OK;
 }

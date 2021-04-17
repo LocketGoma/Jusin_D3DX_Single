@@ -42,7 +42,7 @@ public:
 public:
 	virtual void Set_Position(_vec3 vPos);
 	virtual void Set_Size(_vec3 vSize);
-			void Set_Direction(_vec3 vDir);
+	virtual void Set_Direction(_vec3 vDir);
 			void Set_ObjectType(eForceType eType);		
 			void Set_SpeedLockState(_bool bLock);
 			void Set_Rotation(Engine::ROTATION eRotate, float fRadian);
@@ -68,7 +68,7 @@ public:
 
 	//발사 시 속도
 	const _float Get_Speed();
-	void Set_Speed(_float fSpeed);
+	virtual void Set_Speed(_float fSpeed);
 
 	//중력 적용 관련
 	void Set_GravitionPower(_float fGravition);
@@ -89,6 +89,10 @@ protected:
 	_vec3 m_vDirection;
 
 	_float m_fHitboxSize;		//=fRadius
+
+	//중력건 상호작용 관련
+	_vec3 m_vImForceDirection;	//외부 힘 주어지는 방향
+	_float m_fImForcePower;		//외부 힘
 
 	Engine::COLIDETYPE eType;
 
