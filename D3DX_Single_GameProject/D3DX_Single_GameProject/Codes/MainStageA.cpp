@@ -419,7 +419,7 @@ HRESULT CMainStageA::Add_Environment_Layer(const _tchar* pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(L"SkyBoxA", pGameObject);
 
-	pGameObject = pManagement->Clone_GameObject(L"StageCLight");
+	pGameObject = pManagement->Clone_GameObject(L"StageALight");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DirLight", pGameObject), E_FAIL);
 

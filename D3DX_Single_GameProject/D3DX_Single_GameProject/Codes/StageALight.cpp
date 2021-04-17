@@ -65,6 +65,35 @@ HRESULT CStageALight::Add_Component(void)
 
 HRESULT CStageALight::Setup_Light()
 {
+	D3DLIGHT9 light;
+
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Diffuse = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.3f);
+	light.Specular = D3DXCOLOR(0.4f, 0.4f, 0.4f, 0.4f);
+	light.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	light.Direction = D3DXVECTOR3(2.0f, -10.0f, -4.0f);
+	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, (D3DXVECTOR3*)&light.Direction);
+
+	
+	m_pDevice->SetLight(0, &light);
+	m_pDevice->LightEnable(0, TRUE);
+
+	ZeroMemory(&light, sizeof(D3DLIGHT9));
+	light.Type = D3DLIGHT_DIRECTIONAL;
+	light.Diffuse = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.3f);
+	light.Specular = D3DXCOLOR(0.4f, 0.4f, 0.4f, 0.2f);
+	light.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	light.Direction = D3DXVECTOR3(-3.0f, -10.0f, 4.0f);
+	D3DXVec3Normalize((D3DXVECTOR3*)&light.Direction, (D3DXVECTOR3*)&light.Direction);
+
+	
+	m_pDevice->SetLight(1, &light);
+	m_pDevice->LightEnable(1, TRUE);
+
+
+
+
 	return S_OK;
 }
 

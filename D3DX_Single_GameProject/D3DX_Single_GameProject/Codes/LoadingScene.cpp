@@ -21,6 +21,7 @@
 #include "MainMapA.h"
 #include "MainMapC.h"
 
+#include "StageALight.h"
 #include "StageCLight.h"
 
 #include "StaticObject.h"
@@ -494,6 +495,11 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
 
     
     //Α¶Έν
+    pGameObject = CStageALight::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"StageALight", pGameObject);
+
+
     pGameObject = CStageCLight::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"StageCLight", pGameObject);

@@ -28,12 +28,12 @@ HRESULT CStageCLight::Ready_GameObject_Clone(void* pArg)
 
 _int CStageCLight::Update_GameObject(const _float& fDeltaTime)
 {
-	return _int();
+	return NO_EVENT;
 }
 
 _int CStageCLight::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	return _int();
+	return NO_EVENT;
 }
 
 HRESULT CStageCLight::Render_GameObject()
