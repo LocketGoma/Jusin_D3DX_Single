@@ -1,6 +1,10 @@
 #include "framework.h"
 #include "LoadingScene.h"
 
+//내부 컨트롤 클래스
+#include "MemoryPool.h"
+#include "ParticlePool.h"
+
 //로드할 데이터 (컴포넌트) 들
 #include "Transform.h"
 #include "CameraComponent.h"
@@ -181,6 +185,8 @@ unsigned __stdcall CLoadingScene::LoadingByThread(void* pParam)
     default:
         break;
     }
+    pLoading->Ready_MemoryPool();
+
 
     LeaveCriticalSection(pLoading->Get_CriticalSection());
     _endthreadex(0);
@@ -352,6 +358,10 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     //폭발 이펙트
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_FreA", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Fire/FireA%d.png", 2);
+
+    //총알 파편 이펙트
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_BreakAmmo", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Particle/glow_spark_01.tga", 1);
+
 
 
     //UI 컴포넌트 (라고 해봤자 몇개없음)
@@ -528,6 +538,18 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
 
     return S_OK;
 
+}
+
+//반드시 게임오브젝트까지 로드하고 부를것
+HRESULT CLoadingScene::Ready_MemoryPool()
+{
+    auto* pManagement = Engine::CManagement::Get_Instance();
+    NULL_CHECK_RETURN(pManagement, E_FAIL);
+
+    pManagement->Add_MemoryPool(L"TestPool", CParticlePool::Create(dynamic_cast<CBaseEffect*>( pManagement->Clone_GameObject(L"Effect_Particle_Ammo"))));
+
+
+    return S_OK;
 }
 
 

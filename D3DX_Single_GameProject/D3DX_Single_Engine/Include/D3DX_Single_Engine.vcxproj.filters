@@ -161,6 +161,12 @@
     <Filter Include="00.System\12.SoundManager">
       <UniqueIdentifier>{00cf852d-d807-43ec-a5e7-922a8af3476c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.System\22.MemoryPool">
+      <UniqueIdentifier>{2dc375eb-565c-4ba3-b941-e8df46c18448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\22.MemoryPool\00.Pool">
+      <UniqueIdentifier>{d7123a4f-acd6-4ae9-811d-e046bd235292}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\GraphicDevice.cpp">
@@ -304,6 +310,10 @@
     <ClCompile Include="..\Codes\SoundManager.cpp">
       <Filter>00.System\12.SoundManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\Codes\MemoryPool.cpp">
+      <Filter>00.System\22.MemoryPool\00.Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MemeoryPoolManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\GraphicDevice.h">
@@ -468,6 +478,10 @@
     <ClInclude Include="..\Headers\SoundManager.h">
       <Filter>00.System\12.SoundManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\MemoryPool.h">
+      <Filter>00.System\22.MemoryPool\00.Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MemeoryPoolManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

@@ -18,6 +18,7 @@
 #include "GraphicResourceManager.h"
 #include "FontManager.h"
 #include "SoundManager.h"
+#include "MemeoryPoolManager.h"
 
 BEGIN_NAMESPACE(Engine)
 //마스터 클래스
@@ -90,6 +91,12 @@ public:
 	void		Render_DebugBuffer(const _tchar * pMRTTag);
 	void		SetUp_OnShader(LPD3DXEFFECT & pEffect, const _tchar * pTargetTag, const char* pConstantTable);
 
+public:
+	CMemoryPool* Get_MemoryPool(const std::wstring & poolName);
+	HRESULT Add_MemoryPool(const std::wstring & poolName, CMemoryPool * pPool);
+
+	CGameObject* Get_Data_From_MemoryPool(const std::wstring & poolName);
+	HRESULT Release_Data_To_MemoryPool(const std::wstring & poolName, CGameObject * pData);
 
 
 public:
@@ -140,6 +147,7 @@ private:
 	CTimeManager*			 m_pTimeManager		  = nullptr;
 	CSoundManager*			 m_pSoundManager	  = nullptr;
 	CSceneManager*			 m_pSceneManager	  = nullptr;
+	CMemeoryPoolManager*	 m_pMemoryPoolManager = nullptr;
 	CGameObjectManager*		 m_pGameObjectManager = nullptr;
 	CPrototypeManager*		 m_pPrototypeManager  = nullptr;	//구 ComponentManager 역할
 	CGraphicResourceManager* m_pGraphicManager	  = nullptr;	//구 ComponentManager에서 "그래픽 리소스"만 분리함.

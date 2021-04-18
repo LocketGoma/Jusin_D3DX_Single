@@ -8,16 +8,17 @@
 
 #include "AmmoParticle.h"
 
+//뻥데미지
 CProjBasicAmmo::CProjBasicAmmo(_Device pDevice)
 	: CBaseProjectile(pDevice)
 {
 	m_fWeight = 0;
 	m_fLifeTime = 1.5f;
-	m_fSpeed = 5.f;
+	m_fSpeed = 225.f;
 	m_eForceType = eForceType::NONE;
-	m_fHitboxSize = 1.5f;		//테스트용. 실제로는 좀 더 작게
+	m_fHitboxSize = 0.5f;		//테스트용. 실제로는 좀 더 작게
 
-	m_iDamage = 2;
+	m_iDamage = 0;
 	m_fSplashRadius = m_fHitboxSize;
 	m_vStartPos = _vec3(0.f, 0.f, 0.f);
 	m_vDirection = _vec3(0.f, 0.f, 1.f);
@@ -27,6 +28,7 @@ CProjBasicAmmo::CProjBasicAmmo(_Device pDevice)
 CProjBasicAmmo::CProjBasicAmmo(const CProjBasicAmmo& other)
 	: CBaseProjectile(other)
 {
+	m_bAmmoBreak = false;
 }
 
 HRESULT CProjBasicAmmo::Ready_GameObject(_uint iTexNumber)
@@ -48,26 +50,49 @@ HRESULT CProjBasicAmmo::Ready_GameObject_Clone(void* pArg)
 _int CProjBasicAmmo::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+
+
+	if (m_fLifeTime < 0.f)
+	{	
+			Set_Dead();
+		return OBJ_DEAD;
+	}
+	if (m_bAmmoBreak == true)
+	{
+		m_iDamage = 0;
+		if (m_pParticle == nullptr)
+		{
+			m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Get_Data_From_MemoryPool(L"TestPool"));
+		}
+
+		m_pParticle->Set_Position(Get_Position());
+		if (m_pParticle->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
+		{
+			pManagement->Release_Data_To_MemoryPool(L"TestPool", m_pParticle);
+			m_pParticle = nullptr;
+
+			Set_Dead();
+		}
+
+		return OBJ_DEAD;
+	}
 
 	m_fLifeTime -= fDeltaTime;
 
 	m_fRotate += fDeltaTime * 1440.f;
 
-	if (m_fLifeTime < 0.f)
-	{
-		m_pParticle->Set_Position(Get_Position());
-		if (m_pParticle->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
-		{
-			Set_Dead();
-		}
-		return OBJ_DEAD;
-	}
 
 	return NO_EVENT;
 }
 
 _int CProjBasicAmmo::LateUpdate_GameObject(const _float& fDeltaTime)
 {
+	if (m_bAmmoBreak == true)
+	{
+		return OBJ_DEAD;
+	}
+
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
@@ -78,9 +103,11 @@ _int CProjBasicAmmo::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pTransformCom->Update_Component();
 
-	pManagement->Add_RenderList(Engine::RENDERID::RENDER_EFFECT, this);
 
-	return _int();
+	pManagement->Add_RenderList(Engine::RENDERID::RENDER_EFFECT, this);
+	
+
+	return NO_EVENT;
 }
 
 HRESULT CProjBasicAmmo::Render_GameObject(void)
@@ -186,7 +213,9 @@ HRESULT CProjBasicAmmo::Add_Component()
 
 
 
-	m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Clone_GameObject(L"Effect_Particle_Ammo"));
+	//m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Clone_GameObject(L"Effect_Particle_Ammo"));
+
+
 
 
 	return S_OK;
@@ -227,7 +256,10 @@ void CProjBasicAmmo::Free()
 	Safe_Release(m_pBufferCom[2]);
 	Safe_Release(m_pTextureCom);
 
-	Safe_Release(m_pParticle);
+	if (m_pParticle != nullptr)
+	{
+		Safe_Release(m_pParticle);
+	}
 
 	CBaseProjectile::Free();
 }

@@ -4,6 +4,8 @@
 #define __PROJECTILE_PULSE_AMMO_H__
 
 #include "BaseProjectile.h"
+
+class CAmmoParticle;
 //ÆÞ½º°Ç ÀüºÎ
 class CProjPulseAmmo : public CBaseProjectile
 {
@@ -35,6 +37,8 @@ private:
 	Engine::CVTXRectTexture* m_pBufferCom[(_uint)eEffectAxis::END] = {};
 	Engine::CTexture* m_pTextureCom = nullptr;
 
+
+	CAmmoParticle* m_pParticle = nullptr;
 };
 
 

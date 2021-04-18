@@ -187,6 +187,8 @@
     <ClInclude Include="..\Headers\MainStageC.h" />
     <ClInclude Include="..\Headers\MapObject.h" />
     <ClInclude Include="..\Headers\NaviMeshController.h" />
+    <ClInclude Include="..\Headers\NpcMonk.h" />
+    <ClInclude Include="..\Headers\ParticlePool.h" />
     <ClInclude Include="..\Headers\Player.h" />
     <ClInclude Include="..\Headers\PlayerWeapon.h" />
     <ClInclude Include="..\Headers\ProjBasicAmmo.h" />
@@ -256,6 +258,8 @@
     <ClCompile Include="..\Codes\MainStageC.cpp" />
     <ClCompile Include="..\Codes\MapObject.cpp" />
     <ClCompile Include="..\Codes\NaviMeshController.cpp" />
+    <ClCompile Include="..\Codes\NpcMonk.cpp" />
+    <ClCompile Include="..\Codes\ParticlePool.cpp" />
     <ClCompile Include="..\Codes\Player.cpp" />
     <ClCompile Include="..\Codes\PlayerWeapon.cpp" />
     <ClCompile Include="..\Codes\ProjBasicAmmo.cpp" />

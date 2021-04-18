@@ -1,10 +1,11 @@
 #pragma once
 
 #ifndef __PROJECTILE_SHOTGUN_PELLET_H__
-
-
+#define __PROJECTILE_SHOTGUN_PELLET_H__
 
 #include "BaseProjectile.h"
+
+class CAmmoParticle;
 
 //¼¦°Ç Æç¸´
 
@@ -38,6 +39,6 @@ private:
 	Engine::CVTXRectTexture* m_pBufferCom[(_uint)eEffectAxis::END] = {};
 	Engine::CTexture* m_pTextureCom = nullptr;
 
-
+	CAmmoParticle* m_pParticle = nullptr;
 };
 #endif // !__PROJECTILE_SHOTGUN_PELLET_H__

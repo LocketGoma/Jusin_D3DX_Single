@@ -6,6 +6,8 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
+#include "AmmoParticle.h"
+
 CProjShotgunPellet::CProjShotgunPellet(_Device pDevice)
 	: CBaseProjectile(pDevice)
 {
@@ -47,9 +49,11 @@ _int CProjShotgunPellet::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
-	m_fLifeTime -= fDeltaTime;
-
-	m_fRotate += fDeltaTime * 1440.f;
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return MANAGER_OUT;
+	}
 
 	if (m_fLifeTime < 0.f)
 	{
@@ -57,12 +61,42 @@ _int CProjShotgunPellet::Update_GameObject(const _float& fDeltaTime)
 
 		return OBJ_DEAD;
 	}
+	if (m_bAmmoBreak == true)
+	{
+		m_iDamage = 0;
+		if (m_pParticle == nullptr)
+		{
+			m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Get_Data_From_MemoryPool(L"TestPool"));
+		}
+
+		m_pParticle->Set_Position(Get_Position());
+		if (m_pParticle->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
+		{
+			pManagement->Release_Data_To_MemoryPool(L"TestPool", m_pParticle);
+			m_pParticle = nullptr;
+
+			Set_Dead();
+		}
+
+		return OBJ_DEAD;
+	}
+
+	m_fLifeTime -= fDeltaTime;
+
+	m_fRotate += fDeltaTime * 1440.f;
+
+
 
 	return NO_EVENT;
 }
 
 _int CProjShotgunPellet::LateUpdate_GameObject(const _float& fDeltaTime)
 {
+	if (m_bAmmoBreak == true)
+	{
+		return OBJ_DEAD;
+	}
+
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
@@ -216,6 +250,11 @@ void CProjShotgunPellet::Free()
 	Safe_Release(m_pBufferCom[1]);
 	Safe_Release(m_pBufferCom[2]);
 	Safe_Release(m_pTextureCom);
+
+	if (m_pParticle != nullptr)
+	{
+		Safe_Release(m_pParticle);
+	}
 
 	CBaseProjectile::Free();
 }

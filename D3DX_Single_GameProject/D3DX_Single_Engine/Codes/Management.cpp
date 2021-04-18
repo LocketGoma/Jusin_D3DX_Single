@@ -12,6 +12,7 @@ CManagement::CManagement()
 	, m_pGraphicManager(CGraphicResourceManager::Get_Instance())
 	, m_pKeyManager(CKeyManager::Get_Instance())
 	, m_pSceneManager(CSceneManager::Get_Instance())
+	, m_pMemoryPoolManager(CMemeoryPoolManager::Get_Instance())
 	, m_pGameObjectManager(CGameObjectManager::Get_Instance())
 	, m_pTimeManager(CTimeManager::Get_Instance())
 	, m_pFontManager(CFontManager::Get_Instance())
@@ -25,6 +26,7 @@ CManagement::CManagement()
 	Safe_AddReference(m_pGraphicManager);
 	Safe_AddReference(m_pKeyManager);
 	Safe_AddReference(m_pSceneManager);
+	Safe_AddReference(m_pMemoryPoolManager);
 	Safe_AddReference(m_pGameObjectManager);
 	Safe_AddReference(m_pTimeManager);
 	Safe_AddReference(m_pFontManager);
@@ -148,7 +150,7 @@ void CManagement::Render_Scene()
 	m_pSceneManager->Render_Scene();
 }
 
-CGameObject* CManagement::Get_GameObject_From_Layer(const std::wstring& pLayerTag, const std::wstring& pObjectTag)
+Engine::CGameObject* CManagement::Get_GameObject_From_Layer(const std::wstring& pLayerTag, const std::wstring& pObjectTag)
 {
 	return m_pSceneManager->Get_GameObject_From_Layer(pLayerTag,pObjectTag);
 }
@@ -267,12 +269,29 @@ void CManagement::Render_DebugBuffer(const _tchar* pMRTTag)
 {
 	m_pRenderManager->Render_DebugBuffer(pMRTTag);
 }
+//랜더타겟관련 끝
 
+//메모리풀 관련
 void CManagement::SetUp_OnShader(LPD3DXEFFECT& pEffect, const _tchar* pTargetTag, const char* pConstantTable)
 {
 	m_pRenderManager->SetUp_OnShader(pEffect, pTargetTag, pConstantTable);
 }
-//랜더타겟관련 끝
+Engine::CMemoryPool* CManagement::Get_MemoryPool(const std::wstring& poolName)
+{
+	return m_pMemoryPoolManager->Get_MemoryPool(poolName);
+}
+HRESULT CManagement::Add_MemoryPool(const std::wstring& poolName, CMemoryPool* pPool)
+{
+	return m_pMemoryPoolManager->Add_MemoryPool(poolName,pPool);
+}
+Engine::CGameObject* CManagement::Get_Data_From_MemoryPool(const std::wstring& poolName)
+{
+	return m_pMemoryPoolManager->Get_Data_From_MemoryPool(poolName);
+}
+HRESULT CManagement::Release_Data_To_MemoryPool(const std::wstring& poolName, CGameObject* pData)
+{
+	return m_pMemoryPoolManager->Release_Data_To_MemoryPool(poolName,pData);
+}
 
 //오브젝트 관련
 HRESULT CManagement::Ready_Prototype(const _tchar* pProtoTag, CComponent* pInstance)
@@ -335,7 +354,7 @@ HRESULT CManagement::Add_GameObject_Prototype(const std::wstring& PrototypeTag, 
 	return m_pGameObjectManager->Add_GameObject_Prototype(PrototypeTag,pPrototype);
 }
 
-CGameObject* CManagement::Clone_GameObject(const std::wstring& PrototypeTag, void* pArg)
+Engine::CGameObject* CManagement::Clone_GameObject(const std::wstring& PrototypeTag, void* pArg)
 {
 	return m_pGameObjectManager->Clone_GameObject(PrototypeTag, pArg);
 }
@@ -408,6 +427,7 @@ void CManagement::Free()
 	Safe_Release(m_pGameObjectManager);
 	Safe_Release(m_pGraphicManager);
 	Safe_Release(m_pPrototypeManager);
+	Safe_Release(m_pMemoryPoolManager);
 	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pDeviceManager);
@@ -431,7 +451,7 @@ void CManagement::Release_Engine()
 
 		if (CSceneManager::Destroy_Instance())
 			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CSceneManager (Management.cpp)");
-
+		
 		if (CGameObjectManager::Destroy_Instance())
 			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CGameObjectManager (Management.cpp)");
 
@@ -443,6 +463,9 @@ void CManagement::Release_Engine()
 
 		if (CPrototypeManager::Destroy_Instance())
 			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CProtoTypeManager (Management.cpp)");
+
+		if (CMemeoryPoolManager::Destroy_Instance())
+			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CMemeoryPoolManager (Management.cpp)");
 
 		if (CRenderTargetManager::Destroy_Instance())
 			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderTargetManager");

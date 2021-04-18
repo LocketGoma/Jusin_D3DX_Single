@@ -145,7 +145,7 @@ _bool CWeaponShotgun::Shoot_Weapon()
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
-		return MANAGER_OUT;
+		return false;
 	}
 
 	_bool bResult = false;
@@ -261,7 +261,7 @@ bool CWeaponShotgun::Reload_Weapon()
 		Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 		if (nullptr == pManagement)
 		{
-			return MANAGER_OUT;
+			return false;
 		}
 		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
 		switch (rand()%3)

@@ -162,7 +162,7 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 		}
 	}
 
-	//플레이어 - 총알 상호작용 판정
+	//플레이어 - 총알 상호작용 판정 (잡기)
 	targetLayer = Get_Layer(L"WeaponLayer");
 	if (targetLayer != nullptr)
 	{
@@ -246,9 +246,9 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 			{
 				if (AmmoLayer != nullptr)
 				{
-					for (auto& iter : *AmmoLayer->Get_ObjectLayer())
+					for (auto& Aiter : *AmmoLayer->Get_ObjectLayer())
 					{
-						CBaseProjectile* pAObject = dynamic_cast<CBaseProjectile*>(iter.second);
+						CBaseProjectile* pAObject = dynamic_cast<CBaseProjectile*>(Aiter.second);
 						if (pAObject != nullptr)
 						{
 							if (pAObject->Get_TargetState() == eTargetState::ToEnemy)
@@ -256,7 +256,7 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 								if (pObject->Check_Attack_Collide(&(pAObject->Get_Position()), pAObject->Get_Radius()))
 								{
 									pObject->Hit_Attack(pAObject->Get_Damage());
-									pAObject->Set_Dead();
+									pAObject->Set_Break();
 								}
 							}
 						}

@@ -7,6 +7,7 @@ CBaseProjectile::CBaseProjectile(_Device pDevice)
 	, m_fSplashRadius(0.f)
 	, m_fRotate(0.f)
 	, m_eTargetState(eTargetState::ToEnemy)
+	, m_bAmmoBreak(false)
 {
 }
 
@@ -16,6 +17,7 @@ CBaseProjectile::CBaseProjectile(const CBaseProjectile& other)
 	, m_fSplashRadius(other.m_fSplashRadius)
 	, m_fRotate(other.m_fRotate)
 	, m_eTargetState(other.m_eTargetState)
+	, m_bAmmoBreak(false)
 {
 }
 
@@ -77,6 +79,11 @@ eTargetState CBaseProjectile::Get_TargetState()
 void CBaseProjectile::Set_TargetState(eTargetState eState)
 {
 	m_eTargetState = eState;
+}
+
+void CBaseProjectile::Set_Break()
+{
+	m_bAmmoBreak = true;
 }
 
 void CBaseProjectile::Free(void)

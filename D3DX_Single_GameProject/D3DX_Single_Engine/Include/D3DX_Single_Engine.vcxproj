@@ -233,6 +233,8 @@
     <ClInclude Include="..\Headers\Light.h" />
     <ClInclude Include="..\Headers\LightingManager.h" />
     <ClInclude Include="..\Headers\Management.h" />
+    <ClInclude Include="..\Headers\MemeoryPoolManager.h" />
+    <ClInclude Include="..\Headers\MemoryPool.h" />
     <ClInclude Include="..\Headers\Mesh.h" />
     <ClInclude Include="..\Headers\NaviLine.h" />
     <ClInclude Include="..\Headers\NaviMesh.h" />
@@ -282,6 +284,8 @@
     <ClCompile Include="..\Codes\Light.cpp" />
     <ClCompile Include="..\Codes\LightingManager.cpp" />
     <ClCompile Include="..\Codes\Management.cpp" />
+    <ClCompile Include="..\Codes\MemeoryPoolManager.cpp" />
+    <ClCompile Include="..\Codes\MemoryPool.cpp" />
     <ClCompile Include="..\Codes\Mesh.cpp" />
     <ClCompile Include="..\Codes\NaviLine.cpp" />
     <ClCompile Include="..\Codes\NaviMesh.cpp" />

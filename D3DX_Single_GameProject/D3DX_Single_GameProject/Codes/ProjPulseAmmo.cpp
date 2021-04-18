@@ -6,6 +6,8 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
+#include "AmmoParticle.h"
+
 ////쓸 수 있는 인자들
 ///from StaticObject:
 //_uint m_fWeight;
@@ -47,6 +49,7 @@ CProjPulseAmmo::CProjPulseAmmo(_Device pDevice)
 CProjPulseAmmo::CProjPulseAmmo(const CProjPulseAmmo& other)
 	: CBaseProjectile(other)
 {
+	m_bAmmoBreak = false;
 }
 
 HRESULT CProjPulseAmmo::Ready_GameObject(_uint iTexNumber)
@@ -68,21 +71,47 @@ HRESULT CProjPulseAmmo::Ready_GameObject_Clone(void* pArg)
 _int CProjPulseAmmo::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
-
-	m_fLifeTime -= fDeltaTime;
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 
 	if (m_fLifeTime < 0.f)
 	{
-		m_bDead = true;
+		Set_Dead();
+		return OBJ_DEAD;
+	}
+	if (m_bAmmoBreak == true)
+	{
+		m_iDamage = 0;
+		if (m_pParticle == nullptr)
+		{
+			m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Get_Data_From_MemoryPool(L"TestPool"));
+		}
+
+		m_pParticle->Set_Position(Get_Position());
+		if (m_pParticle->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
+		{
+			pManagement->Release_Data_To_MemoryPool(L"TestPool", m_pParticle);
+			m_pParticle = nullptr;
+
+			Set_Dead();
+		}
 
 		return OBJ_DEAD;
 	}
+
+	m_fLifeTime -= fDeltaTime;
+
+
 
 	return NO_EVENT;
 }
 
 _int CProjPulseAmmo::LateUpdate_GameObject(const _float& fDeltaTime)
 {
+	if (m_bAmmoBreak == true)
+	{
+		return OBJ_DEAD;
+	}
+
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
@@ -97,7 +126,7 @@ _int CProjPulseAmmo::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_EFFECT, this);
 
-	return _int();
+	return NO_EVENT;
 }
 
 HRESULT CProjPulseAmmo::Render_GameObject(void)
@@ -244,6 +273,10 @@ void CProjPulseAmmo::Free()
 	Safe_Release(m_pBufferCom[1]);
 	Safe_Release(m_pBufferCom[2]);
 	Safe_Release(m_pTextureCom);
+	if (m_pParticle != nullptr)
+	{
+		Safe_Release(m_pParticle);
+	}
 
 	CBaseProjectile::Free();
 }

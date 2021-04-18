@@ -7,7 +7,7 @@
 
 CAmmoParticle::CAmmoParticle(_Device pDevice)
 	: CBaseEffect(pDevice)
-	, m_fLifetime(0.025f)
+	, m_fLifetime(0.05f)
 	, m_fNowTime(0.f)
 {
 }
@@ -29,7 +29,7 @@ HRESULT CAmmoParticle::Ready_GameObject(void)
 HRESULT CAmmoParticle::Ready_GameObject_Clone(void* pArg)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	Set_Size(_vec3(2.5f, 2.5f, 0.f));
+	Set_Size(_vec3(5.f, 5.f, 5.f));
 
 	return S_OK;
 }
@@ -43,9 +43,13 @@ _int CAmmoParticle::LateUpdate_GameObject(const _float& fDeltaTime)
 {
 	if (m_fNowTime >= m_fLifetime)
 	{
+		Set_Size(_vec3(5.f, 5.f, 5.f));
+
+		m_fNowTime = 0.f;
 		return OBJ_DEAD;
 	}
 	m_fNowTime += fDeltaTime;
+	Set_Size(Get_Size() * 1.15f);
 
 
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
@@ -121,7 +125,7 @@ HRESULT CAmmoParticle::Add_Component()
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
 	// Texture
-	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Muzzle"));
+	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_BreakAmmo"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Texture", pComponent);
 

@@ -46,6 +46,8 @@ public:
 	eTargetState Get_TargetState();
 	void Set_TargetState(eTargetState eState);
 
+	void Set_Break();
+
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 
@@ -53,6 +55,7 @@ public:
 
 
 protected:
+	_bool m_bAmmoBreak;			//이펙트 표현용. 어딘가 피격되면 Break가 켜짐.
 	_uint m_iDamage;
 	_float m_fSplashRadius;
 	_float m_fRotate;			//빙글빙글 (있어보이게 하는 용도임)
