@@ -259,6 +259,7 @@
     <ClInclude Include="..\Headers\VTXSphereColor.h" />
     <ClInclude Include="..\Headers\VTXTerrain.h" />
     <ClInclude Include="..\Headers\VTXTriColor.h" />
+    <ClInclude Include="Sheader_Weapon.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\AnimationController.cpp" />

@@ -21,6 +21,7 @@ public :
 	CGameObject* Get_GameObject(const std::wstring& pObjectTag);
 	CComponent* Get_Component(const std::wstring& pObjectTag, const std::wstring& pComponentTag, COMPONENT_ID eID);
 	std::map<const std::wstring, CGameObject*>* Get_ObjectLayer();
+	_uint Get_ObjectCount();
 
 public :
 public:

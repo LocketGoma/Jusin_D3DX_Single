@@ -35,14 +35,20 @@ private:
 	//개미귀신 2차 스폰, 3차 스폰 용
 	HRESULT Add_Enemy_Layer_WaveB(const _tchar* pLayerTag);
 	HRESULT Add_Enemy_Layer_WaveC(const _tchar* pLayerTag);
+	HRESULT Add_Boss_Layer_WaveBoss(const _tchar* pLayerTag);
 
 	void Change_Scene(ESceneType eSceneType);
 
 public:
 	static CMainStageA* Create(_Device pDevice);
 
+
 private:
 	virtual void Free() override;
+
+
+	_bool m_bWaveTrigger[4] = {false};
+	_bool m_bWaveClear[4] = {false};
 
 	CNaviMeshController* m_pNaviController;
 

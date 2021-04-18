@@ -65,6 +65,7 @@ _int CMainStageC::Update_Scene(const _float& fDeltaTime)
 	}
     m_pNaviController->Get_NowIndex(&pPlayer->Get_Position());
 
+
 	if (m_pNaviController->Stand_NaviMesh(pPlayer))
 	{
 		pPlayer->Jump_Cancel();
@@ -323,6 +324,12 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     pGameObject->Set_Position(_vec3(20.f, 0.f, 45.f));
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
 
+    //∫∏Ω∫ «Â≈Õ
+    pGameObject = pManagement->Clone_GameObject(L"BossHunter");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(20.f, 0.f, 0.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BossHunter", pGameObject), E_FAIL);
+
     //«Â≈Õ AI
     pGameObject = CBaseAI_Attacker::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -335,6 +342,14 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Hunter A2")));
     dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
     FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
+   
+    //∫∏Ω∫ «Â≈Õ AI
+    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"BossHunter")));
+    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"BossHunterAI", pGameObject), E_FAIL);
+
 
     m_mapLayer.emplace(pLayerTag, pLayer);
     m_mapLayer.emplace(L"AILayer", pAILayer);
@@ -345,6 +360,7 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
 HRESULT CMainStageC::Add_Boss_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
+    Engine::CLayer* pAILayer = Engine::CLayer::Create();
 
     Engine::CGameObject* pGameObject = nullptr;
     Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
@@ -364,9 +380,10 @@ HRESULT CMainStageC::Add_Boss_Layer(const _tchar* pLayerTag)
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Strider")));
     dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EnemyStriderAI", pGameObject), E_FAIL);
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyStriderAI", pGameObject), E_FAIL);
     
     m_mapLayer.emplace(pLayerTag, pLayer);
+    m_mapLayer.emplace(L"BossAILayer", pAILayer);
 
 	return S_OK;
 }

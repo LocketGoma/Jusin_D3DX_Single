@@ -224,5 +224,10 @@ Engine::CGameObject* CProjFlechette::Clone(void* pArg = nullptr)
 
 void CProjFlechette::Free()
 {
+	if (m_pEffect != nullptr)
+	{
+		Safe_Release(m_pEffect);
+	}
+
 	CBaseProjectile::Free();
 }

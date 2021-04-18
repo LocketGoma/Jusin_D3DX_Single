@@ -51,6 +51,11 @@ std::map<const std::wstring, CGameObject*>* CLayer::Get_ObjectLayer()
 	return &m_mapObject;
 }
 
+_uint CLayer::Get_ObjectCount()
+{
+	return m_mapObject.size();
+}
+
 HRESULT CLayer::Ready_Layer(void)
 {
 	return S_OK;

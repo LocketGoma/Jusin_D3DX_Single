@@ -482,6 +482,9 @@
       <Filter>00.System\22.MemoryPool\00.Pool</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\MemeoryPoolManager.h" />
+    <ClInclude Include="Sheader_Weapon.hlsl">
+      <Filter>01.Resources\12.Sheader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

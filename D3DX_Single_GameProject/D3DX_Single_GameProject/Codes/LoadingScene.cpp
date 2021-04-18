@@ -38,6 +38,7 @@
 #include "EnemyAntLion.h"
 #include "EnemyHunter.h"
 
+#include "BossHunter.h"
 #include "BossStrider.h"
 
 #include "EnemyManhack.h"
@@ -309,7 +310,8 @@ HRESULT CLoadingScene::Load_Base_Resource()
 
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Hunter", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Hunter/", L"Hunter_Final.x");
 
-    //pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Strider", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Strider/", L"Strider_Final.x");
+    pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"BossHunter", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/BHunter/", L"Hunter_Final.x");
+    
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Strider", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Strider/", L"Strider_Test.x");
 
     pManagement->Ready_Meshes(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_MESH, L"Manhack", Engine::MESHTYPE::MESH_DYNAMIC, L"../../Resource/Meshes/Dynamic/Enemy/Manhack/", L"Manhack_Final.x");
@@ -421,6 +423,10 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CBossStrider::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"BossStrider", pGameObject);
+
+    pGameObject = CBossHunter::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"BossHunter", pGameObject);
 
     //Àû (±âÅ¸)
     pGameObject = CEnemyManhack::Create(m_pDevice);

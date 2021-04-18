@@ -221,9 +221,6 @@ void CEnemyAntLion::Go_Stright(_float fDeltaTime)
 	//Corepos 이용하기.
 	m_bState = true;
 
-	_vec3 vLook = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
-	D3DXVec3Normalize(&vLook, &vLook);
-
 	m_eAction = eAntLionAction::Run;
 
 
