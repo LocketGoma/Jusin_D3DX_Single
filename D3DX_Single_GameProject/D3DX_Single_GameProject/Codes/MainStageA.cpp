@@ -196,7 +196,7 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 	//상호작용 판정부 끝
 
 
-	//플레이어 - 몬스터 충돌판정
+	//플레이어 - 몬스터 충돌판정 + 총알 피격포함
 	targetLayer = Get_Layer(L"EnemyLayer");
 	if (targetLayer != nullptr)
 		for (auto& iter : *targetLayer->Get_ObjectLayer())
@@ -500,7 +500,7 @@ void CMainStageA::Change_Scene(ESceneType eSceneType)
 		return;
 	}
 
-	pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_TEST, CMainStageC::Create(m_pDevice));
+	pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE3, CMainStageC::Create(m_pDevice));
 
 }
 

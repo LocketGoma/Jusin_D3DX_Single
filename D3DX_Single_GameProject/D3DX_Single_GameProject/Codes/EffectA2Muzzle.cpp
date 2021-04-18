@@ -29,7 +29,7 @@ HRESULT CEffectA2Muzzle::Ready_GameObject_Clone(void* pArg)
 
 _int CEffectA2Muzzle::Update_GameObject(const _float& fDeltaTime)
 {
-	return _int();
+	return NO_EVENT;
 }
 
 _int CEffectA2Muzzle::LateUpdate_GameObject(const _float& fDeltaTime)

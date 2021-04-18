@@ -6,12 +6,16 @@
 CBaseEffect::CBaseEffect(_Device pDevice)
 	: CGameObject(pDevice)
 	, m_bIsVisible(false)
+	, m_fLifetime(0.f)
+	, m_fNowTime(0.f)
 {
 }
 
 CBaseEffect::CBaseEffect(const CBaseEffect& other)
 	: CGameObject(other)
 	, m_bIsVisible(false)
+	, m_fLifetime(other.m_fLifetime)
+	, m_fNowTime(0.f)
 {
 }
 

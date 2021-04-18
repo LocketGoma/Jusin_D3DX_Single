@@ -5,6 +5,8 @@
 #include "Transform.h"
 #include "DynamicMesh.h"
 
+#include "EnemyHurtEffect.h"
+
 CDynamicObject::CDynamicObject(_Device pDevice)
 	: CBaseObject(pDevice)
 	, m_fMoveSpeed(5.f)
@@ -20,6 +22,7 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_fRotateSpeed(1.0f)
 	, m_bEndChecker(false)
 	, m_bStartMove(false)
+	, m_bHurt(false)
 	, m_vCorePos(_vec3(0.f,0.f,0.f))
 	, m_bState(true)
 	, m_eChannel(Engine::SOUND_CHANNELID::ENEMY)
@@ -44,6 +47,7 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_fRotateSpeed(other.m_fRotateSpeed)
 	, m_bEndChecker(false)
 	, m_bStartMove(false)
+	, m_bHurt(false)
 	, m_vCorePos(other.m_vCorePos)
 	, m_bState(other.m_bState)
 	, m_eChannel(other.m_eChannel)
@@ -171,6 +175,11 @@ void CDynamicObject::Set_Direction(_vec3 vDir)
 
 void CDynamicObject::Free(void)
 {
+	if (m_pEffect != nullptr)
+	{
+		Safe_Release(m_pEffect);
+	}
+
 	CBaseObject::Free();
 }
 
@@ -189,6 +198,17 @@ void CDynamicObject::Check_Hit(_bool bForce, _uint iDamage)
 	if (m_pSupportCom->Picking_Object_Dynamic(g_hWnd, m_pMeshCom, m_pTransformCom))
 	{
 		eType = Engine::COLIDETYPE::COL_TRUE;
+
+		//¿Ã∆Â∆Æ ∆„
+		if (iDamage != 0&&m_pEffect == nullptr)
+		{
+			Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+
+			m_pEffect = dynamic_cast<CEnemyHurtEffect*>(pManagement->Get_Data_From_MemoryPool(L"HurtPool"));
+			m_pEffect->Set_Position(m_pSupportCom->Get_Position());
+
+			m_bHurt = true;
+		}
 		Hit_Attack(iDamage);
 	}
 	else if (eType != Engine::COLIDETYPE::COL_INRANGE)
@@ -213,4 +233,28 @@ _vec3 CDynamicObject::Calc_Position_At_Mesh()
 _vec3 CDynamicObject::Get_Position_At_Mesh()
 {
 	return m_vCorePos;
+}
+
+_int CDynamicObject::Update_GameObject(const _float& fDeltaTime)
+{
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+
+	if (m_bHurt == true)
+	{	
+		if (m_pEffect->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
+		{
+			pManagement->Release_Data_To_MemoryPool(L"HurtPool", m_pEffect);
+			m_pEffect = nullptr;
+
+			m_bHurt = false;
+		}
+	}
+
+
+	return NO_EVENT;
+}
+
+_int CDynamicObject::LateUpdate_GameObject(const _float& fDeltaTime)
+{
+	return NO_EVENT;
 }

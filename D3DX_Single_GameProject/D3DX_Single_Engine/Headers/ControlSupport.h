@@ -57,6 +57,7 @@ public:
 //결과물 리턴하는곳
 public:
 	_float Get_Distance();
+	_vec3 Get_Position();
 	
 private:
 	void		Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax);
@@ -66,6 +67,7 @@ private:
 	_Device m_pDevice;
 	
 	_float m_fDistance;		//거리
+	_vec3 m_vPosition;
 
 public:
 	static CControlSupportUnit* Create(_Device pDevice);

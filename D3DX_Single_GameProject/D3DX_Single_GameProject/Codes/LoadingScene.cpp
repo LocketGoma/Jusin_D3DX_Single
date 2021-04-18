@@ -68,6 +68,8 @@
 //ÀÌÆåÆ®
 #include "EffectMuzzle.h"
 #include "EffectA2Muzzle.h"
+#include "EnemyHurtEffect.h"
+#include "ExplosionEffect.h"
 
 //ÆÄÆ¼Å¬
 #include "AmmoParticle.h"
@@ -357,12 +359,17 @@ HRESULT CLoadingScene::Load_Base_Resource()
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Tracer_PHYS", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Ammo/tracer_middle%d.tga", 2);
 
     //Æø¹ß ÀÌÆåÆ®
-    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_FreA", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Fire/FireA%d.png", 2);
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_FireExplo", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Fire/FireA%d.png", 2);
+
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Explosion", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Explosion/Explosion%d.png", 15);
 
     //ÃÑ¾Ë ÆÄÆí ÀÌÆåÆ®
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_BreakAmmo", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/Particle/glow_spark_01.tga", 1);
 
+    //¸ó½ºÅÍ ÇÇ°Ý ÀÌÆåÆ®
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_EnemyHurt", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/HurtEffect/antlion_particle_blood%d.tga", 4);
 
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_BloodCore", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Effect/HurtEffect/blood_core.tga", 1);
 
     //UI ÄÄÆ÷³ÍÆ® (¶ó°í ÇØºÃÀÚ ¸î°³¾øÀ½)
     pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_UI_BOX", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/UIBox%d.png", 2);
@@ -506,6 +513,14 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Effect_A2_Muzzle", pGameObject);
 
+    pGameObject = CEnemyHurtEffect::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Effect_EnemyHurt", pGameObject);  
+    
+    pGameObject = CExplosionEffect::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Effect_Explosion", pGameObject);
+
     //ÆÄÆ¼Å¬ ÀÌÆåÆ®
     pGameObject = CAmmoParticle::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -546,8 +561,9 @@ HRESULT CLoadingScene::Ready_MemoryPool()
     auto* pManagement = Engine::CManagement::Get_Instance();
     NULL_CHECK_RETURN(pManagement, E_FAIL);
 
-    pManagement->Add_MemoryPool(L"TestPool", CParticlePool::Create(dynamic_cast<CBaseEffect*>( pManagement->Clone_GameObject(L"Effect_Particle_Ammo"))));
+    pManagement->Add_MemoryPool(L"AmmoBreakPool", CParticlePool::Create(dynamic_cast<CBaseEffect*>( pManagement->Clone_GameObject(L"Effect_Particle_Ammo"))));
 
+    pManagement->Add_MemoryPool(L"HurtPool", CParticlePool::Create(dynamic_cast<CBaseEffect*>(pManagement->Clone_GameObject(L"Effect_EnemyHurt"))));
 
     return S_OK;
 }

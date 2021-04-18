@@ -173,6 +173,7 @@
     <ClInclude Include="..\Headers\EnemyAntLion.h" />
     <ClInclude Include="..\Headers\EnemyHeadCrap.h" />
     <ClInclude Include="..\Headers\EnemyHunter.h" />
+    <ClInclude Include="..\Headers\EnemyHurtEffect.h" />
     <ClInclude Include="..\Headers\EnemyManhack.h" />
     <ClInclude Include="..\Headers\ExplosionEffect.h" />
     <ClInclude Include="..\Headers\framework.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="..\Codes\EnemyAntLion.cpp" />
     <ClCompile Include="..\Codes\EnemyHeadCrap.cpp" />
     <ClCompile Include="..\Codes\EnemyHunter.cpp" />
+    <ClCompile Include="..\Codes\EnemyHurtEffect.cpp" />
     <ClCompile Include="..\Codes\EnemyManhack.cpp" />
     <ClCompile Include="..\Codes\ExplosionEffect.cpp" />
     <ClCompile Include="..\Codes\LoadingScene.cpp" />

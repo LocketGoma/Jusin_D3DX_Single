@@ -10,6 +10,8 @@ BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
 END_NAMESPACE
 
+class CEnemyHurtEffect;
+
 enum class eAlign
 {
 	LEFT, RIGHT, DOWN, UP, IDLE, END
@@ -31,6 +33,10 @@ protected:
 public:
 	_vec3 Calc_Position_At_Mesh();
 	_vec3 Get_Position_At_Mesh();
+
+public:
+	virtual _int Update_GameObject(const _float& fDeltaTime) PURE;
+	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) PURE;
 
 //기본 액션들 - AI에서 쓸것
 public:
@@ -101,6 +107,7 @@ protected:
 	_int m_iHP;					//현재 체력
 	_uint m_iMaxHP;				//최대 체력
 	_uint m_iDamage;			//공격력
+	_bool m_bHurt;				//피해 입었는지 여부 (이펙트 출력용)
 
 	//기본 공격 간격
 	_float m_fAttackInterval;	//공격간격은 어떻게 되는가
@@ -118,9 +125,12 @@ protected:
 
 	Engine::SOUND_CHANNELID m_eChannel;	//사운드 채널 (다중 몬스터 처리시)
 
+
+
 //컴포넌트들
 protected:
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;
+	CEnemyHurtEffect* m_pEffect = nullptr;			//피튀는 이펙트
 	//Engine::CTransform* m_pTransformCom = nullptr;
 	//Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	//Engine::CSphereCollider* m_pColliderCom = nullptr;

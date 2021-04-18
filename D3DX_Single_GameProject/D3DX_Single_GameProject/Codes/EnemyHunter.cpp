@@ -73,7 +73,7 @@ HRESULT CEnemyHunter::Ready_GameObject_Clone(void* pArg)
 _int CEnemyHunter::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
-
+	CDynamicObject::Update_GameObject(fDeltaTime);
 
 
 	return NO_EVENT;

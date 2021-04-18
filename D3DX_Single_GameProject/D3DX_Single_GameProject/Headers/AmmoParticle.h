@@ -31,8 +31,7 @@ public:
 	virtual Engine::CGameObject* Clone(void* pArg = nullptr) override;
 
 
-	_float m_fLifetime;			//이펙트 수명
-	_float m_fNowTime;			//현재 흐른 시간
+
 
 };
 

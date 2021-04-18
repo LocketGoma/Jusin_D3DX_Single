@@ -7,18 +7,14 @@
 
 CAmmoParticle::CAmmoParticle(_Device pDevice)
 	: CBaseEffect(pDevice)
-	, m_fLifetime(0.05f)
-	, m_fNowTime(0.f)
+
 {
+	m_fLifetime = 0.05f;
 }
 
 CAmmoParticle::CAmmoParticle(const CAmmoParticle& other)
 	: CBaseEffect(other)
-	, m_fLifetime(other.m_fLifetime)
-	, m_fNowTime(0.f)
 {
-
-
 }
 
 HRESULT CAmmoParticle::Ready_GameObject(void)

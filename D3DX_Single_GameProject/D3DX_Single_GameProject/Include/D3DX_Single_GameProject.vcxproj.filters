@@ -242,14 +242,14 @@
     <Filter Include="03.MemoryPool\00.EffectPool">
       <UniqueIdentifier>{a24715e7-e018-4adf-9504-284db16fb935}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Object\10.Effect\05.AntlionHurtEffect">
-      <UniqueIdentifier>{a716654c-a4a0-4895-b1c4-2d0d0e0a60de}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Object\03.DynamicObject\02.NPC">
       <UniqueIdentifier>{d8ba99f8-b79f-4d5b-9d6e-14fa92c1a102}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Object\03.DynamicObject\02.NPC\00.Monk">
       <UniqueIdentifier>{80ad6a4e-3142-42cb-b113-a13b02b48ace}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\10.Effect\05.EnemyHurtEffect">
+      <UniqueIdentifier>{a716654c-a4a0-4895-b1c4-2d0d0e0a60de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -472,6 +472,9 @@
     <ClInclude Include="..\Headers\NpcMonk.h">
       <Filter>01.Object\03.DynamicObject\02.NPC\00.Monk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\EnemyHurtEffect.h">
+      <Filter>01.Object\10.Effect\05.EnemyHurtEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -687,6 +690,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\NpcMonk.cpp">
       <Filter>01.Object\03.DynamicObject\02.NPC\00.Monk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\EnemyHurtEffect.cpp">
+      <Filter>01.Object\10.Effect\05.EnemyHurtEffect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

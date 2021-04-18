@@ -48,6 +48,8 @@ protected:
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CTexture* m_pTextureCom = nullptr;
 
+	_float m_fLifetime;			//이펙트 수명
+	_float m_fNowTime;			//현재 흐른 시간
 
 	_bool m_bIsVisible;
 };

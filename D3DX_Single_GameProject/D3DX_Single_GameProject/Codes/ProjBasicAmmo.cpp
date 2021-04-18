@@ -63,13 +63,13 @@ _int CProjBasicAmmo::Update_GameObject(const _float& fDeltaTime)
 		m_iDamage = 0;
 		if (m_pParticle == nullptr)
 		{
-			m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Get_Data_From_MemoryPool(L"TestPool"));
+			m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Get_Data_From_MemoryPool(L"AmmoBreakPool"));
 		}
 
 		m_pParticle->Set_Position(Get_Position());
 		if (m_pParticle->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
 		{
-			pManagement->Release_Data_To_MemoryPool(L"TestPool", m_pParticle);
+			pManagement->Release_Data_To_MemoryPool(L"AmmoBreakPool", m_pParticle);
 			m_pParticle = nullptr;
 
 			Set_Dead();

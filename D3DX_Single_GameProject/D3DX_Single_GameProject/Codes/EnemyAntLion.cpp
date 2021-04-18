@@ -56,6 +56,7 @@ HRESULT CEnemyAntLion::Ready_GameObject_Clone(void* pArg)
 _int CEnemyAntLion::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+	CDynamicObject::Update_GameObject(fDeltaTime);
 
 	m_fNowAttackTime += fDeltaTime;
 

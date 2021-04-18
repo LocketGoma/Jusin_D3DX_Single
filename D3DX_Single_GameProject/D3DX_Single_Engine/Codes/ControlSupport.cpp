@@ -15,6 +15,7 @@ USING(Engine)
 CControlSupportUnit::CControlSupportUnit(_Device pDevice)
     : m_pDevice(pDevice)
     , m_fDistance(-1.f)
+    , m_vPosition(_vec3(0.f,0.f,0.f))
 {
     m_bIsPrototype = true;    
 
@@ -25,6 +26,7 @@ CControlSupportUnit::CControlSupportUnit(const CControlSupportUnit& other)
     : CComponent(other)
     , m_pDevice(other.m_pDevice)
     , m_fDistance(other.m_fDistance)
+    , m_vPosition(_vec3(0.f,0.f,0.f))
 {
     m_bIsPrototype = false;    
 
@@ -258,6 +260,10 @@ _bool CControlSupportUnit::Picking_Object_Dynamic(HWND hWnd, const CDynamicMesh*
             if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &fU, &fV, &fDist))
             {
                 m_fDistance = fDist;
+                m_vPosition = _vec3(v0 + (v1 - v0) * fU + (v2 - v0) * fV);
+
+                _mat matPos = pTransform->Get_TransformDescription().matWorld;
+                D3DXVec3TransformCoord(&m_vPosition, &m_vPosition, &matPos);
 
                 bResult = true;
                 break;
@@ -835,6 +841,11 @@ _bool CControlSupportUnit::Collision_Sphere(const _vec3* pDestPos, const _float 
 _float CControlSupportUnit::Get_Distance()
 {
     return m_fDistance;
+}
+
+_vec3 CControlSupportUnit::Get_Position()
+{
+    return m_vPosition;
 }
 
 void CControlSupportUnit::Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax)
