@@ -4,6 +4,9 @@
 #define __PROJECTILE_FLECHETTE_H__
 
 #include "BaseProjectile.h"
+
+class CBaseEffect;
+
 class CProjFlechette : public CBaseProjectile
 {
 private:
@@ -29,6 +32,11 @@ public:
 
 private:
 	virtual void Free();
+
+	_bool m_bExplosion;
+	_bool m_bClearDead;
+	CBaseEffect* m_pEffect = nullptr;
+
 
 //숨겨진 (사용가능한) 함수들
 // public:

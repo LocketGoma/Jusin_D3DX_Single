@@ -64,6 +64,7 @@ _int CWeaponPhysCannon::Update_GameObject(const _float& fDeltaTime)
 		vPos += m_vDir * m_fGrapGap;
 
 		m_pTarget->Set_Position(vPos);
+		m_pTarget->Set_Direction(m_vDir);
 	}
 
 	return NO_EVENT;

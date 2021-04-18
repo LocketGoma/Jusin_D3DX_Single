@@ -565,6 +565,8 @@ HRESULT CLoadingScene::Ready_MemoryPool()
 
     pManagement->Add_MemoryPool(L"HurtPool", CParticlePool::Create(dynamic_cast<CBaseEffect*>(pManagement->Clone_GameObject(L"Effect_EnemyHurt"))));
 
+    pManagement->Add_MemoryPool(L"ExploPool", CParticlePool::Create(dynamic_cast<CBaseEffect*>(pManagement->Clone_GameObject(L"Effect_Explosion"))));
+
     return S_OK;
 }
 

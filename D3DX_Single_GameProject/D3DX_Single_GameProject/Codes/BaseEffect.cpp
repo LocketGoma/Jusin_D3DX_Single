@@ -51,9 +51,9 @@ _bool CBaseEffect::Get_Visible()
 
 void CBaseEffect::Free()
 {
-	Safe_Release(m_pBufferCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTransformCom);
+	//Safe_Release(m_pBufferCom);
+	//Safe_Release(m_pTextureCom);
+	//Safe_Release(m_pTransformCom);
 
 	CGameObject::Free();
 }

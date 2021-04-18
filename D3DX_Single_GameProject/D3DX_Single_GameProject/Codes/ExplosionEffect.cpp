@@ -8,11 +8,17 @@
 
 CExplosionEffect::CExplosionEffect(_Device pDevice)
     : CBaseEffect(pDevice)
+	, m_iMaxEffect(15)
+	, m_iEffectCount(0)
+	, m_bPause(false)
 {
 }
 
 CExplosionEffect::CExplosionEffect(const CExplosionEffect& other)
     : CBaseEffect(other)
+	, m_iMaxEffect(other.m_iMaxEffect)
+	, m_iEffectCount(0)
+	, m_bPause(false)
 {
 }
 
@@ -21,9 +27,11 @@ HRESULT CExplosionEffect::Ready_GameObject(void)
     return S_OK;
 }
 
-HRESULT CExplosionEffect::Ready_GameObject_Clone(void* pArg = nullptr)
+HRESULT CExplosionEffect::Ready_GameObject_Clone(void* pArg)
 {
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	Set_Size(_vec3(2.5f, 2.5f, 2.5f));
 
     return S_OK;
 }
@@ -35,13 +43,18 @@ _int CExplosionEffect::Update_GameObject(const _float& fDeltaTime)
 
 _int CExplosionEffect::LateUpdate_GameObject(const _float& fDeltaTime)
 {
-	if (m_fNowTime >= m_fLifetime)
+	if (m_iEffectCount >= m_iMaxEffect || m_bPause == true)
 	{
-		Set_Size(_vec3(5.f, 5.f, 5.f));
+		Set_Size(_vec3(2.5f, 2.5f, 2.5f));
+
+		m_iEffectCount = 0;
 
 		m_fNowTime = 0.f;
+
+		m_bPause = true;
 		return OBJ_DEAD;
 	}
+
 	m_fNowTime += fDeltaTime;
 	Set_Size(Get_Size() * 1.15f);
 
@@ -84,7 +97,7 @@ HRESULT CExplosionEffect::Render_GameObject(void)
 	}
 
 
-	if (FAILED(m_pTextureCom->Set_Texture()))
+	if (FAILED(m_pTextureCom->Set_Texture(m_iEffectCount++)))
 	{
 		return E_FAIL;
 	}
@@ -95,6 +108,11 @@ HRESULT CExplosionEffect::Render_GameObject(void)
 	}
 
 	return S_OK;
+}
+
+void CExplosionEffect::Set_Ready()
+{
+	m_bPause = false;
 }
 
 CExplosionEffect* CExplosionEffect::Create(_Device pDevice)
@@ -109,7 +127,7 @@ CExplosionEffect* CExplosionEffect::Create(_Device pDevice)
 	return pInstance;
 }
 
-Engine::CGameObject* CExplosionEffect::Clone(void* pArg = nullptr)
+Engine::CGameObject* CExplosionEffect::Clone(void* pArg)
 {
 	CExplosionEffect* pClone = new CExplosionEffect(*this);
 
@@ -148,7 +166,7 @@ HRESULT CExplosionEffect::Add_Component()
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
 	// Texture
-	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_BreakAmmo"));
+	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Explosion"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Texture", pComponent);
 

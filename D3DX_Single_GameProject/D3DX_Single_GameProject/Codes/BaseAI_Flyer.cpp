@@ -41,8 +41,12 @@ _int CBaseAI_Flyer::Update_GameObject(const _float& fDeltaTime)
 	{
 		m_eState = eAIStatus::DEAD;
 		m_pControlUnit->Do_Dead(fDeltaTime);
-		m_pControlUnit->Set_Dead();
-		m_bDead = true;
+		
+		if (m_pControlUnit->Get_Clear_Dead_State()==true)
+		{
+			m_pControlUnit->Set_Dead();
+			m_bDead = true;
+		}
 	}
 
 	_vec3 vUnitPos = m_pControlUnit->Get_Position();

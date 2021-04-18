@@ -80,6 +80,8 @@ private:
 
 	eAlign m_ePreHoriAlign;
 
+	_bool m_bExplosion;			//= m_bDead;
+
 };
 
 

@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "DynamicMesh.h"
 
-#include "EnemyHurtEffect.h"
+#include "BaseEffect.h"
 
 CDynamicObject::CDynamicObject(_Device pDevice)
 	: CBaseObject(pDevice)
@@ -26,6 +26,8 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_vCorePos(_vec3(0.f,0.f,0.f))
 	, m_bState(true)
 	, m_eChannel(Engine::SOUND_CHANNELID::ENEMY)
+	, m_bUseBaseEffect(true)
+	, m_bClearDead(false)
 {
 	m_iHP = m_iMaxHP;
 	m_eForceType = eForceType::NONE;
@@ -51,6 +53,8 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_vCorePos(other.m_vCorePos)
 	, m_bState(other.m_bState)
 	, m_eChannel(other.m_eChannel)
+	, m_bUseBaseEffect(other.m_bUseBaseEffect)
+	, m_bClearDead(false)
 {
 }
 //얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
@@ -95,6 +99,11 @@ bool CDynamicObject::Hit_Attack(_uint iDamage)
 		return true;
 	}
 	return false;
+}
+
+bool CDynamicObject::Get_Clear_Dead_State()
+{
+	return m_bClearDead;
 }
 
 void CDynamicObject::Set_StartMove()
@@ -183,10 +192,6 @@ void CDynamicObject::Free(void)
 	CBaseObject::Free();
 }
 
-void CDynamicObject::Do_Dead(_float fDeltaTime)
-{
-	this->Set_Dead();
-}
 
 void CDynamicObject::Do_Anichange(_uint iAnimation)
 {
@@ -200,11 +205,11 @@ void CDynamicObject::Check_Hit(_bool bForce, _uint iDamage)
 		eType = Engine::COLIDETYPE::COL_TRUE;
 
 		//이펙트 펑
-		if (iDamage != 0&&m_pEffect == nullptr)
+		if (m_bUseBaseEffect == true && iDamage != 0 && m_pEffect == nullptr)
 		{
 			Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 
-			m_pEffect = dynamic_cast<CEnemyHurtEffect*>(pManagement->Get_Data_From_MemoryPool(L"HurtPool"));
+			m_pEffect = dynamic_cast<CBaseEffect*>(pManagement->Get_Data_From_MemoryPool(L"HurtPool"));
 			m_pEffect->Set_Position(m_pSupportCom->Get_Position());
 
 			m_bHurt = true;

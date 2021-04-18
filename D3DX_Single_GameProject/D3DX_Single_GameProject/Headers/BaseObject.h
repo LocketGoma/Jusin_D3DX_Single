@@ -96,9 +96,9 @@ protected:
 
 	Engine::COLIDETYPE eType;
 
-	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	Engine::CSphereCollider* m_pColliderCom = nullptr;
+	Engine::CTransform* m_pTransformCom = nullptr;
 
 	Engine::CManagement* m_pManagement = nullptr;
 	

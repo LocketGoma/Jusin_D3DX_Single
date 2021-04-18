@@ -377,7 +377,7 @@ void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 		break;
 	}
 
-	CDynamicObject::Do_Dead(fDeltaTime);
+	Set_Dead();
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 

@@ -298,9 +298,9 @@ void CBossStrider::Do_Spawn(_float fDeltaTime)
 
 void CBossStrider::Do_Dead(_float fDeltaTime)
 {
+	Set_Dead();
 
-
-	CDynamicObject::Do_Dead(fDeltaTime);
+	//CDynamicObject::Do_Dead(fDeltaTime);
 }
 
 

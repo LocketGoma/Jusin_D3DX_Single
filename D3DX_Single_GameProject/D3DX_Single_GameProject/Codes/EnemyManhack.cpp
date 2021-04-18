@@ -6,6 +6,8 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
+#include "ExplosionEffect.h"
+
 CEnemyManhack::CEnemyManhack(_Device pDevice)
 	: CDynamicObject(pDevice)
 	, m_ePatton(eManhackPatton::Idle)
@@ -27,15 +29,21 @@ CEnemyManhack::CEnemyManhack(_Device pDevice)
 	m_bState = false;
 
 	m_iDamage = 5;
+
+	m_bExplosion = false;
+
+	m_bUseBaseEffect = false;
 }
 
 CEnemyManhack::CEnemyManhack(const CEnemyManhack& other)
 	: CDynamicObject(other)
 	, m_ePatton(other.m_ePatton)
 	, m_fVerticalRotate(other.m_fVerticalRotate)
+	, m_bExplosion(other.m_bExplosion)
 {
 	m_eAction = eManhackAction::Netual;
 	m_ePrevAction = m_eAction;
+	
 }
 
 HRESULT CEnemyManhack::Ready_GameObject(_uint iTexNumber)
@@ -57,9 +65,24 @@ HRESULT CEnemyManhack::Ready_GameObject_Clone(void* pArg)
 _int CEnemyManhack::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
-
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return MANAGER_OUT;
+	}
 
 	m_fNowAttackTime += fDeltaTime;
+
+	if (m_bExplosion && m_pEffect != nullptr)
+	{
+		if (m_pEffect->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
+		{			
+			pManagement->Release_Data_To_MemoryPool(L"ExploPool", m_pEffect);
+			m_pEffect = nullptr;
+
+			m_bClearDead = true;
+		}
+	}
 
 	
 
@@ -68,6 +91,11 @@ _int CEnemyManhack::Update_GameObject(const _float& fDeltaTime)
 
 _int CEnemyManhack::LateUpdate_GameObject(const _float& fDeltaTime)
 {
+	if (m_bExplosion == true)
+	{
+		return OBJ_DEAD;
+	}
+
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
@@ -254,6 +282,14 @@ void CEnemyManhack::Do_Dead(_float fDeltaTime)
 	{
 		return;
 	}
+	if (m_pEffect == nullptr)
+	{
+		m_pEffect = dynamic_cast<CExplosionEffect*>(pManagement->Get_Data_From_MemoryPool(L"ExploPool"));
+		m_pEffect->Set_Position(Get_Position());
+		dynamic_cast<CExplosionEffect*>(m_pEffect)->Set_Ready();
+	}
+	m_bExplosion = true;
+
 	_uint iSelect = rand() % 3;
 	pManagement->Play_Sound(L"mh_gib.wav", Engine::SOUND_CHANNELID::ENEMYDEAD);
 	switch (iSelect)
@@ -273,7 +309,7 @@ void CEnemyManhack::Do_Dead(_float fDeltaTime)
 	
 
 
-	CDynamicObject::Do_Dead(fDeltaTime);	
+	//CDynamicObject::Do_Dead(fDeltaTime);	
 }
 
 //상남자에게 회피란 없다

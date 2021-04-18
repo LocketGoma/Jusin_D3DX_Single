@@ -304,7 +304,7 @@ void CEnemyHunter::Do_Dead(_float fDeltaTime)
 {
 	m_eAction = eHunterAction::Death;
 
-	CDynamicObject::Do_Dead(fDeltaTime);
+	//CDynamicObject::Do_Dead(fDeltaTime);
 }
 
 _bool CEnemyHunter::Do_Dodge(_float fDeltatime)

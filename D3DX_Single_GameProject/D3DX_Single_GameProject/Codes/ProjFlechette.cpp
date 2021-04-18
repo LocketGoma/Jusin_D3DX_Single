@@ -6,6 +6,8 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
+#include "ExplosionEffect.h"
+
 ////쓸 수 있는 인자들
 ///from StaticObject:
 //_uint m_fWeight;
@@ -28,6 +30,7 @@
 
 CProjFlechette::CProjFlechette(_Device pDevice)
 	: CBaseProjectile(pDevice)
+	, m_bExplosion(false)
 {
 	m_fWeight = 0;
 	m_fLifeTime = 30.f;
@@ -45,6 +48,7 @@ CProjFlechette::CProjFlechette(_Device pDevice)
 
 CProjFlechette::CProjFlechette(const CProjFlechette& other)
 	: CBaseProjectile(other)
+	, m_bExplosion(false)
 {
 }
 
@@ -62,15 +66,39 @@ HRESULT CProjFlechette::Ready_GameObject_Clone(void* pArg)
 
 _int CProjFlechette::Update_GameObject(const _float& fDeltaTime)
 {
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 	m_pTransformCom->Set_Scale(RESET_VECTOR);
 	m_pTransformCom->Update_Component();
 
+
+
 	m_fLifeTime -= fDeltaTime;
 
-	if (m_fLifeTime < 0.f)
+	if (m_bExplosion && m_pEffect != nullptr)
 	{
-		m_bDead = true;
+		if (m_pEffect->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
+		{
+			pManagement->Release_Data_To_MemoryPool(L"ExploPool", m_pEffect);
+			m_pEffect = nullptr;
+
+			m_bClearDead = true;
+
+			Set_Dead();
+		}
+	}
+	if (m_fLifeTime < 0.f || m_bAmmoBreak == true)
+	{
+		m_iDamage = 0;
+
+		if (m_pEffect == nullptr)
+		{
+			m_pEffect = dynamic_cast<CExplosionEffect*>(pManagement->Get_Data_From_MemoryPool(L"ExploPool"));
+			m_pEffect->Set_Position(Get_Position());
+			dynamic_cast<CExplosionEffect*>(m_pEffect)->Set_Ready();
+
+			m_bExplosion = true;
+		}
 
 		return OBJ_DEAD;
 	}
@@ -80,6 +108,11 @@ _int CProjFlechette::Update_GameObject(const _float& fDeltaTime)
 
 _int CProjFlechette::LateUpdate_GameObject(const _float& fDeltaTime)
 {
+	if (m_bExplosion == true)
+	{
+		return OBJ_DEAD;
+	}
+
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement)
 	{
@@ -92,9 +125,6 @@ _int CProjFlechette::LateUpdate_GameObject(const _float& fDeltaTime)
 
 
 	m_pTransformCom->Update_Component(fDeltaTime);
-
-	//m_pTransformCom->Update_Component(m_vDirection,m_fRotate,fDeltaTime);
-
 
 	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 
@@ -109,6 +139,19 @@ HRESULT CProjFlechette::Render_GameObject(void)
 	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
 	m_pTransformCom->Set_Scale(ITEM_REDUCION_VECTOR);
+
+	_vec2 vCalivY = _vec2(m_vDirection.x, m_vDirection.z);
+	_vec3 vLookO = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK);
+	_vec2 vLookY = _vec2(vLookO.x, vLookO.z);
+	_float fCY = D3DXVec2Dot(&vCalivY, &vLookY) / (D3DXVec2Length(&vCalivY) * D3DXVec2Length(&vLookY));
+
+	//좌측이면
+	//if (m_vDirection.x < 0.f)
+	//{
+	//		fCY *= -1;
+	//	}
+	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, acos(fCY));
+
 	m_pTransformCom->Update_Component();
 	m_pTransformCom->LateUpdate_Component(0.f);
 

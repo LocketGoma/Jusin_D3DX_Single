@@ -10,7 +10,7 @@ BEGIN_NAMESPACE(Engine)
 class CDynamicMesh;
 END_NAMESPACE
 
-class CEnemyHurtEffect;
+class CBaseEffect;
 
 enum class eAlign
 {
@@ -48,7 +48,7 @@ public:
 	virtual void Do_Attack(_float fDeltaTime, _uint iPatton = 0) PURE;				//공격
 	virtual void Do_Idle(_float fDeltaTime) PURE;				//대기 + 멈춤
 	virtual void Do_Spawn(_float fDeltaTime) PURE;				//등장 (생략 가능)
-	virtual void Do_Dead(_float fDeltaTime);				//사망
+	virtual void Do_Dead(_float fDeltaTime) PURE;				//사망
 	virtual _bool Do_Dodge(_float fDeltatime)PURE;				//회피
 	void Do_Anichange(_uint iAnimation);
 	void Check_Hit(_bool bForce, _uint iDamage);				//일단 어택 콜라이더 빼고 작업...
@@ -67,6 +67,8 @@ public:
 	_uint Get_Damage();
 	_uint Get_NowHP();
 	bool Hit_Attack(_uint iDamage);
+
+	bool Get_Clear_Dead_State();
 
 //인식 범위 관련
 public:
@@ -108,6 +110,7 @@ protected:
 	_uint m_iMaxHP;				//최대 체력
 	_uint m_iDamage;			//공격력
 	_bool m_bHurt;				//피해 입었는지 여부 (이펙트 출력용)
+	_bool m_bUseBaseEffect;		//기본 이펙트 사용 여부
 
 	//기본 공격 간격
 	_float m_fAttackInterval;	//공격간격은 어떻게 되는가
@@ -125,12 +128,12 @@ protected:
 
 	Engine::SOUND_CHANNELID m_eChannel;	//사운드 채널 (다중 몬스터 처리시)
 
-
+	_bool m_bClearDead;			//진짜 죽은건지 파악 (이거 인식되면 SetDead)
 
 //컴포넌트들
 protected:
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;
-	CEnemyHurtEffect* m_pEffect = nullptr;			//피튀는 이펙트
+	CBaseEffect* m_pEffect = nullptr;			//피튀는 이펙트
 	//Engine::CTransform* m_pTransformCom = nullptr;
 	//Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	//Engine::CSphereCollider* m_pColliderCom = nullptr;

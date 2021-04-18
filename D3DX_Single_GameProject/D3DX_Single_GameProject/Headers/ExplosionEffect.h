@@ -21,6 +21,7 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 	
+	void Set_Ready();
 
 public:
 	static CExplosionEffect* Create(_Device pDevice);
@@ -30,7 +31,7 @@ private:
 	virtual	HRESULT Add_Component();
 	virtual void Free();
 
-
+	_bool m_bPause;
 
 	_uint m_iEffectCount;
 	_uint m_iMaxEffect;
