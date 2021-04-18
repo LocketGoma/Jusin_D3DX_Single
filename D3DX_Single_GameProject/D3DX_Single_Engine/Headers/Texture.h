@@ -18,6 +18,7 @@ protected:
 public:
 	HRESULT Ready_Texture(const _tchar* pPath, TEXTYPE eType, const _uint& iCount = 1);
 	HRESULT Set_Texture(const _uint& iIndex = 0, const _uint& iChannel = 0);
+	IDirect3DBaseTexture9* Get_Texture(const _uint& iIndex = 0);
 
 	static CTexture* Create(_Device pDevice,
 		const _tchar* pPath,

@@ -25,6 +25,7 @@ public:
 
 private:
 	HRESULT Setup_DefaultSetting();
+	HRESULT Setup_Shader();
 	HRESULT Ready_Scene();
 
 

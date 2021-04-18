@@ -296,6 +296,11 @@ HRESULT CLoadingScene::Load_Base_Resource()
     //사운드 로딩
     pManagement->Load_Sounds();
 
+    //디졸브 맵
+    pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Dissolve", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Desolve.png", 1);
+
+
+
     ///아래부터 진짜배기 메쉬들
 
     //맵

@@ -131,6 +131,39 @@ void CDynamicMesh::Render_Meshes(void)
 	}
 }
 
+void CDynamicMesh::Render_Meshes(LPD3DXEFFECT& pEffect)
+{
+	for (auto& iter : m_MeshContainerList)
+	{
+		D3DXMESHCONTAINER_DERIVED* pMeshContainer = iter;
+
+		for (_ulong i = 0; i < pMeshContainer->dwNumBones; ++i)
+		{
+			pMeshContainer->pRenderingMatrix[i] = pMeshContainer->pFrameOffsetMatrix[i] * *pMeshContainer->ppFrameCombinedMatrix[i];
+		}
+
+		void* pDestVtx = nullptr;
+		void* pSourVtx = nullptr;
+
+		pMeshContainer->pOriMesh->LockVertexBuffer(0, &pDestVtx);
+		pMeshContainer->MeshData.pMesh->LockVertexBuffer(0, &pSourVtx);
+
+		// 소프트웨어 스키닝을 수행하는 함수(스키닝 뿐 아니라 애니메이션 변경 시, 뼈대들과 정점 정보들의 변경 또한 동시에 수행)
+		pMeshContainer->pSkinInfo->UpdateSkinnedMesh(pMeshContainer->pRenderingMatrix, NULL, pDestVtx, pSourVtx);
+
+		for (_ulong i = 0; i < pMeshContainer->NumMaterials; ++i)
+		{
+			pEffect->SetTexture("g_BaseTexture", pMeshContainer->ppTexture[i]);
+			pEffect->CommitChanges();
+
+			pMeshContainer->MeshData.pMesh->DrawSubset(i);
+		}
+
+		pMeshContainer->pOriMesh->UnlockVertexBuffer();
+		pMeshContainer->MeshData.pMesh->UnlockVertexBuffer();
+	}
+}
+
 void CDynamicMesh::Set_AnimationSet(const _uint& iIndex)
 {
 	if (nullptr == m_pAniControl)

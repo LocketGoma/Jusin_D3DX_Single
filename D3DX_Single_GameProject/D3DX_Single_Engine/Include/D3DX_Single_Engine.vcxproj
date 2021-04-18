@@ -71,6 +71,8 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\ShaderGraphContentTask.props" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\hlsl.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -245,6 +247,7 @@
     <ClInclude Include="..\Headers\RenderTargetManager.h" />
     <ClInclude Include="..\Headers\Scene.h" />
     <ClInclude Include="..\Headers\SceneManager.h" />
+    <ClInclude Include="..\Headers\Shader.h" />
     <ClInclude Include="..\Headers\SoundManager.h" />
     <ClInclude Include="..\Headers\SphereCollider.h" />
     <ClInclude Include="..\Headers\StaticMesh.h" />
@@ -259,7 +262,6 @@
     <ClInclude Include="..\Headers\VTXSphereColor.h" />
     <ClInclude Include="..\Headers\VTXTerrain.h" />
     <ClInclude Include="..\Headers\VTXTriColor.h" />
-    <ClInclude Include="Sheader_Weapon.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Codes\AnimationController.cpp" />
@@ -297,6 +299,7 @@
     <ClCompile Include="..\Codes\RenderTargetManager.cpp" />
     <ClCompile Include="..\Codes\Scene.cpp" />
     <ClCompile Include="..\Codes\SceneManager.cpp" />
+    <ClCompile Include="..\Codes\Shader.cpp" />
     <ClCompile Include="..\Codes\SoundManager.cpp" />
     <ClCompile Include="..\Codes\SphereCollider.cpp" />
     <ClCompile Include="..\Codes\StaticMesh.cpp" />
@@ -315,7 +318,12 @@
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
+  <ItemGroup>
+    <HLSL Include="Shader_Dissolve.hlsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\ShaderGraphContentTask.targets" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\hlsl.targets" />
   </ImportGroup>
 </Project>

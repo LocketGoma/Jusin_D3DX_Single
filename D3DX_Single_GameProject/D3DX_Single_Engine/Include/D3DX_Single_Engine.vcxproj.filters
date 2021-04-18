@@ -131,9 +131,6 @@
     <Filter Include="01.Resources\01.Component\01.GraphicResource\00.VIBuffer\07.Terrain\00.BatchTerrain">
       <UniqueIdentifier>{7c7bd91d-9ca9-43a9-b75a-f3ca62d4861d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Resources\12.Sheader">
-      <UniqueIdentifier>{1c61027d-51e7-4c76-933a-c982e382b26a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.System\08.RenderTargetManager">
       <UniqueIdentifier>{856cc09a-2848-443a-899d-d62de1247687}</UniqueIdentifier>
     </Filter>
@@ -166,6 +163,12 @@
     </Filter>
     <Filter Include="00.System\22.MemoryPool\00.Pool">
       <UniqueIdentifier>{d7123a4f-acd6-4ae9-811d-e046bd235292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\12.Shader">
+      <UniqueIdentifier>{1c61027d-51e7-4c76-933a-c982e382b26a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Resources\12.Shader\00.File">
+      <UniqueIdentifier>{6e66cdbe-7360-4037-b170-77594c4b0947}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -314,6 +317,9 @@
       <Filter>00.System\22.MemoryPool\00.Pool</Filter>
     </ClCompile>
     <ClCompile Include="..\Codes\MemeoryPoolManager.cpp" />
+    <ClCompile Include="..\Codes\Shader.cpp">
+      <Filter>01.Resources\12.Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Headers\GraphicDevice.h">
@@ -482,11 +488,16 @@
       <Filter>00.System\22.MemoryPool\00.Pool</Filter>
     </ClInclude>
     <ClInclude Include="..\Headers\MemeoryPoolManager.h" />
-    <ClInclude Include="Sheader_Weapon.hlsl">
-      <Filter>01.Resources\12.Sheader</Filter>
+    <ClInclude Include="..\Headers\Shader.h">
+      <Filter>01.Resources\12.Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <HLSL Include="Shader_Dissolve.hlsl">
+      <Filter>01.Resources\12.Shader\00.File</Filter>
+    </HLSL>
   </ItemGroup>
 </Project>

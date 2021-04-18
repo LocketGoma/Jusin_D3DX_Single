@@ -66,6 +66,16 @@ HRESULT CTexture::Set_Texture(const _uint& iIndex , const _uint& iChannel)
 	return S_OK;
 }
 
+IDirect3DBaseTexture9* CTexture::Get_Texture(const _uint& iIndex)
+{
+	if (iIndex >= m_vecTexture.size())
+	{
+		return nullptr;
+	}
+
+	return m_vecTexture[iIndex];
+}
+
 
 CTexture* CTexture::Create(_Device pDevice, const _tchar* pPath, TEXTYPE eType, const _uint& iCnt)
 {

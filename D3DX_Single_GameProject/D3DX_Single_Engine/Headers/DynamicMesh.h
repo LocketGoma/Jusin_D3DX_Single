@@ -25,6 +25,8 @@ public:
 	HRESULT		Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileName);
 	void		Update_Meshes(void);
 	void		Render_Meshes(void);
+	void		Render_Meshes(LPD3DXEFFECT& pEffect);
+
 
 	void		Set_AnimationSet(const _uint& iIndex);
 	void		Force_Change_AnimationSet(const _uint& iIndex);

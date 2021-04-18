@@ -10,6 +10,8 @@
 
 #include "Player.h"
 
+#include "Shader.h"
+
 bool g_bViewCollider = true;
 bool g_bViewNavimesh = true;
 
@@ -44,6 +46,8 @@ HRESULT CMainGame::Ready_MainGame()
     Safe_AddReference(m_pDevice);
 
     Setup_DefaultSetting();
+
+    Setup_Shader();
 
     m_pManagement->Setup_SceneManager(1);
     
@@ -128,6 +132,21 @@ HRESULT CMainGame::Setup_DefaultSetting()
 
     return S_OK;
 }
+
+HRESULT CMainGame::Setup_Shader()
+{
+    Engine::CShader* pShader = nullptr;
+
+    pShader = Engine::CShader::Create(m_pDevice, L"../../Reference/Headers/Shader_Dissolve.hlsl");
+    NULL_CHECK_RETURN(pShader, E_FAIL);
+    m_pManagement->Ready_Prototype(L"Shader_Dissolve", pShader);
+
+
+
+
+    return S_OK;
+}
+
 //나중에 로고/로딩씬 으로 옮길것
 HRESULT CMainGame::Ready_Scene()
 {

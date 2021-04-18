@@ -6,6 +6,8 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
+#include "Shader.h"
+
 CEnemyAntLion::CEnemyAntLion(_Device pDevice)
 	: CDynamicObject(pDevice)
 	, m_ePatton(eAntLionPatton::Idle)
@@ -35,6 +37,8 @@ CEnemyAntLion::CEnemyAntLion(const CEnemyAntLion& other)
 {
 	m_eAction = eAntLionAction::DigDie;
 	m_ePrevAction = m_eAction;
+
+	m_fTest = 0.f;
 }
 
 HRESULT CEnemyAntLion::Ready_GameObject(_uint iTexNumber)
@@ -148,8 +152,31 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
-	m_pMeshCom->Render_Meshes();
-	
+	//쉐이더 처리
+	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
+	NULL_CHECK_RETURN(pEffect,E_FAIL);
+	pEffect->AddRef();
+
+	FAILED_CHECK_RETURN(SetUp_ConstantTable(pEffect), E_FAIL);
+
+	_uint	iPassMax = 0;
+
+	pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
+	//if (m_bClearDead)
+	pEffect->BeginPass(0);
+
+	//m_pMeshCom->Render_Meshes();
+
+	m_pMeshCom->Render_Meshes(pEffect);
+
+	pEffect->EndPass();
+	pEffect->End();
+
+	Safe_Release(pEffect);
+
+
+	//쉐이더 처리 끝
+	// 
 	//가슴 기준 정점
 	m_vCorePos = _vec3(0.f, 0.f, 0.f);
 
@@ -280,6 +307,7 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime, _uint iPatton)
 
 		m_pManagement->Stop_Sound(m_eChannel);
 	}
+	m_fTest += fDeltaTime;
 
 	if (m_eAction != eAntLionAction::AttackA && m_eAction != eAntLionAction::AttackB) 
 	{
@@ -378,6 +406,31 @@ void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 
+HRESULT CEnemyAntLion::SetUp_ConstantTable(LPD3DXEFFECT& pEffect)
+{
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement)
+	{
+		return MANAGER_OUT;
+	}
+
+	_matrix			matWorld, matView, matProj;
+
+	matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	pEffect->SetMatrix("g_matWorld", &matWorld);
+	pEffect->SetMatrix("g_matView", &matView);
+	pEffect->SetMatrix("g_matProj", &matProj);
+	pEffect->SetFloat("g_DissolveAmount", m_fTest);
+
+
+	pEffect->SetTexture("g_DissolveTexture", dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Dissolve"))->Get_Texture());
+
+	return S_OK;
+}
+
 HRESULT CEnemyAntLion::Add_Component(void)
 {
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
@@ -406,6 +459,14 @@ HRESULT CEnemyAntLion::Add_Component(void)
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+
+
+	//쉐이더
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(pManagement->Clone_Prototype(L"Shader_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Shader", pComponent);
+
 
 
 	switch (rand() % 5)

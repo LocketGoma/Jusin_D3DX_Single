@@ -1,12 +1,29 @@
+float4 main() : SV_TARGET
+{
+	return float4(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
 matrix			g_matWorld;	 // 상수 테이블
 matrix			g_matView;
 matrix			g_matProj;
+
+float			g_DissolveAmount;
 
 texture			g_BaseTexture;
 
 sampler		BaseSampler = sampler_state
 {
 	texture = g_BaseTexture;
+
+	minfilter = linear;
+	magfilter = linear;
+};
+
+texture			g_DissolveTexture;
+
+sampler DissolveSampler = sampler_state
+{
+	texture = g_DissolveTexture;
 
 	minfilter = linear;
 	magfilter = linear;
@@ -44,6 +61,8 @@ VS_OUT			VS_MAIN(VS_IN In)
 struct PS_IN
 {
 	float2			vTexUV : TEXCOORD0;
+	
+
 };
 
 struct PS_OUT
@@ -51,23 +70,26 @@ struct PS_OUT
 	vector		vColor : COLOR0;
 };
 
-
 PS_OUT			PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
+	Out.vColor = tex2D(BaseSampler, In.vTexUV);
 
-	Out.vColor = tex2D(BaseSampler, In.vTexUV);	// 2차원 텍스처로부터 uv좌표에 해당하는 색을 추출하여 반환하는 함수(반환 타입이 vector타입)
-	Out.vColor.rg = 0.5f;
 
 	return Out;
 }
 
-PS_OUT			PS_TEST(PS_IN In)
+
+PS_OUT			PS_DISSOLVE(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	Out.vColor = tex2D(BaseSampler, In.vTexUV);	// 2차원 텍스처로부터 uv좌표에 해당하는 색을 추출하여 반환하는 함수(반환 타입이 vector타입)
-	Out.vColor.r = 0.5f;
+	vector vColor = tex2D(BaseSampler, In.vTexUV);
+	vector vDissolve = tex2D(DissolveSampler, In.vTexUV).r;
+	vector ClipAmount = vDissolve - g_DissolveAmount;
+
+	if (ClipAmount.r > 0.0)
+	Out.vColor = tex2D(BaseSampler, In.vTexUV);	
 
 	return Out;
 }
@@ -83,22 +105,14 @@ technique Default_Device
 		destblend = invsrcalpha;
 
 		VertexShader = compile vs_3_0 VS_MAIN();
+		PixelShader = compile ps_3_0 PS_DISSOLVE();
+	}
+
+	pass None
+	{
+		VertexShader = compile vs_3_0 VS_MAIN();
 		PixelShader = compile ps_3_0 PS_MAIN();
 	}
 
-	pass	AlphaTest
-	{
-		alphatESTenable = true;
-		alphafunc = greater;
-		alpharef = 0xc0;
-
-		VertexShader = compile vs_3_0 VS_MAIN();
-		PixelShader = compile ps_3_0 PS_TEST();
-	}
-
-	pass	None
-	{
-
-	}
 
 };
