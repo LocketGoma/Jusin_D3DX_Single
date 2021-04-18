@@ -31,7 +31,7 @@ CPlayer::CPlayer(_Device pDevice)
 	, m_bShootState(false)
 	, m_fInteractionRange(15.f)
 	, m_iFullHP(100)
-	, m_iShieldFullHP(6)
+	, m_iShieldFullHP(50)
 	, m_fHitboxSize(5.0f)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
 	, m_fWalkSpeed(10.f)
@@ -187,13 +187,13 @@ _int CPlayer::LateUpdate_GameObject(const _float& fDeltaTime)
 
 
 	// 기타 효과음
-	if (m_iShieldHP == 5 && m_bLowShield == false)
+	if (m_iShieldHP == 45 && m_bLowShield == false)
 	{
 		m_bLowShield = true;
 		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::PLAYERSUIT);
-		pManagement->Play_Sound(L"hev_0p.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
+		pManagement->Play_Sound(L"hev_45p.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
 	}
-	else if (m_iShieldFullHP > 5)
+	else if (m_iShieldFullHP > 45)
 	{
 		m_bLowShield = false;
 	}
