@@ -5,6 +5,9 @@
 
 #include "BaseProjectile.h"
 
+
+class CAmmoParticle;
+
 //SMG, ±ÇÃÑ
 class CProjBasicAmmo : public CBaseProjectile
 {
@@ -35,6 +38,8 @@ private:
 private:
 	Engine::CVTXRectTexture* m_pBufferCom[(_uint)eEffectAxis::END] = {};
 	Engine::CTexture* m_pTextureCom = nullptr;
+
+	CAmmoParticle* m_pParticle = nullptr;
 
 
 };

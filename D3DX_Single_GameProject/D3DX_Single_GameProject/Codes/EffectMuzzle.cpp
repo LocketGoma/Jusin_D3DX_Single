@@ -203,7 +203,7 @@ Engine::CGameObject* CEffectMuzzle::Clone(void* pArg)
 
     if (pClone == nullptr)
     {
-        PRINT_LOG(L"Error", L"Failed To Clone CEnemyHunter");
+        PRINT_LOG(L"Error", L"Failed To Clone CEffectMuzzle");
 
         return nullptr;
     }

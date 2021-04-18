@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Headers\AmmoParticle.h" />
     <ClInclude Include="..\Headers\BaseAI_Attacker.h" />
     <ClInclude Include="..\Headers\BaseAI.h" />
     <ClInclude Include="..\Headers\BaseAI_Flyer.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="WeaponUI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Codes\AmmoParticle.cpp" />
     <ClCompile Include="..\Codes\BaseAI_Attacker.cpp" />
     <ClCompile Include="..\Codes\BaseAI.cpp" />
     <ClCompile Include="..\Codes\BaseAI_Flyer.cpp" />

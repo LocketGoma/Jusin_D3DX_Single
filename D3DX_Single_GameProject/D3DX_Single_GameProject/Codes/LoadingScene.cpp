@@ -65,6 +65,9 @@
 #include "EffectMuzzle.h"
 #include "EffectA2Muzzle.h"
 
+//파티클
+#include "AmmoParticle.h"
+
 //UI 컴포넌트 (체력, 탄약, 무기, 크로스헤어)
 #include "StatusUI.h"
 #include "CrossHairUI.h"
@@ -492,6 +495,11 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     pGameObject = CEffectA2Muzzle::Create(m_pDevice);
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Effect_A2_Muzzle", pGameObject);
+
+    //파티클 이펙트
+    pGameObject = CAmmoParticle::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Effect_Particle_Ammo", pGameObject);
 
     
     //조명

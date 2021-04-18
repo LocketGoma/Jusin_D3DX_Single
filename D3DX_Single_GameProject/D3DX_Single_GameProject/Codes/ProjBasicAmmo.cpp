@@ -6,12 +6,14 @@
 #include "SphereCollider.h"
 #include "ControlSupport.h"
 
+#include "AmmoParticle.h"
+
 CProjBasicAmmo::CProjBasicAmmo(_Device pDevice)
 	: CBaseProjectile(pDevice)
 {
 	m_fWeight = 0;
 	m_fLifeTime = 1.5f;
-	m_fSpeed = 250.f;
+	m_fSpeed = 5.f;
 	m_eForceType = eForceType::NONE;
 	m_fHitboxSize = 1.5f;		//테스트용. 실제로는 좀 더 작게
 
@@ -53,8 +55,11 @@ _int CProjBasicAmmo::Update_GameObject(const _float& fDeltaTime)
 
 	if (m_fLifeTime < 0.f)
 	{
-		m_bDead = true;
-
+		m_pParticle->Set_Position(Get_Position());
+		if (m_pParticle->LateUpdate_GameObject(fDeltaTime) == OBJ_DEAD)
+		{
+			Set_Dead();
+		}
 		return OBJ_DEAD;
 	}
 
@@ -179,6 +184,11 @@ HRESULT CProjBasicAmmo::Add_Component()
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Texture", pComponent);
 
 
+
+
+	m_pParticle = dynamic_cast<CAmmoParticle*>(pManagement->Clone_GameObject(L"Effect_Particle_Ammo"));
+
+
 	return S_OK;
 }
 
@@ -216,6 +226,8 @@ void CProjBasicAmmo::Free()
 	Safe_Release(m_pBufferCom[1]);
 	Safe_Release(m_pBufferCom[2]);
 	Safe_Release(m_pTextureCom);
+
+	Safe_Release(m_pParticle);
 
 	CBaseProjectile::Free();
 }
