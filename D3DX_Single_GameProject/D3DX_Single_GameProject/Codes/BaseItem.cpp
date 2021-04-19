@@ -1,6 +1,8 @@
 #include "framework.h"
 #include "BaseItem.h"
 
+
+
 CBaseItem::CBaseItem(_Device pDevice)
 	: CStaticObject(pDevice)
 	, m_iAmount(0)

@@ -36,6 +36,9 @@ public:
 	virtual _bool Check_RayCollision_By_CollisionSphere() override;
 
 
+	virtual HRESULT Interaction(Engine::CGameObject* pTarget) PURE;
+
+
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 	virtual void Free(void);

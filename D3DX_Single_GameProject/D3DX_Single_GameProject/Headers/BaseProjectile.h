@@ -33,7 +33,8 @@ public:
 public:
 	const _uint Get_Damage();
 	void Set_Damage(_uint iDamage);
-	const _float Get_Radius();
+	
+	//const _float Get_Radius();
 	void Set_Radius(_float fRadius);
 	const _float Get_Splash_Radius();
 	void Set_Splash_Radius(_float fRadius);
@@ -47,6 +48,10 @@ public:
 	void Set_TargetState(eTargetState eState);
 
 	void Set_Break();
+
+	// CStaticObject을(를) 통해 상속됨
+	// 중복 기능이어서 버림.
+	virtual HRESULT Interaction(Engine::CGameObject* pTarget) override;
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
@@ -63,6 +68,9 @@ protected:
 	_vec3 m_vAmmoSize;			//실제로 보이는 크기
 
 	eTargetState m_eTargetState;
+
+
+
 
 };
 

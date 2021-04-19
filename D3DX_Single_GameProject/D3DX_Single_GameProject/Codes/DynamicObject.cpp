@@ -110,6 +110,11 @@ bool CDynamicObject::Get_Clear_Dead_State()
 	return m_bClearDead;
 }
 
+HRESULT CDynamicObject::Interaction(Engine::CGameObject* pTarget)
+{
+	return S_OK;
+}
+
 void CDynamicObject::Set_StartMove()
 {
 	m_bStartMove = true;

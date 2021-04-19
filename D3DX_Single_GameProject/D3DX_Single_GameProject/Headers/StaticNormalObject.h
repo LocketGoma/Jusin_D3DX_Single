@@ -17,7 +17,7 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
-
+	virtual HRESULT Interaction(Engine::CGameObject* pTarget) override;
 private:
 	HRESULT Add_Component();
 

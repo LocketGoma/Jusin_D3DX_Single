@@ -67,6 +67,11 @@ void CBaseObject::Set_Direction(_vec3 vDir)
 	//m_pTransformCom->Set_Info(Engine::TRANSFORM_INFO::INFO_LOOK, &vDir);
 }
 
+const _float CBaseObject::Get_Radius()
+{
+	return m_fHitboxSize;
+}
+
 void CBaseObject::Set_ObjectType(eForceType eType)
 {
 	m_eForceType = eType;

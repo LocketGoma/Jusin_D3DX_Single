@@ -122,11 +122,7 @@ _int CMainStageA::Update_Scene(const _float& fDeltaTime)
 	{	
 		pManagement->Play_Sound(L"alert1.wav", Engine::SOUND_CHANNELID::EFFECTE);;
 	}
-
 	
-	
-
-
 	return NO_EVENT;
 }
 
@@ -169,6 +165,12 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 					}
 				}
 			}
+
+			if (pPlayer->Check_Attack_Collide(&(pObject->Get_Position()), pObject->Get_Radius()))
+			{
+				pObject->Interaction(pPlayer);
+			}
+
 		}
 	}
 

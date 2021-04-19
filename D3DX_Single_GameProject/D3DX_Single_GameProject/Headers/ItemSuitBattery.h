@@ -18,6 +18,7 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) override;
 	virtual HRESULT Render_GameObject(void) override;
 
+	virtual HRESULT Interaction(Engine::CGameObject* pTarget) override;
 
 public:
 	static CItemSuitBattery* Create(_Device pDevice);
@@ -26,6 +27,9 @@ public:
 private:
 	HRESULT Add_Component();
 	virtual void Free();
+
+
+	// CBaseItem을(를) 통해 상속됨
 
 };
 

@@ -70,6 +70,9 @@ public:
 
 	bool Get_Clear_Dead_State();
 
+	//쓸일없음 버림.
+	virtual HRESULT Interaction(Engine::CGameObject* pTarget) override;
+
 //인식 범위 관련
 public:
 	void Set_StartMove();

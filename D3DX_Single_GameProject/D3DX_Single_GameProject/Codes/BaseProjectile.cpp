@@ -31,10 +31,7 @@ void CBaseProjectile::Set_Damage(_uint iDamage)
 	m_iDamage = iDamage;
 }
 
-const _float CBaseProjectile::Get_Radius()
-{
-	return m_fHitboxSize;
-}
+
 
 void CBaseProjectile::Set_Radius(_float fRadius)
 {
@@ -89,4 +86,9 @@ void CBaseProjectile::Set_Break()
 void CBaseProjectile::Free(void)
 {
 	CStaticObject::Free();
+}
+
+HRESULT CBaseProjectile::Interaction(Engine::CGameObject* pTarget)
+{
+	return S_OK;
 }

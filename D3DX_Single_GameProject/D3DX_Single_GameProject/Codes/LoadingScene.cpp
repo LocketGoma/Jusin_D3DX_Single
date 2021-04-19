@@ -494,6 +494,10 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Item_Battery", pGameObject);
 
+    pGameObject = CItemHealthKit::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Item_HealthKit", pGameObject);
+
 
     //≈ıªÁ√º
     pGameObject = CProjFlechette::Create(m_pDevice);

@@ -104,6 +104,12 @@ HRESULT CStaticNormalObject::Render_GameObject(void)
 	return S_OK;
 }
 
+//밀치기 등 추가 예정
+HRESULT CStaticNormalObject::Interaction(Engine::CGameObject* pTarget)
+{
+	return S_OK;
+}
+
 HRESULT CStaticNormalObject::Add_Component()
 {
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();

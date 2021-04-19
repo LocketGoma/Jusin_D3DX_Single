@@ -18,6 +18,7 @@ public :
 
 public:
     _uint Get_Amount();             //얼마만큼 지급할것인지
+    virtual HRESULT Interaction(Engine::CGameObject* pTarget) PURE;
 
     virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 
@@ -27,6 +28,9 @@ protected:
 
     virtual void Free(void);
 
+
+
+    // CStaticObject을(를) 통해 상속됨
 
 };
 

@@ -7,6 +7,8 @@
 #include "ControlSupport.h"
 #include "Shader.h"
 
+#include "Player.h"
+
 CItemSuitBattery::CItemSuitBattery(_Device pDevice)
 	: CBaseItem(pDevice)
 {
@@ -190,4 +192,18 @@ HRESULT CItemSuitBattery::Add_Component()
 void CItemSuitBattery::Free()
 {
 	CBaseItem::Free();
+}
+
+HRESULT CItemSuitBattery::Interaction(Engine::CGameObject* pTarget)
+{
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(pTarget);
+	if (pPlayer == nullptr)
+	{
+		return E_FAIL;
+	}
+	pPlayer->Restore_Shield(m_iAmount);
+
+	Set_Dead();
+
+	return S_OK;
 }

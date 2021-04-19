@@ -46,7 +46,6 @@ _bool CStaticObject::Check_RayCollision_By_CollisionSphere()
 	}
 }
 
-
 void CStaticObject::Free(void)
 {
 	CBaseObject::Free();

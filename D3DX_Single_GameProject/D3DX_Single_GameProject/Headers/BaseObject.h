@@ -44,6 +44,7 @@ public:
 	virtual void Set_Position(_vec3 vPos);
 	virtual void Set_Size(_vec3 vSize);
 	virtual void Set_Direction(_vec3 vDir);
+	const _float Get_Radius();
 			void Set_ObjectType(eForceType eType);		
 			void Set_SpeedLockState(_bool bLock);
 			void Set_Rotation(Engine::ROTATION eRotate, float fRadian);
@@ -74,6 +75,8 @@ public:
 	//중력 적용 관련
 	void Set_GravitionPower(_float fGravition);
 	void Set_ClearGSpeed(_float fClearHeight = 0.f);
+
+	virtual HRESULT Interaction(Engine::CGameObject* pTarget) PURE;
 
 protected :
 	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect) PURE;
