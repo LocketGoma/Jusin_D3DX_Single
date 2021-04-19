@@ -355,6 +355,7 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     pGameObject = pManagement->Clone_GameObject(L"BossStrider");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pGameObject->Set_Position(_vec3(55.f, 0.f, 10.f));
+    dynamic_cast<CDynamicObject*>(pGameObject)->Set_Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(-90.f));
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
 
     //스트라이더

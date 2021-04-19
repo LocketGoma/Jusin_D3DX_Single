@@ -342,20 +342,30 @@ bool CPlayer::Hit_Attack(_uint iDamage)
 	return false;
 }
 
-void CPlayer::Restore_HP(_uint iAmount)
+_bool CPlayer::Restore_HP(_uint iAmount)
 {
+	if (m_iHP >= m_iFullHP)
+		return false;
+
 	m_iHP += iAmount;
 
-	if (m_iHP > 100)
-		m_iHP = 100;
+	if (m_iHP > m_iFullHP)
+		m_iHP = m_iFullHP;
+
+	return true;
 }
 
-void CPlayer::Restore_Shield(_uint iAmount)
+_bool CPlayer::Restore_Shield(_uint iAmount)
 {
+	if (m_iShieldHP >= m_iShieldFullHP)
+		return false;
+
 	m_iShieldHP += iAmount;
 
-	if (m_iShieldHP > 100)
-		m_iShieldHP = 100;
+	if (m_iShieldHP > m_iShieldFullHP)
+		m_iShieldHP = m_iShieldFullHP;
+
+	return true;
 }
 
 _uint CPlayer::Get_HP()

@@ -505,8 +505,44 @@ HRESULT CMainStageA::Add_Object_Layer(const _tchar* pLayerTag)
 
 	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(L"Item_Battery", pGameObject);
+	pLayer->Add_GameObject(L"Item_Battery 1", pGameObject);
 	pGameObject->Set_Position(_vec3(150.f, 15.f, -150.f));
+
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_Battery 2", pGameObject);
+	pGameObject->Set_Position(_vec3(150.f, 20.f, -246.f));
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_Battery 3", pGameObject);
+	pGameObject->Set_Position(_vec3(150.f, 20.f, -245.f));
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_Battery 4", pGameObject);
+	pGameObject->Set_Position(_vec3(120.f, 20.f, -215.f));
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_Battery 5", pGameObject);
+	pGameObject->Set_Position(_vec3(122.f, 20.f, -215.f));
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_Battery 6", pGameObject);
+	pGameObject->Set_Position(_vec3(120.f, 20.f, -214.f));
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_Battery 7", pGameObject);
+	pGameObject->Set_Position(_vec3(118.f, 20.f, -215.f));
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_HealthKit");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_HealthKit 1", pGameObject);
+	pGameObject->Set_Position(_vec3(130.f, 20.f, -215.f));
 
 	m_mapLayer.emplace(pLayerTag, pLayer);
 

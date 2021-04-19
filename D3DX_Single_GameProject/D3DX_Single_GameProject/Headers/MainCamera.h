@@ -47,6 +47,10 @@ private:
 	_vec3			m_vShake;			//쉐이킹 벡터
 	_uint			m_iShakePatton;		//쉐이크 패턴
 
+	_float			m_fQuakeMovement;	//지진효과용
+	_bool			m_bQuake;
+	_float			m_fQuakeTimer;		//지진효과 타이머
+
 	_float			m_fLoopRecoilAngle;	//카메라 반동처리용
 	_float			m_fLoopRecoilTimer;	//카메라 반동처리용 - 시간 누적
 	_bool			m_bRecoilShaking;	//반동 처리용
@@ -56,6 +60,7 @@ private:
 	_vec3			m_vRecoilShakeAdd;	//반동 처리 벡터
 	_float			m_fStartRecoil;		//반동 처리시 시작 값
 	HRESULT			Shake_Camera(const _float& fDeltaTime);
+	HRESULT			EarthQuake_Movement(const _float& fDeltaTime);
 	HRESULT			Recoil_Weapon_Camera(const _float& fDeltaTime);
 	void			Set_Recoil_Weapon_Power(_float fPower);
 
@@ -76,6 +81,8 @@ private:
 	Engine::CTransform* m_pTransformCom = nullptr;
 	Engine::CCameraComponent* m_pCameraCom = nullptr;
 	CPlayer* m_pPlayer = nullptr;
+
+	_float m_fCameraRange;		//Eye와 At 간 거리
 
 	_float m_fAxisXSpeed;		//X축 감도
 	_float m_fAxisYSpeed;		//Y축 감도

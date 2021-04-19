@@ -49,6 +49,7 @@ HRESULT CItemHealthKit::Ready_GameObject_Clone(void* pArg)
 _int CItemHealthKit::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
+	m_pTransformCom->Set_Scale(RESET_VECTOR);
 	m_pTransformCom->Update_Component();
 
 
@@ -84,12 +85,18 @@ _int CItemHealthKit::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CItemHealthKit::Render_GameObject(void)
 {
-	m_pTransformCom->LateUpdate_Component(0.f);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
+	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	//½¦ÀÌ´õ Ã³¸®
+	Set_Size(BASE_ENEMY_REDUCION_VECTOR);
+
+	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
+	m_pTransformCom->Update_Component();
+	m_pTransformCom->LateUpdate_Component(0.f);//½¦ÀÌ´õ Ã³¸®
+
+
 	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
 	NULL_CHECK_RETURN(pEffect, E_FAIL);
 	pEffect->AddRef();
@@ -108,9 +115,7 @@ HRESULT CItemHealthKit::Render_GameObject(void)
 
 	Safe_Release(pEffect);
 
-	//½¦ÀÌ´õ Ã³¸® ³¡
-
-	m_pColliderCom->Render_Collider(eType, &Get_Position(), g_bViewCollider);
+	m_pColliderCom->Render_Collider(eType, &matWorld, g_bViewCollider);
 
 
 	return S_OK;
@@ -198,9 +203,8 @@ HRESULT CItemHealthKit::Interaction(Engine::CGameObject* pTarget)
 	{
 		return E_FAIL;
 	}
-	pPlayer->Restore_HP(m_iAmount);
-
-	Set_Dead();
+	if (pPlayer->Restore_HP(m_iAmount))
+		Set_Dead();
 
 	return S_OK;
 }

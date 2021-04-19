@@ -263,6 +263,9 @@
     <Filter Include="02.Scene\07.MainStageC\99.EndingImage">
       <UniqueIdentifier>{c1e479a8-3aa5-4d4d-a533-30c2913af613}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\12.Projectile\07.Explosive">
+      <UniqueIdentifier>{099880cf-6b57-428b-842b-892b8c6b422a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -496,6 +499,9 @@
     <ClInclude Include="..\Headers\BaseItem.h">
       <Filter>01.Object\02.StaticObject\01.Items</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\ExplosiveWeapon.h">
+      <Filter>01.Object\12.Projectile\07.Explosive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -723,6 +729,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\BaseItem.cpp">
       <Filter>01.Object\02.StaticObject\01.Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ExplosiveWeapon.cpp">
+      <Filter>01.Object\12.Projectile\07.Explosive</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

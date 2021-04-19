@@ -23,6 +23,10 @@ CMainCamera::CMainCamera(_Device pDevice)
 	, m_fRecoilPower(0.f)
 	, m_fLoopRecoilAngle(90.f)
 	, m_fLoopRecoilTimer(0.f)
+	, m_fCameraRange(5.0f)
+	, m_fQuakeMovement(0.f)
+	, m_fQuakeTimer(0.f)
+	, m_bQuake(false)
 {
 }
 
@@ -43,6 +47,10 @@ CMainCamera::CMainCamera(const CMainCamera& other)
 	, m_fRecoilPower(other.m_fRecoilPower)
 	, m_fLoopRecoilAngle(90.f)
 	, m_fLoopRecoilTimer(0.f)
+	, m_fCameraRange(other.m_fCameraRange)
+	, m_fQuakeMovement(0.f)
+	, m_fQuakeTimer(0.f)
+	, m_bQuake(false)
 {
 }
 
@@ -103,6 +111,11 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		Shake_Camera(fDeltaTime);
 	}
+	if (m_bQuake == true)
+	{
+		EarthQuake_Movement(fDeltaTime);
+	}
+
 	if (m_bRecoilShake == false)
 	{
 		m_fStartRecoil = m_pTransformCom->Get_Rotate(Engine::ROTATION::ROT_X);
@@ -123,7 +136,7 @@ _int CMainCamera::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->Update_Component(fDeltaTime);
 
 	//¼öÁ¤ÇØÁà¾ßµÊ
-	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS)+ m_vShake, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * 5.f, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
+	m_pCameraCom->Set_ViewVector(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS)+ m_vShake, m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS) + m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_LOOK) * (m_fCameraRange + m_fQuakeMovement), m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_UP));
 	
 	return m_pCameraCom->LateUpdate_Component(fDeltaTime);
 }
@@ -315,6 +328,28 @@ HRESULT CMainCamera::Shake_Camera(const _float& fDeltaTime)
 	}
 
 	m_fLoopAngle += fDeltaTime * 720.f;
+	return S_OK;
+}
+
+HRESULT CMainCamera::EarthQuake_Movement(const _float& fDeltaTime)
+{
+	if (m_fQuakeTimer >= 720.f)
+	{
+		m_bQuake = false;
+		m_fQuakeTimer = 0.f;
+
+		m_fQuakeMovement = 0.f;
+
+		return S_OK;
+	}
+	if (m_bQuake == false)
+	{
+		m_bQuake = true;
+	}
+
+	m_fQuakeMovement = sin(D3DXToRadian(m_fQuakeTimer * 1.75f));
+
+	m_fQuakeTimer += fDeltaTime * 720.f;
 	return S_OK;
 }
 

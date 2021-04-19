@@ -116,9 +116,12 @@ PS_OUT			PS_DISSOLVE(PS_IN In)
 	vector vDissolve = tex2D(DissolveSampler, In.vTexUV).r;
 	vector ClipAmount = vDissolve - g_DissolveAmount;
 
+
 	if (ClipAmount.r > 0.0)
 		Out.vColor = tex2D(BaseSampler, In.vTexUV);	
-	
+
+	//if (g_DissolveAmount > 0.1 && ClipAmount.r < 0.2)			//프레임 드랍납니다 ㅋㅋㅋㅋ
+	//	Out.vColor.r += (1-ClipAmount.r);	
 
 	return Out;
 }

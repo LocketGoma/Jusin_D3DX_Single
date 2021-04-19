@@ -210,9 +210,8 @@ HRESULT CItemSuitBattery::Interaction(Engine::CGameObject* pTarget)
 	{
 		return E_FAIL;
 	}
-	pPlayer->Restore_Shield(m_iAmount);
-
-	Set_Dead();
+	if(pPlayer->Restore_Shield(m_iAmount))
+		Set_Dead();
 
 	return S_OK;
 }

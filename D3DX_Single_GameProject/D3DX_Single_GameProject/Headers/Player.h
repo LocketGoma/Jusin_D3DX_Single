@@ -57,8 +57,8 @@ public:
 
 	bool Hit_Attack(_uint iDamage);
 
-	void Restore_HP(_uint iAmount);
-	void Restore_Shield(_uint iAmount);
+	_bool Restore_HP(_uint iAmount);
+	_bool Restore_Shield(_uint iAmount);
 
 public:
 	_uint Get_HP();
