@@ -35,9 +35,10 @@ extern bool g_bViewNavimesh;
 #define OBJ_DEAD		0x01
 #define MANAGER_OUT		0x02
 #define READY_EVENT		0x04
+#define OBJ_DOWN		0x08		//사용불능
+#define CHANGE_SCENE	0x10
 #define FATAL_ERROR		0xFF
 
-#define CHANGE_SCENE	0x10
 
 
 

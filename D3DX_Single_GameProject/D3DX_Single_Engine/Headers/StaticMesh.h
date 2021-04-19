@@ -17,6 +17,8 @@ private:
 public:
 	HRESULT Ready_Meshes(const _tchar* pFilePath, const _tchar* pFileName);
 	void Render_Meshes();
+	void Render_Meshes(LPD3DXEFFECT pEffect);
+
 
 public:
 	const LPD3DXMESH* Get_VertrxInfo() const;

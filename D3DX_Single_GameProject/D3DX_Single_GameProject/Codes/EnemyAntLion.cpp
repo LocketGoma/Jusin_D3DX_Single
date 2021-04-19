@@ -38,7 +38,6 @@ CEnemyAntLion::CEnemyAntLion(const CEnemyAntLion& other)
 	m_eAction = eAntLionAction::DigDie;
 	m_ePrevAction = m_eAction;
 
-	m_fTest = 0.f;
 }
 
 HRESULT CEnemyAntLion::Ready_GameObject(_uint iTexNumber)
@@ -59,6 +58,20 @@ HRESULT CEnemyAntLion::Ready_GameObject_Clone(void* pArg)
 
 _int CEnemyAntLion::Update_GameObject(const _float& fDeltaTime)
 {
+	if (m_bDeadTrigger == true)
+	{
+		if (m_fDeadTime >= 1.0f)
+		{
+			m_bClearDead = true;
+		}
+
+		m_fDeadTime += fDeltaTime * 0.5f;
+
+		
+		return OBJ_DEAD;
+		
+	}
+
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 	CDynamicObject::Update_GameObject(fDeltaTime);
 
@@ -100,32 +113,36 @@ _int CEnemyAntLion::LateUpdate_GameObject(const _float& fDeltaTime)
 		return MANAGER_OUT;
 	}
 
-	m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y,m_fRotate);
-	m_fRotate = 0.f;
-
-	//트랜스폼 업데이트 전 수행할 것들
-	if ((m_eAction != m_ePrevAction && m_ePrevAction == eAntLionAction::Run) || (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::Run && m_pMeshCom->End_Animation_Sequence()&& m_bEndChecker == false))
+	if (m_bClearDead == false)
 	{
-		vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
-		m_bEndChecker = true;
-		m_vCorePos.y = vOriPos.y;
-		m_pTransformCom->Set_Pos(m_vCorePos);
+		m_pTransformCom->Rotation(Engine::ROTATION::ROT_Y, m_fRotate);
+		m_fRotate = 0.f;
 
-		m_pMeshCom->Force_Change_AnimationSet((_uint)m_eAction);
+		//트랜스폼 업데이트 전 수행할 것들
+		if ((m_eAction != m_ePrevAction && m_ePrevAction == eAntLionAction::Run) || (m_pMeshCom->Get_NowAnimationNumber() == (_uint)eAntLionAction::Run && m_pMeshCom->End_Animation_Sequence() && m_bEndChecker == false))
+		{
+			vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
+			m_bEndChecker = true;
+			m_vCorePos.y = vOriPos.y;
+			m_pTransformCom->Set_Pos(m_vCorePos);
+
+			m_pMeshCom->Force_Change_AnimationSet((_uint)m_eAction);
+		}
+		else
+		{
+			m_bEndChecker = false;
+		}
+		m_pTransformCom->Update_Component(fDeltaTime);
+
+		//트랜스폼 업데이트 후 수행할 것들
+		if (m_eAction == eAntLionAction::DigOut)
+		{
+			m_pTransformCom->Set_Pos(vOriPos);
+		}
 	}
-	else
-	{
-		m_bEndChecker = false;
-	}
-	m_pTransformCom->Update_Component(fDeltaTime);
 	
-	//트랜스폼 업데이트 후 수행할 것들
-	if (m_eAction == eAntLionAction::DigOut)
-	{
-		m_pTransformCom->Set_Pos(vOriPos);
-	}
 
-	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
+	pManagement->Add_RenderList(Engine::RENDERID::RENDER_ALPHA, this);
 
 	m_fTime = fDeltaTime;
 
@@ -156,24 +173,23 @@ HRESULT CEnemyAntLion::Render_GameObject(void)
 	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
 	NULL_CHECK_RETURN(pEffect,E_FAIL);
 	pEffect->AddRef();
-
-	FAILED_CHECK_RETURN(SetUp_ConstantTable(pEffect), E_FAIL);
-
+	
+	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
+	
 	_uint	iPassMax = 0;
-
+	
 	pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
 	//if (m_bClearDead)
 	pEffect->BeginPass(0);
-
+	
 	//m_pMeshCom->Render_Meshes();
-
+	
 	m_pMeshCom->Render_Meshes(pEffect);
-
+	
 	pEffect->EndPass();
 	pEffect->End();
-
+	
 	Safe_Release(pEffect);
-
 
 	//쉐이더 처리 끝
 	// 
@@ -307,7 +323,6 @@ void CEnemyAntLion::Do_Attack(_float fDeltaTime, _uint iPatton)
 
 		m_pManagement->Stop_Sound(m_eChannel);
 	}
-	m_fTest += fDeltaTime;
 
 	if (m_eAction != eAntLionAction::AttackA && m_eAction != eAntLionAction::AttackB) 
 	{
@@ -402,34 +417,11 @@ void CEnemyAntLion::Do_Dead(_float fDeltaTime)
 		break;
 	}
 
-	Set_Dead();
+	m_bDeadTrigger = true;
 	//m_pMeshCom->Set_AnimationSet((_uint)eAntLionAction::RagDoll);
 }
 
-HRESULT CEnemyAntLion::SetUp_ConstantTable(LPD3DXEFFECT& pEffect)
-{
-	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
-	if (nullptr == pManagement)
-	{
-		return MANAGER_OUT;
-	}
 
-	_matrix			matWorld, matView, matProj;
-
-	matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
-	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
-	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-
-	pEffect->SetMatrix("g_matWorld", &matWorld);
-	pEffect->SetMatrix("g_matView", &matView);
-	pEffect->SetMatrix("g_matProj", &matProj);
-	pEffect->SetFloat("g_DissolveAmount", m_fTest);
-
-
-	pEffect->SetTexture("g_DissolveTexture", dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Dissolve"))->Get_Texture());
-
-	return S_OK;
-}
 
 HRESULT CEnemyAntLion::Add_Component(void)
 {
@@ -467,6 +459,9 @@ HRESULT CEnemyAntLion::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Shader", pComponent);
 
+	pComponent = m_pDesolveTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Dissolve", pComponent);
 
 
 	switch (rand() % 5)

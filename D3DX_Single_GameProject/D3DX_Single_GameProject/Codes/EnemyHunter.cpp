@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "SphereCollider.h"
 #include "ControlSupport.h"
+#include "Shader.h"
 
 #include "ProjFlechette.h"
 #include "ProjPulseAmmo.h"
@@ -31,6 +32,8 @@ CEnemyHunter::CEnemyHunter(_Device pDevice)
 
 	m_eAction = eHunterAction::Idle;
 	m_ePrevAction = m_eAction;	
+
+	m_fDeadTime = 0.0f;
 
 	m_ePatton = eHunterPatton::Idle;
 
@@ -72,6 +75,19 @@ HRESULT CEnemyHunter::Ready_GameObject_Clone(void* pArg)
 
 _int CEnemyHunter::Update_GameObject(const _float& fDeltaTime)
 {
+	if (m_bDeadTrigger == true)
+	{
+		if (m_fDeadTime >= 1.0f)
+		{
+			m_bClearDead = true;
+		}
+
+		m_fDeadTime += fDeltaTime * 0.75f;
+
+		return OBJ_DEAD;
+	}
+
+
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 	CDynamicObject::Update_GameObject(fDeltaTime);
 
@@ -93,7 +109,7 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 	eHunterAction eActon = (eHunterAction)m_pMeshCom->Get_NowAnimationNumber();
 
 	if ((m_pMeshCom->Get_NowAnimationNumber() == (_uint)eHunterAction::Walk_N)
-		&& m_pMeshCom->End_Animation_Sequence())
+		&& m_pMeshCom->End_Animation_Sequence() && m_bEndChecker == false)
 	{
 		m_vOriPos = m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS);
 		m_bEndChecker = true;
@@ -107,12 +123,19 @@ _int CEnemyHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 	else if (m_eAction != m_ePrevAction && m_ePrevAction == eHunterAction::Walk_N)
 	{
 		m_pMeshCom->Force_Change_AnimationSet((_uint)m_eAction);
-	} 
+	}
+	else
+	{
+		m_bEndChecker = false;
+	}
 
 	m_pTransformCom->Update_Component();
 
-	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
-
+	if (m_bDeadTrigger)
+		pManagement->Add_RenderList(Engine::RENDERID::RENDER_ALPHA, this);
+	else
+		pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
+	
 	m_fTime = fDeltaTime;
 
 	return NO_EVENT;
@@ -133,6 +156,33 @@ HRESULT CEnemyHunter::Render_GameObject(void)
 		return E_FAIL;
 
 	m_pMeshCom->Render_Meshes();
+
+	////쉐이더 처리
+	//LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
+	//NULL_CHECK_RETURN(pEffect, E_FAIL);
+	//pEffect->AddRef();
+
+	//FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
+
+	//_uint	iPassMax = 0;
+
+	//pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
+	//if (m_bDeadTrigger)
+	//	pEffect->BeginPass(0);
+	//else
+	//	pEffect->BeginPass(1);
+	//
+
+	////m_pMeshCom->Render_Meshes();
+
+	//m_pMeshCom->Render_Meshes(pEffect);
+
+	//pEffect->EndPass();
+	//pEffect->End();
+
+	//Safe_Release(pEffect);
+
+	////쉐이더 처리 끝
 
 
 	//아래 눈깔 기준 정점
@@ -304,7 +354,7 @@ void CEnemyHunter::Do_Dead(_float fDeltaTime)
 {
 	m_eAction = eHunterAction::Death;
 
-	//CDynamicObject::Do_Dead(fDeltaTime);
+	m_bDeadTrigger = true;	
 }
 
 _bool CEnemyHunter::Do_Dodge(_float fDeltatime)
@@ -496,6 +546,15 @@ HRESULT CEnemyHunter::Add_Component()
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+	//쉐이더
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(pManagement->Clone_Prototype(L"Shader_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Shader", pComponent);
+
+	pComponent = m_pDesolveTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Dissolve", pComponent);
 
 	switch (rand() % 5)
 	{

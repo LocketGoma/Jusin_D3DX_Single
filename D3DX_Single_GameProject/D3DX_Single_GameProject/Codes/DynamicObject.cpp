@@ -28,6 +28,8 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_eChannel(Engine::SOUND_CHANNELID::ENEMY)
 	, m_bUseBaseEffect(true)
 	, m_bClearDead(false)
+	, m_bDeadTrigger(false)
+	, m_fDeadTime(0.f)
 {
 	m_iHP = m_iMaxHP;
 	m_eForceType = eForceType::NONE;
@@ -55,6 +57,8 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_eChannel(other.m_eChannel)
 	, m_bUseBaseEffect(other.m_bUseBaseEffect)
 	, m_bClearDead(false)
+	, m_bDeadTrigger(false)
+	, m_fDeadTime(0.f)
 {
 }
 //얘 돌려주면 애니메이션과 충돌판정이 정확히 들어감.
@@ -172,7 +176,6 @@ _bool CDynamicObject::Get_State()
 void CDynamicObject::Set_Speed(_float fSpeed)
 {
 	m_fImForcePower = fSpeed;
-
 }
 
 void CDynamicObject::Set_Direction(_vec3 vDir)
@@ -190,6 +193,31 @@ void CDynamicObject::Free(void)
 	}
 
 	CBaseObject::Free();
+}
+
+HRESULT CDynamicObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect)
+{
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement || pEffect == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	_matrix			matWorld, matView, matProj;
+
+	matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	pEffect->SetMatrix("g_matWorld", &matWorld);
+	pEffect->SetMatrix("g_matView", &matView);
+	pEffect->SetMatrix("g_matProj", &matProj);
+	pEffect->SetFloat("g_DissolveAmount", m_fDeadTime);
+
+
+	pEffect->SetTexture("g_DissolveTexture", m_pDesolveTextureCom->Get_Texture());
+
+	return S_OK;
 }
 
 

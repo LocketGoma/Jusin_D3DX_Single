@@ -3,6 +3,8 @@
 
 #include "StaticMesh.h"
 #include "Transform.h"
+#include "Shader.h"
+
 
 CMainMapA::CMainMapA(_Device pDevice)
 	: CMapObject(pDevice)
@@ -61,7 +63,35 @@ HRESULT CMainMapA::Render_GameObject(void)
 
 	m_pTransformCom->LateUpdate_Component();
 	FAILED_CHECK_RETURN(SetUp_Material(), E_FAIL);
+	
 	m_pMeshCom->Render_Meshes();
+	
+	
+	//쉐이더 처리
+	//LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
+	//NULL_CHECK_RETURN(pEffect, E_FAIL);
+	//pEffect->AddRef();
+
+	//FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
+
+	//_uint	iPassMax = 0;
+
+	//pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
+	////if (m_bClearDead)
+	//pEffect->BeginPass(1);
+
+
+	//m_pMeshCom->Render_Meshes(pEffect);
+
+	//pEffect->EndPass();
+	//pEffect->End();
+
+	//Safe_Release(pEffect);
+
+	//쉐이더 처리 끝
+	
+	
+	
 	//m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
@@ -85,6 +115,11 @@ HRESULT CMainMapA::Add_Component()
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
+
+	//쉐이더
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(pManagement->Clone_Prototype(L"Shader_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Shader", pComponent);
 
 	return S_OK;
 }

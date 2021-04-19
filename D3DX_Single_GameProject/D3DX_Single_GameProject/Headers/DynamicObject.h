@@ -96,6 +96,9 @@ public:
 	virtual void Free(void);
 
 protected:
+	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect) override;
+
+protected:
 	//움직임
 	_bool m_bStartMove;			//움직이기 시작하는지 (스폰했는지 여부)
 
@@ -129,9 +132,14 @@ protected:
 	Engine::SOUND_CHANNELID m_eChannel;	//사운드 채널 (다중 몬스터 처리시)
 
 	_bool m_bClearDead;			//진짜 죽은건지 파악 (이거 인식되면 SetDead)
+	_bool m_bDeadTrigger;		//사망 이펙트용
+
+	_float m_fDeadTime;			//사망시간 돌리기
 
 //컴포넌트들
 protected:
+	Engine::CTexture* m_pDesolveTextureCom = nullptr;	//디졸브
+
 	Engine::CDynamicMesh* m_pMeshCom = nullptr;
 	CBaseEffect* m_pEffect = nullptr;			//피튀는 이펙트
 	//Engine::CTransform* m_pTransformCom = nullptr;

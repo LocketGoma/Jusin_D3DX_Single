@@ -52,3 +52,24 @@ void CStaticObject::Free(void)
 	CBaseObject::Free();
 }
 
+HRESULT CStaticObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect)
+{
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement || pEffect == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	_matrix			matWorld, matView, matProj;
+
+	matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	pEffect->SetMatrix("g_matWorld", &matWorld);
+	pEffect->SetMatrix("g_matView", &matView);
+	pEffect->SetMatrix("g_matProj", &matProj);
+
+	return S_OK;
+}
+

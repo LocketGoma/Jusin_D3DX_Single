@@ -89,7 +89,8 @@ PS_OUT			PS_DISSOLVE(PS_IN In)
 	vector ClipAmount = vDissolve - g_DissolveAmount;
 
 	if (ClipAmount.r > 0.0)
-	Out.vColor = tex2D(BaseSampler, In.vTexUV);	
+		Out.vColor = tex2D(BaseSampler, In.vTexUV);	
+	
 
 	return Out;
 }

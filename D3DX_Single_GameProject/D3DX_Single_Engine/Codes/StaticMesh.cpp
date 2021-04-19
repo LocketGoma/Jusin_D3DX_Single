@@ -167,6 +167,17 @@ void CStaticMesh::Render_Meshes()
 	}
 }
 
+void CStaticMesh::Render_Meshes(LPD3DXEFFECT pEffect)
+{
+	//전체 순회
+	for (_ulong i = 0; i < m_dwSubsetCnt; ++i)
+	{
+		pEffect->SetTexture("g_BaseTexture", m_ppTextures[i]);
+		pEffect->CommitChanges();
+		m_pMesh->DrawSubset(i);
+	}
+}
+
 const LPD3DXMESH* CStaticMesh::Get_VertrxInfo() const
 {
 	return &m_pMesh;

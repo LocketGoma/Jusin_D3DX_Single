@@ -25,6 +25,8 @@ public:
 	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) PURE;
 	virtual HRESULT Render_GameObject(void) PURE;
 
+protected:
+	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect) override;
 //기본 상호작용 값
 public:
 	const _float Get_Weight();		//물체 무게
@@ -40,6 +42,8 @@ public:
 
 protected:
 	Engine::CStaticMesh* m_pMeshCom = nullptr;
+
+	// CBaseObject을(를) 통해 상속됨
 };
 
 

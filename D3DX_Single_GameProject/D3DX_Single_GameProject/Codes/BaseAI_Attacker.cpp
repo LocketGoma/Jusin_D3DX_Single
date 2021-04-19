@@ -39,7 +39,11 @@ _int CBaseAI_Attacker::Update_GameObject(const _float& fDeltaTime)
 {
 	if (m_pControlUnit->Hit_Attack(0))
 	{
-		m_eState = eAIStatus::DEAD;
+		m_eState = eAIStatus::DEAD;		
+		m_pControlUnit->Do_Dead(fDeltaTime);
+	}
+	if (m_pControlUnit->Get_Clear_Dead_State())
+	{
 		m_pControlUnit->Set_Dead();
 		m_bDead = true;
 	}

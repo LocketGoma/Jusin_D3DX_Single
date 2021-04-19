@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "ControlSupport.h"
 #include "SphereCollider.h"
+#include "Shader.h"
 
 
 CBaseObject::CBaseObject(_Device pDevice)

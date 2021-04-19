@@ -11,7 +11,7 @@
 BEGIN_NAMESPACE(Engine)
 class CStaticMesh;
 class CTransform;
-
+class CShader;
 END_NAMESPACE
 
 
@@ -39,9 +39,13 @@ public:
 	virtual _vec3 Get_Position() override;
 	virtual _vec3 Get_Size() override;
 
+	HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect);
+
 protected:
 	Engine::CStaticMesh* m_pMeshCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
+	Engine::CShader* m_pShaderCom = nullptr;
+
 	_tchar m_pMapName[256];
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 	virtual void Free(void) override;

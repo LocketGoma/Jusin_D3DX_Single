@@ -57,6 +57,9 @@
 //기본 오브젝트
 #include "StaticNormalObject.h"
 
+//아이템
+#include "ItemHealthKit.h"
+#include "ItemSuitBattery.h"
  
 //탄약류
 #include "ProjFlechette.h"
@@ -487,6 +490,9 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"BaseObject_Drum", pGameObject);
 
+    pGameObject = CItemSuitBattery::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Item_Battery", pGameObject);
 
 
     //투사체

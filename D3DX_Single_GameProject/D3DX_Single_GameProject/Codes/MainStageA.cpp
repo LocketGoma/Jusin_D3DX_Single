@@ -487,7 +487,12 @@ HRESULT CMainStageA::Add_Object_Layer(const _tchar* pLayerTag)
 	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pLayer->Add_GameObject(L"BaseObject", pGameObject);
-	pGameObject->Set_Position(_vec3(150.f, 15.f, -160.f));
+	pGameObject->Set_Position(_vec3(150.f, 12.f, -160.f));
+
+	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pLayer->Add_GameObject(L"Item_Battery", pGameObject);
+	pGameObject->Set_Position(_vec3(150.f, 15.f, -150.f));
 
 	m_mapLayer.emplace(pLayerTag, pLayer);
 

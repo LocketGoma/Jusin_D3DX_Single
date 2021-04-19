@@ -3,6 +3,8 @@
 #include "Transform.h"
 
 #include "MapObject.h"
+#include "Transform.h"
+#include "Shader.h"
 
 CMapObject::CMapObject(_Device pDevice)
 	: CGameObject(pDevice)
@@ -16,14 +18,6 @@ CMapObject::CMapObject(const CMapObject& other)
 	, m_pTransformCom(other.m_pTransformCom)
 	, m_pMeshCom(other.m_pMeshCom)
 {
-	//if (m_pTransformCom != nullptr)
-	//{
-	//	m_pTransformCom->AddRef();
-	//}
-	//if (m_pMeshCom != nullptr)
-	//{
-	//	m_pMeshCom->AddRef();
-	//}
 
 }
 
@@ -70,8 +64,30 @@ _vec3 CMapObject::Get_Size()
 		return _vec3(0.f, 0.f, 0.f);
 }
 
+HRESULT CMapObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect)
+{
+	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+	if (nullptr == pManagement || pEffect == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	_mat	matWorld, matView, matProj;
+
+	matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	pEffect->SetMatrix("g_matWorld", &matWorld);
+	pEffect->SetMatrix("g_matView", &matView);
+	pEffect->SetMatrix("g_matProj", &matProj);
+
+	return S_OK;
+}
+
 void CMapObject::Free(void)
 {
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pMeshCom);
 	Safe_Release(m_pTransformCom);
 

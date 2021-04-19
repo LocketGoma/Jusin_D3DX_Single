@@ -8,6 +8,7 @@ BEGIN_NAMESPACE(Engine)
 class CTransform;
 class CControlSupportUnit;
 class CSphereCollider;
+class CShader;
 END_NAMESPACE
 
 //스테틱 오브젝트, 다이나믹 오브젝트 부모
@@ -74,6 +75,9 @@ public:
 	void Set_GravitionPower(_float fGravition);
 	void Set_ClearGSpeed(_float fClearHeight = 0.f);
 
+protected :
+	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect) PURE;
+
 protected:
 	virtual void Free(void);
 
@@ -99,6 +103,7 @@ protected:
 	Engine::CControlSupportUnit* m_pSupportCom = nullptr;
 	Engine::CSphereCollider* m_pColliderCom = nullptr;
 	Engine::CTransform* m_pTransformCom = nullptr;
+	Engine::CShader* m_pShaderCom = nullptr;			//쉐이더
 
 	Engine::CManagement* m_pManagement = nullptr;
 	

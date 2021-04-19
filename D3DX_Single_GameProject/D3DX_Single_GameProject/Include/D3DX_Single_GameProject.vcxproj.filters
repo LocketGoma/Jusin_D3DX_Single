@@ -251,6 +251,15 @@
     <Filter Include="01.Object\10.Effect\05.EnemyHurtEffect">
       <UniqueIdentifier>{a716654c-a4a0-4895-b1c4-2d0d0e0a60de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Object\02.StaticObject\01.Items">
+      <UniqueIdentifier>{5a6a2fd1-437b-47b1-9005-9643bbf4551f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\02.StaticObject\01.Items\00.HealthKit">
+      <UniqueIdentifier>{145fd209-a13c-47ae-a66b-5b4dc355a659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Object\02.StaticObject\01.Items\01.SuitBattery">
+      <UniqueIdentifier>{a5d60fab-a625-4dfe-aad7-78c22cb61ebd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">
@@ -475,6 +484,15 @@
     <ClInclude Include="..\Headers\EnemyHurtEffect.h">
       <Filter>01.Object\10.Effect\05.EnemyHurtEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\ItemHealthKit.h">
+      <Filter>01.Object\02.StaticObject\01.Items\00.HealthKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ItemSuitBattery.h">
+      <Filter>01.Object\02.StaticObject\01.Items\01.SuitBattery</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\BaseItem.h">
+      <Filter>01.Object\02.StaticObject\01.Items</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -693,6 +711,15 @@
     </ClCompile>
     <ClCompile Include="..\Codes\EnemyHurtEffect.cpp">
       <Filter>01.Object\10.Effect\05.EnemyHurtEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ItemHealthKit.cpp">
+      <Filter>01.Object\02.StaticObject\01.Items\00.HealthKit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\ItemSuitBattery.cpp">
+      <Filter>01.Object\02.StaticObject\01.Items\01.SuitBattery</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\BaseItem.cpp">
+      <Filter>01.Object\02.StaticObject\01.Items</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

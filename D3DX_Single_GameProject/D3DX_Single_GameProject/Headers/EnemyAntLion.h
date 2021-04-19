@@ -66,7 +66,6 @@ public:
 	virtual _uint Get_Patton() override;
 
 private:
-	HRESULT SetUp_ConstantTable(LPD3DXEFFECT& pEffect);
 	HRESULT	Add_Component(void);
 	virtual void Free() override;
 
@@ -78,11 +77,10 @@ private:
 	eAntLionAction m_eAction;
 	eAntLionAction m_ePrevAction;			//직전에 실행된 애니메이션
 
-	Engine::CShader* m_pShaderCom = nullptr;
-
 	eAntLionPatton m_ePatton;
 
-	_float m_fTest;
+	Engine::CTexture* m_pTextureCom = nullptr;
+
 
 	_vec3 vOriPos;
 };

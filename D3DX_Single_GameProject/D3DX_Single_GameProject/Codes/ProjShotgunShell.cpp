@@ -11,8 +11,8 @@
 //∞¡ ≈∫≤Æµ•±‚¿”
 CProjShotgunShell::CProjShotgunShell(_Device pDevice)
 	: CBaseProjectile(pDevice)
-	, m_fAxisDifferenceRange_X(2.5f)
-	, m_fAxisDifferenceRange_Y(0.8f)
+	, m_fAxisDifferenceRange_X(2.8f)
+	, m_fAxisDifferenceRange_Y(1.2f)
 	, m_iShellNumber(0)
 	, m_iPelletCount(24)
 
@@ -118,7 +118,7 @@ HRESULT CProjShotgunShell::Shoot_Pellet(_uint iPelletCount)
 	{
 		return false;
 	}
-	for (int i = 0; i < iPelletCount; i++)
+	for (_uint i = 0; i < iPelletCount; i++)
 	{
 		Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_Pellet");
 		NULL_CHECK_RETURN(pObject, E_FAIL);
@@ -132,13 +132,16 @@ HRESULT CProjShotgunShell::Shoot_Pellet(_uint iPelletCount)
 
 		int iRandX = rand() % 100 - 50;
 		int iRandY = rand() % 100 - 50;
+		int iRandZ = rand() % 100 - 50;
 
 		_float fRangeX = ((float)iRandX / 1000 * m_fAxisDifferenceRange_X);
 		_float fRangeY = ((float)iRandY / 1000 * m_fAxisDifferenceRange_Y);
+		_float fRangeZ = ((float)iRandZ / 1000 * m_fAxisDifferenceRange_X);
 
 
 		vDir.x += fRangeX;
 		vDir.y += fRangeY;
+		vDir.z += fRangeZ;
 
 		dynamic_cast<CProjShotgunPellet*>(pObject)->Set_Position(m_pTransformCom->Get_Info(Engine::TRANSFORM_INFO::INFO_POS));
 		dynamic_cast<CProjShotgunPellet*>(pObject)->Set_Direction(vDir);

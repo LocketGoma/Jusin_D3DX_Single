@@ -9,12 +9,18 @@
 #include "ProjFlechette.h"
 #include "ProjPulseAmmo.h"
 
+#include "Shader.h"
+#include "Texture.h"
+
 _uint CBossHunter::m_iPattonBShoot = 0;
 
 CBossHunter::CBossHunter(_Device pDevice)
 	: CDynamicObject(pDevice)
 	, m_fPattonCooltime(0.f)
 	, m_fPattonInterval(1.8f)
+	, m_bAttackLock( false)
+	, m_bPattonLock( false)
+	, m_bShootLock (false)
 	
 {
 	m_fRecognizeRange = 95.f;
@@ -36,6 +42,8 @@ CBossHunter::CBossHunter(_Device pDevice)
 
 	m_eAction = eHunterAction::Idle;
 	m_ePrevAction = m_eAction;
+
+	m_fDeadTime = 0.0f;
 
 	m_ePatton = eHunterPatton::Idle;
 
@@ -78,6 +86,19 @@ HRESULT CBossHunter::Ready_GameObject_Clone(void* pArg)
 
 _int CBossHunter::Update_GameObject(const _float& fDeltaTime)
 {
+	if (m_bDeadTrigger == true)
+	{
+		if (m_fDeadTime >= 1.0f)
+		{
+			m_bClearDead = true;
+		}
+
+		m_fDeadTime += fDeltaTime * 0.55f;
+
+		return OBJ_DEAD;
+	}
+
+
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 	CDynamicObject::Update_GameObject(fDeltaTime);
 
@@ -121,7 +142,7 @@ _int CBossHunter::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	m_pTransformCom->Update_Component();
 
-	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
+	pManagement->Add_RenderList(Engine::RENDERID::RENDER_ALPHA, this);
 
 	m_fTime = fDeltaTime;
 
@@ -142,8 +163,31 @@ HRESULT CBossHunter::Render_GameObject(void)
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
-	m_pMeshCom->Render_Meshes();
+	//쉐이더 처리
+	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
+	NULL_CHECK_RETURN(pEffect, E_FAIL);
+	pEffect->AddRef();
 
+	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
+
+	_uint	iPassMax = 0;
+
+	pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
+	if (m_bDeadTrigger)
+		pEffect->BeginPass(0);
+	else
+		pEffect->BeginPass(1);
+
+	//m_pMeshCom->Render_Meshes();
+
+	m_pMeshCom->Render_Meshes(pEffect);
+
+	pEffect->EndPass();
+	pEffect->End();
+
+	Safe_Release(pEffect);
+
+	//쉐이더 처리 끝
 
 	//아래 눈깔 기준 정점
 	m_vCorePos = _vec3(0.f, 0.f, 0.f);
@@ -319,6 +363,8 @@ void CBossHunter::Do_Spawn(_float fDeltaTime)
 void CBossHunter::Do_Dead(_float fDeltaTime)
 {
 	m_eAction = eHunterAction::Death;
+
+	m_bDeadTrigger = true;
 
 	//CDynamicObject::Do_Dead(fDeltaTime);
 }
@@ -512,6 +558,16 @@ HRESULT CBossHunter::Add_Component()
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+	//쉐이더
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(pManagement->Clone_Prototype(L"Shader_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Shader", pComponent);
+
+	pComponent = m_pDesolveTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Dissolve", pComponent);
+
 
 	switch (rand() % 5)
 	{

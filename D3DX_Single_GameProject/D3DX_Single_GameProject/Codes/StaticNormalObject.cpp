@@ -59,10 +59,7 @@ _int CStaticNormalObject::Update_GameObject(const _float& fDeltaTime)
 	m_fSpeed /= m_fWeight;
 	m_vDirection = _vec3(m_vDirection.x, 0.f, m_vDirection.z);
 
-	m_fGravitionSpeed += m_fGravitionPower * fDeltaTime;
-
-
-	
+	m_fGravitionSpeed += m_fGravitionPower * fDeltaTime;	
 	
 	return NO_EVENT;
 }
