@@ -298,8 +298,20 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 		}
 	if (m_bChangeScene == true)
 	{
+		pManagement->Stop_AllSound();
 		Change_Scene(ESceneType::SCENE_STAGE1);
+
+		return CHANGE_SCENE;
 	}
+	//웨이브 실패시 작동시키는...
+	if(pManagement->Key_Down('K'))
+	{
+		Get_Layer(L"AILayer")->Clear_GameObject();
+		Get_Layer(L"EnemyLayer")->Clear_GameObject();
+	}
+
+
+	//
 
 	////웨이브 파트
 	//시작 웨이브 -> 2번 웨이브
@@ -410,7 +422,7 @@ HRESULT CMainStageA::Add_Enemy_Layer(const _tchar* pLayerTag)
 	
 	pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->Set_Position(_vec3(168.f, 9.f, -150.f));
+	pGameObject->Set_Position(_vec3(140.f, 9.f, -150.f));
 	dynamic_cast<CDynamicObject*>(pGameObject)->Set_Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(180.f));
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion2", pGameObject), E_FAIL);
 
@@ -598,7 +610,7 @@ HRESULT CMainStageA::Add_Enemy_Layer_WaveC(const _tchar* pLayerTag)
 
 	pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->Set_Position(_vec3(168.f, 9.f, -150.f));
+	pGameObject->Set_Position(_vec3(140.f, 9.f, -160.f));
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion4", pGameObject), E_FAIL);
 
 	//기본 적 AI파트

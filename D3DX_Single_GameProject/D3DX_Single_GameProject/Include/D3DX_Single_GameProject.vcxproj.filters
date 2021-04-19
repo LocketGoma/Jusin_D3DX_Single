@@ -260,6 +260,9 @@
     <Filter Include="01.Object\02.StaticObject\01.Items\01.SuitBattery">
       <UniqueIdentifier>{a5d60fab-a625-4dfe-aad7-78c22cb61ebd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Scene\07.MainStageC\99.EndingImage">
+      <UniqueIdentifier>{c1e479a8-3aa5-4d4d-a533-30c2913af613}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DX_Single_GameProject.h">

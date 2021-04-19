@@ -32,7 +32,7 @@ HRESULT CMainStageC::Ready_Scene(void)
 	SetWindowText(g_hWnd, L"Stage C");
 
 	Add_Player_Layer(L"PlayerLayer");
-	Add_Boss_Layer(L"BossLayer");
+	//Add_Boss_Layer(L"BossLayer");
 	Add_Object_Layer(L"ObjectLayer");
 	Add_Enemy_Layer(L"EnemyLayer");
 	Add_Weapon_Layer(L"WeaponLayer");
@@ -324,11 +324,11 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     pGameObject->Set_Position(_vec3(20.f, 0.f, 45.f));
     FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
 
-    //보스 헌터
-    pGameObject = pManagement->Clone_GameObject(L"BossHunter");
-    NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    pGameObject->Set_Position(_vec3(20.f, 0.f, 0.f));
-    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BossHunter", pGameObject), E_FAIL);
+    ////보스 헌터
+    //pGameObject = pManagement->Clone_GameObject(L"BossHunter");
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //pGameObject->Set_Position(_vec3(20.f, 0.f, 0.f));
+    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BossHunter", pGameObject), E_FAIL);
 
     //헌터 AI
     pGameObject = CBaseAI_Attacker::Create(m_pDevice);
@@ -343,12 +343,27 @@ HRESULT CMainStageC::Add_Enemy_Layer(const _tchar* pLayerTag)
     dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
     FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
    
-    //보스 헌터 AI
-    pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    ////보스 헌터 AI
+    //pGameObject = CBaseAI_Attacker::Create(m_pDevice);
+    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"BossHunter")));
+    //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"BossHunterAI", pGameObject), E_FAIL);
+
+
+    //스트라이더
+    pGameObject = pManagement->Clone_GameObject(L"BossStrider");
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"BossHunter")));
-    dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"BossHunterAI", pGameObject), E_FAIL);
+    pGameObject->Set_Position(_vec3(55.f, 0.f, 10.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
+
+    //스트라이더
+    pGameObject = CBossAI_Strider::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Strider")));
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyStriderAI", pGameObject), E_FAIL);
+
 
 
     m_mapLayer.emplace(pLayerTag, pLayer);

@@ -2,15 +2,11 @@
 USING(Engine)
 
 CCollider::CCollider(_Device pDevice)
-#ifdef _DEBUG
 	: m_pDevice(pDevice)
 {
 	m_pDevice -> AddRef();
 }
-#else
-{
-}
-#endif // _DEBUG
+
 
 const _matrix* CCollider::Get_ColMatrix()
 {
@@ -30,7 +26,7 @@ const _vec3* CCollider::Get_Max()
 HRESULT CCollider::Ready_Collider(const _vec3* pPos, const _ulong& dwVTXCount, const _ulong& dwStride)
 {
 	D3DXComputeBoundingBox(pPos, dwVTXCount, sizeof(_vec3), &m_vMin, &m_vMax);
-#ifdef _DEBUG	
+//#ifdef _DEBUG	
 	FAILED_CHECK_RETURN(m_pDevice->CreateVertexBuffer(sizeof(VTXCUBE) * 8,
 		0, // 정적 버퍼 사용 시 숫자 0(D3DUSAGE_DYNAMIC : 파티클을 생성할 때)
 		FVF_CUBE,
@@ -157,7 +153,7 @@ HRESULT CCollider::Ready_Collider(const _vec3* pPos, const _ulong& dwVTXCount, c
 
 		m_pTexture[i]->UnlockRect(0);
 	}
-#endif
+//#endif
 	return S_OK;
 }
 
@@ -312,7 +308,7 @@ void CCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool bIsVi
 
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_matColMatrix);
 
-#ifdef _DEBUG
+
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	m_pDevice->SetTexture(0, m_pTexture[(_uint)eType]);
@@ -323,7 +319,7 @@ void CCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool bIsVi
 	m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-#endif
+
 }
 
 void CCollider::Render_Collider(COLIDETYPE eType, const _matrix* pColliderMatrix, _bool bIsVisualble)

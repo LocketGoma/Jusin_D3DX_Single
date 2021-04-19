@@ -8,7 +8,7 @@ Engine::CRenderTargetManager::CRenderTargetManager()
 
 }
 
-HRESULT CRenderTargetManager::Ready_RenderTarget(const _tchar* pTargetTag, LPDIRECT3DDEVICE9 pDevice, const _uint& iWidth, const _uint& iHeight, D3DFORMAT Format, D3DXCOLOR Color)
+HRESULT CRenderTargetManager::Ready_RenderTarget(const _tchar* pTargetTag, _Device pDevice, const _uint& iWidth, const _uint& iHeight, D3DFORMAT Format, D3DXCOLOR Color)
 {
 	CRenderTarget* pRenderTarget = Find_RenderTarget(pTargetTag);
 	if (pRenderTarget != nullptr)
@@ -23,6 +23,7 @@ HRESULT CRenderTargetManager::Ready_RenderTarget(const _tchar* pTargetTag, LPDIR
 
 	return S_OK;
 }
+
 //멀티 랜더 타겟
 HRESULT CRenderTargetManager::Ready_MRT(const _tchar* pMRTTag, const _tchar* pTargetTag)
 {

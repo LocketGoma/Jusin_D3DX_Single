@@ -82,7 +82,7 @@ _int CEnemyHunter::Update_GameObject(const _float& fDeltaTime)
 			m_bClearDead = true;
 		}
 
-		m_fDeadTime += fDeltaTime * 0.75f;
+		m_fDeadTime += fDeltaTime * 0.55f;
 
 		return OBJ_DEAD;
 	}
@@ -155,34 +155,34 @@ HRESULT CEnemyHunter::Render_GameObject(void)
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
-	m_pMeshCom->Render_Meshes();
+	//m_pMeshCom->Render_Meshes();
 
-	////쉐이더 처리
-	//LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
-	//NULL_CHECK_RETURN(pEffect, E_FAIL);
-	//pEffect->AddRef();
+	//쉐이더 처리
+	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
+	NULL_CHECK_RETURN(pEffect, E_FAIL);
+	pEffect->AddRef();
 
-	//FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
+	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
 
-	//_uint	iPassMax = 0;
+	_uint	iPassMax = 0;
 
-	//pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
-	//if (m_bDeadTrigger)
-	//	pEffect->BeginPass(0);
-	//else
-	//	pEffect->BeginPass(1);
-	//
+	pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
+	if (m_bDeadTrigger)
+		pEffect->BeginPass(0);
+	else
+		pEffect->BeginPass(1);
+	
 
-	////m_pMeshCom->Render_Meshes();
+	//m_pMeshCom->Render_Meshes();
 
-	//m_pMeshCom->Render_Meshes(pEffect);
+	m_pMeshCom->Render_Meshes(pEffect);
 
-	//pEffect->EndPass();
-	//pEffect->End();
+	pEffect->EndPass();
+	pEffect->End();
 
-	//Safe_Release(pEffect);
+	Safe_Release(pEffect);
 
-	////쉐이더 처리 끝
+	//쉐이더 처리 끝
 
 
 	//아래 눈깔 기준 정점

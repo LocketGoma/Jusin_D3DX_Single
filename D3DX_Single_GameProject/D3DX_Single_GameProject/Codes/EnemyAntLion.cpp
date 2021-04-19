@@ -64,12 +64,12 @@ _int CEnemyAntLion::Update_GameObject(const _float& fDeltaTime)
 		{
 			m_bClearDead = true;
 		}
-
+		
 		m_fDeadTime += fDeltaTime * 0.5f;
 
+		m_pManagement->Stop_Sound(m_eChannel);
 		
-		return OBJ_DEAD;
-		
+		return OBJ_DEAD;		
 	}
 
 	Engine::CGameObject::Update_GameObject(fDeltaTime);

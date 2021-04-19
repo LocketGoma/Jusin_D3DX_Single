@@ -14,6 +14,7 @@
 
 bool g_bViewCollider = true;
 bool g_bViewNavimesh = true;
+bool g_bViewDebugTarget = true;
 
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
@@ -76,6 +77,11 @@ _int CMainGame::Update_MainGame()
     if (m_pManagement->Key_Down('P'))
     {
         g_bViewNavimesh = g_bViewNavimesh == false;
+    }
+    if (m_pManagement->Key_Down('L'))
+    {
+        g_bViewDebugTarget = g_bViewDebugTarget == false;
+        m_pManagement->Set_Visualble_DebugBuffer(g_bViewDebugTarget);
     }
 
     m_pManagement->Update_Engine(fDeltaTime);

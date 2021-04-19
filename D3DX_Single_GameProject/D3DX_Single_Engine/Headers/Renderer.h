@@ -11,6 +11,8 @@
 
 BEGIN_NAMESPACE(Engine)
 
+class CManagement;
+
 class ENGINE_DLL CRenderer : public CBase
 {
 	DECLARE_SINGLETON(CRenderer)
@@ -26,7 +28,9 @@ public:
 	HRESULT Add_RenderList(RENDERID eRenderID, class CGameObject* pGameObject);
 	HRESULT Render_RenderList(HWND hWND = nullptr);
 
-	HRESULT Cleaer_RenderList();
+	void Set_Visualble_DebugBuffer(_bool bVisual);
+
+	HRESULT Clear_RenderList();
 
 private:
 	HRESULT Render_Priority();
@@ -42,6 +46,13 @@ private:
 	HRESULT Render_UI_AlphaBlend();
 	HRESULT Render_Scene();
 
+	//∑£¥ı≈∏∞Ÿ, Ω¶¿Ã¥ı
+	HRESULT	Render_Original();
+	HRESULT	Render_Deferred();
+	HRESULT	Render_LightAcc();
+	HRESULT	Render_Blend();
+
+
 public:
 	virtual void Free() override;
 
@@ -52,6 +63,14 @@ private:
 	_Device m_pDevice;
 	LPD3DXSPRITE m_pSprite;
 	LPD3DXFONT	m_pFont;
+
+	Engine::CManagement* m_pManagement = nullptr;
+
+	_bool m_bVisuableDebug;
+
+	//µ∆€µÂ Ω¶¿Ã¥ı øÎ
+	LPDIRECT3DVERTEXBUFFER9		m_pVB;
+	LPDIRECT3DINDEXBUFFER9		m_pIB;
 
 };
 

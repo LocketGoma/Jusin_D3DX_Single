@@ -29,16 +29,36 @@ sampler DissolveSampler = sampler_state
 	magfilter = linear;
 };
 
+vector		g_vLightDir;
+
+vector		g_vLightDiffuse;
+vector		g_vLightAmbient;
+vector		g_vLightSpecular;
+
+vector		g_vMtrlDiffuse;
+vector		g_vMtrlAmbient;
+vector		g_vMtrlSpecular;
+
+float		g_fPower;
+
+vector		g_vCamPos;
+
+
+
+
 struct VS_IN
 {
 	float4			vPosition : POSITION;
+	float4			vNormal		: NORMAL;
 	float2			vTexUV : TEXCOORD0;
 };
 
 struct VS_OUT
 {
-	float4			vPosition : POSITION;
-	float2			vTexUV : TEXCOORD0;
+	float4			vPosition	: POSITION;
+	float4			vNormal		 : NORMAL;
+	float2			vTexUV		: TEXCOORD0;
+	float4			vProjPos : TEXCOORD1;
 };
 
 // ¡§¡° Ω¶¿Ã¥ı
@@ -53,14 +73,19 @@ VS_OUT			VS_MAIN(VS_IN In)
 	matWVP = mul(matWV, g_matProj);
 
 	Out.vPosition = mul(vector(In.vPosition.xyz, 1.f), matWVP);
+	Out.vNormal = normalize(mul(vector(In.vNormal.xyz, 0.f), g_matWorld));
 	Out.vTexUV = In.vTexUV;
+	Out.vProjPos = Out.vPosition;
+
 
 	return Out;
 }
 
 struct PS_IN
 {
+	vector			vNormal : NORMAL;
 	float2			vTexUV : TEXCOORD0;
+	float4			vProjPos : TEXCOORD1;
 	
 
 };
@@ -68,6 +93,8 @@ struct PS_IN
 struct PS_OUT
 {
 	vector		vColor : COLOR0;
+	//vector		vNormal : COLOR1;
+	//vector		vDepth : COLOR2;
 };
 
 PS_OUT			PS_MAIN(PS_IN In)
@@ -75,6 +102,7 @@ PS_OUT			PS_MAIN(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 	Out.vColor = tex2D(BaseSampler, In.vTexUV);
 
+	Out.vColor *= saturate((g_vLightDiffuse * g_vMtrlDiffuse) + (g_vLightAmbient * g_vMtrlAmbient)+(g_vLightSpecular* g_vMtrlSpecular));
 
 	return Out;
 }

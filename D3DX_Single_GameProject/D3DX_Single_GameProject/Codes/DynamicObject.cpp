@@ -222,6 +222,17 @@ HRESULT CDynamicObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect)
 
 	pEffect->SetTexture("g_DissolveTexture", m_pDesolveTextureCom->Get_Texture());
 
+	D3DLIGHT9* pLight = new D3DLIGHT9;
+	m_pDevice->GetLight(0,pLight);
+
+	pEffect->SetVector("g_vLightDiffuse", (_vec4*)&pLight->Diffuse);
+	pEffect->SetVector("g_vLightAmbient", (_vec4*)&pLight->Ambient);
+	pEffect->SetVector("g_vLightSpecular", (_vec4*)&pLight->Specular);
+	pEffect->SetVector("g_vLightDir", &_vec4(pLight->Direction, 0.f));
+
+	delete pLight;
+	pLight = nullptr;
+
 	return S_OK;
 }
 

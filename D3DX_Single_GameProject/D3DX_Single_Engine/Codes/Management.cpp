@@ -1,4 +1,6 @@
 #include "..\Headers\Management.h"
+#include "Shader.h"
+
 
 USING(Engine)
 
@@ -71,6 +73,13 @@ HRESULT CManagement::Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDi
 		return E_FAIL;
 	}
 
+
+	//전체화면 띄우기용 쉐이더 등록
+	CShader* pShader = nullptr;
+	pShader = Engine::CShader::Create(Get_Device(), L"../../Reference/Headers/Shader_Original.hlsl");
+	NULL_CHECK_RETURN(pShader, E_FAIL);
+	Ready_Prototype(L"Shader_Original", pShader);
+	Ready_Shader(Get_Device());
 
     return S_OK;
 }
@@ -219,23 +228,32 @@ HRESULT CManagement::Add_RenderList(RENDERID eRenderID, CGameObject* pGameObject
 
 	return m_pRenderer->Add_RenderList(eRenderID, pGameObject);
 }
+void CManagement::Set_Visualble_DebugBuffer(_bool bVisual)
+{
+	m_pRenderer->Set_Visualble_DebugBuffer(bVisual);
+}
 //랜더타겟 관련
-HRESULT CManagement::Ready_Sheader(_Device pDevice)
+HRESULT CManagement::Ready_Shader(_Device pDevice)
 {
 	D3DVIEWPORT9		ViewPort;
 	pDevice->GetViewport(&ViewPort);
 
 	//Base
-	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_BaseAlbedo", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_BaseAlbedo", 0.f, 0.f, 200.f, 200.f), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_Original", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_Original", 0.f, 0.f, 200.f, 200.f), E_FAIL);
 
-	//깊이 버퍼
-	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_Depth", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_Depth", 0.f, 200.f, 200.f, 200.f), E_FAIL);
+	////깊이 버퍼
+	//FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_Depth", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
+	//FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_Depth", 0.f, 200.f, 200.f, 200.f), E_FAIL);
 
-	//무기
-	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_WeaponAlbedo", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_WeaponAlbedo", 0.f, 400.f, 200.f, 200.f), E_FAIL);
+	////무기
+	//FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_WeaponAlbedo", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
+	//FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_WeaponAlbedo", 0.f, 400.f, 200.f, 200.f), E_FAIL);
+
+	FAILED_CHECK_RETURN(Ready_MRT(L"MRT_Deferred", L"Target_Original"), E_FAIL);
+
+
+
 
 	return S_OK;
 }
@@ -440,6 +458,9 @@ void CManagement::Release_Engine()
 		if (CManagement::Destroy_Instance())
 			PRINT_LOG(L"Warning", L"Failed To Release CManagement");
 
+		if (CRenderTargetManager::Destroy_Instance())
+			PRINT_LOG(L"Warning", L"Failed To Release CRenderTargetManager (Management.cpp)");
+
 		if (CSoundManager::Destroy_Instance())
 			PRINT_LOG(L"Waring", L"Failed To Release CSoundManager (Management.cpp)");
 
@@ -466,9 +487,6 @@ void CManagement::Release_Engine()
 
 		if (CMemeoryPoolManager::Destroy_Instance())
 			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CMemeoryPoolManager (Management.cpp)");
-
-		if (CRenderTargetManager::Destroy_Instance())
-			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderTargetManager");
 
 		if (CRenderer::Destroy_Instance())
 			PRINT_LOG(L"FATAL ERROR", L"Failed To Release CRenderer");

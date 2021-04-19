@@ -1,5 +1,5 @@
 #include "RenderTarget.h"
-
+//Deferred Shader
 USING(Engine)
 
 CRenderTarget::CRenderTarget(_Device pDevice)
@@ -127,9 +127,9 @@ void CRenderTarget::SetUp_OnShader(LPD3DXEFFECT& pEffect, const char* pConstantT
 	pEffect->SetTexture(pConstantTable, m_pTargetTexture);
 }
 
-CRenderTarget* CRenderTarget::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _uint& iWidth, const _uint& iHeight, D3DFORMAT Format, D3DXCOLOR Color)
+CRenderTarget* CRenderTarget::Create(_Device pDevice, const _uint& iWidth, const _uint& iHeight, D3DFORMAT Format, D3DXCOLOR Color)
 {
-	CRenderTarget* pInstance = new CRenderTarget(pGraphicDev);
+	CRenderTarget* pInstance = new CRenderTarget(pDevice);
 
 	if (FAILED(pInstance->Ready_RenderTarget(iWidth, iHeight, Format, Color)))
 		Safe_Release(pInstance);

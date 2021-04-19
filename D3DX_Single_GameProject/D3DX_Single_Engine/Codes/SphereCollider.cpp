@@ -27,7 +27,7 @@ HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _float fRadius)
 
 	D3DXCreateSphere(m_pDevice, m_fRadius, 36, 36, &m_pMesh, nullptr);
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	for (_uint i = 0; i < (_uint)COLIDETYPE::COL_END; ++i)
 	{
 		D3DXCreateTexture(m_pDevice,
@@ -60,7 +60,7 @@ HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _float fRadius)
 		m_pTexture[i]->UnlockRect(0);
 	}
 
-#endif // !_DEBUG
+//#endif // !_DEBUG
 
 
 	return S_OK;
@@ -79,7 +79,7 @@ HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _vec3 pScale, c
 
 	D3DXCreateSphere(m_pDevice, m_fRadius, 36, 36, &m_pMesh, nullptr);
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	for (_uint i = 0; i < (_uint)COLIDETYPE::COL_END; ++i)
 	{
 		D3DXCreateTexture(m_pDevice,
@@ -112,7 +112,7 @@ HRESULT CSphereCollider::Ready_Collider(const _vec3* pPos, const _vec3 pScale, c
 		m_pTexture[i]->UnlockRect(0);
 	}
 
-#endif // !_DEBUG
+//#endif // !_DEBUG
 
 	return S_OK;
 
@@ -129,7 +129,7 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _matrix* pCollider
 
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_matColMatrix);
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	if (bState == true)
 	{
 		m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -140,7 +140,7 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _matrix* pCollider
 
 		m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
-#endif
+//#endif
 }
 
 void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool bState)
@@ -155,7 +155,7 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool
 
 	m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	if (bState == true)
 	{
 		m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -166,7 +166,7 @@ void CSphereCollider::Render_Collider(COLIDETYPE eType, const _vec3* vPos, _bool
 
 		m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
-#endif
+//#endif
 
 }
 

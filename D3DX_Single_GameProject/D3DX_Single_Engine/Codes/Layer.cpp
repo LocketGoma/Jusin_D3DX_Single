@@ -56,6 +56,14 @@ _uint CLayer::Get_ObjectCount()
 	return m_mapObject.size();
 }
 
+void CLayer::Clear_GameObject()
+{
+	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteMap());
+	m_mapObject.clear();
+
+
+}
+
 HRESULT CLayer::Ready_Layer(void)
 {
 	return S_OK;

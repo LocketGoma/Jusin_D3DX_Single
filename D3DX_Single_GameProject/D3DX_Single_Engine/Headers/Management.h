@@ -77,10 +77,11 @@ public :
 public: 
 	//Renderer Setting
 	HRESULT Add_RenderList(RENDERID eRenderID, class CGameObject* pGameObject);
+	void Set_Visualble_DebugBuffer(_bool bVisual);
 
 public:
 	//RenderTarget Setting
-	HRESULT Ready_Sheader(_Device pDevice);
+	HRESULT Ready_Shader(_Device pDevice);
 
 	HRESULT Ready_RenderTarget(const _tchar * pTargetTag, _Device pDevice, const _uint & iWidth, const _uint & iHeight, D3DFORMAT Format, D3DXCOLOR Color);
 

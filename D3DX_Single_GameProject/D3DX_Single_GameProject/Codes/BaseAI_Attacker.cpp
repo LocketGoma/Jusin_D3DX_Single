@@ -47,6 +47,10 @@ _int CBaseAI_Attacker::Update_GameObject(const _float& fDeltaTime)
 		m_pControlUnit->Set_Dead();
 		m_bDead = true;
 	}
+	if (m_eState == eAIStatus::DEAD)
+	{
+		return OBJ_DEAD;
+	}
 
 
 	_vec3 vRange = (m_pTargetUnit->Get_Position()) - (m_pControlUnit->Get_Position());

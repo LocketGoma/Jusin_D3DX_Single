@@ -23,6 +23,8 @@ CItemSuitBattery::CItemSuitBattery(_Device pDevice)
 	m_vStartPos = _vec3(0.f, 0.f, 0.f);
 	m_vDirection = _vec3(0.f, 0.f, 1.f);
 
+	
+
 }
 
 CItemSuitBattery::CItemSuitBattery(const CItemSuitBattery& other)
@@ -49,8 +51,8 @@ HRESULT CItemSuitBattery::Ready_GameObject_Clone(void* pArg)
 _int CItemSuitBattery::Update_GameObject(const _float& fDeltaTime)
 {
 	Engine::CGameObject::Update_GameObject(fDeltaTime);	
+	m_pTransformCom->Set_Scale(RESET_VECTOR);
 	m_pTransformCom->Update_Component();
-
 
 	m_vDirection = m_vDirection + _vec3(0.f, -0.1f, 0.f);
 	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
@@ -84,12 +86,19 @@ _int CItemSuitBattery::LateUpdate_GameObject(const _float& fDeltaTime)
 
 HRESULT CItemSuitBattery::Render_GameObject(void)
 {
-	m_pTransformCom->LateUpdate_Component(0.f);
+	//m_pTransformCom->LateUpdate_Component(0.f);
 
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
+	_mat matWorld = m_pTransformCom->Get_TransformDescription().matWorld;
 
-	//½¦ÀÌ´õ Ã³¸®
+	Set_Size(BASE_ENEMY_REDUCION_VECTOR);
+
+	m_pTransformCom->Set_Scale(BASE_ENEMY_REDUCION_VECTOR);
+	m_pTransformCom->Update_Component();
+	m_pTransformCom->LateUpdate_Component(0.f);//½¦ÀÌ´õ Ã³¸®
+
+
 	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
 	NULL_CHECK_RETURN(pEffect, E_FAIL);
 	pEffect->AddRef();
@@ -113,7 +122,7 @@ HRESULT CItemSuitBattery::Render_GameObject(void)
 
 	//½¦ÀÌ´õ Ã³¸® ³¡
 
-	m_pColliderCom->Render_Collider(eType, &Get_Position(), g_bViewCollider);
+	m_pColliderCom->Render_Collider(eType, &matWorld, g_bViewCollider);
 	
 
 	return S_OK;

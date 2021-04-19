@@ -29,12 +29,12 @@ private:
 	_vec3 m_vMin, m_vMax;
 	_mat m_matColMatrix;
 
-#ifdef _DEBUG
+
 	_Device			m_pDevice;
 	LPDIRECT3DVERTEXBUFFER9		m_pVB;
 	LPDIRECT3DINDEXBUFFER9		m_pIB;
 	LPDIRECT3DTEXTURE9			m_pTexture[(_uint)COLIDETYPE::COL_END];
-#endif
+
 public:
 	static CCollider* Create(_Device pDevice, const _vec3* pPos, const _ulong& dwVtxCnt, const _ulong& dwStride);
 	static CCollider* Create(_Device pDevice, const _vec3* vMin, const _vec3* vMax);

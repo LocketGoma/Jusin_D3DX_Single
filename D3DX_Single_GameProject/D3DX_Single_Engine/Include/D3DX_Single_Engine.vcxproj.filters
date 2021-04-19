@@ -502,5 +502,8 @@
     <HLSL Include="Shader_Map.hlsl">
       <Filter>01.Resources\12.Shader\00.File</Filter>
     </HLSL>
+    <HLSL Include="Shader_Original.hlsl">
+      <Filter>01.Resources\12.Shader\00.File</Filter>
+    </HLSL>
   </ItemGroup>
 </Project>

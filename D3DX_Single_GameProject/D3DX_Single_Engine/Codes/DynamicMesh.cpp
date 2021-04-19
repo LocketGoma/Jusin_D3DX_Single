@@ -156,6 +156,12 @@ void CDynamicMesh::Render_Meshes(LPD3DXEFFECT& pEffect)
 			pEffect->SetTexture("g_BaseTexture", pMeshContainer->ppTexture[i]);
 			pEffect->CommitChanges();
 
+			auto material = pMeshContainer->pMaterials->MatD3D;
+			pEffect->SetVector("g_vMtrlDiffuse", (_vec4*)&material.Diffuse);
+			pEffect->SetVector("g_vMtrlAmbient", (_vec4*)&material.Ambient);
+			pEffect->SetVector("g_vMtrlSpecular", (_vec4*)&material.Specular);
+			pEffect->SetFloat("g_fPower", material.Power);
+
 			pMeshContainer->MeshData.pMesh->DrawSubset(i);
 		}
 

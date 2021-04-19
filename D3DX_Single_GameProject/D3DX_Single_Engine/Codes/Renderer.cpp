@@ -4,13 +4,15 @@
 
 #include "Management.h"
 
+#include "Shader.h"
+
 USING(Engine)
 IMPLEMENT_SINGLETON(CRenderer)
 
-CRenderer::CRenderer(/*LPDIRECT3DDEVICE9 pDevice*/)
-//: m_pDevice(pDevice)
+CRenderer::CRenderer()
+    : m_bVisuableDebug(true)
 {
-    //Safe_AddRef(m_pDevice);
+
 }
 
 HRESULT CRenderer::Set_Device(_Device pDevice, LPD3DXSPRITE pSprite, LPD3DXFONT pFont)
@@ -33,6 +35,58 @@ HRESULT CRenderer::Set_Device(_Device pDevice, LPD3DXSPRITE pSprite, LPD3DXFONT 
         m_pFont = pFont;
         Safe_AddReference(m_pFont);
     }
+
+    //----랜더타겟용..........
+
+    m_pManagement = CManagement::Get_Instance();    
+
+    FAILED_CHECK_RETURN(m_pDevice->CreateVertexBuffer(sizeof(VTXSCREEN) * 4,
+        0, // 정적 버퍼 사용 시 숫자 0(D3DUSAGE_DYNAMIC : 파티클을 생성할 때)
+        FVF_SCREEN,
+        D3DPOOL_MANAGED, // 일반적으로 정적 버퍼 사용 시 Managed, 동적버퍼 사용 시 Default 사용
+        &m_pVB, NULL), E_FAIL);
+
+    FAILED_CHECK_RETURN(m_pDevice->CreateIndexBuffer(sizeof(INDEX16) * 2,
+        0,
+        D3DFMT_INDEX16,
+        D3DPOOL_MANAGED,
+        &m_pIB, NULL), E_FAIL);
+
+    D3DVIEWPORT9			ViewPort;
+    m_pDevice->GetViewport(&ViewPort);
+
+    VTXSCREEN* pVertex = NULL;
+
+    m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+
+    pVertex[0].vPosition = _vec4(0.f, 0.f, 0.f, 1.f);
+    pVertex[0].vTexUV = _vec2(0.f, 0.f);
+
+    pVertex[1].vPosition = _vec4(_float(ViewPort.Width), 0.f, 0.f, 1.f);
+    pVertex[1].vTexUV = _vec2(1.f, 0.f);
+
+    pVertex[2].vPosition = _vec4(_float(ViewPort.Width), _float(ViewPort.Height), 0.f, 1.f);
+    pVertex[2].vTexUV = _vec2(1.f, 1.f);
+
+    pVertex[3].vPosition = _vec4(0.f, _float(ViewPort.Height), 0.f, 1.f);
+    pVertex[3].vTexUV = _vec2(0.f, 1.f);
+
+    m_pVB->Unlock();
+
+
+    INDEX16* pIndex = NULL;
+
+    m_pIB->Lock(0, 0, (void**)&pIndex, 0);
+
+    pIndex[0]._0 = 0;
+    pIndex[0]._1 = 1;
+    pIndex[0]._2 = 2;
+
+    pIndex[1]._0 = 0;
+    pIndex[1]._1 = 2;
+    pIndex[1]._2 = 3;
+
+    m_pIB->Unlock();
 
     return S_OK;
 }
@@ -62,6 +116,8 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
         return E_FAIL;
     }
     //랜더 리스트 추가
+
+    m_pManagement->Begin_MRT(L"MRT_Deferred");
 
     if (FAILED(Render_Priority())) 
     {
@@ -123,8 +179,18 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
         return E_FAIL;
     }
 
+    m_pManagement->End_MRT(L"MRT_Deferred");
     //랜더 리스트 끝
+
+    Render_Original();
    
+    if (m_bVisuableDebug == true)
+    {
+        m_pManagement->Render_DebugBuffer(L"MRT_Deferred");        
+    }
+
+
+
     if (FAILED(CGraphicDevice::Get_Instance()->Render_End(hWND)))
     {
         PRINT_LOG(L"Render Error", L"Failed to Render_End (maybe occur m_pDevice Failed)");
@@ -132,6 +198,11 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
     }
 
     return S_OK;
+}
+
+void CRenderer::Set_Visualble_DebugBuffer(_bool bVisual)
+{
+    m_bVisuableDebug = bVisual;
 }
 
 
@@ -560,15 +631,55 @@ HRESULT CRenderer::Render_UI_AlphaBlend()
 //씬에서 남은 자잘구레한것들 출력
 HRESULT CRenderer::Render_Scene()
 {
-    CManagement* pManagement = CManagement::Get_Instance();
-    NULL_CHECK_RETURN(pManagement,E_FAIL);
-
-    pManagement->Render_Scene();
+    m_pManagement->Render_Scene();
 
     return S_OK;
 }
 
-HRESULT CRenderer::Cleaer_RenderList()
+HRESULT CRenderer::Render_Original()
+{
+    CShader* pShader = dynamic_cast<Engine::CShader*>(m_pManagement->Clone_Prototype(L"Shader_Original"));
+    NULL_CHECK_RETURN(pShader,E_FAIL);
+
+    LPD3DXEFFECT	pEffect = pShader->Get_EffectHandle();
+    pEffect->AddRef();
+
+    pEffect->Begin(NULL, 0);
+    pEffect->BeginPass(0);
+
+    m_pManagement->SetUp_OnShader(pEffect, L"Target_Original", "g_OriginalTexture");
+    
+    m_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VTXSCREEN));
+    m_pDevice->SetFVF(FVF_SCREEN);
+    m_pDevice->SetIndices(m_pIB);
+    m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
+
+    pEffect->EndPass();
+    pEffect->End();
+
+    Safe_Release(pShader);
+    Safe_Release(pEffect);
+
+
+    return S_OK;
+}
+
+HRESULT CRenderer::Render_Deferred()
+{
+    return S_OK;
+}
+
+HRESULT CRenderer::Render_LightAcc()
+{
+    return S_OK;
+}
+
+HRESULT CRenderer::Render_Blend()
+{
+    return S_OK;
+}
+
+HRESULT CRenderer::Clear_RenderList()
 {
     for (_uint i = 0; i < (_uint)RENDERID::RENDER_END; ++i)
     {
@@ -599,6 +710,11 @@ void CRenderer::Free()
         m_GameObjects[i].clear();
     }
 
+
+    Safe_Release(m_pIB);
+    Safe_Release(m_pVB);
+
+    Safe_Release(m_pManagement);
     Safe_Release(m_pDevice);
 
 }
