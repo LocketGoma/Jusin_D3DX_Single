@@ -15,7 +15,7 @@ HRESULT CLogoImage::Ready_GameObject(void)
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
     m_pTransformCom->Set_Scale(_vec3(16.f*0.7f, 9.f*0.7f, 1.f));
-
+    m_pTransformCom->Set_Pos(_vec3(0.f, 0.f, 0.5f));
     return S_OK;
 }
 

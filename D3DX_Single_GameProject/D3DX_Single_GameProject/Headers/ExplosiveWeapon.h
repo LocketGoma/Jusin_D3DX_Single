@@ -5,6 +5,9 @@
 #define __EXPLOSIVE_WEAPON_H__
 
 #include "BaseProjectile.h"
+
+class CBaseEffect;
+
 class CExplosiveWeapon :  public CBaseProjectile
 {
 private:
@@ -23,6 +26,7 @@ public:
 private:
 	HRESULT Add_Component();
 
+
 public:
 	static CExplosiveWeapon* Create(_Device pDevice);
 	virtual CGameObject* Clone(void* pArg) override;
@@ -30,7 +34,9 @@ public:
 private:
 	virtual void Free();
 
-
+	_bool m_bExplosion;
+	_bool m_bClearDead;
+	CBaseEffect* m_pEffect = nullptr;
 };
 
 

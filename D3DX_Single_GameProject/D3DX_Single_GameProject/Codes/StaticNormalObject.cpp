@@ -13,7 +13,7 @@ CStaticNormalObject::CStaticNormalObject(_Device pDevice, const _tchar* pMeshNam
 	if (pMeshName!=nullptr)
 		lstrcpy(m_pMeshName, pMeshName);
 
-	m_fWeight = fWeight;
+	m_fWeight = 10;
 	m_fLifeTime = 1.f;
 	m_fSpeed = 0.f;
 	m_eForceType = eForceType::PULL;
@@ -29,7 +29,7 @@ CStaticNormalObject::CStaticNormalObject(const CStaticNormalObject& other)
 {
 	if (m_pMeshName != nullptr && lstrlen(other.m_pMeshName)>2)
 		lstrcpy(m_pMeshName, other.m_pMeshName);
-
+	m_bAttackHitEnable = true;
 }
 
 HRESULT CStaticNormalObject::Ready_GameObject(_uint iTexNumber)
@@ -55,12 +55,13 @@ _int CStaticNormalObject::Update_GameObject(const _float& fDeltaTime)
 
 	m_vDirection = m_vDirection + _vec3(0.f, -0.1f, 0.f);
 	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-	m_fSpeed *= D3DXVec2Length(&_vec2(m_vDirection.x, m_vDirection.z));
-	m_fSpeed /= m_fWeight;
+	m_fSpeed *= D3DXVec2Length(&_vec2(m_vDirection.x, m_vDirection.z));	
 	m_vDirection = _vec3(m_vDirection.x, 0.f, m_vDirection.z);
 
 	m_fGravitionSpeed += m_fGravitionPower * fDeltaTime;	
-	
+
+	m_iDamage = (_uint)(m_fSpeed * m_fWeight);	
+
 	return NO_EVENT;
 }
 

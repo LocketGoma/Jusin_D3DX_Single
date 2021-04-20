@@ -502,6 +502,9 @@
     <ClInclude Include="..\Headers\ExplosiveWeapon.h">
       <Filter>01.Object\12.Projectile\07.Explosive</Filter>
     </ClInclude>
+    <ClInclude Include="..\Headers\GameEndImage.h">
+      <Filter>02.Scene\07.MainStageC\99.EndingImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="D3DX_Single_GameProject.rc">
@@ -732,6 +735,9 @@
     </ClCompile>
     <ClCompile Include="..\Codes\ExplosiveWeapon.cpp">
       <Filter>01.Object\12.Projectile\07.Explosive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\GameEndImage.cpp">
+      <Filter>02.Scene\07.MainStageC\99.EndingImage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

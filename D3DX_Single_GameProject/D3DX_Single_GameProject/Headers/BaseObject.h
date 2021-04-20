@@ -23,6 +23,11 @@ enum class eForceType
 {
 	NONE, PUSH, PULL, END
 };
+//중력건 판정
+enum class eForceState
+{
+	NONE, GRAP, PULL, END
+};
 class CBaseObject abstract: public Engine::CGameObject
 {
 protected:
@@ -54,6 +59,7 @@ public:
 			_vec3 Get_Direction();
 			const eForceType Get_ObjectType();
 			_bool Get_SpeedLockState();
+			_uint Get_Damage();
 
 //상호작용 2
 public:
@@ -78,8 +84,13 @@ public:
 
 	virtual HRESULT Interaction(Engine::CGameObject* pTarget) PURE;
 
+	//충돌 반사각
+	virtual _vec3 Get_Reflection(_vec3 vDir, _vec3 vPos) PURE;
+	eForceState Get_ForceState();
+	void Set_ForceState(eForceState eState);
+
 protected :
-	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect) PURE;
+	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect, _bool bDissolve = false) PURE;
 
 protected:
 	virtual void Free(void);
@@ -90,7 +101,6 @@ protected:
 	_float m_fGravitionSpeed;	//중력 영향을 받은 속도
 	_float m_fGravitionPower;	//중력값	
 	_bool m_bSpeedLock;			//속도값 변화 가능 여부
-	eForceType m_eForceType;
 
 	_vec3 m_vStartPos;
 	_vec3 m_vDirection;
@@ -100,6 +110,13 @@ protected:
 	//중력건 상호작용 관련
 	_vec3 m_vImForceDirection;	//외부 힘 주어지는 방향
 	_float m_fImForcePower;		//외부 힘
+	eForceType m_eForceType;	//중력건 판정 여부
+	eForceState m_eForceState;	//중력건 잡힌지 여부
+
+	_uint m_iDamage;			//공격력 (충돌 포함)
+	_bool m_bAttackHitEnable;	//공격이 유효한가 (한대 때리면 바로 유효 빼버림)
+
+
 
 	Engine::COLIDETYPE eType;
 

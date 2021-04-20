@@ -8,6 +8,8 @@
 
 #include "ExplosionEffect.h"
 
+#include "Shader.h"
+
 CEnemyManhack::CEnemyManhack(_Device pDevice)
 	: CDynamicObject(pDevice)
 	, m_ePatton(eManhackPatton::Idle)
@@ -132,7 +134,30 @@ HRESULT CEnemyManhack::Render_GameObject(void)
 
 	m_pMeshCom->Play_AnimationSet(m_fTime * m_fAnimationSpeed);
 
-	m_pMeshCom->Render_Meshes();
+	//m_pMeshCom->Render_Meshes();
+
+	//쉐이더 처리
+	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
+	NULL_CHECK_RETURN(pEffect, E_FAIL);
+	pEffect->AddRef();
+
+	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect,false), E_FAIL);
+
+	_uint	iPassMax = 0;
+
+	pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
+	pEffect->BeginPass(0);
+
+	m_pMeshCom->Render_Meshes(pEffect);
+
+	pEffect->EndPass();
+	pEffect->End();
+
+	Safe_Release(pEffect);
+
+	//쉐이더 처리 끝
+
+
 
 	m_vCorePos = Get_Position();
 
@@ -361,6 +386,12 @@ HRESULT CEnemyManhack::Add_Component(void)
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+	//쉐이더
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(pManagement->Clone_Prototype(L"Shader_MixAlpha"));
+	//pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(pManagement->Clone_Prototype(L"Shader_For_End"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Shader", pComponent);
 
 
 	switch (rand() % 5)

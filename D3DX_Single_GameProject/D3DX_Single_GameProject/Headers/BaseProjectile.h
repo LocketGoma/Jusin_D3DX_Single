@@ -53,6 +53,9 @@ public:
 	// 중복 기능이어서 버림.
 	virtual HRESULT Interaction(Engine::CGameObject* pTarget) override;
 
+protected:
+	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect, _bool bDissolve = false) override;
+
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
 

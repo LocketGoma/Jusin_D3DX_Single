@@ -819,6 +819,77 @@ _bool CControlSupportUnit::Collision_Picking(HWND hWnd, CCollider* pCollider, CT
     return false;
 }
 
+//레이캐스트 충돌
+_bool CControlSupportUnit::Collision_RayPick_Dynamic(_vec3 vDir, _vec3 vPos, const CDynamicMesh* pMesh, const CTransform* pTransform)
+{
+    _bool bResult = false;
+
+    _vec3 vRayPos, vRayDir;
+
+    vRayPos = vPos;
+    vRayDir = vDir;
+
+    //월드 -> 로컬
+    //사유 : 버텍스 정보는 로컬정보니까.
+    _mat matWorld;
+    memcpy(&matWorld, pTransform->Get_TransformDescription().matWorld, sizeof(_mat));
+    D3DXMatrixInverse(&matWorld, NULL, &matWorld);
+
+    //Coord : 위치 / Normal : 방향
+    D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+    D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+
+    auto* meshList = pMesh->Get_VertrxInfo();
+    for (auto& iter : *meshList)
+    {
+        if (bResult == true)
+        {
+            break;
+        }
+        D3DXMESHCONTAINER_DERIVED* pMeshContainer = iter;
+        LPDIRECT3DVERTEXBUFFER9 pVTXBuffer;
+        LPDIRECT3DINDEXBUFFER9 pIndexBuffer;
+        _uint iIndexNumber = pMeshContainer->MeshData.pMesh->GetNumFaces();
+        pMeshContainer->MeshData.pMesh->GetVertexBuffer(&pVTXBuffer);
+        pMeshContainer->MeshData.pMesh->GetIndexBuffer(&pIndexBuffer);
+
+        WORD* pIndices;
+        D3DVERTEX* pVertices;
+
+        pIndexBuffer->Lock(0, 0, (void**)&pIndices, 0);
+        pVTXBuffer->Lock(0, 0, (void**)&pVertices, 0);
+
+        for (_uint i = 0; i < iIndexNumber; i++)
+        {
+            _vec3 v0 = pVertices[pIndices[3 * i + 0]].p;
+            _vec3 v1 = pVertices[pIndices[3 * i + 1]].p;
+            _vec3 v2 = pVertices[pIndices[3 * i + 2]].p;
+
+            _float fU, fV, fDist;
+            if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &fU, &fV, &fDist))
+            {
+                m_fDistance = fDist;
+                m_vPosition = _vec3(v0 + (v1 - v0) * fU + (v2 - v0) * fV);
+
+                _mat matPos = pTransform->Get_TransformDescription().matWorld;
+                D3DXVec3TransformCoord(&m_vPosition, &m_vPosition, &matPos);
+
+                bResult = true;
+                break;
+            }
+        }
+        pVTXBuffer->Unlock();
+        pIndexBuffer->Unlock();
+
+        Safe_Release(pVTXBuffer);
+        Safe_Release(pIndexBuffer);
+    }
+
+
+    return bResult;
+}
+
 _bool CControlSupportUnit::Collision_OBB(const _vec3* pDestMin, const _vec3* pDestMax, const _mat* pDestWorld, const _vec3* pSourceMin, const _vec3* pSourceMax, const _mat* pSourceWorld)
 {
 
@@ -846,6 +917,17 @@ _float CControlSupportUnit::Get_Distance()
 _vec3 CControlSupportUnit::Get_Position()
 {
     return m_vPosition;
+}
+//반사각 계산
+_vec3 CControlSupportUnit::Reflection(_vec3 vDir, _vec3 vUp)
+{
+    _vec3 vReverceDir = -vDir;
+    _vec3 vDot;
+    _vec3 vMultiUp = vUp * 2 * D3DXVec3Dot(&vReverceDir, &vUp);
+    _vec3 vResult = vDir + vMultiUp;
+    D3DXVec3Normalize(&vResult, &vResult);
+
+    return vResult;
 }
 
 void CControlSupportUnit::Set_Point(OBB* pObb, const _vec3* pMin, const _vec3* pMax)

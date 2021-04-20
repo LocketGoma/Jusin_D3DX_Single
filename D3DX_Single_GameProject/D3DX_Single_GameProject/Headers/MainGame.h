@@ -22,6 +22,7 @@ public:
 	HRESULT	Ready_MainGame();
 	_int	Update_MainGame();	
 	void	Render_MainGame();
+	_bool	In_TimerLock(_float fDeltaTime);
 
 private:
 	HRESULT Setup_DefaultSetting();
@@ -38,11 +39,14 @@ public:
 private:
 	Engine::CManagement* m_pManagement = nullptr;
 
-	_uint	m_dwRenderCount = 0;
+	_uint	m_dwRenderCount = 0;	
+	_float m_fAccTimeDelta;
+	_float m_fCallLimit;	
+	_bool  m_bLock;
 	_float m_fTime = 0.f;
-	_Device			m_pDevice = nullptr;
+	_float m_fFPSTimer = 0.f;
+	_Device	m_pDevice = nullptr;
 
-	//씬 매니저 구축 끝나면 지울것
 	class Engine::CScene* pScene;
 
 };

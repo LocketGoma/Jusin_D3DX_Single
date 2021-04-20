@@ -9,7 +9,10 @@
 #include "LoadingScene.h"
 #include "Transform.h"
 
+#include "GameEndImage.h"
+
 #include "Management.h"
+
 
 CBaseLogoScene::CBaseLogoScene(_Device pDevice)
 	: Engine::CScene(pDevice)
@@ -62,9 +65,9 @@ _int CBaseLogoScene::Update_Scene(const _float& fDeltaTime)
 			Safe_Release(m_pLoading);
 
 			//pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_TEST, CTestStage::Create(m_pDevice));
-			//pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE1, CMainStageA::Create(m_pDevice));
+			pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE1, CMainStageA::Create(m_pDevice));
 			//pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE2, CMainStageB::Create(m_pDevice));
-			pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE3, CMainStageC::Create(m_pDevice));
+			//pManagement->Setup_CurrentScene((_uint)ESceneType::SCENE_STAGE3, CMainStageC::Create(m_pDevice));
 
 			return iExit;
 		}
@@ -104,6 +107,8 @@ HRESULT CBaseLogoScene::Ready_Resource(_Device pDevice)
 
 	//화면 띄우기용 텍스쳐 로드
 	pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Logo", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Loading%d.jpg", 1);
+	pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_End", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/GMan%d.png", 2);
+	pManagement->Ready_Texture(m_pDevice, (_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_EndNoise", Engine::TEXTYPE::TEX_NORMAL, L"../../Resource/Image/Noise%d.png", 3);
 
 	//화면 띄우기용 트랜스폼 로드
 	pManagement->Ready_Prototype(L"Transform_Comp", Engine::CTransform::Create(m_pDevice));
@@ -122,6 +127,9 @@ HRESULT CBaseLogoScene::Ready_Layer(const _tchar* pLayerTag)
 
 	pGameObject = CLogoImage::Create(m_pDevice);
 	pLayer->Add_GameObject(L"LogoImage", pGameObject);
+
+	pGameObject = CGameEndImage::Create(m_pDevice);
+	pLayer->Add_GameObject(L"EndImage", pGameObject);
 
 	m_mapLayer.emplace(pLayerTag, pLayer);
 

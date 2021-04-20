@@ -26,7 +26,8 @@ public:
 	virtual HRESULT Render_GameObject(void) PURE;
 
 protected:
-	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect) override;
+	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect, _bool bDissolve = false) override;
+
 //기본 상호작용 값
 public:
 	const _float Get_Weight();		//물체 무게
@@ -34,7 +35,9 @@ public:
 
 	virtual _bool Check_RayCollision() override;
 	virtual _bool Check_RayCollision_By_CollisionSphere() override;
-
+	
+	//죽음
+	virtual _vec3 Get_Reflection(_vec3 vDir, _vec3 vPos) override;
 
 	virtual HRESULT Interaction(Engine::CGameObject* pTarget) PURE;
 
@@ -46,7 +49,6 @@ public:
 protected:
 	Engine::CStaticMesh* m_pMeshCom = nullptr;
 
-	// CBaseObject을(를) 통해 상속됨
 };
 
 

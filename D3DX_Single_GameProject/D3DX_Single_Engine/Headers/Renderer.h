@@ -29,6 +29,8 @@ public:
 	HRESULT Render_RenderList(HWND hWND = nullptr);
 
 	void Set_Visualble_DebugBuffer(_bool bVisual);
+	void Set_FinalTrigger(_bool bTrigger);
+	void Set_FinalTimer(_float fTimer);
 
 	HRESULT Clear_RenderList();
 
@@ -44,6 +46,7 @@ private:
 	HRESULT Render_Terminal_NoAlpha();
 	HRESULT Render_UI();
 	HRESULT Render_UI_AlphaBlend();
+	HRESULT Render_FINAL_ALPHA();
 	HRESULT Render_Scene();
 
 	//∑£¥ı≈∏∞Ÿ, Ω¶¿Ã¥ı
@@ -51,6 +54,7 @@ private:
 	HRESULT	Render_Deferred();
 	HRESULT	Render_LightAcc();
 	HRESULT	Render_Blend();
+	HRESULT Render_END();
 
 
 public:
@@ -67,6 +71,8 @@ private:
 	Engine::CManagement* m_pManagement = nullptr;
 
 	_bool m_bVisuableDebug;
+	_bool m_bFinalTrigger;
+	_float m_fFinalTimer;
 
 	//µ∆€µÂ Ω¶¿Ã¥ı øÎ
 	LPDIRECT3DVERTEXBUFFER9		m_pVB;

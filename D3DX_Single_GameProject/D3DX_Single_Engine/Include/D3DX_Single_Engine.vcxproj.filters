@@ -505,5 +505,14 @@
     <HLSL Include="Shader_Original.hlsl">
       <Filter>01.Resources\12.Shader\00.File</Filter>
     </HLSL>
+    <HLSL Include="Shader_MixAlpha.hlsl">
+      <Filter>01.Resources\12.Shader\00.File</Filter>
+    </HLSL>
+    <HLSL Include="Shader_For_End.hlsl">
+      <Filter>01.Resources\12.Shader\00.File</Filter>
+    </HLSL>
+    <HLSL Include="Shader_Blend.hlsl">
+      <Filter>01.Resources\12.Shader\00.File</Filter>
+    </HLSL>
   </ItemGroup>
 </Project>

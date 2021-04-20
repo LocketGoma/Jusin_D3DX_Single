@@ -168,7 +168,7 @@ HRESULT CBossHunter::Render_GameObject(void)
 	NULL_CHECK_RETURN(pEffect, E_FAIL);
 	pEffect->AddRef();
 
-	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
+	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect , true), E_FAIL);
 
 	_uint	iPassMax = 0;
 

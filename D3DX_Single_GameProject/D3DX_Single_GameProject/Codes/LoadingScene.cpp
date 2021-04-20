@@ -68,6 +68,7 @@
 #include "ProjBasicAmmo.h"
 #include "ProjShotgunShell.h"
 #include "ProjShotgunPellet.h"
+#include "ExplosiveWeapon.h"
 
 //¿Ã∆Â∆Æ
 #include "EffectMuzzle.h"
@@ -524,6 +525,10 @@ HRESULT CLoadingScene::Load_GameObject_Resource()
     NULL_CHECK_RETURN(pGameObject, E_FAIL);
     pManagement->Add_GameObject_Prototype(L"Projectile_Pellet", pGameObject);
 
+    pGameObject = CExplosiveWeapon::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pManagement->Add_GameObject_Prototype(L"Projectile_ExplosiveWeapon", pGameObject);
+    
 
     //¿Ã∆Â∆Æ
     pGameObject = CEffectMuzzle::Create(m_pDevice);

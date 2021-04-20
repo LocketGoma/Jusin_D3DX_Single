@@ -136,6 +136,7 @@ _bool CWeaponPhysCannon::Shoot_Weapon()
 		{
 			m_pTarget->Set_Direction(m_vDir);
 			m_pTarget->Set_Speed(45.f);
+			m_pTarget->Set_ForceState(eForceState::PULL);
 
 			m_pTarget = nullptr;
 		}
@@ -143,6 +144,7 @@ _bool CWeaponPhysCannon::Shoot_Weapon()
 		{
 			m_pLookTarget->Set_Direction(m_vDir);
 			m_pLookTarget->Set_Speed(30.f);
+			m_pLookTarget->Set_ForceState(eForceState::PULL);
 		}
 		m_bShootLock = false;
 
@@ -172,8 +174,10 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 			pProj->Set_TargetState(eTargetState::ToEnemy);
 		}
 		m_pTarget = m_pLookTarget;
+		m_pTarget->Set_ForceState(eForceState::GRAP);
 		m_pTarget->Set_Speed(0.f);
 		m_eAction = ePhysAction::Hold_Idle;
+
 
 		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
 		pManagement->Play_Sound(L"physcannon_pickup.wav", Engine::SOUND_CHANNELID::EFFECTA);

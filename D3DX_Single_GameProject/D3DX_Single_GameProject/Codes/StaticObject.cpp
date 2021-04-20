@@ -51,7 +51,12 @@ void CStaticObject::Free(void)
 	CBaseObject::Free();
 }
 
-HRESULT CStaticObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect)
+_vec3 CStaticObject::Get_Reflection(_vec3 vDir, _vec3 vPos)
+{
+	return vDir;
+}
+
+HRESULT CStaticObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect, _bool bDissolve)
 {
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement || pEffect == nullptr)

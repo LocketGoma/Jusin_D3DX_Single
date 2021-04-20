@@ -236,9 +236,9 @@ HRESULT CPlayer::Render_GameObject(void)
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 
-	return Print_TestUI();
+	//return Print_TestUI();
 
-	//return S_OK;
+	return S_OK;
 }
 
 void CPlayer::Set_Position(_vec3 vPos)
@@ -344,12 +344,12 @@ bool CPlayer::Hit_Attack(_uint iDamage)
 
 _bool CPlayer::Restore_HP(_uint iAmount)
 {
-	if (m_iHP >= m_iFullHP)
+	if (m_iHP >= (int)m_iFullHP)
 		return false;
 
 	m_iHP += iAmount;
 
-	if (m_iHP > m_iFullHP)
+	if (m_iHP > (int)m_iFullHP)
 		m_iHP = m_iFullHP;
 
 	return true;
@@ -357,12 +357,12 @@ _bool CPlayer::Restore_HP(_uint iAmount)
 
 _bool CPlayer::Restore_Shield(_uint iAmount)
 {
-	if (m_iShieldHP >= m_iShieldFullHP)
+	if (m_iShieldHP >= (int)m_iShieldFullHP)
 		return false;
 
 	m_iShieldHP += iAmount;
 
-	if (m_iShieldHP > m_iShieldFullHP)
+	if (m_iShieldHP > (int)m_iShieldFullHP)
 		m_iShieldHP = m_iShieldFullHP;
 
 	return true;

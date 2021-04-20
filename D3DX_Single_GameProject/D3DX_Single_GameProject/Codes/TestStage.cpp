@@ -46,7 +46,7 @@ HRESULT CTestStage::Ready_Scene(void)
     //Add_Test_Layer(L"TestLayer");
     Add_Player_Layer(L"PlayerLayer");
     Add_Object_Layer(L"ObjectLayer");
-    Add_ColiderBox_Layer(L"ColliderLayer");
+    //Add_ColiderBox_Layer(L"ColliderLayer");
     Add_Camera_Layer(L"CameraLayer");
     Add_Environment_Layer(L"MapLayer");
     Add_Enemy_Layer(L"EnemyLayer");
@@ -450,17 +450,17 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //pGameObject->Set_Position(_vec3(40.f, 0.f, 15.f));
     //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Hunter A2", pGameObject), E_FAIL);
 
-    ////스트라이더
-    //pGameObject = pManagement->Clone_GameObject(L"BossStrider");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(25.f, 0.f, 20.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
+    //스트라이더
+    pGameObject = pManagement->Clone_GameObject(L"BossStrider");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(25.f, 0.f, 20.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Strider", pGameObject), E_FAIL);
 
     //맨핵
-    //pGameObject = pManagement->Clone_GameObject(L"EnemyManhack");
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //pGameObject->Set_Position(_vec3(25.f, 10.f, 20.f));
-    //FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Manhack", pGameObject), E_FAIL);
+    pGameObject = pManagement->Clone_GameObject(L"EnemyManhack");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pGameObject->Set_Position(_vec3(25.f, 5.f, 20.f));
+    FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Manhack", pGameObject), E_FAIL);
 
     //보스 헌터
     pGameObject = pManagement->Clone_GameObject(L"BossHunter");
@@ -496,12 +496,12 @@ HRESULT CTestStage::Add_Enemy_Layer(const _tchar* pLayerTag)
     //dynamic_cast<CBaseAI_Attacker*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
     //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyHunterAI2", pGameObject), E_FAIL);
 
-    ////스트라이더
-    //pGameObject = CBossAI_Strider::Create(m_pDevice);
-    //NULL_CHECK_RETURN(pGameObject, E_FAIL);
-    //dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Strider")));
-    //dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
-    //FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyStriderAI", pGameObject), E_FAIL);
+    //스트라이더
+    pGameObject = CBossAI_Strider::Create(m_pDevice);
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_ControlUnit(dynamic_cast<CDynamicObject*>(pLayer->Get_GameObject(L"Strider")));
+    dynamic_cast<CBossAI_Strider*>(pGameObject)->Set_Target(m_mapLayer.find(L"PlayerLayer")->second->Find_GameObject(L"Player"));
+    FAILED_CHECK_RETURN(pAILayer->Add_GameObject(L"EnemyStriderAI", pGameObject), E_FAIL);
 
     ////맨핵
     //pGameObject = CBaseAI_Flyer::Create(m_pDevice);

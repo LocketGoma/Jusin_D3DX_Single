@@ -7,23 +7,11 @@ matrix			g_matWorld;	 // 상수 테이블
 matrix			g_matView;
 matrix			g_matProj;
 
-float			g_DissolveAmount;
-
 texture			g_BaseTexture;
 
 sampler		BaseSampler = sampler_state
 {
 	texture = g_BaseTexture;
-
-	minfilter = linear;
-	magfilter = linear;
-};
-
-texture			g_DissolveTexture;
-
-sampler DissolveSampler = sampler_state
-{
-	texture = g_DissolveTexture;
 
 	minfilter = linear;
 	magfilter = linear;
@@ -42,8 +30,6 @@ vector		g_vMtrlSpecular;
 float		g_fPower;
 
 vector		g_vCamPos;
-
-
 
 
 struct VS_IN
@@ -86,6 +72,7 @@ struct PS_IN
 	vector			vNormal : NORMAL;
 	float2			vTexUV : TEXCOORD0;
 	float4			vProjPos : TEXCOORD1;
+
 };
 
 struct PS_OUT
@@ -98,54 +85,28 @@ struct PS_OUT
 PS_OUT			PS_MAIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
+
 	Out.vColor = tex2D(BaseSampler, In.vTexUV);
 
-	Out.vColor *= saturate((g_vLightDiffuse * g_vMtrlDiffuse) + (g_vLightAmbient * g_vMtrlAmbient)+(g_vLightSpecular* g_vMtrlSpecular));
+	Out.vColor *= saturate((g_vLightDiffuse * g_vMtrlDiffuse) + (g_vLightAmbient * g_vMtrlAmbient) + (g_vLightSpecular * g_vMtrlSpecular));
 
-	return Out;
-}
-
-
-PS_OUT			PS_DISSOLVE(PS_IN In)
-{
-	PS_OUT		Out = (PS_OUT)0;
-
-	vector vColor = tex2D(BaseSampler, In.vTexUV);
-	vector vDissolve = tex2D(DissolveSampler, In.vTexUV).r;
-	vector ClipAmount = vDissolve - g_DissolveAmount;
-
-	if (ClipAmount.r > 0.0)
+	if (Out.vColor.r < 0.01 && Out.vColor.g < 0.01 && Out.vColor.b < 0.01)
 	{
-		Out.vColor = tex2D(BaseSampler, In.vTexUV);
-	}
-
-	if (ClipAmount.r < 0.0 && ClipAmount.r>-0.3)
-	{
-		Out.vColor.r = (-ClipAmount.r)*3;
-		Out.vColor.g = (-ClipAmount.r)*2;
-		Out.vColor.b = 0.f;
-		Out.vColor.a = 1.f;
+		Out.vColor.a = 0.0;
 	}
 
 	return Out;
 }
-
 
 
 technique Default_Device
 {
-	pass	Alphablend
+	pass	Alphablend	// 기능의 캡슐화
 	{
 		alphablendenable = true;
 		srcblend = srcalpha;
 		destblend = invsrcalpha;
 
-		VertexShader = compile vs_3_0 VS_MAIN();
-		PixelShader = compile ps_3_0 PS_DISSOLVE();
-	}
-
-	pass None
-	{
 		VertexShader = compile vs_3_0 VS_MAIN();
 		PixelShader = compile ps_3_0 PS_MAIN();
 	}

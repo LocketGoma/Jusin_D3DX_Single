@@ -78,6 +78,8 @@ public:
 	//Renderer Setting
 	HRESULT Add_RenderList(RENDERID eRenderID, class CGameObject* pGameObject);
 	void Set_Visualble_DebugBuffer(_bool bVisual);
+	void Set_FinalTrigger(_bool bTrigger);
+	void Set_FinalTimer(_float fTimer);
 
 public:
 	//RenderTarget Setting

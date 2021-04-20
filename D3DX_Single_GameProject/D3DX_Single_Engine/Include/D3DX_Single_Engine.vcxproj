@@ -319,8 +319,11 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <HLSL Include="Shader_Blend.hlsl" />
     <HLSL Include="Shader_Dissolve.hlsl" />
+    <HLSL Include="Shader_For_End.hlsl" />
     <HLSL Include="Shader_Map.hlsl" />
+    <HLSL Include="Shader_MixAlpha.hlsl" />
     <HLSL Include="Shader_Original.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

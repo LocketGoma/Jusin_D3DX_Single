@@ -13,6 +13,7 @@ CBaseObject::CBaseObject(_Device pDevice)
 	, m_fLifeTime(-1.f)
 	, m_fSpeed(0.f)
 	, m_eForceType(eForceType::NONE)
+	, m_eForceState(eForceState::NONE)
 	, m_fHitboxSize(1.f)
 	, m_vStartPos(ZERO_VECTOR)
 	, m_vDirection(_vec3(0.f, 0.f, 1.f))
@@ -21,6 +22,8 @@ CBaseObject::CBaseObject(_Device pDevice)
 	, m_fGravitionSpeed(0.f)
 	, m_vImForceDirection(ZERO_VECTOR)
 	, m_fImForcePower(0.f)
+	, m_iDamage(0)
+	, m_bAttackHitEnable(false)
 {
 	m_bIsPrototype = true;
 
@@ -33,6 +36,7 @@ CBaseObject::CBaseObject(const CBaseObject& other)
 	, m_fLifeTime(other.m_fLifeTime)
 	, m_fSpeed(other.m_fSpeed)
 	, m_eForceType(other.m_eForceType)
+	, m_eForceState(other.m_eForceState)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, m_vStartPos(other.m_vStartPos)
 	, m_vDirection(other.m_vDirection)
@@ -42,6 +46,8 @@ CBaseObject::CBaseObject(const CBaseObject& other)
 	, m_pManagement(other.m_pManagement)
 	, m_vImForceDirection(ZERO_VECTOR)
 	, m_fImForcePower(0.f)
+	, m_iDamage(other.m_iDamage)
+	, m_bAttackHitEnable(other.m_bAttackHitEnable)
 {
 	Safe_AddReference(m_pDevice);	
 	m_bIsPrototype = false;
@@ -122,6 +128,20 @@ const _float CBaseObject::Get_LifeTime()
 	return m_fLifeTime;
 }
 
+_uint CBaseObject::Get_Damage()
+{
+	if (m_bAttackHitEnable == false)
+	{
+		return 0;
+	}
+	else
+	{
+		m_eForceState = eForceState::NONE;
+		m_bAttackHitEnable = false;
+	}
+	return m_iDamage;
+}
+
 void CBaseObject::Set_LifeTime(_float fTime)
 {
 	m_fLifeTime = fTime;
@@ -156,6 +176,16 @@ void CBaseObject::Set_ClearGSpeed(_float fClearHeight)
 	m_fGravitionSpeed = 0.f;
 
 
+}
+
+eForceState CBaseObject::Get_ForceState()
+{
+	return m_eForceState;
+}
+
+void CBaseObject::Set_ForceState(eForceState eState)
+{
+	m_eForceState = eState;
 }
 
 

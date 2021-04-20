@@ -18,6 +18,8 @@
 #include "DynamicObject.h"
 #include "ControlSupport.h"
 
+#include "GameEndImage.h"
+
 #include "Transform.h"
 
 CMainStageC::CMainStageC(_Device pDevice)
@@ -71,6 +73,8 @@ _int CMainStageC::Update_Scene(const _float& fDeltaTime)
 		pPlayer->Jump_Cancel();
 	}
 
+    
+
 	return NO_EVENT;
 }
 
@@ -83,6 +87,14 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
     {
         return E_FAIL;
     }
+
+    if (pManagement->Key_Pressing('M') && m_bGameEnd == false)
+    {
+        g_bEndingTimeDelay = true;
+        EndingScene_Layer(L"EndScene");
+        m_bGameEnd = true;
+    }
+
 
     CPlayer* pPlayer = dynamic_cast<CPlayer*>(pManagement->Get_GameObject_From_Layer(L"PlayerLayer", L"Player"));
     ///중력건 포착용 상호작용 판정부
@@ -453,6 +465,22 @@ HRESULT CMainStageC::Add_Environment_Layer(const _tchar* pLayerTag)
 HRESULT CMainStageC::Add_Weapon_Layer(const _tchar* pLayerTag)
 {
     Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+}
+
+HRESULT CMainStageC::EndingScene_Layer(const _tchar* pLayerTag)
+{
+    m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    pGameObject = CGameEndImage::Create(m_pDevice);
+    pLayer->Add_GameObject(L"EndImage", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
 

@@ -11,6 +11,8 @@ IMPLEMENT_SINGLETON(CRenderer)
 
 CRenderer::CRenderer()
     : m_bVisuableDebug(true)
+    , m_bFinalTrigger(false)
+    , m_fFinalTimer(0.f)
 {
 
 }
@@ -178,15 +180,28 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
     {
         return E_FAIL;
     }
-
-    m_pManagement->End_MRT(L"MRT_Deferred");
+    
     //랜더 리스트 끝
+    m_pManagement->End_MRT(L"MRT_Deferred");
 
-    Render_Original();
-   
+    Render_Original();   
+
+    m_pManagement->Begin_MRT(L"MRT_Extra");
+    if (FAILED(Render_FINAL_ALPHA()))
+    {
+        return E_FAIL;
+    }
+    m_pManagement->End_MRT(L"MRT_Extra");
+
+    Render_END();
+
+    if (m_bFinalTrigger == true)
+        Render_Blend();
+
     if (m_bVisuableDebug == true)
     {
         m_pManagement->Render_DebugBuffer(L"MRT_Deferred");        
+        m_pManagement->Render_DebugBuffer(L"MRT_Extra"); 
     }
 
 
@@ -203,6 +218,16 @@ HRESULT CRenderer::Render_RenderList(HWND hWND)
 void CRenderer::Set_Visualble_DebugBuffer(_bool bVisual)
 {
     m_bVisuableDebug = bVisual;
+}
+
+void CRenderer::Set_FinalTrigger(_bool bTrigger)
+{
+    m_bFinalTrigger = bTrigger;
+}
+
+void CRenderer::Set_FinalTimer(_float fTimer)
+{
+    m_fFinalTimer = fTimer;
 }
 
 
@@ -628,6 +653,51 @@ HRESULT CRenderer::Render_UI_AlphaBlend()
 
     return S_OK;
 }
+HRESULT CRenderer::Render_FINAL_ALPHA()
+{
+    if (m_GameObjects[(_uint)RENDERID::RENDER_FINAL_ALPHA].empty())
+    {
+        return S_OK;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE)))
+    {
+        return E_FAIL;
+    }
+
+    ////알파블랜딩 먹임
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE)))
+    {
+        return E_FAIL;
+    }
+    m_pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    m_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+    for (auto& pGameObject : m_GameObjects[(_uint)RENDERID::RENDER_FINAL_ALPHA])
+    {
+        if (FAILED(pGameObject->Render_GameObject()))
+        {
+            return E_FAIL;
+        }
+
+        Safe_Release(pGameObject);
+    }
+
+    m_GameObjects[(_uint)RENDERID::RENDER_FINAL_ALPHA].clear();
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE)))
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE)))
+    {
+        return E_FAIL;
+    }
+
+    return S_OK;
+}
 //씬에서 남은 자잘구레한것들 출력
 HRESULT CRenderer::Render_Scene()
 {
@@ -660,7 +730,6 @@ HRESULT CRenderer::Render_Original()
     Safe_Release(pShader);
     Safe_Release(pEffect);
 
-
     return S_OK;
 }
 
@@ -676,6 +745,59 @@ HRESULT CRenderer::Render_LightAcc()
 
 HRESULT CRenderer::Render_Blend()
 {
+    CShader* pShader = dynamic_cast<Engine::CShader*>(m_pManagement->Clone_Prototype(L"Shader_Blend"));
+    NULL_CHECK_RETURN(pShader, E_FAIL);
+
+    LPD3DXEFFECT	pEffect = pShader->Get_EffectHandle();
+    pEffect->AddRef();
+
+    pEffect->Begin(NULL, 0);
+    pEffect->BeginPass(0);
+
+    m_pManagement->SetUp_OnShader(pEffect, L"Target_Original", "g_OriginalTexture");
+    m_pManagement->SetUp_OnShader(pEffect, L"Target_END", "g_EndTexture");
+    pEffect->SetFloat("g_fEndTimer", m_fFinalTimer);
+
+    m_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VTXSCREEN));
+    m_pDevice->SetFVF(FVF_SCREEN);
+    m_pDevice->SetIndices(m_pIB);
+    m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
+
+    pEffect->EndPass();
+    pEffect->End();
+
+    Safe_Release(pShader);
+    Safe_Release(pEffect);
+
+
+    return S_OK;
+}
+
+HRESULT CRenderer::Render_END()
+{
+    CShader* pShader = dynamic_cast<Engine::CShader*>(m_pManagement->Clone_Prototype(L"Shader_Original"));
+    NULL_CHECK_RETURN(pShader, E_FAIL);
+
+    LPD3DXEFFECT	pEffect = pShader->Get_EffectHandle();
+    pEffect->AddRef();
+
+    pEffect->Begin(NULL, 0);
+    pEffect->BeginPass(0);
+
+    m_pManagement->SetUp_OnShader(pEffect, L"Target_END", "g_OriginalTexture");
+
+    m_pDevice->SetStreamSource(0, m_pVB, 0, sizeof(VTXSCREEN));
+    m_pDevice->SetFVF(FVF_SCREEN);
+    m_pDevice->SetIndices(m_pIB);
+    m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
+
+    pEffect->EndPass();
+    pEffect->End();
+
+    Safe_Release(pShader);
+    Safe_Release(pEffect);
+
+
     return S_OK;
 }
 
@@ -709,8 +831,6 @@ void CRenderer::Free()
 
         m_GameObjects[i].clear();
     }
-
-
     Safe_Release(m_pIB);
     Safe_Release(m_pVB);
 

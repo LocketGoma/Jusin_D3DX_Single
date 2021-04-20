@@ -95,8 +95,7 @@ HRESULT CExplosionEffect::Render_GameObject(void)
 	{
 		return E_FAIL;
 	}
-
-
+	if (m_iEffectCount < 15)
 	if (FAILED(m_pTextureCom->Set_Texture(m_iEffectCount++)))
 	{
 		return E_FAIL;

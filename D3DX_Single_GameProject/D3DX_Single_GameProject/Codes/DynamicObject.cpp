@@ -15,7 +15,6 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 	, m_fRotate(0.f)
 	, m_iMaxHP(10)
 	, m_iHP(10)
-	, m_iDamage(5)
 	, m_fRecognizeRange(30.f)
 	, m_fMoveRange(20.f)
 	, m_fAttackRange(10.f)
@@ -33,6 +32,8 @@ CDynamicObject::CDynamicObject(_Device pDevice)
 {
 	m_iHP = m_iMaxHP;
 	m_eForceType = eForceType::NONE;
+
+	m_iDamage = 5;
 }
 
 CDynamicObject::CDynamicObject(const CDynamicObject& other)
@@ -43,7 +44,6 @@ CDynamicObject::CDynamicObject(const CDynamicObject& other)
 	, m_fRotate(other.m_fRotate)
 	, m_iMaxHP(other.m_iMaxHP)
 	, m_iHP(other.m_iMaxHP)
-	, m_iDamage(other.m_iDamage)
 	, m_fRecognizeRange(other.m_fRecognizeRange)
 	, m_fMoveRange(other.m_fMoveRange)
 	, m_fAttackRange(other.m_fAttackRange)
@@ -75,19 +75,7 @@ _bool CDynamicObject::End_Animation_State()
 }
 
 
-_uint CDynamicObject::Get_Damage()
-{
-	if (m_bAttackHitEnable == false)
-	{
-		return 0;
-	}
-	else
-	{
-		m_bAttackHitEnable = false;
-	}
 
-	return m_iDamage;
-}
 
 _uint CDynamicObject::Get_NowHP()
 {
@@ -188,6 +176,20 @@ void CDynamicObject::Set_Direction(_vec3 vDir)
 	m_vImForceDirection = vDir;
 }
 
+_vec3 CDynamicObject::Get_Reflection(_vec3 vDir, _vec3 vPos)
+{
+	_vec3 vResult = m_pSupportCom->Reflection(vDir, m_pSupportCom->Get_Position());
+
+	return vResult;
+}
+
+_bool CDynamicObject::Get_RayPick(_vec3 vDir, _vec3 vPos)
+{
+	return (m_pSupportCom->Collision_RayPick_Dynamic(vDir, vPos, m_pMeshCom, m_pTransformCom)&& (m_pSupportCom->Get_Distance() < 0.5f));
+}
+
+
+
 
 
 void CDynamicObject::Free(void)
@@ -200,7 +202,7 @@ void CDynamicObject::Free(void)
 	CBaseObject::Free();
 }
 
-HRESULT CDynamicObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect)
+HRESULT CDynamicObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect, _bool bDissolve)
 {
 	Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
 	if (nullptr == pManagement || pEffect == nullptr)
@@ -219,8 +221,8 @@ HRESULT CDynamicObject::Setup_ConstantTable(LPD3DXEFFECT& pEffect)
 	pEffect->SetMatrix("g_matProj", &matProj);
 	pEffect->SetFloat("g_DissolveAmount", m_fDeadTime);
 
-
-	pEffect->SetTexture("g_DissolveTexture", m_pDesolveTextureCom->Get_Texture());
+	if (bDissolve)
+		pEffect->SetTexture("g_DissolveTexture", m_pDesolveTextureCom->Get_Texture());
 
 	D3DLIGHT9* pLight = new D3DLIGHT9;
 	m_pDevice->GetLight(0,pLight);

@@ -36,7 +36,7 @@ HRESULT CMainStageA::Ready_Scene(void)
 {
 	FAILED_CHECK_RETURN(Ready_Resource(m_pDevice), E_FAIL);
 
-	SetWindowText(g_hWnd, L"Stage A");
+	//SetWindowText(g_hWnd, L"Stage A");
 
 	Add_Player_Layer(L"PlayerLayer");
 	//Add_Boss_Layer(L"BossLayer");
@@ -170,7 +170,6 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 			{
 				pObject->Interaction(pPlayer);
 			}
-
 		}
 	}
 
@@ -245,16 +244,17 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 			}
 		}
 
-	//몬스터 - 총알 충돌판정....
+	//몬스터 - 총알/오브젝트 충돌판정....
 	Engine::CLayer* AmmoLayer = Get_Layer(L"WeaponLayer");
+	Engine::CLayer* ObjectLayer = Get_Layer(L"ObjectLayer");
 	targetLayer = Get_Layer(L"EnemyLayer");
 	if (targetLayer != nullptr)
 	{
 		for (auto& iter : *targetLayer->Get_ObjectLayer())
 		{
-			CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
+			CDynamicObject* pEnemy = dynamic_cast<CDynamicObject*>(iter.second);
 			//몬스터 판단을 하고...
-			if (pObject != nullptr)
+			if (pEnemy != nullptr)
 			{
 				if (AmmoLayer != nullptr)
 				{
@@ -265,13 +265,36 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 						{
 							if (pAObject->Get_TargetState() == eTargetState::ToEnemy)
 							{
-								if (pObject->Check_Attack_Collide(&(pAObject->Get_Position()), pAObject->Get_Radius()))
+								if (pEnemy->Check_Attack_Collide(&(pAObject->Get_Position()), pAObject->Get_Radius()))
 								{
-									pObject->Hit_Attack(pAObject->Get_Damage());
+									pEnemy->Hit_Attack(pAObject->Get_Damage());
 									pAObject->Set_Break();
 								}
 							}
 						}
+					}
+				}
+				if (ObjectLayer != nullptr)
+				{
+					for (auto& Oiter : *ObjectLayer->Get_ObjectLayer())
+					{
+						CStaticObject* pObject = dynamic_cast<CStaticObject*>(Oiter.second);
+						if (pObject != nullptr)
+						{
+							if (pObject->Get_ForceState() == eForceState::PULL)
+							{
+
+								if (pEnemy->Check_Attack_Collide(&(pObject->Get_Position()), pObject->Get_Radius()))
+								{
+									if (pEnemy->Get_RayPick(pObject->Get_Direction(), pObject->Get_Position()))
+									{
+										pObject->Set_Direction(pEnemy->Get_Reflection(pObject->Get_Direction(), pObject->Get_Position()));
+										pEnemy->Hit_Attack(pObject->Get_Damage());
+										//pObject->Set_Speed(pObject->Get_Speed() / 2);
+									}
+								}
+							}
+						}						
 					}
 				}
 			}
@@ -500,8 +523,18 @@ HRESULT CMainStageA::Add_Object_Layer(const _tchar* pLayerTag)
 
 	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pLayer->Add_GameObject(L"BaseObject", pGameObject);
 	pGameObject->Set_Position(_vec3(150.f, 12.f, -160.f));
+	pLayer->Add_GameObject(L"BaseObject 1", pGameObject);
+
+	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->Set_Position(_vec3(120.f, 12.f, -130.f));
+	pLayer->Add_GameObject(L"BaseObject 2", pGameObject);
+
+	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	pGameObject->Set_Position(_vec3(140.f, 12.f, -130.f));
+	pLayer->Add_GameObject(L"BaseObject 3", pGameObject);
 
 	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

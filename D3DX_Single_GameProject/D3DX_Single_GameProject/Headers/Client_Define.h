@@ -6,6 +6,8 @@ extern HWND g_hWnd;
 extern bool g_bViewCollider;
 extern bool g_bViewNavimesh;
 extern bool g_bViewDebugTarget;
+extern bool g_bEndingTimeDelay;
+extern float g_fEndingTimeDelay;
 
 #define WINCX 1280
 #define WINCY 720

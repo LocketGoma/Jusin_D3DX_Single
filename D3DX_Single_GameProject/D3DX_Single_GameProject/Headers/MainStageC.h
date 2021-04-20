@@ -30,6 +30,7 @@ private:
 	HRESULT Add_Environment_Layer(const _tchar* pLayerTag);
 	HRESULT Add_Weapon_Layer(const _tchar* pLayerTag);
 
+	HRESULT EndingScene_Layer(const _tchar* pLayerTag);
 
 public:
 	static CMainStageC* Create(_Device pDevice);
@@ -37,6 +38,7 @@ public:
 private:
 	virtual void Free() override;
 
+	_bool m_bGameEnd = false;
 	CNaviMeshController* m_pNaviController;
 	CNaviMeshController* m_pNaviControllerB;
 

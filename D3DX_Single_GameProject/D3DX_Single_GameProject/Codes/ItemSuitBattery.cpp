@@ -62,6 +62,8 @@ _int CItemSuitBattery::Update_GameObject(const _float& fDeltaTime)
 
 	m_fGravitionSpeed += m_fGravitionPower * fDeltaTime;
 
+
+
 	return NO_EVENT;
 }
 
@@ -103,7 +105,7 @@ HRESULT CItemSuitBattery::Render_GameObject(void)
 	NULL_CHECK_RETURN(pEffect, E_FAIL);
 	pEffect->AddRef();
 
-	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect), E_FAIL);
+	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect, false), E_FAIL);
 
 	_uint	iPassMax = 0;
 

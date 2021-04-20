@@ -92,3 +92,8 @@ HRESULT CBaseProjectile::Interaction(Engine::CGameObject* pTarget)
 {
 	return S_OK;
 }
+
+HRESULT CBaseProjectile::Setup_ConstantTable(LPD3DXEFFECT& pEffect, _bool bDissolve)
+{
+	return CStaticObject::Setup_ConstantTable(pEffect, bDissolve);
+}

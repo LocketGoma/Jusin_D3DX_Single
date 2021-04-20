@@ -22,7 +22,7 @@ private:
 	HRESULT Add_Component();
 
 public:
-	static CStaticNormalObject* Create(_Device pDevice, const _tchar* pMeshName = nullptr, _float fHitBoxSize = 2.5f, _float iWeight = 1.0f);
+	static CStaticNormalObject* Create(_Device pDevice, const _tchar* pMeshName = nullptr, _float fHitBoxSize = 2.5f, _float iWeight = 100.0f);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 
 private:

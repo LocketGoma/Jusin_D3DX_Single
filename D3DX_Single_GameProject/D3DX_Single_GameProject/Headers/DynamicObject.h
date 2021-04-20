@@ -64,7 +64,7 @@ public:
 //공통 상태 함수
 public:
 	virtual _uint Get_Patton() PURE;
-	_uint Get_Damage();
+	
 	_uint Get_NowHP();
 	bool Hit_Attack(_uint iDamage);
 
@@ -92,6 +92,8 @@ public:
 public:
 	virtual void Set_Speed(_float fSpeed) override;
 	virtual void Set_Direction(_vec3 vDir) override;
+	virtual _vec3 Get_Reflection(_vec3 vDir, _vec3 vPos) override;
+	_bool Get_RayPick(_vec3 vDir, _vec3 vPos);
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;
@@ -99,7 +101,7 @@ public:
 	virtual void Free(void);
 
 protected:
-	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect) override;
+	virtual HRESULT Setup_ConstantTable(LPD3DXEFFECT& pEffect, _bool bDissolve = false) override;
 
 protected:
 	//움직임
@@ -114,14 +116,13 @@ protected:
 
 	_int m_iHP;					//현재 체력
 	_uint m_iMaxHP;				//최대 체력
-	_uint m_iDamage;			//공격력
+
 	_bool m_bHurt;				//피해 입었는지 여부 (이펙트 출력용)
 	_bool m_bUseBaseEffect;		//기본 이펙트 사용 여부
 
 	//기본 공격 간격
 	_float m_fAttackInterval;	//공격간격은 어떻게 되는가
 	_float m_fNowAttackTime;	//현재까지 얼마나 공격중인가
-	_bool m_bAttackHitEnable;	//공격이 유효한가 (한대 때리면 바로 유효 빼버림)
 
 	//인식 범위 - 얘들은 적 타입별로 동일함. Setter 필요없음
 	_float m_fRecognizeRange;	//인식 범위 (인식 시 방향을 틈 or 리젠)

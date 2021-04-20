@@ -101,6 +101,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Libraries/;</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;D3DX_Single_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,6 +121,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Reference/Libraries/;</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;D3DX_Single_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -179,6 +181,7 @@
     <ClInclude Include="..\Headers\ExplosionEffect.h" />
     <ClInclude Include="..\Headers\ExplosiveWeapon.h" />
     <ClInclude Include="..\Headers\framework.h" />
+    <ClInclude Include="..\Headers\GameEndImage.h" />
     <ClInclude Include="..\Headers\ItemHealthKit.h" />
     <ClInclude Include="..\Headers\ItemSuitBattery.h" />
     <ClInclude Include="..\Headers\LoadingScene.h" />
@@ -255,6 +258,7 @@
     <ClCompile Include="..\Codes\EnemyManhack.cpp" />
     <ClCompile Include="..\Codes\ExplosionEffect.cpp" />
     <ClCompile Include="..\Codes\ExplosiveWeapon.cpp" />
+    <ClCompile Include="..\Codes\GameEndImage.cpp" />
     <ClCompile Include="..\Codes\ItemHealthKit.cpp" />
     <ClCompile Include="..\Codes\ItemSuitBattery.cpp" />
     <ClCompile Include="..\Codes\LoadingScene.cpp" />

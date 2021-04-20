@@ -4,7 +4,6 @@ float4 main() : SV_TARGET
 }
 float			g_FadeAmount;
 
-
 texture g_OriginalTexture;
 
 sampler OriginalSampler = sampler_state

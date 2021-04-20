@@ -15,10 +15,16 @@
 bool g_bViewCollider = true;
 bool g_bViewNavimesh = true;
 bool g_bViewDebugTarget = true;
+bool g_bEndingTimeDelay = false;
+float g_fEndingTimeDelay = 1.f;
 
 CMainGame::CMainGame()
     : m_pManagement(Engine::CManagement::Get_Instance())
-    , pScene(nullptr)
+    , pScene(nullptr) 
+    , m_fTime(0.f)
+    , m_fAccTimeDelta (0.f)
+    , m_fCallLimit(1.f/60.f)
+    , m_bLock(false)
 {
     Safe_AddReference(m_pManagement);
 }
@@ -34,7 +40,7 @@ HRESULT CMainGame::Ready_MainGame()
         return E_FAIL;
     }
 
-    if (FAILED(m_pManagement->Ready_Engine(g_hWnd, WINCX, WINCY, Engine::WINMODE::MODE_WIN, 1)))
+    if (FAILED(m_pManagement->Ready_Engine(g_hWnd, WINCX, WINCY, Engine::WINMODE::MODE_FULL, 1)))
     {
         PRINT_LOG(L"Error", L"Failed To Ready_Engine in Client");
         return E_FAIL;
@@ -63,12 +69,32 @@ HRESULT CMainGame::Ready_MainGame()
     return S_OK;
 }
 
+_bool CMainGame::In_TimerLock(_float fDeltaTime)
+{
+    m_fAccTimeDelta += fDeltaTime;
+
+    if (m_fAccTimeDelta >= m_fCallLimit)
+    {
+        m_fAccTimeDelta = 0.f;
+
+        return true;
+    }
+    return false;
+}
+
 _int CMainGame::Update_MainGame()
 {
     _float fDeltaTime = m_pManagement->Get_DeltaTime();
-#ifdef DEBUG_MODE
-    fDeltaTime /= DEBUG_TIMESPEED;
-#endif
+    //m_fTime += fDeltaTime;
+    m_fFPSTimer += fDeltaTime;
+
+    //m_bLock = In_TimerLock(fDeltaTime);     
+    //if (m_bLock == true)
+    //{
+    //    return NO_EVENT;
+    //}
+    //fDeltaTime = m_fTime;
+    //m_fTime = 0.f;
 
     if (m_pManagement->Key_Down('O'))
     {
@@ -84,25 +110,36 @@ _int CMainGame::Update_MainGame()
         m_pManagement->Set_Visualble_DebugBuffer(g_bViewDebugTarget);
     }
 
+    if (g_bEndingTimeDelay)
+    {
+        g_fEndingTimeDelay += fDeltaTime;
+        fDeltaTime /= g_fEndingTimeDelay;
+    }
+
     m_pManagement->Update_Engine(fDeltaTime);
     m_pManagement->LateUpdate_Engine(fDeltaTime);
-    m_fTime += fDeltaTime;
     return _int();
 }
 
 void CMainGame::Render_MainGame()
 {
+    if (m_bLock == true)
+    {
+        return;
+    }
+
+
     if (nullptr == m_pManagement)
         return;
 
     ++m_dwRenderCount;
 
-    if (m_fTime >= 1.f)
+    if (m_fFPSTimer >= 1.f)
     {
         _tchar m_szFPS[256];
 
         wsprintf(m_szFPS, L"FPS : %d", m_dwRenderCount);
-        m_fTime = 0.f;
+        m_fFPSTimer = 0.f;
         m_dwRenderCount = 0;
 
         SetWindowText(g_hWnd, m_szFPS);
@@ -147,8 +184,13 @@ HRESULT CMainGame::Setup_Shader()
     NULL_CHECK_RETURN(pShader, E_FAIL);
     m_pManagement->Ready_Prototype(L"Shader_Dissolve", pShader);
 
+    pShader = Engine::CShader::Create(m_pDevice, L"../../Reference/Headers/Shader_MixAlpha.hlsl");
+    NULL_CHECK_RETURN(pShader, E_FAIL);
+    m_pManagement->Ready_Prototype(L"Shader_MixAlpha", pShader);
 
-
+    pShader = Engine::CShader::Create(m_pDevice, L"../../Reference/Headers/Shader_For_End.hlsl");
+    NULL_CHECK_RETURN(pShader, E_FAIL);
+    m_pManagement->Ready_Prototype(L"Shader_For_End", pShader);
 
     return S_OK;
 }

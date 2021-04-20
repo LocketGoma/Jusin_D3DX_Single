@@ -8,6 +8,7 @@
 
 #include "ProjFlechette.h"
 #include "ProjPulseAmmo.h"
+#include "ExplosiveWeapon.h"
 
 #include "EnemyManhack.h"
 #include "BaseAI_Flyer.h"
@@ -362,12 +363,34 @@ void CBossStrider::PattonA()
 {
 	if (m_bStand == true)
 	{
-
 		if (m_fPattonACooltime <= 0.f)
 		{
+			m_bAttackHitEnable = true;
+
 			m_eAction = eStriderAction::Stomp;
 			m_ePatton = eStriderPatton::PattonA;
 		}
+		if (m_fPattonACooltime > 1.2f && m_bAttackHitEnable == true && m_eAction == eStriderAction::Stomp)
+		{
+			Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+			//기관총 출력파트
+			Engine::CGameObject* pObject = pManagement->Clone_GameObject(L"Projectile_ExplosiveWeapon");
+			NULL_CHECK(pObject);
+
+			_vec3 vPos;
+			vPos = Get_Position();
+
+			vPos.y = 0.f;
+
+			dynamic_cast<CExplosiveWeapon*>(pObject)->Set_Position(vPos);
+			dynamic_cast<CExplosiveWeapon*>(pObject)->Set_TargetState(eTargetState::ToPlayer);
+
+			if (!FAILED(pManagement->Get_NowScene()->Get_Layer(L"WeaponLayer")->Add_GameObject(L"StriderStomp", pObject)))
+			{
+				m_bAttackHitEnable = false;
+			}
+		}
+
 
 		if (End_Animation_State_Force())
 		{
@@ -379,7 +402,7 @@ void CBossStrider::PattonA()
 		if (m_fPattonACooltime >= m_fPattonAInterval)
 		{
 			m_fPattonACooltime = 0.f;
-			m_bAttackHitEnable = true;
+			
 		}
 	}
 	else
@@ -748,6 +771,8 @@ HRESULT CBossStrider::Add_Component()
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+	m_pEffect = nullptr;
 
 	return S_OK;
 }

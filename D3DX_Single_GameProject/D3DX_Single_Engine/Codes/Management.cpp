@@ -79,6 +79,12 @@ HRESULT CManagement::Ready_Engine(HWND hWnd, int iWinCX, int iWinCY, WINMODE eDi
 	pShader = Engine::CShader::Create(Get_Device(), L"../../Reference/Headers/Shader_Original.hlsl");
 	NULL_CHECK_RETURN(pShader, E_FAIL);
 	Ready_Prototype(L"Shader_Original", pShader);
+
+	pShader = Engine::CShader::Create(Get_Device(), L"../../Reference/Headers/Shader_Blend.hlsl");
+	NULL_CHECK_RETURN(pShader, E_FAIL);
+	Ready_Prototype(L"Shader_Blend", pShader);
+
+
 	Ready_Shader(Get_Device());
 
     return S_OK;
@@ -232,6 +238,14 @@ void CManagement::Set_Visualble_DebugBuffer(_bool bVisual)
 {
 	m_pRenderer->Set_Visualble_DebugBuffer(bVisual);
 }
+void CManagement::Set_FinalTrigger(_bool bTrigger)
+{
+	m_pRenderer->Set_FinalTrigger(bTrigger);
+}
+void CManagement::Set_FinalTimer(_float fTimer)
+{
+	m_pRenderer->Set_FinalTimer(fTimer);
+}
 //·£´õÅ¸°Ù °ü·Ã
 HRESULT CManagement::Ready_Shader(_Device pDevice)
 {
@@ -240,7 +254,7 @@ HRESULT CManagement::Ready_Shader(_Device pDevice)
 
 	//Base
 	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_Original", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_Original", 0.f, 0.f, 200.f, 200.f), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_Original", 0.f, 0.f, 320.f, 180.f), E_FAIL);
 
 	////±íÀÌ ¹öÆÛ
 	//FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_Depth", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
@@ -250,7 +264,12 @@ HRESULT CManagement::Ready_Shader(_Device pDevice)
 	//FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_WeaponAlbedo", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
 	//FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_WeaponAlbedo", 0.f, 400.f, 200.f, 200.f), E_FAIL);
 
+	FAILED_CHECK_RETURN(Ready_RenderTarget(L"Target_END", pDevice, ViewPort.Width, ViewPort.Height, D3DFMT_A16B16G16R16F, D3DXCOLOR(0.f, 0.f, 0.f, 1.f)), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_DebugBuffer(L"Target_END", 320.f, 0.f, 320.f, 180.f), E_FAIL);
+
+
 	FAILED_CHECK_RETURN(Ready_MRT(L"MRT_Deferred", L"Target_Original"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_MRT(L"MRT_Extra", L"Target_END"), E_FAIL);
 
 
 
