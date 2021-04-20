@@ -49,7 +49,7 @@ public:
 	virtual void Set_Position(_vec3 vPos);
 	virtual void Set_Size(_vec3 vSize);
 	virtual void Set_Direction(_vec3 vDir);
-	const _float Get_Radius();
+			void Set_HitEnable();
 			void Set_ObjectType(eForceType eType);		
 			void Set_SpeedLockState(_bool bLock);
 			void Set_Rotation(Engine::ROTATION eRotate, float fRadian);
@@ -57,6 +57,7 @@ public:
 	virtual _vec3 Get_Position();
 	virtual _vec3 Get_Size();
 			_vec3 Get_Direction();
+			const _float Get_Radius();
 			const eForceType Get_ObjectType();
 			_bool Get_SpeedLockState();
 			_uint Get_Damage();

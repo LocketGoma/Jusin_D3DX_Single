@@ -78,6 +78,11 @@ const _float CBaseObject::Get_Radius()
 	return m_fHitboxSize;
 }
 
+void CBaseObject::Set_HitEnable()
+{
+	m_bAttackHitEnable = true;
+}
+
 void CBaseObject::Set_ObjectType(eForceType eType)
 {
 	m_eForceType = eType;

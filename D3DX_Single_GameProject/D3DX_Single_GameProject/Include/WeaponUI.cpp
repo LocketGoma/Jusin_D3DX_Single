@@ -40,9 +40,6 @@ HRESULT CWeaponUI::Ready_GameObject_Clone(void* pArg)
 
 _int CWeaponUI::Update_GameObject(const _float& fDeltaTime)
 {
-
-
-
     return NO_EVENT;
 }
 
@@ -99,8 +96,6 @@ HRESULT CWeaponUI::Render_GameObject(void)
             m_fStartX += m_vOpenSize.x/3;
             Set_EffectPosition(m_vOpenSize, _vec3(m_fStartX, m_fStartY-m_vOpenSize.y/3.5f, 0.f));
             m_fStartX += m_vOpenSize.x/1.8f;
-
-
         }
         else
         {
@@ -254,7 +249,7 @@ void CWeaponUI::Print_Weapon(_uint iType, _vec2 vPostion)
         return;
     }
 
-    _tchar szWeapon[8] = L"";
+    _tchar szWeapon[(_uint)eWeaponType::WEAPON_END] = L"";
     switch ((eWeaponType)iType)
     {
     case eWeaponType::WEAPON_CROWBAR:
@@ -275,9 +270,9 @@ void CWeaponUI::Print_Weapon(_uint iType, _vec2 vPostion)
     case eWeaponType::WEAPON_PHYCANNON:
         wsprintf(szWeapon, L"m");
         break;
-    case eWeaponType::WEAPON_RPG:
-        wsprintf(szWeapon, L"i");
-        break;
+    //case eWeaponType::WEAPON_RPG:
+    //    wsprintf(szWeapon, L"i");
+    //    break;
     case eWeaponType::WEAPON_END:
         wsprintf(szWeapon, L"@");
         break;

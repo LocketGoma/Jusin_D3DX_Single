@@ -50,6 +50,7 @@ public:
 	virtual void Release_Weapon() override;
 	virtual void Holster_Weapon() override;
 	virtual void Change_Weapon() override;
+	_bool Grap_ItemState();
 
 private:
 	HRESULT			Add_Component(void);
@@ -75,8 +76,14 @@ private:
 	_vec3 m_vDir;			//바라보는 방향 = 발사하는 방향
 
 	_float m_fGrapGap;
+	_float m_fSpeed;
+
+	_mat matView, matPos, matScale;
+	_vec3 m_vPos;
 
 	_bool m_bShootLock;
+	_bool m_bGrapItems;
+	_float m_fReleaseTime;
 };
 
 

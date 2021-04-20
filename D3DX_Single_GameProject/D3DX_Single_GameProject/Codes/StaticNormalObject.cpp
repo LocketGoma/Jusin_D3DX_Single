@@ -29,7 +29,7 @@ CStaticNormalObject::CStaticNormalObject(const CStaticNormalObject& other)
 {
 	if (m_pMeshName != nullptr && lstrlen(other.m_pMeshName)>2)
 		lstrcpy(m_pMeshName, other.m_pMeshName);
-	m_bAttackHitEnable = true;
+	
 }
 
 HRESULT CStaticNormalObject::Ready_GameObject(_uint iTexNumber)

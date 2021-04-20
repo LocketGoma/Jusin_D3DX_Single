@@ -133,6 +133,8 @@ private:
 	_bool m_bLowShield;			//HEV 방호복 체력 부족상태
 	_bool m_bLowHP;			//HEV 방호복 체력 부족상태
 
+	Engine::CManagement* m_pManagement;
+
 public:
 	static CPlayer* Create(_Device pDevice);
 	virtual CGameObject* Clone(void* pArg = nullptr);

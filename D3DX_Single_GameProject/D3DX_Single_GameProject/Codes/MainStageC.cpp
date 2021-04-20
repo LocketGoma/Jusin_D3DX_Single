@@ -196,24 +196,24 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
             }
         }
 
-    //플레이어 - 보스 충돌판정
-    targetLayer = Get_Layer(L"BossLayer");
-    if (targetLayer != nullptr)
-        for (auto& iter : *targetLayer->Get_ObjectLayer())
-        {
-            CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
-            if (pObject != nullptr)
-            {
-                pObject->Force_Update_Animation();
+    ////플레이어 - 보스 충돌판정
+    //targetLayer = Get_Layer(L"BossLayer");
+    //if (targetLayer != nullptr)
+    //    for (auto& iter : *targetLayer->Get_ObjectLayer())
+    //    {
+    //        CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
+    //        if (pObject != nullptr)
+    //        {
+    //            pObject->Force_Update_Animation();
 
-                pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
+    //            pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
 
-                if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
-                {
-                    pPlayer->Hit_Attack(pObject->Get_Damage());
-                }
-            }
-        }
+    //            if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
+    //            {
+    //                pPlayer->Hit_Attack(pObject->Get_Damage());
+    //            }
+    //        }
+    //    }
 
     //플레이어 - 총알 충돌판정
     targetLayer = Get_Layer(L"WeaponLayer");
@@ -269,6 +269,20 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
         }
     }
 
+
+    if (m_bGameEnd == false)
+    {
+        targetLayer = Get_Layer(L"EnemyLayer");
+        if (targetLayer != nullptr)
+        {
+            if (targetLayer->Get_ObjectCount() == 0)
+            {
+                g_bEndingTimeDelay = true;
+                m_bGameEnd = true;
+                EndingScene_Layer(L"EndScene");
+            }
+        }
+    }
 
     return NO_EVENT;
 }
@@ -483,6 +497,14 @@ HRESULT CMainStageC::EndingScene_Layer(const _tchar* pLayerTag)
     pLayer->Add_GameObject(L"EndImage", pGameObject);
 
     m_mapLayer.emplace(pLayerTag, pLayer);
+
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+    pManagement->Stop_AllSound();
+    pManagement->Play_Sound(L"gman_End.wav",Engine::SOUND_CHANNELID::BGM);
 
     return S_OK;
 }

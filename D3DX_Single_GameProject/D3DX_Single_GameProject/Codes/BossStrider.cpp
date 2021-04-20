@@ -21,7 +21,7 @@ CBossStrider::CBossStrider(_Device pDevice)
 	m_fMoveRange = 75.f;
 	m_fAttackRange = 55.f;
 	
-	m_fHitboxSize = 10.0;
+	m_fHitboxSize = 6.5f;
 
 	m_fMoveSpeed = 2.f;
 	m_fRotateSpeed = 1.5f;	//multiple

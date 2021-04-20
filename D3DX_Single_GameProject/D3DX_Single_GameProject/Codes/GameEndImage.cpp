@@ -37,7 +37,7 @@ _int CGameEndImage::LateUpdate_GameObject(const _float& fDeltaTime)
     }
     pManagement->Add_RenderList(Engine::RENDERID::RENDER_FINAL_ALPHA, this);
 
-    m_fFadeAmount += ((fDeltaTime*g_fEndingTimeDelay) / 10.f);
+    m_fFadeAmount += ((fDeltaTime*g_fEndingTimeDelay) / 15.f);
     //m_fFadeAmount += (fDeltaTime* g_fEndingTimeDelay )*180.f;
 
     pManagement->Set_FinalTrigger(g_bEndingTimeDelay);
