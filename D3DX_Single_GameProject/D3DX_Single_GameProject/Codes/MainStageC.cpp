@@ -73,7 +73,23 @@ _int CMainStageC::Update_Scene(const _float& fDeltaTime)
 		pPlayer->Jump_Cancel();
 	}
 
-    
+    //물체 중력 적용 관련
+    Engine::CLayer* targetLayer = Get_Layer(L"ObjectLayer");
+    if (targetLayer != nullptr)
+    {
+        for (auto& iter : *targetLayer->Get_ObjectLayer())
+        {
+            CBaseObject* pObject = dynamic_cast<CBaseObject*>(iter.second);
+            if (pObject != nullptr)
+            {
+                _float pfHeight = 0.f;
+                if (m_pNaviController->Stand_NaviMesh(pObject, &pfHeight))
+                {
+                    pObject->Set_ClearGSpeed(pfHeight);
+                }
+            }
+        }
+    }
 
 	return NO_EVENT;
 }
@@ -120,6 +136,11 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
                         bPick = true;
                     }
                 }
+            }
+
+            if (pPlayer->Check_Attack_Collide(&(pObject->Get_Position()), pObject->Get_Radius()))
+            {
+                pObject->Interaction(pPlayer);
             }
         }
     }
@@ -187,6 +208,7 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
             CDynamicObject* pObject = dynamic_cast<CDynamicObject*>(iter.second);
             if (pObject != nullptr)
             {
+                pObject->Force_Update_Animation();
                 pObject->Check_Hit(false, pPlayer->Get_WeaponDamage());
 
                 if (pPlayer->Check_Attack_Collide(&(pObject->Get_CorePos()), pObject->Get_CollideRange()))
@@ -247,13 +269,14 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
             //몬스터 판단을 하고...
             if (pObject != nullptr)
             {
+                pObject->Force_Update_Animation();
                 if (AmmoLayer != nullptr)
                 {
                     for (auto& Aiter : *AmmoLayer->Get_ObjectLayer())
                     {
                         CBaseProjectile* pAObject = dynamic_cast<CBaseProjectile*>(Aiter.second);
                         if (pAObject != nullptr)
-                        {
+                        {                            
                             if (pAObject->Get_TargetState() == eTargetState::ToEnemy)
                             {
                                 if (pObject->Check_Attack_Collide(&(pAObject->Get_Position()), pAObject->Get_Radius()))
@@ -270,18 +293,17 @@ _int CMainStageC::LateUpdate_Scene(const _float& fDeltaTime)
     }
 
 
-    if (m_bGameEnd == false)
+    if (g_bEndingTimeDelay == true && m_bGameEnd == false)
     {
-        targetLayer = Get_Layer(L"EnemyLayer");
+/*        targetLayer = Get_Layer(L"EnemyLayer");
         if (targetLayer != nullptr)
         {
             if (targetLayer->Get_ObjectCount() == 0)
-            {
-                g_bEndingTimeDelay = true;
+            { */               
                 m_bGameEnd = true;
                 EndingScene_Layer(L"EndScene");
-            }
-        }
+  //          }
+    //    }
     }
 
     return NO_EVENT;
@@ -432,6 +454,82 @@ HRESULT CMainStageC::Add_Boss_Layer(const _tchar* pLayerTag)
 
 HRESULT CMainStageC::Add_Object_Layer(const _tchar* pLayerTag)
 {
+    Engine::CLayer* pLayer = Engine::CLayer::Create();
+
+    Engine::CGameObject* pGameObject = nullptr;
+
+    Engine::CManagement* pManagement = Engine::CManagement::Get_Instance();
+    if (pManagement == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_Battery 1", pGameObject);
+    pGameObject->Set_Position(_vec3(0.f, 1.f, 10.f));
+
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_Battery 2", pGameObject);
+    pGameObject->Set_Position(_vec3(20.f, 1.f, 20.f));
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_Battery 3", pGameObject);
+    pGameObject->Set_Position(_vec3(30.f, 1.f, -45.f));
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_Battery 4", pGameObject);
+    pGameObject->Set_Position(_vec3(30.f, 1.f, 45.f));
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_Battery 5", pGameObject);
+    pGameObject->Set_Position(_vec3(-30, 1.f, 5.f));
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_Battery 6", pGameObject);
+    pGameObject->Set_Position(_vec3(-35, 1.f, 55.f));
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_Battery 7", pGameObject);
+    pGameObject->Set_Position(_vec3(-20.f, 1.f, -50.f));
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_HealthKit");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_HealthKit 1", pGameObject);
+    pGameObject->Set_Position(_vec3(15.f, 1.f, 85.f));
+
+    pGameObject = pManagement->Clone_GameObject(L"Item_HealthKit");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_HealthKit 2", pGameObject);
+    pGameObject->Set_Position(_vec3(60.f, 1.f, 20.f));
+
+        pGameObject = pManagement->Clone_GameObject(L"Item_HealthKit");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_HealthKit 3", pGameObject);
+    pGameObject->Set_Position(_vec3(55.f, 1.f, 5.f));
+
+        pGameObject = pManagement->Clone_GameObject(L"Item_HealthKit");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_HealthKit 4", pGameObject);
+    pGameObject->Set_Position(_vec3(-70.f, 1.f, 0.f));
+
+        pGameObject = pManagement->Clone_GameObject(L"Item_HealthKit");
+    NULL_CHECK_RETURN(pGameObject, E_FAIL);
+    pLayer->Add_GameObject(L"Item_HealthKit 5", pGameObject);
+    pGameObject->Set_Position(_vec3(-70.f, 1.f, -40.f));
+
+    m_mapLayer.emplace(pLayerTag, pLayer);
+
+    return S_OK;
+
+
 	return S_OK;
 }
 

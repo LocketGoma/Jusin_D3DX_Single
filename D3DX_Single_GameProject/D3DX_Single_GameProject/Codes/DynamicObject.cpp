@@ -140,7 +140,7 @@ _bool CDynamicObject::Check_RayCollision()
 
 _bool CDynamicObject::Check_Attack_Collide(const _vec3* pSourcePos, const _float fSourceRadius)
 {
-	_bool bReturn = m_pSupportCom->Collision_Sphere(&(this->Get_Position()), this->m_fHitboxSize, pSourcePos, fSourceRadius);
+	_bool bReturn = m_pSupportCom->Collision_Sphere(&(this->m_vCorePos), this->m_fHitboxSize, pSourcePos, fSourceRadius);
 
 	bReturn == true ? eType = Engine::COLIDETYPE::COL_TRUE : eType = Engine::COLIDETYPE::COL_FALSE;
 

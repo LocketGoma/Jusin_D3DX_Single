@@ -13,6 +13,8 @@
 #include "EnemyManhack.h"
 #include "BaseAI_Flyer.h"
 
+#include "Shader.h"
+
 CBossStrider::CBossStrider(_Device pDevice)
 	: CDynamicObject(pDevice)	
 	, m_bCheckOperationPattonD(false)
@@ -87,6 +89,7 @@ CBossStrider::CBossStrider(const CBossStrider& other)
 {
 	//m_vCalibrationPos = _vec3(0.f, 28.f, 20.f);
 	m_vCalibrationPos = _vec3(0.f,28.f,0.f);
+	m_fDeadTime = 0.0f;
 }
 _uint CBossStrider::m_iPattonBShoot = 0;
 _uint CBossStrider::m_iPattonCShoot = 0;
@@ -110,6 +113,20 @@ HRESULT CBossStrider::Ready_GameObject_Clone(void* pArg)
 
 _int CBossStrider::Update_GameObject(const _float& fDeltaTime)
 {
+	if (m_bDeadTrigger == true)
+	{
+		if (m_fDeadTime >= 1.0f)
+		{
+			m_bClearDead = true;
+		}
+
+		m_fDeadTime += fDeltaTime * 0.15f;
+
+		return OBJ_DEAD;
+	}
+
+
+
 	Engine::CGameObject::Update_GameObject(fDeltaTime);
 
 	return NO_EVENT;
@@ -133,8 +150,10 @@ _int CBossStrider::LateUpdate_GameObject(const _float& fDeltaTime)
 	m_pTransformCom->Set_Pos(m_vOriPos + m_vCalibrationPos);
 	m_pTransformCom->Update_Component();
 
-
-	pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
+	if (m_bDeadTrigger)
+		pManagement->Add_RenderList(Engine::RENDERID::RENDER_ALPHA, this);
+	else
+		pManagement->Add_RenderList(Engine::RENDERID::RENDER_NOALPHA, this);
 	
 	m_fTime = fDeltaTime;
 
@@ -152,7 +171,29 @@ HRESULT CBossStrider::Render_GameObject(void)
 	if (FAILED(CGameObject::Render_GameObject()))
 		return E_FAIL;
 
-	m_pMeshCom->Render_Meshes();
+	//쉐이더 처리
+	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
+	NULL_CHECK_RETURN(pEffect, E_FAIL);
+	pEffect->AddRef();
+
+	FAILED_CHECK_RETURN(Setup_ConstantTable(pEffect, true), E_FAIL);
+
+	_uint	iPassMax = 0;
+
+	pEffect->Begin(&iPassMax, 0);		// 1인자 : 현재 쉐이더 파일이 갖고 있는 pass의 최대 개수, 2인자 : 시작하는 방식(default)
+	if (m_bDeadTrigger)
+		pEffect->BeginPass(0);
+	else
+		pEffect->BeginPass(1);
+
+	m_pMeshCom->Render_Meshes(pEffect);
+
+	pEffect->EndPass();
+	pEffect->End();
+
+	Safe_Release(pEffect);
+
+	//쉐이더 처리 끝
 
 	////아래 눈깔 기준 정점
 	m_vCorePos = _vec3(0.f, 0.f, 0.f);
@@ -161,13 +202,14 @@ HRESULT CBossStrider::Render_GameObject(void)
 	_mat matWorld = m_pMeshCom->Get_FrameByName("Combine_Strider_Neck_Bone")->CombinedTranformationMatrix;
 	matWorld = matWorld * m_pTransformCom->Get_TransformDescription().matWorld;
 	D3DXVec3TransformCoord(&m_vCorePos, &m_vCorePos, &matWorld);
-	////정점계산 끝
+	//정점계산 끝
 
 	matWorld = m_pMeshCom->Get_FrameByName("Combine_Strider_Gun_Bone2")->CombinedTranformationMatrix;
+
 	matWorld = matWorld * m_pTransformCom->Get_TransformDescription().matWorld;
+
 	D3DXVec3TransformCoord(&m_vShootPos, &m_vShootPos, &matWorld);
 	//총구 위치
-	
 
 	m_pColliderCom->Render_Collider(eType, &m_vCorePos, g_bViewCollider);
 
@@ -299,7 +341,9 @@ void CBossStrider::Do_Spawn(_float fDeltaTime)
 
 void CBossStrider::Do_Dead(_float fDeltaTime)
 {
-	Set_Dead();
+	m_bDeadTrigger = true;
+
+	g_bEndingTimeDelay = true;
 
 	//CDynamicObject::Do_Dead(fDeltaTime);
 }
@@ -734,9 +778,7 @@ void CBossStrider::PattonD()
 		m_bCheckOperationPattonD = true;
 	}
 	//패턴 D 끝
-
-
-		
+			
 }
 
 void CBossStrider::PattonE()
@@ -771,6 +813,15 @@ HRESULT CBossStrider::Add_Component()
 	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
+
+	//쉐이더
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(pManagement->Clone_Prototype(L"Shader_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Shader", pComponent);
+
+	pComponent = m_pDesolveTextureCom = dynamic_cast<Engine::CTexture*>(pManagement->Clone_Resource((_uint)RESOURCETYPE::RESOURCE_TEXTURE, L"Texture_Dissolve"));
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Dissolve", pComponent);
 
 	m_pEffect = nullptr;
 

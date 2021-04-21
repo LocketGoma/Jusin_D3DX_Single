@@ -36,11 +36,19 @@ HRESULT CBossAI_Strider::Ready_GameObject_Clone(void* pArg)
 
 _int CBossAI_Strider::Update_GameObject(const _float& fDeltaTime)
 {
-	//체력이 0 이하면 Set_Dead처리
 	if (m_pControlUnit->Hit_Attack(0))
+	{
+		m_eState = eAIStatus::DEAD;
+		m_pControlUnit->Do_Dead(fDeltaTime);
+	}
+	if (m_pControlUnit->Get_Clear_Dead_State())
 	{
 		m_pControlUnit->Set_Dead();
 		m_bDead = true;
+	}
+	if (m_eState == eAIStatus::DEAD)
+	{
+		return OBJ_DEAD;
 	}
 
 	_vec3 vControlUnitPos = m_pControlUnit->Get_Position();

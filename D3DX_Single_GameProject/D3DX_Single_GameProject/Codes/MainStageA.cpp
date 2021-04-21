@@ -492,6 +492,7 @@ HRESULT CMainStageA::Add_Boss_Layer(const _tchar* pLayerTag)
 	pGameObject = pManagement->Clone_GameObject(L"BossHunter");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	pGameObject->Set_Position(_vec3(135.f, 12.f, -125.f));
+	dynamic_cast<CDynamicObject*>(pGameObject)->Set_Rotation(Engine::ROTATION::ROT_Y, D3DXToRadian(180.f));
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BossHunter", pGameObject), E_FAIL);
 
 	//헌터 AI
@@ -523,17 +524,17 @@ HRESULT CMainStageA::Add_Object_Layer(const _tchar* pLayerTag)
 
 	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->Set_Position(_vec3(150.f, 12.f, -160.f));
+	pGameObject->Set_Position(_vec3(150.f, 7.f, -160.f));
 	pLayer->Add_GameObject(L"BaseObject 1", pGameObject);
 
 	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->Set_Position(_vec3(120.f, 12.f, -130.f));
+	pGameObject->Set_Position(_vec3(120.f, 6.f, -130.f));
 	pLayer->Add_GameObject(L"BaseObject 2", pGameObject);
 
 	pGameObject = pManagement->Clone_GameObject(L"BaseObject_Drum");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->Set_Position(_vec3(140.f, 12.f, -130.f));
+	pGameObject->Set_Position(_vec3(140.f, 6.f, -130.f));
 	pLayer->Add_GameObject(L"BaseObject 3", pGameObject);
 
 	pGameObject = pManagement->Clone_GameObject(L"Item_Battery");
@@ -674,12 +675,12 @@ HRESULT CMainStageA::Add_Enemy_Layer_WaveC(const _tchar* pLayerTag)
 	//개미귀신
 	pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->Set_Position(_vec3(116.f, 9.f, -150.f));
+	pGameObject->Set_Position(_vec3(116.f, 8.f, -150.f));
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion3", pGameObject), E_FAIL);
 
 	pGameObject = pManagement->Clone_GameObject(L"EnemyAntlion");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	pGameObject->Set_Position(_vec3(140.f, 9.f, -160.f));
+	pGameObject->Set_Position(_vec3(140.f, 8.f, -160.f));
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Antlion4", pGameObject), E_FAIL);
 
 	//기본 적 AI파트

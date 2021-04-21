@@ -1,6 +1,8 @@
 #include "framework.h"
 #include "WeaponShotgun.h"
 
+#include "EffectMuzzle.h"
+
 #include "ProjShotgunShell.h"
 
 
@@ -46,6 +48,8 @@ HRESULT CWeaponShotgun::Ready_GameObject_Clone(void* pArg)
 
 	m_pMeshCom->Set_AnimationSet((_uint)eShotgunAction::Draw);
 
+	m_pEffect->Set_EffectPosition(_vec3(160.f, 120.f, 1.f), _vec3(115.f, -75.f, 0.1f));
+
 	return S_OK;
 }
 
@@ -74,6 +78,10 @@ _int CWeaponShotgun::LateUpdate_GameObject(const _float& fDeltaTime)
 	{
 		m_fNowFItime += fDeltaTime;
 	}
+	if (m_fNowFItime >= 0.35)
+	{
+		m_pEffect->Set_Visible(false);
+	}
 
 	if (m_pMeshCom->End_AnimationSet())
 	{
@@ -87,8 +95,7 @@ _int CWeaponShotgun::LateUpdate_GameObject(const _float& fDeltaTime)
 				m_bFire = false;
 			}
 			else
-			{
-				
+			{				
 				m_pMeshCom->Set_AnimationSet((_uint)eShotgunAction::Idle);
 			}
 		}
@@ -108,9 +115,12 @@ _int CWeaponShotgun::LateUpdate_GameObject(const _float& fDeltaTime)
 			m_bClearReload = false;
 			m_bReloading = false;
 		}
+		m_pEffect->Set_Visible(false);
 	}
 
 	eShotgunAction eAction = (eShotgunAction)m_pMeshCom->Get_NowAnimationNumber();
+
+	m_pEffect->LateUpdate_GameObject(fDeltaTime);
 
 	m_pMeshCom->Play_AnimationSet(fDeltaTime);
 
@@ -154,6 +164,7 @@ _bool CWeaponShotgun::Shoot_Weapon()
 
 	if (m_bFire == false || m_fNowFItime >= m_fFireInterval)
 	{
+		m_pEffect->Set_Visible(false);
 		m_bFire = true;
 
 		if (m_iMagAmmo != 0)
@@ -164,6 +175,7 @@ _bool CWeaponShotgun::Shoot_Weapon()
 				pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
 				pManagement->Play_Sound(L"shotgun_fire6.wav", Engine::SOUND_CHANNELID::EFFECTA);
 				Set_Animation((_uint)eShotgunAction::Fire);
+				m_pEffect->Set_Visible(true);
 				bResult = true;
 			}
 		}
@@ -189,9 +201,11 @@ void CWeaponShotgun::AltShoot_Weapon()
 	m_bReloading = false;
 
 	m_bFire = true;
-
+	m_pEffect->Set_Visible(false);
 	if (m_iMagAmmo >= 2)
 	{
+		m_fNowFItime = 0.f;
+
 		pManagement->Stop_Sound(Engine::SOUND_CHANNELID::EFFECTA);
 		pManagement->Play_Sound(L"shotgun_dbl_fire7.wav", Engine::SOUND_CHANNELID::EFFECTA);
 
@@ -204,7 +218,7 @@ void CWeaponShotgun::AltShoot_Weapon()
 		{
 			m_iMagAmmo--;
 		}
-
+		m_pEffect->Set_Visible(true);
 		Set_Animation((_uint)eShotgunAction::AltFire);
 	}
 	else
@@ -385,6 +399,8 @@ HRESULT CWeaponShotgun::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_DYNAMIC].emplace(L"Com_Mesh", pComponent);
 
+	m_pEffect = dynamic_cast<CEffectMuzzle*>(pManagement->Clone_GameObject(L"Effect_Muzzle"));
+
 	return S_OK;
 }
 
@@ -419,5 +435,10 @@ Engine::CGameObject* CWeaponShotgun::Clone(void* pArg)
 
 void CWeaponShotgun::Free()
 {
+	if (m_bIsPrototype == false)
+	{
+		Safe_Release(m_pEffect);
+	}
+
 	CPlayerWeapon::Free();
 }

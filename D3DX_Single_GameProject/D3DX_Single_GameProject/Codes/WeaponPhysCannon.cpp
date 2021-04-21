@@ -186,7 +186,7 @@ void CWeaponPhysCannon::AltShoot_Weapon()
 	{
 		if (D3DXVec3Length(&(m_pLookTarget->Get_Position() - m_vPos)) > 10.f)
 		{
-			m_fSpeed += (pManagement->Get_DeltaTime()*15.f);
+			m_fSpeed += (pManagement->Get_DeltaTime()*25.f);
 			m_pLookTarget->Set_Direction(m_vPos-m_pLookTarget->Get_Position());
 			m_pLookTarget->Set_Speed(m_fSpeed);
 		}

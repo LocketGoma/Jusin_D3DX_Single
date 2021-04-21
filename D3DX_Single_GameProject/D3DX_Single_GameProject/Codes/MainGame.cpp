@@ -41,7 +41,7 @@ HRESULT CMainGame::Ready_MainGame()
         return E_FAIL;
     }
 
-    if (FAILED(m_pManagement->Ready_Engine(g_hWnd, WINCX, WINCY, Engine::WINMODE::MODE_WIN, 1)))
+    if (FAILED(m_pManagement->Ready_Engine(g_hWnd, WINCX, WINCY, Engine::WINMODE::MODE_FULL, 1)))
     {
         PRINT_LOG(L"Error", L"Failed To Ready_Engine in Client");
         return E_FAIL;

@@ -316,6 +316,9 @@ void CEnemyManhack::Do_Dead(_float fDeltaTime)
 	m_bExplosion = true;
 
 	_uint iSelect = rand() % 3;
+
+	pManagement->Stop_Sound(m_eChannel);
+
 	pManagement->Play_Sound(L"mh_gib.wav", Engine::SOUND_CHANNELID::ENEMYDEAD);
 	switch (iSelect)
 	{

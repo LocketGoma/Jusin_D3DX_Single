@@ -346,6 +346,7 @@ _bool CPlayer::Restore_HP(_uint iAmount)
 	if (m_iHP > (int)m_iFullHP)
 		m_iHP = m_iFullHP;
 
+	m_pManagement->Stop_Sound(Engine::SOUND_CHANNELID::PLAYERSUIT);
 	m_pManagement->Play_Sound(L"HealthRecovery.wav",Engine::SOUND_CHANNELID::PLAYERSUIT);
 
 	return true;
@@ -361,6 +362,7 @@ _bool CPlayer::Restore_Shield(_uint iAmount)
 	if (m_iShieldHP > (int)m_iShieldFullHP)
 		m_iShieldHP = m_iShieldFullHP;
 
+	m_pManagement->Stop_Sound(Engine::SOUND_CHANNELID::PLAYERSUIT);
 	m_pManagement->Play_Sound(L"HealthRecovery.wav", Engine::SOUND_CHANNELID::PLAYERSUIT);
 
 	return true;
