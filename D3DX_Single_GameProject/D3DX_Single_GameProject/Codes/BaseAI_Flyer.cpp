@@ -37,7 +37,7 @@ HRESULT CBaseAI_Flyer::Ready_GameObject_Clone(void* pArg)
 _int CBaseAI_Flyer::Update_GameObject(const _float& fDeltaTime)
 {
 	//ÁÖ±×¸é Äâ¤·
-	if (m_pControlUnit->Hit_Attack(0) || m_pControlUnit->Get_Position().y < 0.f)
+	if (m_pControlUnit->Hit_Attack(0) || m_pControlUnit->Get_Position().y < 0.f || m_eState == eAIStatus::DEAD)
 	{
 		m_eState = eAIStatus::DEAD;
 		m_pControlUnit->Do_Dead(fDeltaTime);
@@ -47,6 +47,8 @@ _int CBaseAI_Flyer::Update_GameObject(const _float& fDeltaTime)
 			m_pControlUnit->Set_Dead();
 			m_bDead = true;
 		}
+
+		return OBJ_DEAD;
 	}
 
 	_vec3 vUnitPos = m_pControlUnit->Get_Position();

@@ -1,9 +1,9 @@
 #include "framework.h"
+#include "DynamicMesh.h"
 #include "DynamicObject.h"
 
 #include "ControlSupport.h"
 #include "Transform.h"
-#include "DynamicMesh.h"
 
 #include "BaseEffect.h"
 

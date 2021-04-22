@@ -96,15 +96,16 @@ _vec3 CNaviMesh::Move_OnNaviMesh(const _vec3* pTargetPos, const _vec3* pTargetDi
 
 _vec3 CNaviMesh::Compare_OnNaviMesh(const _vec3* pOldPos, const _vec3* pNewPos)
 {
+	m_dwCellIndex = Caculate_Index(pOldPos);
 
-		if (COMPAREMOVE::MOVE == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
-		{
-			return Caculate_OnNaviMesh(pNewPos);
-		}
-		else if (COMPAREMOVE::STOP == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
-		{
-			return Caculate_OnNaviMesh(pOldPos);
-		}
+	if (COMPAREMOVE::MOVE == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
+	{
+		return Caculate_OnNaviMesh(pNewPos);
+	}
+	else if (COMPAREMOVE::STOP == m_vecCell[m_dwCellIndex]->Compare(pNewPos, &m_dwCellIndex))
+	{
+		return Caculate_OnNaviMesh(pOldPos);
+	}
 
 
 	return Caculate_OnNaviMesh(pOldPos);
@@ -126,6 +127,8 @@ _vec3 CNaviMesh::Compare_OnNaviMesh_for_Mesh(const _vec3* pOldPos, const _vec3* 
 
 _vec3 CNaviMesh::Caculate_OnNaviMesh(const _vec3* pTargetPos)
 {
+	m_dwCellIndex = Caculate_Index(pTargetPos);
+
 	_float fFieldPos = m_vecCell[m_dwCellIndex]->Get_Height_At_Cell(pTargetPos);
 
 	//return _vec3(pTargetPos->x, pTargetPos->y <= fFieldPos ? fFieldPos:pTargetPos->y,pTargetPos->z);
@@ -134,9 +137,12 @@ _vec3 CNaviMesh::Caculate_OnNaviMesh(const _vec3* pTargetPos)
 
 _uint CNaviMesh::Caculate_Index(const _vec3* pTargetPos)
 {
+	_vec3 vPos = *pTargetPos;
+	vPos.y += 1;
+
 	for (_uint i = 0; i < m_vecCell.size(); i++)
 	{
-		if (m_vecCell[i]->Get_Stand_At_Cell(pTargetPos))
+		if (m_vecCell[i]->Get_Stand_At_Cell(&vPos))
 		{
 			m_dwCellIndex = i;
 			return i;

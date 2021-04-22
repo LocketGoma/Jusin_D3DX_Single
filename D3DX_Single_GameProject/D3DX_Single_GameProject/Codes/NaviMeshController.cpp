@@ -165,7 +165,7 @@ HRESULT CNaviMeshController::Compare_NaviMove(Engine::CLayer* pTargetLayer)
 		return E_FAIL;
 	}
 
-	for (auto& targetObject : *(pTargetLayer->Get_ObjectLayer()))
+		for (auto& targetObject : *(pTargetLayer->Get_ObjectLayer()))
 	{
 		if (targetObject.second == nullptr)
 		{

@@ -221,7 +221,6 @@ _float CCell::Get_Height_At_Cell(const _vec3* pVPos)
 	_float3 vPosB = m_vPoint[(_uint)NAVIPOINT::POINT_B];
 	_float3 vPosC = m_vPoint[(_uint)NAVIPOINT::POINT_C];
 
-
 	//b값이 음수 : 시계 반대방향!
 
 	D3DXPLANE pPlane;

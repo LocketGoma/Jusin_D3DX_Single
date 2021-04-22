@@ -1,6 +1,9 @@
 #include "framework.h"
 #include "MainStageA.h"
 
+
+#include "Management.h"
+
 #include "MainMapA.h"
 #include "SkyBox.h"
 #include "Light.h"
@@ -102,6 +105,7 @@ _int CMainStageA::Update_Scene(const _float& fDeltaTime)
 			if (pObject != nullptr)
 			{
 				_float pfHeight = 0.f;
+
 				if (m_pNaviController->Stand_NaviMesh(pObject, &pfHeight))
 				{
 					pObject->Set_ClearGSpeed(pfHeight);
@@ -283,7 +287,6 @@ _int CMainStageA::LateUpdate_Scene(const _float& fDeltaTime)
 						{
 							if (pObject->Get_ForceState() == eForceState::PULL)
 							{
-
 								if (pEnemy->Check_Attack_Collide(&(pObject->Get_Position()), pObject->Get_Radius()))
 								{
 									if (pEnemy->Get_RayPick(pObject->Get_Direction(), pObject->Get_Position()))

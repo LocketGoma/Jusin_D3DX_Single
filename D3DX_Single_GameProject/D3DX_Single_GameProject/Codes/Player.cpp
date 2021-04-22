@@ -63,8 +63,10 @@ CPlayer::CPlayer(const CPlayer& other)
 	, m_bShootState(false)
 	, m_fInteractionRange(other.m_fInteractionRange)
 	, m_iHP(other.m_iHP)
+	, m_ibHP(other.m_ibHP)
 	, m_iFullHP(other.m_iFullHP)
 	, m_iShieldHP(other.m_iShieldHP)
+	, m_ibShieldHP(other.m_ibShieldHP)
 	, m_iShieldFullHP(other.m_iShieldFullHP)
 	, m_fHitboxSize(other.m_fHitboxSize)
 	, eType(Engine::COLIDETYPE::COL_FALSE)
@@ -380,8 +382,6 @@ _uint CPlayer::Get_ShieldHP()
 
 _bool CPlayer::HurtState()
 {
-
-
 	if (m_ibHP > m_iHP || m_ibShieldHP > m_iShieldHP)
 	{
 		if (m_iShieldHP == 0)
@@ -420,7 +420,6 @@ _bool CPlayer::HurtState()
 			m_pManagement->Play_Sound(L"pl_pain7.wav", Engine::SOUND_CHANNELID::PLAYER);
 			break;
 		}
-
 
 		m_ibHP = m_iHP;
 		m_ibShieldHP = m_iShieldHP;
