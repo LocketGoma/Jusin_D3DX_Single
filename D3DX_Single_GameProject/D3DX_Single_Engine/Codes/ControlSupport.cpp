@@ -830,15 +830,12 @@ _bool CControlSupportUnit::Collision_RayPick_Dynamic(_vec3 vDir, _vec3 vPos, con
     vRayDir = vDir;
 
     //월드 -> 로컬
-    //사유 : 버텍스 정보는 로컬정보니까.
     _mat matWorld;
     memcpy(&matWorld, pTransform->Get_TransformDescription().matWorld, sizeof(_mat));
     D3DXMatrixInverse(&matWorld, NULL, &matWorld);
 
-    //Coord : 위치 / Normal : 방향
     D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
     D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
-
 
     auto* meshList = pMesh->Get_VertrxInfo();
     for (auto& iter : *meshList)

@@ -48,7 +48,6 @@ protected:
 	virtual ~CEnemyHunter() = default;
 
 public:
-	// CDynamicObject을(를) 통해 상속됨
 	virtual HRESULT Ready_GameObject(_uint iTexNumber = 0) override;
 	virtual HRESULT Ready_GameObject_Clone(void* pArg) override;
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;

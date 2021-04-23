@@ -316,9 +316,11 @@
     <ClCompile Include="..\Codes\MemoryPool.cpp">
       <Filter>00.System\22.MemoryPool\00.Pool</Filter>
     </ClCompile>
-    <ClCompile Include="..\Codes\MemeoryPoolManager.cpp" />
     <ClCompile Include="..\Codes\Shader.cpp">
       <Filter>01.Resources\12.Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Codes\MemeoryPoolManager.cpp">
+      <Filter>00.System\22.MemoryPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -487,9 +489,11 @@
     <ClInclude Include="..\Headers\MemoryPool.h">
       <Filter>00.System\22.MemoryPool\00.Pool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\MemeoryPoolManager.h" />
     <ClInclude Include="..\Headers\Shader.h">
       <Filter>01.Resources\12.Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\MemeoryPoolManager.h">
+      <Filter>00.System\22.MemoryPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -32,20 +32,6 @@ protected:
 	virtual ~CBaseAI() = default;
 
 public:
-	virtual HRESULT Ready_GameObject() PURE;
-	virtual HRESULT Ready_GameObject_Clone(void* pArg) PURE;
-	virtual _int Update_GameObject(const _float& fDeltaTime) PURE;
-	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) PURE;
-	virtual HRESULT Render_GameObject(void) PURE;
-
-public:
-// CGameObject을(를) 통해 상속됨... 근데 안써요.
-	virtual void Set_Position(_vec3 vPos) override;
-	virtual void Set_Size(_vec3 vSize) override;
-	virtual _vec3 Get_Position() override;
-	virtual _vec3 Get_Size() override;
-
-public:
 	eAIStatus Get_State();
 	void Set_State(eAIStatus eState);
 
@@ -64,6 +50,20 @@ protected:
 	virtual HRESULT Do_Attack(const _float& fDeltaTime) PURE;
 
 	_bool Check_HP_Change();
+
+
+public:
+	virtual HRESULT Ready_GameObject() PURE;
+	virtual HRESULT Ready_GameObject_Clone(void* pArg) PURE;
+	virtual _int Update_GameObject(const _float& fDeltaTime) PURE;
+	virtual _int LateUpdate_GameObject(const _float& fDeltaTime) PURE;
+	virtual HRESULT Render_GameObject(void) PURE;
+public:
+// CGameObject을(를) 통해 상속됨... 근데 안써요.
+	virtual void Set_Position(_vec3 vPos) override;
+	virtual void Set_Size(_vec3 vSize) override;
+	virtual _vec3 Get_Position() override;
+	virtual _vec3 Get_Size() override;
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) PURE;

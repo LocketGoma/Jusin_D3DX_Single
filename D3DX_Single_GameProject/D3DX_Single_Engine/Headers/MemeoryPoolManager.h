@@ -34,7 +34,8 @@ public:
 
 public:
 	virtual void Free(void);
-		
+
+private:
 	typedef std::map<std::wstring, CMemoryPool*> POOL;
 	POOL m_pMemoryPool;
 

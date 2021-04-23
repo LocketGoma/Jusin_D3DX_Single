@@ -810,7 +810,7 @@ HRESULT CBossStrider::Add_Component()
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Support", pComponent);
 
 	//콜라이더
-	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &_vec3(0.f, 0.f, 0.f), m_fHitboxSize);
+	pComponent = m_pColliderCom = Engine::CSphereCollider::Create(m_pDevice, &ZERO_VECTOR, m_fHitboxSize);
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent[(_uint)Engine::COMPONENT_ID::ID_STATIC].emplace(L"Com_Collider", pComponent);
 
