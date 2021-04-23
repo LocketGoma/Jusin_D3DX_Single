@@ -1,7 +1,0 @@
-1. .vpk 파일 크로우바로 열기
-2. 폴더 전체 unpack
-3. 블랜더에 BlenderSourceTools 설치
-4. 블랜더에 .vmt Reader 설치
-5. 이미지 추출은 vmf reader 설치 후 사용
-6. 그 외 : https://youtu.be/SOS8Hg0okFo 참고
-
