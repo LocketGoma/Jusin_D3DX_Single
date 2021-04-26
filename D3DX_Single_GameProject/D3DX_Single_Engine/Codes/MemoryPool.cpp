@@ -20,10 +20,12 @@ CMemoryPool::CMemoryPool(CGameObject* pOriginal)
 	m_pFirstNode = new NODE;
 	m_pFirstNode->pNextBlock = nullptr;
 	m_pFirstNode->pData = m_pOrginal;
-
 }
 
 
+//1. 시작 노드의 다음 노드 데이터 값을 리턴 대기
+//2. 시작노드의 다음 노드를 "리턴 될 노드의 다음 노드"로 변경
+//3. 노드 리턴
 Engine::CGameObject* CMemoryPool::Get_Object()
 {
 	if (m_iReadyCount == 0)
@@ -33,7 +35,6 @@ Engine::CGameObject* CMemoryPool::Get_Object()
 		pNextNode->pData = m_pOrginal->Clone();
 		
 		m_pFirstNode->pNextBlock = pNextNode;
-
 
 		m_iReadyCount++;
 		m_iTotalCount++;
@@ -49,10 +50,6 @@ Engine::CGameObject* CMemoryPool::Get_Object()
 	m_pFirstNode->pNextBlock = m_pFirstNode->pNextBlock->pNextBlock;
 
 	NodeClear(pReturnNode);
-
-	//1. 시작 노드의 다음 노드 데이터 값을 리턴 대기
-	//2. 시작노드의 다음 노드를 "리턴 될 노드의 다음 노드"로 변경
-	//3. 노드 리턴
 
 	m_iReadyCount--;
 	m_iAllockCount++;
