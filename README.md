@@ -20,13 +20,12 @@ D3DX 개인 포트폴리오 게임
 ### 빌드시 필요한 사항
 1. Visual Studio 2019 이상 설치
 2. DirectX 9.0c SDK 설치 [https://www.microsoft.com/en-us/download/details.aspx?id=6812]
-3. Windows SDK 8.1 설치 [https://developer.microsoft.com/en-us/windows/downloads/sdk-archive/]
-4. VS Installer에서 v142 빌드 도구 설치 (MSVC v142 -VS 2019 C++ x64/x86 빌드 도구) 
-5. SDK 8.1 설치 후 나오는 경고창에서 SDK 버전 유지 (10으로 하셔야 합니다)
-6. 실행후, Debug / x86 조건으로 실행
-7. 정상 실행이 된다면, D3DX_Single_Engine.dll 파일이 없습니다. 라는 메시지와 함께 종료될것입니다.
-8. Reference/DLLFiles 에 있는 파일들을 D3DX_Single_GameProject/Binary에 옮기신 뒤, 빌드하시면 됩니다.
-9. 실행은 리소스 이슈로 인해 정상적으로 실행되지 않습니다.
+3. VS Installer에서 v142 빌드 도구 설치 (MSVC v142 -VS 2019 C++ x64/x86 빌드 도구) 
+4. 실행시 나오는 SDK 관련 경고창에서 SDK 버전 변경 (10으로 하셔야 합니다)
+5. 실행후, Debug / x86 조건으로 실행
+6. 정상 실행이 된다면, D3DX_Single_Engine.dll 파일이 없습니다. 라는 메시지와 함께 종료될것입니다.
+7. Reference/DLLFiles 에 있는 파일들을 D3DX_Single_GameProject/Binary에 옮기신 뒤, 빌드하시면 됩니다.
+8. 실행은 리소스 이슈로 인해 정상적으로 실행되지 않습니다.
 
 
 
