@@ -794,6 +794,7 @@ HRESULT CBossStrider::Add_Component()
 	}
 	Engine::CComponent* pComponent = nullptr;
 
+
 	// Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>(pManagement->Clone_Prototype(L"Transform_Comp"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);

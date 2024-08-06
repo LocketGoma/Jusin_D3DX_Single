@@ -74,9 +74,6 @@ _bool CDynamicObject::End_Animation_State()
 	return m_pMeshCom->End_AnimationSet();
 }
 
-
-
-
 _uint CDynamicObject::Get_NowHP()
 {
 	return m_iHP;
