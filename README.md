@@ -4,10 +4,15 @@ D3DX 개인 포트폴리오 게임
 하프-라이프 2 
 
 
-영상 : https://youtu.be/NMKtPObe68I
+[![Video Label](http://img.youtube.com/vi/NMKtPObe68I/0.jpg)](https://youtu.be/NMKtPObe68I)
+
 
 
 기간 : 21년 3월~ 21년 5월 (약 2달)
+
+#### 주의사항 : 해당 Repo의 파일만으로는 실행되지 않습니다.
+#### 해당 Repo는 코드 백업으로 이해해주시면 감사하겠습니다. 실제 구현 및 플레이를 보시려면 영상 참고 부탁드립니다.
+
 
 ### 사용 기술 / 기법 :
 
