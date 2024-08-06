@@ -11,56 +11,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_Engine", "D3DX_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_GameProject", "D3DX_Single_GameProject\Include\D3DX_Single_GameProject.vcxproj", "{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.MFCTools", "03.MFCTools", "{491A857A-55A0-4FCC-963B-237DACE999BD}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX_Single_Tools", "..\..\D3DX_Single_Tools\D3DX_Single_Tools\MFC\D3DX_Single_Tools.vcxproj", "{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		MFCSetting|x64 = MFCSetting|x64
-		MFCSetting|x86 = MFCSetting|x86
-		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Debug|x64.ActiveCfg = Debug|x64
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Debug|x64.Build.0 = Debug|x64
 		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Debug|x86.ActiveCfg = Debug|Win32
 		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Debug|x86.Build.0 = Debug|Win32
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.MFCSetting|x64.ActiveCfg = MFCSetting|x64
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.MFCSetting|x64.Build.0 = MFCSetting|x64
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.MFCSetting|x86.ActiveCfg = MFCSetting|Win32
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.MFCSetting|x86.Build.0 = MFCSetting|Win32
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Release|x64.ActiveCfg = Release|x64
-		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Release|x64.Build.0 = Release|x64
 		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Release|x86.ActiveCfg = Release|Win32
 		{18643567-25BF-41B6-994B-1F5DB5E6C870}.Release|x86.Build.0 = Release|Win32
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Debug|x64.ActiveCfg = Debug|x64
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Debug|x64.Build.0 = Debug|x64
 		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Debug|x86.ActiveCfg = Debug|Win32
 		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Debug|x86.Build.0 = Debug|Win32
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.MFCSetting|x64.ActiveCfg = Release|x64
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.MFCSetting|x64.Build.0 = Release|x64
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.MFCSetting|x86.ActiveCfg = Release|Win32
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.MFCSetting|x86.Build.0 = Release|Win32
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Release|x64.ActiveCfg = Release|x64
-		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Release|x64.Build.0 = Release|x64
 		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Release|x86.ActiveCfg = Release|Win32
 		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9}.Release|x86.Build.0 = Release|Win32
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Debug|x64.ActiveCfg = Debug|x64
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Debug|x64.Build.0 = Debug|x64
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Debug|x86.ActiveCfg = Debug|Win32
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Debug|x86.Build.0 = Debug|Win32
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.MFCSetting|x64.ActiveCfg = Release|x64
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.MFCSetting|x64.Build.0 = Release|x64
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.MFCSetting|x86.ActiveCfg = Release|Win32
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.MFCSetting|x86.Build.0 = Release|Win32
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Release|x64.ActiveCfg = Release|x64
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Release|x64.Build.0 = Release|x64
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Release|x86.ActiveCfg = Release|Win32
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,7 +32,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{18643567-25BF-41B6-994B-1F5DB5E6C870} = {AD9A4F72-407F-47AD-ABEF-36F949E1A3CE}
 		{BF6E8890-46FB-4F46-AD15-F9ABCF1811B9} = {2B56F89B-027A-4D54-B91C-FCEECC550627}
-		{6418E98F-0FED-4F43-82EF-D6E5A16FFDEF} = {491A857A-55A0-4FCC-963B-237DACE999BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BBBFF898-2114-4D32-B84E-05B87FE6CEC1}
